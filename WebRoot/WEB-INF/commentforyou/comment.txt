@@ -1,0 +1,4 @@
+本文本文档用于记录在开发过程当中遇到的问题以及经验
+1: 代码使用google code托管，所以需要拥有一个google的账号，然后请将你的账号告诉我，以便我为你添加权限。
+2: 一般我会为你设置最高权限，然后请使用https://redeem-point-system.googlecode.com/svn/trunk来checkout整个应用的代码。
+3: 如果你要提交代码，那么请设置用户名为你的邮箱账号，密码请到http://code.google.com/hosting/settings页面去找。
