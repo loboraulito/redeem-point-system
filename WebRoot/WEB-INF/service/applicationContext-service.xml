@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:security="http://www.springframework.org/schema/security"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+                http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+                http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.1.xsd">
+	<!-- 角色菜单service -->
+	<bean id="roleMenuService" parent="serviceProxy">
+		<property name="target">
+			<bean
+				class="com.integral.system.role.service.impl.RoleMenuService"
+				abstract="false" lazy-init="default" autowire="default">
+				<property name="userRoleDao">
+					<ref bean="UserRoleDao" />
+				</property>
+				<property name="roleDao">
+					<ref bean="RoleDao" />
+				</property>
+				<property name="roleMenuDao">
+					<ref bean="RoleMenuDao" />
+				</property>
+				<property name="menuDao">
+					<ref bean="MenuDao" />
+				</property>
+				<property name="userDao">
+					<ref bean="UserDao" />
+				</property>
+			</bean>
+		</property>
+		<property name="transactionAttributes">
+			<props>
+				<prop key="add*">PROPAGATION_REQUIRED</prop>
+				<prop key="del*">PROPAGATION_REQUIRED</prop>
+				<prop key="edit*">PROPAGATION_REQUIRED</prop>
+				<prop key="upd*">PROPAGATION_REQUIRED</prop>
+				<prop key="sa*">PROPAGATION_REQUIRED</prop>
+			</props>
+		</property>
+	</bean>
+	
+	<!-- 菜单service -->
+	<bean id="menuService" parent="serviceProxy">
+		<property name="target">
+			<bean
+				class="com.integral.system.menu.service.impl.MenuService"
+				abstract="false" lazy-init="default" autowire="default">
+				<property name="menuDao">
+					<ref bean="MenuDao" />
+				</property>
+			</bean>
+		</property>
+		<property name="transactionAttributes">
+			<props>
+				<prop key="add*">PROPAGATION_REQUIRED</prop>
+				<prop key="del*">PROPAGATION_REQUIRED</prop>
+				<prop key="edit*">PROPAGATION_REQUIRED</prop>
+				<prop key="upd*">PROPAGATION_REQUIRED</prop>
+				<prop key="sa*">PROPAGATION_REQUIRED</prop>
+			</props>
+		</property>
+	</bean>
+	
+	<!-- 角色Service -->
+	<bean id="roleService" parent="serviceProxy">
+		<property name="target">
+			<bean
+				class="com.integral.system.role.service.impl.RoleService"
+				abstract="false" lazy-init="default" autowire="default">
+				<property name="roleDao">
+					<ref bean="RoleDao" />
+				</property>
+			</bean>
+		</property>
+		<property name="transactionAttributes">
+			<props>
+				<prop key="add*">PROPAGATION_REQUIRED</prop>
+				<prop key="del*">PROPAGATION_REQUIRED</prop>
+				<prop key="edit*">PROPAGATION_REQUIRED</prop>
+				<prop key="upd*">PROPAGATION_REQUIRED</prop>
+				<prop key="sa*">PROPAGATION_REQUIRED</prop>
+			</props>
+		</property>
+	</bean>
+	
+	<!-- 用户角色Service -->
+	<bean id="uerRoleService" parent="serviceProxy">
+		<property name="target">
+			<bean
+				class="com.integral.system.role.service.impl.UserRoleService"
+				abstract="false" lazy-init="default" autowire="default">
+				<property name="roleDao">
+					<ref bean="RoleDao" />
+				</property>
+				<property name="userRoleDao" ref="UserRoleDao"></property>
+			</bean>
+		</property>
+		<property name="transactionAttributes">
+			<props>
+				<prop key="add*">PROPAGATION_REQUIRED</prop>
+				<prop key="del*">PROPAGATION_REQUIRED</prop>
+				<prop key="edit*">PROPAGATION_REQUIRED</prop>
+				<prop key="upd*">PROPAGATION_REQUIRED</prop>
+				<prop key="sa*">PROPAGATION_REQUIRED</prop>
+			</props>
+		</property>
+	</bean>
+	
+	<!-- 菜单工具Service -->
+	<bean id="menuUtil" parent="serviceProxy">
+		<property name="target">
+			<bean
+				class="com.integral.util.menu.MenuUtils"
+				abstract="false" lazy-init="default" autowire="default">
+				<property name="roleMenuService" ref="roleMenuService"></property>
+				<property name="menuService" ref="menuService"></property>
+				<property name="roleService" ref="roleService"></property>
+				<property name="userRoleService" ref="uerRoleService"></property>
+			</bean>
+		</property>
+		<property name="transactionAttributes">
+			<props>
+				<prop key="add*">PROPAGATION_REQUIRED</prop>
+				<prop key="del*">PROPAGATION_REQUIRED</prop>
+				<prop key="edit*">PROPAGATION_REQUIRED</prop>
+				<prop key="upd*">PROPAGATION_REQUIRED</prop>
+				<prop key="sa*">PROPAGATION_REQUIRED</prop>
+			</props>
+		</property>
+	</bean>
+</beans>

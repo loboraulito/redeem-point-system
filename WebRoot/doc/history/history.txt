@@ -1,0 +1,108 @@
+本文本文档用于记录在开发过程当中遇到的问题以及经验
+1: 代码使用google code托管，所以需要拥有一个google的账号，并且保证能联网，然后请将你的账号告诉我，以便我为你添加权限。
+2: 一般我会为你设置最高权限，然后请使用https://redeem-point-system.googlecode.com/svn/trunk来checkout整个应用的代码。
+3: 如果你要提交代码，那么请设置用户名为你的邮箱账号，密码请到http://code.google.com/hosting/settings页面去找，但是该页面时好时坏，所以请耐心。
+4: 开发环境的搭配：
+   1) Eclipse3.5(可选)
+   2) Mysql 5.0(必须)
+   3) SVN 1.6
+   4) JDK 1.6(必须)
+   5) Tomcat6.0(可选)
+
+
+开发历史/问题记录
+2011/05/13
+初始化所有基础文件，包括相关的jar包以及编码规范。
+
+2011/05/15
+与客户陈先生交谈，约定21号面谈。
+
+2011/05/16
+按钮权限的算法分析
+1: 我目前是这样做的，但是觉得有一个缺陷：如果有意图的人员知道你的代码，可以不通过这个链接来访问action.或者这么说吧：本来有个超级权限的人，可以访问：XYZAction, 在他被取消这个权限之后，没有了指向XYZAction的连接，但是他可以通过在地址栏上直接键入http://wer.werw.werww/XYZAction.do?param1=***&param2=***这样来访问。
+
+
+2: 给每个页面上的按钮加唯一标识符（唯一标识一般的方法是“模块名称+控件的ID”。）
+必须注意直接从地址栏中访问的方式:
+1): 禁止所有的jsp直接访问，改用action后台跳转方式
+2): 过滤所有的action方式，然后去菜单数据库里面查该action是否存在，存在则跳转，否则不跳转。
+ 
+3: Session被缓存的解决方法：
+     1.重新调用原页面的时候在给页面传一个参数:    href="****.aspx?random()"
+
+     2.HTML方法
+        <HEAD>
+        <META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+        <META HTTP-EQUIV="Cache-Control" CONTENT="no-cache">
+        <META HTTP-EQUIV="Expires" CONTENT="0">
+        </HEAD>
+
+     3.Response.Buffer = true;
+        Response.ExpiresAbsolute = System.DateTime.Now.AddSeconds(-1);
+        Response.Expires = 0;
+        Response.CacheControl = "no-cache";
+        Response.AddHeader("Pragma", "No-Cache");
+
+spring security3配置
+http://www.docin.com/p-55317729.html
+spring security3配置（例子）
+http://www.blogjava.net/redhatlinux/archive/2008/08/20/223148.html
+控制只允许一个用户登录一次
+http://www.iteye.com/topic/823666
+
+http://blog.csdn.net/wyfh2010/archive/2011/03/23/6269799.aspx
+
+
+2011/05/19
+基本完成页面级别的权限控制。
+动态的刷新数据库，获取权限
+http://old.family168.com/bbs/dv_rss.asp?s=xhtml&boardid=22&id=2033&page=1&star=1&count=11
+http://old.family168.com/oa/springsecurity/html/ch207-resc.html
+http://www.cnblogs.com/shitou/archive/2011/04/20/2022262.html
+
+http://old.family168.com/bbs/dispbbs.asp?boardid=22&id=2033&page=&star=1
+http://old.family168.com/bbs/dispbbs.asp?boardid=22&Id=589&page=3
+
+http://code.google.com/p/family168/
+
+http://www.gbsou.com/2009/10/14/1050.html
+
+
+2011/05/20
+完成刷新内存的功能，这个是手动刷新而不是自动刷新，当改变某个用户权限（角色）时刷新。
+原因是：如果设置为自动刷新，那就只能是在用户请求页面的时候去刷新，这样每个用户去请求页面都刷新的话，可能导致性能等问题。
+
+使用方法：在Spring Security的配置文件中增加resourceDetailsMonitor的配置。然后在对于的java文件中增加：
+private ResourceDetailsMonitor resourceDetailsMonitor;并且加上get与set方法。然后调用它的refresh方法即可。
+
+2011/05/21
+目前现状：
+更改某用户的角色之后，需要该用户重新登录才有效。
+更改某角色的访问权限之后，无需用户重新登录即可生效。
+
+2011/05/26
+开始准备与Ext2.2.1的融合
+
+使用方法: 在每个jsp页面的第二行，加入以下代码：<%@include file="/jsp/common/config.jsp" %>即可。
+
+用户登录成功之后，存放在Session里面的数据:
+{SPRING_SECURITY_CONTEXT=org.springframework.security.core.context.SecurityContextImpl@fff5afed: Authentication: org.springframework.security.authentication.UsernamePasswordAuthenticationToken@fff5afed: Principal: org.springframework.security.core.userdetails.User@36ebcb: Username: user; Password: [PROTECTED]; Enabled: true; AccountNonExpired: true; credentialsNonExpired: true; AccountNonLocked: true; Granted Authorities: 客户; Credentials: [PROTECTED]; Authenticated: true; Details: org.springframework.security.web.authentication.WebAuthenticationDetails@12afc: RemoteIpAddress: 127.0.0.1; SessionId: 451E60931A333F7B2BBB342925CEBA54; Granted Authorities: 客户, SPRING_SECURITY_LAST_USERNAME=user}
+用户注销成功之后，Session里面没有数据.
+
+
+2011/05/27
+一个相当漂亮的网站：
+http://www.vifir.com/my.ejf
+http://www.gwt-ext.com/demo/
+
+http://aariadne.com/accordion-preview/
+http://topic.csdn.net/u/20091007/18/f3e6ffa3-b5f0-4c92-b3d9-bb2e6b1e5604.html
+//Ext同步获取数据方式
+var response = Ext.lib.Ajax.getConnectionObject().conn; response.open("GET", 'test.jsp',false);
+
+ExtJS+Struts2+JSON生成“accordion”布局的树菜单
+http://blog.csdn.net/leecho571/archive/2010/12/05/6056564.aspx
+http://hi.baidu.com/fscai/blog/item/d8d3139ad12d2db3c8eaf462.html/cmtid/56f98fd23f7ba53f960a163d
+
+2011/05/29
+基本能形成accordion布局的菜单了，只是查询子菜单的时候是有点失误的，那个需要有访问权限才行。
