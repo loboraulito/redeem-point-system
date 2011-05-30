@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated May 18, 2011 4:59:23 PM by Hibernate Tools 3.3.0.GA -->
+<hibernate-mapping>
+    <class name="com.integral.system.role.bean.RoleMenuInfo" table="rolemenu">
+        <id name="id" type="java.lang.String">
+            <column name="ID" />
+            <generator class="uuid.hex" />
+        </id>
+        <property name="roleId" type="java.lang.String">
+            <column name="roleId" />
+        </property>
+        <property name="menuId" type="java.lang.String">
+            <column name="menuId" />
+        </property>
+    </class>
+</hibernate-mapping>
