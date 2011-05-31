@@ -115,7 +115,7 @@ ServletRequestAware, ServletResponseAware {
         }
         
         List childList = this.menuUtil.getMenuTree(this.menuUtil.showChildMenu(userName, rootId));
-        
+        LOG.info(""+Json.toJson(childList));
         PrintWriter out = null;
         try {
             out = super.getPrintWriter(request, response);
