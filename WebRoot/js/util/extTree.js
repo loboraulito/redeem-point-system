@@ -12,7 +12,17 @@ function providetreePanel(mainMenuId, rootName){
 		loader: rloader,//new Ext.tree.TreeLoader({url:"extMenu/rootMenu.action?method=showRootMenu&nodeId=1"}),
 		draggable:false,
 		singleClickExpand:true,//用单击文本展开,默认为双击
-		text:rootName
+		text:rootName,
+		listeners:{
+			"beforeclick" : function(node,e){
+				alert(node);
+				return false;
+			},
+			"click":function(node,e){
+				alert(1);
+				return false;
+			}
+		}
 	});
 	var tree = new Ext.tree.TreePanel({
 		//title:title,
@@ -33,5 +43,9 @@ function providetreePanel(mainMenuId, rootName){
 		border:false//没有边框
 	});
 	tree.on('beforeload',function(node){rloader.url = url+node.id;});//mainMenuId
+	tree.on("click",function(node){
+		alert(node.attributes.hrefTarget);
+		return;
+	});
 	return tree;
 }

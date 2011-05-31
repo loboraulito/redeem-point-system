@@ -15,7 +15,52 @@ public class MenuTree {
     private boolean expandable; // 是否展开
     private String description; // 描述信息
     private String qtip;// 提示信息
+    private boolean isTarget; // 是否可以链接到目标地址
+    private boolean singleClickExpand; //是否单击展开节点
+    private Object listeners; //监听器
     
+    /**
+     * <p>Discription:[方法功能描述]</p>
+     * @return boolean isTarget.
+     */
+    public boolean isTarget() {
+        return isTarget;
+    }
+    /**
+     * <p>Discription:[方法功能描述]</p>
+     * @param isTarget The isTarget to set.
+     */
+    public void setTarget(boolean isTarget) {
+        this.isTarget = isTarget;
+    }
+    /**
+     * <p>Discription:[方法功能描述]</p>
+     * @return boolean singleClickExpand.
+     */
+    public boolean isSingleClickExpand() {
+        return singleClickExpand;
+    }
+    /**
+     * <p>Discription:[方法功能描述]</p>
+     * @param singleClickExpand The singleClickExpand to set.
+     */
+    public void setSingleClickExpand(boolean singleClickExpand) {
+        this.singleClickExpand = singleClickExpand;
+    }
+    /**
+     * <p>Discription:[方法功能描述]</p>
+     * @return Object listeners.
+     */
+    public Object getListeners() {
+        return listeners;
+    }
+    /**
+     * <p>Discription:[方法功能描述]</p>
+     * @param listeners The listeners to set.
+     */
+    public void setListeners(Object listeners) {
+        this.listeners = listeners;
+    }
     /**
      * <p>Discription:[方法功能描述]</p>
      * @return String id.

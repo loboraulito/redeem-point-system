@@ -169,8 +169,11 @@ public class MenuUtils {
                 menuTree.setLeaf(true);
                 menuTree.setExpandable(false);
                 // TODO 链接的目标位置
-                menuTree.setHrefTarget("");
+                menuTree.setHrefTarget("mainFrame");
             }
+            menuTree.setTarget(false);
+            menuTree.setSingleClickExpand(true);
+            menuTree.setListeners(null);
             menuTrees.add(menuTree);
         }
         return menuTrees;
