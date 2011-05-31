@@ -1,3 +1,5 @@
-#Sat May 07 09:13:03 CST 2011
+#Tue May 31 23:01:01 CST 2011
 eclipse.preferences.version=1
+encoding//src/log4j.properties=UTF-8
+encoding//src/message_zh_CN.properties=UTF-8
 encoding/<project>=UTF-8
