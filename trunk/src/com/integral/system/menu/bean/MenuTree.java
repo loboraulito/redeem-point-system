@@ -18,8 +18,34 @@ public class MenuTree {
     private boolean isTarget; // 是否可以链接到目标地址
     private boolean singleClickExpand; //是否单击展开节点
     private Object listeners; //监听器
+    private String hrefComment; //路径注释信息
+    private String comment; // 注释信息
+    /**
+	 * @return the hrefComment
+	 */
+	public String getHrefComment() {
+		return hrefComment;
+	}
+	/**
+	 * @param hrefComment the hrefComment to set
+	 */
+	public void setHrefComment(String hrefComment) {
+		this.hrefComment = hrefComment;
+	}
     
     /**
+	 * @return the comment
+	 */
+	public String getComment() {
+		return comment;
+	}
+	/**
+	 * @param comment the comment to set
+	 */
+	public void setComment(String comment) {
+		this.comment = comment;
+	}
+	/**
      * <p>Discription:[方法功能描述]</p>
      * @return boolean isTarget.
      */

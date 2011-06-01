@@ -165,15 +165,15 @@ public class MenuUtils {
                 menuTree.setExpandable(true);
             }else{ //叶子节点
                 menuTree.setCls("file");
-                menuTree.setHref(menu.getPagePath());
+                menuTree.setHref(null);
                 menuTree.setLeaf(true);
                 menuTree.setExpandable(false);
                 // TODO 链接的目标位置
-                menuTree.setHrefTarget("mainFrame");
+                //menuTree.setHrefTarget("mainFrame");
+                menuTree.setHrefComment(menu.getPagePath());
             }
             menuTree.setTarget(false);
             menuTree.setSingleClickExpand(true);
-            menuTree.setListeners(null);
             menuTrees.add(menuTree);
         }
         return menuTrees;
