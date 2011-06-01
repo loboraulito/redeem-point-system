@@ -74,8 +74,7 @@ function indexPage(){
 			items:[detailsPanel,menuPanel]
 		},{
 			region:"center",
-			id:"mainFrame",
-			html:"Hello world",
+			html:"<div id='mainpage'></div>",
 			margins:'0 5 0 5'
 		},{
 			region:"south",

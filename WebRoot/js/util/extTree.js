@@ -46,7 +46,17 @@ function providetreePanel(mainMenuId, rootName){
 	// TODO 可以在这里做，当用户点击菜单的时候，在中间出现tabPanel
 	tree.on("click",function(node){
 		if(node.isLeaf()){
-			alert(node.attributes.hrefComment);
+			var tabPanel = Ext.getCmp("mainTabPanel");
+			if(!tabPanel){
+				createTabPanel(node.text,node.id+"_tab",node.attributes.hrefComment);
+			}else{
+				var tabPanelPage = Ext.getCmp(node.id+"_tab");
+				if(!tabPanelPage){
+					addTabPanel(tabPanel,node.id+"_tab",node.text);
+				}else{
+					activeTabPanel(tabPanel,node.id+"_tab");
+				}
+			}
 			return;
 		}
 	});
