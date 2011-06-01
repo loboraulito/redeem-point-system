@@ -43,9 +43,12 @@ function providetreePanel(mainMenuId, rootName){
 		border:false//没有边框
 	});
 	tree.on('beforeload',function(node){rloader.url = url+node.id;});//mainMenuId
+	// TODO 可以在这里做，当用户点击菜单的时候，在中间出现tabPanel
 	tree.on("click",function(node){
-		alert(node.attributes.hrefTarget);
-		return;
+		if(node.isLeaf()){
+			alert(node.attributes.hrefComment);
+			return;
+		}
 	});
 	return tree;
 }
