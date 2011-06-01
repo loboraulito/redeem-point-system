@@ -9,6 +9,7 @@
 <script type="text/javascript" src="<%=path %>/js/util/extTree.js"></script>
 <script type="text/javascript" src="<%=path %>/js/index.js"></script>
 <script type="text/javascript" src="<%=path %>/js/point/system/login.js"></script>
+<script type="text/javascript" src="<%=path %>/js/util/tabPanel.js"></script>
 <script type="text/javascript">
 var rootMenu;
 </script>
