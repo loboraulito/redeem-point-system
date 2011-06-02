@@ -1,6 +1,6 @@
 function createTabPanel(title,tabId,href){
 	var tabPanel = new Ext.TabPanel({
-		renderTo:"mainpage",
+		renderTo:"mainpage", //中间显示区域
 		id:"mainTabPanel",
 		activeTab:0,
 		autoScroll:true,

@@ -74,7 +74,7 @@ function indexPage(){
 			items:[detailsPanel,menuPanel]
 		},{
 			region:"center",
-			html:"<div id='mainpage'></div>",
+			html:"<div id='mainpage'></div>", //让中间的tabpanel显示区域
 			margins:'0 5 0 5'
 		},{
 			region:"south",
