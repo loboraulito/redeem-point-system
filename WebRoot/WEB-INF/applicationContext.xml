@@ -126,5 +126,5 @@
 		</property>
 	</bean>
 	
-	<import resource="spring-security/applicationContext-security.xml"/>
+	<import resource="spring-security/applicationContext-security-temp.xml"/>
 </beans>
