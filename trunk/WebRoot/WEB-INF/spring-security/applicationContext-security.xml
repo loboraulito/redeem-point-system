@@ -46,17 +46,19 @@
 	</security:http>
 	<!-- 认证管理器，实现用户认证的入口，主要实现UserDetailsService接口即可 如下,可以配置多个Provider -->
 	<security:authentication-manager alias="authenticationManager">
-		<security:authentication-provider ref="daoAuthenticationProvider">
+		<security:authentication-provider user-service-ref="userDetailsService">
+		<!-- <security:authentication-provider ref="daoAuthenticationProvider"> --> <!-- 如果这里不用这个userDetailsService的话，系统将不会调用decide方法  -->
 			<!-- <security:password-encoder hash="md5"></security:password-encoder> -->
 		</security:authentication-provider>
 		<security:authentication-provider ref="rememberMeAuthenticationProvider">
 			<!-- <security:password-encoder hash="md5"></security:password-encoder> -->
 		</security:authentication-provider>
 	</security:authentication-manager>
-	
+	<!-- 
 	<bean id="daoAuthenticationProvider" class="org.springframework.security.authentication.dao.DaoAuthenticationProvider">
 		<property name="userDetailsService" ref="userDetailsService"></property>
 	</bean>
+	 -->
 	<!-- 
 	<bean id="userDetailsService" class="com.integral.system.user.service.security.UserDetailServiceImpl"></bean>
 	 -->

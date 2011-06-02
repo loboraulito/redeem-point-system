@@ -43,10 +43,10 @@ public class AccessDecisionManagerImpl implements AccessDecisionManager {
     public void decide(Authentication authentication, Object object,
             Collection<ConfigAttribute> configAttributes)
             throws AccessDeniedException, InsufficientAuthenticationException {
+        log.info("AccessDecisionManagerImpl : "+object.toString());//object is a URL.
         if (configAttributes == null) {
             return;
         }
-        log.info("AccessDecisionManagerImpl : "+object.toString());//object is a URL.
         Iterator<ConfigAttribute> ite=configAttributes.iterator();
         while(ite.hasNext()){
             ConfigAttribute ca=ite.next();

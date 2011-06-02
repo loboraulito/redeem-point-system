@@ -18,9 +18,11 @@
 		<security:intercept-url pattern="/js/**" filters="none"/>
 		<security:intercept-url pattern="/jsp/common/config.jsp" filters="none"/>
 		<security:intercept-url pattern="/index.jsp" filters="none"/>
+		<!-- 
 		<security:intercept-url pattern="/menu/childModule.action/**" filters="none"/>
 		<security:intercept-url pattern="/menu/rightChildModule.action/**" filters="none"/>
 		<security:intercept-url pattern="/menu/rootModule.action/**" filters="none"/>
+		 -->
 		<!-- 配置登录页面 -->
 		<security:form-login login-page="/index.jsp" default-target-url="/index.jsp" authentication-success-handler-ref="loginSuccessHandler" authentication-failure-handler-ref="loginFailureHandler"/>
 		<!-- 
@@ -34,7 +36,9 @@
 			<security:concurrency-control max-sessions="1" />
 		</security:session-management>
 		<!-- 配置cookie登录 -->
+		<!-- 
 		<security:remember-me services-ref="rememberMeServices"/>
+		 -->
 		<!-- 增加logout的处理，要增加下面的filter的话，必须把auto-config="true"去掉，否则冲突报错 -->
 		<!-- <security:custom-filter ref="logoutFilter" position="LOGOUT_FILTER"/> -->
 		<!-- 实现自定义的filter，动态的从数据库中获取用户以及角色等信息 -->
@@ -46,7 +50,8 @@
 	</security:http>
 	<!-- 认证管理器，实现用户认证的入口，主要实现UserDetailsService接口即可 如下,可以配置多个Provider -->
 	<security:authentication-manager alias="authenticationManager">
-		<security:authentication-provider ref="daoAuthenticationProvider">
+		<security:authentication-provider user-service-ref="userDetailsService">
+		<!-- <security:authentication-provider ref="daoAuthenticationProvider"> -->
 			<!-- <security:password-encoder hash="md5"></security:password-encoder> -->
 		</security:authentication-provider>
 		<security:authentication-provider ref="rememberMeAuthenticationProvider">
