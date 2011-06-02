@@ -7,11 +7,12 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.math.NumberUtils;
 import org.apache.struts2.interceptor.ServletRequestAware;
 import org.apache.struts2.interceptor.ServletResponseAware;
 import org.nutz.json.Json;
 
-import com.integral.common.BaseAction;
+import com.integral.common.action.BaseAction;
 import com.integral.system.menu.service.IMenuService;
 import com.integral.util.menu.MenuUtils;
 
@@ -70,31 +71,15 @@ ServletRequestAware, ServletResponseAware {
         this.response = response;
     }
     /**
-     * <p>Discription:[查询父菜单下的子菜单]</p>
+     * <p>Discription:[菜单管理的入口]</p>
      * @return
-     * @author 代超
-     * @update 2011-5-29 代超[变更描述]
+     * @author: 代超
+     * @update: 2011-6-2 代超[变更描述]
      */
-    public String showChildMenu(){
-        String rootId = this.request.getParameter("mainMenuId");
-        if(rootId == null || "".equals(rootId)){
-            return null;
-        }
-        List childList = this.menuService.findChildMenuTree(rootId);
-        PrintWriter out = null;
-        try {
-            out = super.getPrintWriter(request, response);
-            out.print(Json.toJson(childList));
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally{
-            if(out!=null){
-                out.flush();
-                out.close();
-            }
-        }
-        return null;
+    public String begin(){
+        return SUCCESS;
     }
+    
     /**
      * <p>Discription:[获取有权限的父菜单下的子菜单]</p>
      * @return
@@ -163,5 +148,30 @@ ServletRequestAware, ServletResponseAware {
         }
         return null;
     }
-    
+    /**
+     * <p>Discription:[菜单管理的入口]</p>
+     * @return
+     * @author: 代超
+     * @update: 2011-6-2 代超[变更描述]
+     */
+    public String menuList(){
+        int start = NumberUtils.toInt(request.getParameter("start"), 0);
+        int limit = NumberUtils.toInt(request.getParameter("limit"), 50);
+        long menuSize = this.menuService.findAllMenuSize();
+        List menuList = this.menuService.findMenuByPage(start, limit);
+        PrintWriter out = null;
+        try {
+            out = super.getPrintWriter(request, response);
+            out.print("{success:true,totalCount:"+menuSize+",menuList:"+Json.toJson(menuList)+"}");
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if(out!=null){
+                out.flush();
+                out.close();
+            }
+        }
+        return null;
+    }
 }

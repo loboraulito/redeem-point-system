@@ -17,5 +17,13 @@
 			 <result name="success">/jsp/system/menu/menu.jsp</result>
 			 <result name="input">/index.jsp</result>
 		</action>
+		<action name="menuManage" class="com.integral.system.menu.action.MenuAction" method="menuList">
+			 <result name="success">/jsp/system/menu/menu.jsp</result>
+			 <result name="input">/index.jsp</result>
+		</action>
+		<action name="beginMenuManage" class="com.integral.system.menu.action.MenuAction" method="begin">
+			 <result name="success">/jsp/system/menu/menu.jsp</result>
+			 <result name="input">/index.jsp</result>
+		</action>
 	</package>
 </struts>

@@ -8,7 +8,7 @@ function createTabPanel(title,tabId,href){
 		/*
 		autoLoad:{
 			url:path+href,
-			params:{userName:userName},
+			params:{start:0,limit:50},
 			discardUrl: false, 
         	nocache: true, 
         	timeout: 30, 
@@ -17,13 +17,9 @@ function createTabPanel(title,tabId,href){
 				if(success){
 					try{
 						var response = Ext.decode(responses.responseText);
-						var rootMenu = response.rootMenu;
-						var menuSize = response.menuSize;
-						//alert(rootMenu);
-						menuPanel.body.dom.innerHTML = "";
-						showRootMenu(rootMenu,menuSize);
+						alert(response);
 					}catch(e){
-						//alert(e);
+						alert(e);
 					}
 				}else{
 					return;
@@ -34,17 +30,17 @@ function createTabPanel(title,tabId,href){
 		items:[{
 			title:title,
 			id:tabId,
-			html:href
+			html:"<iframe id='"+tabId+"_frame' name='"+tabId+"_frame' src='"+path+"/"+href+"' frameborder='0' height='100%' width='100%' style='overflow:hidden;'></iframe>"
 		}]
 	});
 }
 
-function addTabPanel(panel,panelId,title){
+function addTabPanel(panel,panelId,title,href){
 	if(panel){
 		var tab = {
 			title:title,
 			id:panelId,
-			html:"abcd"
+			html:"<iframe id='"+panelId+"_frame' name='"+panelId+"_frame' src='"+path+"/"+href+"' frameborder='0' height='100%' width='100%' style='overflow:hidden;'></iframe>"
 		};
 		panel.add(tab);
 		panel.setActiveTab(panelId);

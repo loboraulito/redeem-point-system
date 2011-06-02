@@ -1,10 +1,10 @@
 package com.integral.system.menu.service.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import com.integral.system.menu.bean.MenuInfo;
-import com.integral.system.menu.bean.MenuTree;
+import org.apache.commons.lang.math.NumberUtils;
+
+import com.integral.common.dao.IBaseDao;
 import com.integral.system.menu.dao.IMenuDao;
 import com.integral.system.menu.service.IMenuService;
 
@@ -15,6 +15,23 @@ import com.integral.system.menu.service.IMenuService;
  */
 public class MenuService implements IMenuService {
     private IMenuDao menuDao;
+    private IBaseDao baseDao;
+
+    /**
+     * <p>Discription:[方法功能描述]</p>
+     * @return IBaseDao baseDao.
+     */
+    public IBaseDao getBaseDao() {
+        return baseDao;
+    }
+
+    /**
+     * <p>Discription:[方法功能描述]</p>
+     * @param baseDao The baseDao to set.
+     */
+    public void setBaseDao(IBaseDao baseDao) {
+        this.baseDao = baseDao;
+    }
 
     /**
      * <p>Discription:[Spring的IOC注入方法]</p>
@@ -31,53 +48,24 @@ public class MenuService implements IMenuService {
     public void setMenuDao(IMenuDao menuDao) {
         this.menuDao = menuDao;
     }
+
+    @Override
+    public List findAll() {
+        return this.menuDao.findAll();
+    }
     
-    /**
-     * <p>Discription:[查询父菜单下的子菜单]</p>
-     * @param rootMenuId
-     * @return
-     * @author 代超
-     * @update 2011-5-29 代超[变更描述]
-     */
-    public List findChildMenu(String rootMenuId){
-        return this.menuDao.findChildMenu(rootMenuId);
+    public long findAllMenuSize(){
+        long size = 0L;
+        String sql = "select count(menu_info.menu_id) as menu_size from menu_info";
+        List list = this.baseDao.queryBySQL(sql, null);
+        if(list!=null){
+            size = NumberUtils.toLong((String.valueOf(list.get(0))), 0L);
+        }
+        return size;
     }
 
     @Override
-    public List findChildMenuTree(String rootMenuId) {
-        List menuTrees = new ArrayList();
-        List menus = this.menuDao.findChildMenu(rootMenuId);
-        if(menus == null){
-            return null;
-        }
-        for(int i=0,j = menus.size();i<j;i++){
-            MenuInfo menu = (MenuInfo) menus.get(i);
-            MenuTree menuTree = new MenuTree();
-            
-            menuTree.setId(menu.getMenuId());
-            menuTree.setText(menu.getMenuName());
-            menuTree.setQtip(menu.getMenuName());
-            
-            if("0".equals(menu.getIsLeave())){//非叶子节点
-                menuTree.setCls("folder");
-                menuTree.setHref(null);
-                menuTree.setLeaf(false);
-                menuTree.setExpandable(true);
-            }else{ //叶子节点
-                menuTree.setCls("file");
-                menuTree.setHref(menu.getPagePath());
-                menuTree.setLeaf(true);
-                menuTree.setExpandable(false);
-                // TODO 链接的目标位置
-                menuTree.setHrefTarget("");
-            }
-            menuTrees.add(menuTree);
-        }
-        return menuTrees;
-    }
-
-    @Override
-    public List findRootMenu(String userName) {
-        return null;
+    public List findMenuByPage(int start, int limit) {
+        return this.menuDao.findMenuByPage(start, limit);
     }
 }

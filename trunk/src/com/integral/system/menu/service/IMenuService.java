@@ -4,27 +4,26 @@ import java.util.List;
 
 public interface IMenuService {
     /**
-     * <p>Discription:[查询父菜单下的子菜单]</p>
-     * @param rootMenuId
+     * <p>Discription:[菜单管理功能的列表]</p>
      * @return
-     * @author 代超
-     * @update 2011-5-29 代超[变更描述]
+     * @author: 代超
+     * @update: 2011-6-2 代超[变更描述]
      */
-    public List findChildMenu(String rootMenuId);
+    public List findAll();
     /**
-     * <p>Discription:[查询父菜单下的子菜单,组装成树形结构]</p>
-     * @param rootMenuId
+     * <p>Discription:[查询所有菜单的数量]</p>
      * @return
-     * @author 代超
-     * @update 2011-5-29 代超[变更描述]
+     * @author: 代超
+     * @update: 2011-6-2 代超[变更描述]
      */
-    public List findChildMenuTree(String rootMenuId);
+    public long findAllMenuSize();
     /**
-     * <p>Discription:[查询用户能访问的主菜单]</p>
-     * @param userName
+     * <p>Discription:[分页查询菜单]</p>
+     * @param start
+     * @param limit
      * @return
-     * @author 代超
-     * @update 2011-5-29 代超[变更描述]
+     * @author: 代超
+     * @update: 2011-6-2 代超[变更描述]
      */
-    public List findRootMenu(String userName);
+    public List findMenuByPage(int start, int limit);
 }

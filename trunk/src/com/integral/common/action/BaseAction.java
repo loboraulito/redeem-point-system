@@ -1,4 +1,4 @@
-package com.integral.common;
+package com.integral.common.action;
 
 import java.io.IOException;
 import java.io.PrintWriter;

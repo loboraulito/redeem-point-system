@@ -16,7 +16,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
-import com.integral.common.BaseAction;
+import com.integral.common.action.BaseAction;
 import com.integral.system.menu.bean.MenuInfo;
 import com.integral.system.menu.service.IMenuService;
 import com.integral.system.role.service.IRoleMenuService;
