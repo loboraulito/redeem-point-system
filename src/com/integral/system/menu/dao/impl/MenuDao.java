@@ -1,9 +1,14 @@
 package com.integral.system.menu.dao.impl;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.hibernate.HibernateException;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.springframework.orm.hibernate3.HibernateCallback;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 import com.integral.system.menu.dao.IMenuDao;
@@ -49,5 +54,30 @@ public class MenuDao extends HibernateDaoSupport implements IMenuDao {
             log.error("find Child menu failed", re);
             throw re;
         }
+    }
+    @Override
+    public List findAll() {
+        log.debug("finding all menu");
+        try {
+            String queryString = "from MenuInfo";
+            return getHibernateTemplate().find(queryString);
+        } catch (RuntimeException re) {
+            log.error("find all menu failed", re);
+            throw re;
+        }
+    }
+    @Override
+    public List findMenuByPage(final int start, final int limit) {
+        return getHibernateTemplate().executeFind(new HibernateCallback(){
+            public Object doInHibernate(Session session)
+                    throws HibernateException, SQLException {
+                Query query = session.createQuery("from MenuInfo");
+                if(start>-1 && limit>0){
+                    query.setFirstResult(start);
+                    query.setMaxResults(limit);
+                }
+                return query.list();
+            }
+        });
     }
 }

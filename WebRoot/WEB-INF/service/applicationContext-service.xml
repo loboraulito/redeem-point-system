@@ -48,6 +48,7 @@
 				<property name="menuDao">
 					<ref bean="MenuDao" />
 				</property>
+				<property name="baseDao" ref="BaseDao"></property>
 			</bean>
 		</property>
 		<property name="transactionAttributes">

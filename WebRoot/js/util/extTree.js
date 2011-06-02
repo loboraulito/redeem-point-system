@@ -52,7 +52,7 @@ function providetreePanel(mainMenuId, rootName){
 			}else{
 				var tabPanelPage = Ext.getCmp(node.id+"_tab");
 				if(!tabPanelPage){
-					addTabPanel(tabPanel,node.id+"_tab",node.text);
+					addTabPanel(tabPanel,node.id+"_tab",node.text,node.attributes.hrefComment);
 				}else{
 					activeTabPanel(tabPanel,node.id+"_tab");
 				}

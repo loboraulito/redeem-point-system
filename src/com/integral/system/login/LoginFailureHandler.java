@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 
-import com.integral.common.BaseAction;
+import com.integral.common.action.BaseAction;
 
 /** 
  * <p>Description: [描述该类概要功能介绍]</p>

@@ -1,0 +1,119 @@
+function menuManage(){
+	/**
+	 * menuReader:菜单数据解析器
+	 */
+	var menuReader = new Ext.data.JsonReader({
+		totalProperty : "totalCount",
+		root : "menuList"
+	},[
+		{name:"menuId"},//唯一id
+		{name:"menuName"},//年份
+		{name:"pagePath"},//月份
+		{name:"menuLevel"},//具体日期
+		{name:"parentMenuId"},//当天收入
+		{name:"isLeave"}//当天消费
+	]);
+	var proxyUrl = path+"/menu/menuManage.action?method=menuList";
+	/**
+	 * menuStore:菜单数据仓库
+	 */
+	var menuStore = new Ext.data.Store({
+		proxy:new Ext.data.HttpProxy({
+			url:proxyUrl
+		}),
+		reader:menuReader
+	});
+	/**
+	 * menuSM:数据展现样式
+	 */
+	var menuSM = new Ext.grid.CheckboxSelectionModel();
+	/**
+	 * menuCM:数据列展示样式
+	 */
+	var menuCM = new Ext.grid.ColumnModel([new Ext.grid.RowNumberer(),menuSM,{
+		dataIndex:"menuId",
+		hidden:true,
+		hideable:false//不允许将隐藏的字段显示出来
+	},{
+		header:"菜单名称",
+		dataIndex:"menuName",
+		width:150
+	},{
+		header:"菜单路径",
+		dataIndex:"pagePath",
+		width:150
+	},{
+		header:"菜单级别",
+		groupable: false,
+		dataIndex:"menuLevel",
+		width:180
+	},{
+		header:"父级菜单",
+		groupable: false,
+		dataIndex:"parentMenuId",
+		sortable:true,
+		width:80
+	},{
+		header:"是否叶子菜单",
+		groupable: false,
+		dataIndex:"isLeave",
+		renderer:isYesOrNo,
+		width:130
+	}]);
+	/**
+	 * menuGrid: 菜单展示列表
+	 */
+	var menuGrid = new Ext.grid.GridPanel({
+		collapsible:true,//是否可以展开
+		animCollapse:true,//展开时是否有动画效果
+		autoScroll:true,
+		width:Ext.get("menu_div").getWidth(),
+		height:Ext.get("menu_div").getHeight()-25,
+		loadMask:true,//载入遮罩动画（默认）
+		frame:true,
+		autoShow:true,		
+		store:menuStore,
+		renderTo:menu_div,
+		cm:menuCM,
+		sm:menuSM,
+		viewConfig:{forceFit:true},//若父容器的layout为fit，那么强制本grid充满该父容器
+		split: true,
+		bbar:new Ext.PagingToolbar({
+			pageSize:50,//每页显示数
+			store:menuStore,
+			displayInfo:true,
+			displayMsg:"显示{0}-{1}条记录，共{2}条记录",
+			nextText:"下一页",
+			prevText:"上一页",
+			emptyMsg:"无相关记录"
+		}),
+		tbar:[{
+			text:"新增"
+		},"-",{
+			text:"修改"
+		}]
+	});
+	
+	function isYesOrNo(value,metadata,record,rowIndex,colIndex,store){
+		if(value=="1"){
+			return "是";
+		}else{
+			return "否";
+		}
+	}
+	
+	menuStore.load({
+		params:{start:0,limit:50},
+		callback:function(records,options,success){
+			//alert(proxyUrl);
+		}
+	});
+}
+/**
+ * 菜单管理入口
+ */
+Ext.onReady(function(){
+	Ext.QuickTips.init();
+	Ext.form.Field.prototype.msgTarget = 'under';
+	menuManage();
+});
