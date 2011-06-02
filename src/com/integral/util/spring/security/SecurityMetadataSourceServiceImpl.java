@@ -238,7 +238,9 @@ public class SecurityMetadataSourceServiceImpl implements
     }
 
     /**
-     * <p>Discription:[According to a URL, Find out permission configuration of this URL]</p>
+     * <p>Discription:[当用户点击一个菜单的时候，如果存在在resourceMap资源表的话，则返回访问该资源的角色集合，并且调用decide方法。
+     * 如果不存在在resourceMap资源表里面的话，返回null将会不再执行decide方法，而直接放行，使得用户得以访问该资源。
+     * 为了保证非法资源不被访问，必须处理这类资源。]</p>
      * @param arg0
      * @return
      * @throws IllegalArgumentException
@@ -251,6 +253,9 @@ public class SecurityMetadataSourceServiceImpl implements
             throws IllegalArgumentException {
         String url = ((FilterInvocation) object).getRequestUrl();
         Iterator<String> ite = resourceMap.keySet().iterator();
+        //这里才是重点，当用户点击的菜单不在resourceMap这个资源表中的时候，需要处理。
+        //如果不在这个资源表里面的话，系统将不允许他访问。如果直接返回null的话，系统将不执行decide方法。
+        //所以这里必须要想办法
         while (ite.hasNext()) {
             String resURL = ite.next();
             log.debug("url: "+url);
