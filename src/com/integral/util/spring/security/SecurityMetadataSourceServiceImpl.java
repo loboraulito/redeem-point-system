@@ -251,6 +251,7 @@ public class SecurityMetadataSourceServiceImpl implements
     @Override
     public Collection<ConfigAttribute> getAttributes(Object object)
             throws IllegalArgumentException {
+        Collection<ConfigAttribute> atts = new ArrayList<ConfigAttribute>();
         String url = ((FilterInvocation) object).getRequestUrl();
         Iterator<String> ite = resourceMap.keySet().iterator();
         //这里才是重点，当用户点击的菜单不在resourceMap这个资源表中的时候，需要处理。
@@ -269,7 +270,7 @@ public class SecurityMetadataSourceServiceImpl implements
                 return resourceMap.get(resURL);
             }
         }
-        return null;
+        return atts;
     }
 
     /**
