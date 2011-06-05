@@ -113,3 +113,7 @@ http://www.cnblogs.com/huazi4995/articles/1245150.html
 JScript code Ext.BLANK_IMAGE_URL = 'js/ext/resources/images/default/s.gif'; Ext.onReady(function(){ var root = new Ext.tree.AsyncTreeNode({text:'【税务机关列表】'}); var tree = new Ext.tree.TreePanel({ region:'west', contentEl:'west-div', title:'【树列表】', split:true, width: 200, minSize: 175, maxSize: 400, autoScroll :true, expanded:true, collapsible: true, margins:'0 0 0 0', animate:true, waitMsg:"正在加载数据，稍等......", loader: new Ext.tree.TreeLoader({dataUrl: '/NewSMS/data.htm'}), loader: new Ext.tree.DWRTreeLoader({dataUrl:SwjgBus.getjsonTree}), proxy: new Ext.data.DWRProxy(SwjgBus.getjsonTree, true), // loader: new Ext.tree.TreeLoader({dwrCall:SwjgBus.getjsonTree}), root:root }); tree.on('click', function (node){ if(node.isLeaf()){ if( node.attributes.hrefTarget===undefined){ node.attributes.hrefTarget='#'; return; } try {Ext.get('center-iframe').dom.src = node.attributes.hrefTarget ; } catch(e){} } } , this, {stopEvent:true} );
 
 http://ideapad.zol.com.cn/54/160_538775.html 
+
+2011/06/05
+已完成accordion树形结构的菜单了。并且完成了所有的非法菜单将显示“无权访问”的信息。
+下一步的操作是将权限控制细化到按钮上（方法级的权限控制）
