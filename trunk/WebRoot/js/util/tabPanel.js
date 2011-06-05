@@ -30,7 +30,7 @@ function createTabPanel(title,tabId,href){
 		items:[{
 			title:title,
 			id:tabId,
-			html:"<iframe id='"+tabId+"_frame' name='"+tabId+"_frame' src='"+path+"/"+href+"' frameborder='0' height='100%' width='100%' style='overflow:hidden;'></iframe>"
+			html:"<iframe id='"+tabId+"_frame' name='"+tabId+"_frame' src='"+path+href+"' frameborder='0' height='100%' width='100%' style='overflow:hidden;'></iframe>"
 		}]
 	});
 }
@@ -40,7 +40,7 @@ function addTabPanel(panel,panelId,title,href){
 		var tab = {
 			title:title,
 			id:panelId,
-			html:"<iframe id='"+panelId+"_frame' name='"+panelId+"_frame' src='"+path+"/"+href+"' frameborder='0' height='100%' width='100%' style='overflow:hidden;'></iframe>"
+			html:"<iframe id='"+panelId+"_frame' name='"+panelId+"_frame' src='"+path+href+"' frameborder='0' height='100%' width='100%' style='overflow:hidden;'></iframe>"
 		};
 		panel.add(tab);
 		panel.setActiveTab(panelId);
