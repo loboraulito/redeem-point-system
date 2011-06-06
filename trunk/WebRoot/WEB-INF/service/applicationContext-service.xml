@@ -129,4 +129,45 @@
 			</props>
 		</property>
 	</bean>
+	
+	<!-- 按钮工具Service -->
+	<bean id="buttonService" parent="serviceProxy">
+		<property name="target">
+			<bean
+				class="com.integral.system.menu.service.impl.ButtonService"
+				abstract="false" lazy-init="default" autowire="default">
+				<property name="buttonDao" ref="ButtonDao"></property>
+			</bean>
+		</property>
+		<property name="transactionAttributes">
+			<props>
+				<prop key="add*">PROPAGATION_REQUIRED</prop>
+				<prop key="del*">PROPAGATION_REQUIRED</prop>
+				<prop key="edit*">PROPAGATION_REQUIRED</prop>
+				<prop key="upd*">PROPAGATION_REQUIRED</prop>
+				<prop key="sa*">PROPAGATION_REQUIRED</prop>
+			</props>
+		</property>
+	</bean>
+	
+	<!-- 按钮权限Service -->
+	<bean id="rightService" parent="serviceProxy">
+		<property name="target">
+			<bean
+				class="com.integral.system.right.service.impl.RightService"
+				abstract="false" lazy-init="default" autowire="default">
+				<property name="rightDao" ref="RightDao"></property>
+				<property name="baseDao" ref="BaseDao"></property>
+			</bean>
+		</property>
+		<property name="transactionAttributes">
+			<props>
+				<prop key="add*">PROPAGATION_REQUIRED</prop>
+				<prop key="del*">PROPAGATION_REQUIRED</prop>
+				<prop key="edit*">PROPAGATION_REQUIRED</prop>
+				<prop key="upd*">PROPAGATION_REQUIRED</prop>
+				<prop key="sa*">PROPAGATION_REQUIRED</prop>
+			</props>
+		</property>
+	</bean>
 </beans>

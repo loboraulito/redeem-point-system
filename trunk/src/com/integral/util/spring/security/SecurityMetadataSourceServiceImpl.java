@@ -17,7 +17,11 @@ import org.springframework.security.web.util.RegexUrlPathMatcher;
 import org.springframework.security.web.util.UrlMatcher;
 import org.springframework.util.AntPathMatcher;
 
+import com.integral.system.menu.bean.ButtonInfo;
+import com.integral.system.menu.bean.MenuInfo;
 import com.integral.system.menu.dao.IMenuDao;
+import com.integral.system.menu.service.IButtonService;
+import com.integral.system.right.service.IRightService;
 import com.integral.system.role.dao.IRoleDao;
 import com.integral.system.role.dao.IRoleMenuDao;
 import com.integral.system.role.dao.IUserRoleDao;
@@ -45,6 +49,40 @@ public class SecurityMetadataSourceServiceImpl implements
     private IMenuDao menuDao;
     private IRoleMenuDao roleMenuDao;
     private IRoleMenuService roleMenuService;
+    private IRightService rightService;
+    private IButtonService buttonService;
+
+    /**
+     * <p>Discription:[方法功能描述]</p>
+     * @return IButtonService buttonService.
+     */
+    public IButtonService getButtonService() {
+        return buttonService;
+    }
+
+    /**
+     * <p>Discription:[方法功能描述]</p>
+     * @param buttonService The buttonService to set.
+     */
+    public void setButtonService(IButtonService buttonService) {
+        this.buttonService = buttonService;
+    }
+
+    /**
+     * <p>Discription:[方法功能描述]</p>
+     * @return IRightService rightService.
+     */
+    public IRightService getRightService() {
+        return rightService;
+    }
+
+    /**
+     * <p>Discription:[方法功能描述]</p>
+     * @param rightService The rightService to set.
+     */
+    public void setRightService(IRightService rightService) {
+        this.rightService = rightService;
+    }
 
     /**
      * <p>Discription:[方法功能描述]</p>
@@ -130,7 +168,7 @@ public class SecurityMetadataSourceServiceImpl implements
         //this.sessionFactory = 
         loadResourceDefine();
     }
-    
+    /*
     public SecurityMetadataSourceServiceImpl(IUserDao userDao,IRoleDao roleDao,IUserRoleDao userRoleDao, IMenuDao menuDao, IRoleMenuDao roleMenuDao, IRoleMenuService roleMenuService){
         this.userDao = userDao;
         this.roleDao = roleDao;
@@ -138,6 +176,18 @@ public class SecurityMetadataSourceServiceImpl implements
         this.roleMenuDao = roleMenuDao;
         this.menuDao = menuDao;
         this.roleMenuService = roleMenuService;
+        loadResourceDefine();
+    }
+    */
+    public SecurityMetadataSourceServiceImpl(IUserDao userDao,IRoleDao roleDao,IUserRoleDao userRoleDao, IMenuDao menuDao, IRoleMenuDao roleMenuDao, IRoleMenuService roleMenuService, IRightService rightService, IButtonService buttonService){
+        this.userDao = userDao;
+        this.roleDao = roleDao;
+        this.userRoleDao = userRoleDao;
+        this.roleMenuDao = roleMenuDao;
+        this.menuDao = menuDao;
+        this.roleMenuService = roleMenuService;
+        this.rightService = rightService;
+        this.buttonService = buttonService;
         loadResourceDefine();
     }
     
@@ -149,24 +199,54 @@ public class SecurityMetadataSourceServiceImpl implements
         this.userDao = userDao;
     }
     
+    /**
+     * <p>Discription:[读取资源菜单按钮信息到内存中]</p>
+     * @author: 代超
+     * @update: 2011-6-6 代超[变更描述]
+     */
     public void loadResourceDefine(){
-        List<String> menus = this.menuDao.findAllMenuPath();
+        //List<String> menus = this.menuDao.findAllMenuPath();
+        List<MenuInfo> menus = this.menuDao.findAll();
+        List<ButtonInfo> buttons = this.buttonService.findAllButton();
+        List<String> roles = new ArrayList<String>();
         log.debug(menus);
         resourceMap = new HashMap<String, Collection<ConfigAttribute>>();
-        for(String menu : menus){
-            if(menu == null || "".equals(menu)) {
-                continue;
+        if(menus!=null){
+            for(int i=0,j = menus.size();i<j;i++){
+                MenuInfo menu =  menus.get(i);
+                if(menu == null || "".equals(menu)) {
+                    continue;
+                }
+                roles = this.roleMenuService.getMenuRoleMapByMenuId(menu.getMenuId());
+                Collection<ConfigAttribute> atts = new ArrayList<ConfigAttribute>();
+                for(String role : roles){
+                    ConfigAttribute ca = new SecurityConfig(role);
+                    atts.add(ca);
+                }
+                resourceMap.put(menu.getPagePath(), atts);
             }
-            List<String> roles = this.roleMenuService.getMenuRoleMap(menu);
-            Collection<ConfigAttribute> atts = new ArrayList<ConfigAttribute>();
-            for(String role : roles){
-                ConfigAttribute ca = new SecurityConfig(role);
-                atts.add(ca);
+        }
+        if(buttons!= null){
+            for(int i=0,j = buttons.size();i<j;i++){
+                ButtonInfo button = buttons.get(i);
+                if(button.getButtonUrl() == null || "".equals(button.getButtonUrl())){
+                    continue;
+                }
+                roles = this.rightService.getButtonRoleNameByButton(button.getButtonId());
+                Collection<ConfigAttribute> atts = new ArrayList<ConfigAttribute>();
+                for(String role : roles){
+                    ConfigAttribute ca = new SecurityConfig(role);
+                    atts.add(ca);
+                }
+                resourceMap.put(button.getButtonUrl(), atts);
             }
-            resourceMap.put(menu, atts);
         }
     }
-    
+    /**
+     * <p>Discription:[未使用]</p>
+     * @author: 代超
+     * @update: 2011-6-6 代超[变更描述]
+     */
     public void loadResourceDefine_role(){
         List<String> roles = this.roleDao.findAllRole();
         log.debug(roles);

@@ -35,4 +35,14 @@
 			<ref bean="sessionFactory"/>
 		</property>
 	</bean>
+	<bean class="com.integral.system.right.dao.impl.RightDao" id="RightDao">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory"/>
+		</property>
+	</bean>
+	<bean class="com.integral.system.menu.dao.impl.ButtonDao" id="ButtonDao">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory"/>
+		</property>
+	</bean>
 </beans>

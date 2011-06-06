@@ -9,4 +9,7 @@
 		<property name="menuService" ref="menuService"></property>
 		<property name="menuUtil" ref="menuUtil"></property>
 	</bean>
+	<bean class="com.integral.system.right.action.RightAction" id="rightAction">
+		<property name="rightService" ref="rightService"></property>
+	</bean>
 </beans>

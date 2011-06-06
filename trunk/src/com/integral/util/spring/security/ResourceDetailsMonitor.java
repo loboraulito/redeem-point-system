@@ -8,6 +8,8 @@ import org.springframework.security.web.access.intercept.FilterInvocationSecurit
 import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 
 import com.integral.system.menu.dao.IMenuDao;
+import com.integral.system.menu.service.IButtonService;
+import com.integral.system.right.service.IRightService;
 import com.integral.system.role.dao.IRoleDao;
 import com.integral.system.role.dao.IRoleMenuDao;
 import com.integral.system.role.dao.IUserRoleDao;
@@ -31,7 +33,41 @@ public class ResourceDetailsMonitor implements InitializingBean {
     private IMenuDao menuDao;
     private IRoleMenuDao roleMenuDao;
     private IRoleMenuService roleMenuService;
+    private IRightService rightService;
+    private IButtonService buttonService;
         
+    /**
+     * <p>Discription:[方法功能描述]</p>
+     * @return IButtonService buttonService.
+     */
+    public IButtonService getButtonService() {
+        return buttonService;
+    }
+
+    /**
+     * <p>Discription:[方法功能描述]</p>
+     * @param buttonService The buttonService to set.
+     */
+    public void setButtonService(IButtonService buttonService) {
+        this.buttonService = buttonService;
+    }
+
+    /**
+     * <p>Discription:[方法功能描述]</p>
+     * @return IRightService rightService.
+     */
+    public IRightService getRightService() {
+        return rightService;
+    }
+
+    /**
+     * <p>Discription:[方法功能描述]</p>
+     * @param rightService The rightService to set.
+     */
+    public void setRightService(IRightService rightService) {
+        this.rightService = rightService;
+    }
+
     /**
      * <p>Discription:[方法功能描述]</p>
      * @return IUserDao userDao.
@@ -184,7 +220,7 @@ public class ResourceDetailsMonitor implements InitializingBean {
     }
     
     public void refresh(){
-        FilterInvocationSecurityMetadataSource newSource = new SecurityMetadataSourceServiceImpl(this.userDao,this.roleDao,this.userRoleDao,this.menuDao,this.roleMenuDao,this.roleMenuService);
+        FilterInvocationSecurityMetadataSource newSource = new SecurityMetadataSourceServiceImpl(this.userDao,this.roleDao,this.userRoleDao,this.menuDao,this.roleMenuDao,this.roleMenuService, this.rightService, this.buttonService);
         if(newSource!=null){
             log.debug(newSource);
             filterSecurityInterceptor.setSecurityMetadataSource(newSource);
