@@ -39,6 +39,14 @@ public class RoleMenuService implements IRoleMenuService {
         String param[] = new String[]{menu};
         return this.roleMenuDao.queryBySQL(sql, param);
     }
+    
+    public List<String> getMenuRoleMapByMenuId(String menu){
+        //查询能访问资源的角色
+        String sql = "SELECT DISTINCT role_info.role_name FROM rolemenu , menu_info , role_info WHERE rolemenu.menuId =  menu_info.menu_id AND rolemenu.roleId =  role_info.role_id AND menu_info.menu_id= ?";
+        String param[] = new String[]{menu};
+        return this.roleMenuDao.queryBySQL(sql, param);
+    }
+    
     /**
      * <p>Discription:[查询根节点（第一级节点）]</p>
      * @param role

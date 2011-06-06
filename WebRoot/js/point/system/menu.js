@@ -7,11 +7,11 @@ function menuManage(){
 		root : "menuList"
 	},[
 		{name:"menuId"},//唯一id
-		{name:"menuName"},//年份
-		{name:"pagePath"},//月份
-		{name:"menuLevel"},//具体日期
-		{name:"parentMenuId"},//当天收入
-		{name:"isLeave"}//当天消费
+		{name:"menuName"},//菜单名称
+		{name:"pagePath"},//菜单路径
+		{name:"menuLevel"},//菜单等级
+		{name:"parentMenuId"},//父级菜单
+		{name:"isLeave"}//是否子节点
 	]);
 	var proxyUrl = path+"/menu/menuManage.action?method=menuList";
 	/**
@@ -88,9 +88,17 @@ function menuManage(){
 			emptyMsg:"无相关记录"
 		}),
 		tbar:[{
-			text:"新增"
-		},"-",{
-			text:"修改"
+			text:"测试按钮1",
+			hidden:true,
+			id:"menu_addMenu",
+			iconCls:"table_add",
+			tooltip:"测试按钮1"
+		},{
+			text:"测试按钮2",
+			hidden:true,
+			id:"menu_editMenu",
+			iconCls:"table_edit",
+			tooltip:"测试按钮2"
 		}]
 	});
 	
@@ -101,11 +109,47 @@ function menuManage(){
 			return "否";
 		}
 	}
-	
-	menuStore.load({
-		params:{start:0,limit:50},
-		callback:function(records,options,success){
-			//alert(proxyUrl);
+	/**
+	 * 按钮存储器，尚未执行查询
+	 */
+	var buttonStore = buttonRight();
+	buttonStore.load({
+		params:{roleId:userRole,menuId:parent.menuId},
+		callback:function(buttonRecords,buttonOptions,buttonSuccess){
+			//这里处理按钮的显示和隐藏
+			//alert(buttonRecords.length);
+			for(var i=0;i<buttonRecords.length;i++){
+				//alert(buttonRecords[i].get("buttonName"));
+				var button = Ext.getCmp(buttonRecords[i].get("buttonName"));
+				if(button){
+					//button.hidden = false;
+					button.show();
+				}
+				/*
+				var tbar = menuGrid.getTopToolbar();
+				if(!tbar){
+					tbar = new Ext.Toolbar();
+				}
+				*/
+				/*
+				tbar.addButton({
+					text:buttonRecords[i].get("buttonText"),
+					id:buttonRecords[i].get("buttonName")
+				});
+				*/
+				/*
+				tbar.add({
+					text:buttonRecords[i].get("buttonText"),
+					id:buttonRecords[i].get("buttonName")
+				});
+				*/
+			}
+			menuStore.load({
+				params:{start:0,limit:50},
+				callback:function(records,options,success){
+					//alert(proxyUrl);
+				}
+			});
 		}
 	});
 }

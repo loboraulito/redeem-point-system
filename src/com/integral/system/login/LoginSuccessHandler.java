@@ -125,11 +125,20 @@ public class LoginSuccessHandler extends BaseAction implements AuthenticationSuc
             userName = principal.toString();
         }
         
+        //查询用户的角色
+        List userRoles = this.userRoleService.findRoleByUserName(userName);
+        String roleId = "";
+        if(userRoles == null || userRoles.size()<1){
+            roleId = "";
+        }
+        roleId = (String) userRoles.get(0);
+        
         List menus = showRootMenu(userName);
         if(menus == null){
             menus = new ArrayList();
         }
         request.getSession().setAttribute("userName", userName);
+        request.getSession().setAttribute("roleId", roleId);
         out.print("{success:true,msg:'登录成功',userName:'"+userName+"',roleName:''}");
         out.flush();
         out.close();

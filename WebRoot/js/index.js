@@ -6,10 +6,11 @@ function indexPage(){
 		id: 'details-panel',
         title: '',
         region: 'north',
-        height:182,
+        //height:182,
+        height:212,
         bodyStyle: 'padding-bottom:0px;background:#eee;',
 		autoScroll: true,
-		html: '<p class="details-info" id="showCalendar">When you select a layout from the tree, additional details will display here.</p>'
+		html: '<p class="details-info" id="showCalendar"></p><p id="changeSkin"></p>'
     };
     /**
      * 菜单面板
@@ -92,6 +93,45 @@ function indexPage(){
 		}]
 	});
 	//loadMenuPanel();
+	var themeCombo = new Ext.form.ComboBox({
+		id:"xthemebox",
+		renderTo:"changeSkin",
+        store: new Ext.data.SimpleStore({
+			fields:["skinname","skin"],
+			data:[["黑色","xtheme-black"],["imap","xtheme-calista"],["深灰色","xtheme-darkgray"],["还原",""]]
+		}),
+        displayField:'skinname',
+        valueField:"skin",
+        typeAhead: true,
+        mode: 'local',
+        editable:false,
+        triggerAction: 'all',
+        emptyText:'更换样式',
+        selectOnFocus:true,
+        width:100,
+        listeners:{
+        	"select":function(combo,record,index){
+        		var skin = combo.getValue();
+        		if(skin && skin!=""){
+        			Ext.util.CSS.swapStyleSheet("theme", path+"/js/ext-2.2.1/resources/css/"+skin+".css");
+        		}else{
+        			Ext.util.CSS.swapStyleSheet("theme", "");
+        		}
+        		/*
+        		accountGroupStore.reload({
+					params:{start:0,limit:9999999}
+				});
+				*/
+        	}
+        }
+	});
+	
+	/**
+	 * 换肤功能
+	 */
+	function changeXtheme(){
+		
+	}
 }
 
 function loadMenuPanel(user_name){

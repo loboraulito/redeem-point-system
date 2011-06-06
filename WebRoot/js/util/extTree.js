@@ -12,17 +12,7 @@ function providetreePanel(mainMenuId, rootName){
 		loader: rloader,//new Ext.tree.TreeLoader({url:"extMenu/rootMenu.action?method=showRootMenu&nodeId=1"}),
 		draggable:false,
 		singleClickExpand:true,//用单击文本展开,默认为双击
-		text:rootName,
-		listeners:{
-			"beforeclick" : function(node,e){
-				alert(node);
-				return false;
-			},
-			"click":function(node,e){
-				alert(1);
-				return false;
-			}
-		}
+		text:rootName
 	});
 	var tree = new Ext.tree.TreePanel({
 		//title:title,
@@ -45,6 +35,7 @@ function providetreePanel(mainMenuId, rootName){
 	tree.on('beforeload',function(node){rloader.url = url+node.id;});//mainMenuId
 	// TODO 可以在这里做，当用户点击菜单的时候，在中间出现tabPanel
 	tree.on("click",function(node){
+		menuId = node.id;
 		if(node.isLeaf()){
 			var tabPanel = Ext.getCmp("mainTabPanel");
 			if(!tabPanel){

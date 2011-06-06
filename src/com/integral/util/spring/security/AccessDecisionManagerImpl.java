@@ -44,6 +44,7 @@ public class AccessDecisionManagerImpl implements AccessDecisionManager {
             Collection<ConfigAttribute> configAttributes)
             throws AccessDeniedException, InsufficientAuthenticationException {
         log.info("AccessDecisionManagerImpl : "+object.toString());//object is a URL.
+        //boolean bool = false;
         if (configAttributes == null) {
             return;
         }

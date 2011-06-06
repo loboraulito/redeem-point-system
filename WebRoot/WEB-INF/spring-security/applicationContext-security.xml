@@ -21,6 +21,9 @@
 		<security:intercept-url pattern="/menu/childModule.action/**" filters="none"/>
 		<security:intercept-url pattern="/menu/rightChildModule.action/**" filters="none"/>
 		<security:intercept-url pattern="/menu/rootModule.action/**" filters="none"/>
+		<!-- 获取有权限访问的按钮 -->
+		<security:intercept-url pattern="/right/showButtons.action/**" filters="none"/>
+		
 		<!-- 配置登录页面 -->
 		<security:form-login login-page="/index.jsp" default-target-url="/index.jsp" authentication-success-handler-ref="loginSuccessHandler" authentication-failure-handler-ref="loginFailureHandler"/>
 		<!-- 
@@ -81,6 +84,12 @@
 		</constructor-arg>
 		<constructor-arg>
 			<ref bean="roleMenuService"/>
+		</constructor-arg>
+		<constructor-arg>
+			<ref bean="rightService"/>
+		</constructor-arg>
+		<constructor-arg>
+			<ref bean="buttonService"/>
 		</constructor-arg>
 	</bean>
 	<bean id="userDetailsService" parent="serviceProxy">
@@ -145,6 +154,7 @@
 		<property name="filterProcessesUrl" value="/j_spring_security_check"></property>
 	</bean>
 	 -->
+	 <!-- 
 	<bean id="logoutFilter" class="org.springframework.security.web.authentication.logout.LogoutFilter">
 		<constructor-arg value="/index.jsp"></constructor-arg>
 		<constructor-arg>
@@ -154,6 +164,7 @@
 			</list>
 		</constructor-arg>
 	</bean>
+	 -->
 	<!-- 用户登录成功处理类 -->
 	<bean id="loginSuccessHandler" class="com.integral.system.login.LoginSuccessHandler">
 		<property name="roleMenuService" ref="roleMenuService"></property>
@@ -174,6 +185,8 @@
 		<property name="roleMenuDao" ref="RoleMenuDao"></property>
 		<property name="menuDao" ref="MenuDao"></property>
 		<property name="roleMenuService" ref="roleMenuService"></property>
+		<property name="rightService" ref="rightService"></property>
+		<property name="buttonService" ref="buttonService"></property>
 	</bean>
 	
 	<!-- 配置对方法的保护 -->

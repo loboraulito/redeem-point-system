@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2011-6-5 15:28:30 by Hibernate Tools 3.3.0.GA -->
+<hibernate-mapping>
+    <class name="com.integral.system.menu.bean.ButtonInfo" table="menubutton">
+        <id name="buttonId" type="java.lang.String">
+            <column name="button_id" />
+            <generator class="assigned" />
+        </id>
+        <property name="menuId" type="java.lang.String">
+            <column name="menu_id" />
+        </property>
+        <property name="buttonName" type="java.lang.String">
+            <column name="button_name" />
+        </property>
+        <property name="buttonText" type="java.lang.String">
+            <column name="button_text" />
+        </property>
+        <property name="buttonUrl" type="java.lang.String">
+            <column name="button_url" />
+        </property>
+    </class>
+</hibernate-mapping>

@@ -82,6 +82,12 @@
 				<value>
 					com/integral/system/role/bean/xml/UserRole.hbm.xml
 				</value>
+				<value>
+					com/integral/system/right/bean/xml/RightInfo.hbm.xml
+				</value>
+				<value>
+					com/integral/system/menu/bean/xml/ButtonInfo.hbm.xml
+				</value>
 			</list>
 		</property>
 		<property name="hibernateProperties">

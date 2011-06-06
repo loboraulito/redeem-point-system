@@ -12,6 +12,7 @@
 <script type="text/javascript" src="<%=path %>/js/util/tabPanel.js"></script>
 <script type="text/javascript">
 var rootMenu;
+var menuId;
 </script>
 <style type="text/css">
 #header {

@@ -32,6 +32,14 @@ public interface IRoleMenuService {
      * @update 2011-5-28 代超[变更描述]
      */
     public List getRootMenuMap(String role);
+    /**
+     * <p>Discription:[根据菜单ID查询有权限访问该url的角色]</p>
+     * @param role
+     * @return
+     * @author 代超
+     * @update 2011-5-28 代超[变更描述]
+     */
+    public List<String> getMenuRoleMapByMenuId(String menu);
     
     /**
      * <p>Discription:[根据角色查询菜单信息]</p>
