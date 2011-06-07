@@ -121,11 +121,6 @@ function indexPage(){
         		var date = new Date();
         		date.setDate(date.getTime() + 30*24*3600*1000);
         		document.cookie = "css="+skin+";expires="+date.toGMTString();
-        		/*
-        		accountGroupStore.reload({
-					params:{start:0,limit:9999999}
-				});
-				*/
         	}
         }
 	});
