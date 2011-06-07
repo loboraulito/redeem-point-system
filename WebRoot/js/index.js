@@ -98,7 +98,7 @@ function indexPage(){
 		renderTo:"changeSkin",
         store: new Ext.data.SimpleStore({
 			fields:["skinname","skin"],
-			data:[["黑色","xtheme-black"],["imap","xtheme-calista"],["深灰色","xtheme-darkgray"],["还原",""]]
+			data:[["系统默认","ext-all"],["黑色","xtheme-black"],["深绿色","xtheme-calista"],["深灰色","xtheme-darkgray"],["银白色","xtheme-gray"],["浅绿色","xtheme-green"],["靛青色","xtheme-indigo"],["紫深色","xtheme-midnight"],["橄榄色","xtheme-olive"],["苹果红","xtheme-pink"],["紫色","xtheme-purple"],["深蓝色","xtheme-slate"],["灰黑色","xtheme-slickness"]]
 		}),
         displayField:'skinname',
         valueField:"skin",
@@ -108,6 +108,7 @@ function indexPage(){
         triggerAction: 'all',
         emptyText:'更换样式',
         selectOnFocus:true,
+        value:"ext-all",
         width:100,
         listeners:{
         	"select":function(combo,record,index){
@@ -117,6 +118,9 @@ function indexPage(){
         		}else{
         			Ext.util.CSS.swapStyleSheet("theme", "");
         		}
+        		var date = new Date();
+        		date.setDate(date.getTime() + 30*24*3600*1000);
+        		document.cookie = "css="+skin+";expires="+date.toGMTString();
         		/*
         		accountGroupStore.reload({
 					params:{start:0,limit:9999999}
@@ -126,11 +130,23 @@ function indexPage(){
         }
 	});
 	
-	/**
-	 * 换肤功能
-	 */
-	function changeXtheme(){
-		
+}
+
+/**
+ * 换肤功能
+ */
+function changeXtheme(){
+	var cookieArr = document.cookie.split(";");
+	var cssName = "";
+	for(var i=0;i<cookieArr.length;i++){
+		var arr = cookieArr[i].split("=");
+		if(arr[0] == "css"){
+			cssName = arr[1];
+			break;
+		}
+	}
+	if(cssName){
+		Ext.util.CSS.swapStyleSheet("theme", path+"/js/ext-2.2.1/resources/css/"+cssName+".css");
 	}
 }
 
