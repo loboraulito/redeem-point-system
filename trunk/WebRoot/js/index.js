@@ -10,7 +10,7 @@ function indexPage(){
         height:212,
         bodyStyle: 'padding-bottom:0px;background:#eee;',
 		autoScroll: true,
-		html: '<p class="details-info" id="showCalendar"></p><p id="changeSkin"></p>'
+		html: '<p class="details-info" id="showCalendar"></p><p>更改页面风格：</p><p id="changeSkin">更改页面风格：</p>'
     };
     /**
      * 菜单面板
@@ -141,6 +141,10 @@ function changeXtheme(){
 		}
 	}
 	if(cssName){
+		var themeCombo = Ext.getCmp("xthemebox");
+		if(themeCombo){
+			themeCombo.setValue(cssName);
+		}
 		Ext.util.CSS.swapStyleSheet("theme", path+"/js/ext-2.2.1/resources/css/"+cssName+".css");
 	}
 }
@@ -222,4 +226,5 @@ Ext.onReady(function(){
 	Ext.QuickTips.init();
 	indexPage();
 	showCalendar("showCalendar");
+	changeXtheme();
 });
