@@ -20,7 +20,7 @@ function indexPage(){
         title: '菜单信息',
         region: 'center',
         border:false,
-        bodyStyle: 'padding-bottom:0px;background:#eee;',
+        bodyStyle: 'padding-bottom:0px;background:#eee;overflow-x:hidden;overflow-y:hidden;',
 		autoScroll: true,
 		layout:"accordion",
 		layoutConfig:{
@@ -75,7 +75,7 @@ function indexPage(){
 			items:[detailsPanel,menuPanel]
 		},{
 			region:"center",
-			html:"<div id='mainpage'></div>", //让中间的tabpanel显示区域
+			html:"<div id='mainpage' style='height: 100%;width: 100%;overflow:hidden;'></div>", //让中间的tabpanel显示区域
 			margins:'0 5 0 5'
 		},{
 			region:"south",

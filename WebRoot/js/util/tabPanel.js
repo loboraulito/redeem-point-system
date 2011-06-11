@@ -1,10 +1,13 @@
 function createTabPanel(title,tabId,href){
 	var tabPanel = new Ext.TabPanel({
+		//width:Ext.get("mainpage").getWidth(),
+		height:Ext.get("mainpage").getHeight(),
 		renderTo:"mainpage", //中间显示区域
 		id:"mainTabPanel",
 		activeTab:0,
-		autoScroll:true,
-		autoHeight:true,
+		autoScroll:false,
+		bodyStyle:"overflow:hidden;",
+		//autoHeight:true,
 		/*
 		autoLoad:{
 			url:path+href,
@@ -30,7 +33,7 @@ function createTabPanel(title,tabId,href){
 		items:[{
 			title:title,
 			id:tabId,
-			html:"<iframe id='"+tabId+"_frame' name='"+tabId+"_frame' src='"+path+href+"' frameborder='0' height='100%' width='100%' style='overflow:hidden;'></iframe>"
+			html:"<iframe id='"+tabId+"_frame' name='"+tabId+"_frame' src='"+path+href+"' frameborder='0' height='100%' width='100%' style='overflow:hidden;' scrolling=\"no\"></iframe>"
 		}]
 	});
 }
@@ -40,7 +43,7 @@ function addTabPanel(panel,panelId,title,href){
 		var tab = {
 			title:title,
 			id:panelId,
-			html:"<iframe id='"+panelId+"_frame' name='"+panelId+"_frame' src='"+path+href+"' frameborder='0' height='100%' width='100%' style='overflow:hidden;'></iframe>"
+			html:"<iframe id='"+panelId+"_frame' name='"+panelId+"_frame' src='"+path+href+"' frameborder='0' height='100%' width='100%' style='overflow:hidden;' scrolling=\"no\"></iframe>"
 		};
 		panel.add(tab);
 		panel.setActiveTab(panelId);
