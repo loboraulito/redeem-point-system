@@ -6,7 +6,7 @@
 <script type="text/javascript" src="<%=path %>/js/point/system/menu.js"></script>
 <title>Insert title here</title>
 </head>
-<body>
+<body style="height: 100%;width: 100%">
 <input type="hidden" value="" id="href" name="href"/>
 <div style="height: 100%;width: 100%" id="menu_div"></div>
 <script type="text/javascript">
