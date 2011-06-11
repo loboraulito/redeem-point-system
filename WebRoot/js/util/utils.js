@@ -18,4 +18,21 @@ function changeXtheme(){
 		}
 		Ext.util.CSS.swapStyleSheet("theme", path+"/js/ext-2.2.1/resources/css/"+cssName+".css");
 	}
+	
+}
+/**
+ * JS replaceAll
+ * @param {} s1
+ * @param {} s2
+ * @return {}
+ */
+String.prototype.replaceAll  = function(s1,s2){
+	return this.replace(new RegExp(s1,"gm"),s2);
+}
+/**
+ * JS trim
+ * @return {}
+ */
+String.prototype.trim  = function(){
+	return this.replace(/(^\s*)|(\s*$)/g,"");
 }
