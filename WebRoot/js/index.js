@@ -10,7 +10,7 @@ function indexPage(){
         height:212,
         bodyStyle: 'padding-bottom:0px;background:#eee;',
 		autoScroll: true,
-		html: '<p class="details-info" id="showCalendar"></p><div><table><tr><td>更改页面风格：</td><td><p id="changeSkin"></p></td></tr></table></div>'
+		html: '<div class="details-info" id="showCalendar"></div><div><table><tr><td>更改页面风格：</td><td><div id="changeSkin"></div></td></tr></table></div>'
     };
     /**
      * 菜单面板
