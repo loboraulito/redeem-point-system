@@ -9,6 +9,8 @@
 	<constant name="struts.objectFactory" value="spring" />
 	<constant name="struts.configuration.xml.reload" value="true"/>
 	
+	<!-- 用户管理 -->
+	<include file="com/integral/system/user/config/user.xml"></include>
 	<!-- 菜单管理 -->
 	<include file="com/integral/system/menu/config/menu.xml"></include>
 	<!-- 按钮权限管理 -->
