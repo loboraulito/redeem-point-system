@@ -9,8 +9,6 @@
 <body style="height: 100%;width: 100%">
 <input type="hidden" value="" id="href" name="href"/>
 <div style="height: 100%;width: 100%" id="menu_div"></div>
-<script type="text/javascript">
-//alert(document.location);
-</script>
+
 </body>
 </html>

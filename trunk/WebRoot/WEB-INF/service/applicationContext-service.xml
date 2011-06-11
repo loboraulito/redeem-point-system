@@ -170,4 +170,25 @@
 			</props>
 		</property>
 	</bean>
+	
+	<!-- 用户管理Service -->
+	<bean id="userService" parent="serviceProxy">
+		<property name="target">
+			<bean
+				class="com.integral.system.user.service.impl.UserService"
+				abstract="false" lazy-init="default" autowire="default">
+				<property name="userDao" ref="UserDao"></property>
+				<property name="baseDao" ref="BaseDao"></property>
+			</bean>
+		</property>
+		<property name="transactionAttributes">
+			<props>
+				<prop key="add*">PROPAGATION_REQUIRED</prop>
+				<prop key="del*">PROPAGATION_REQUIRED</prop>
+				<prop key="edit*">PROPAGATION_REQUIRED</prop>
+				<prop key="upd*">PROPAGATION_REQUIRED</prop>
+				<prop key="sa*">PROPAGATION_REQUIRED</prop>
+			</props>
+		</property>
+	</bean>
 </beans>
