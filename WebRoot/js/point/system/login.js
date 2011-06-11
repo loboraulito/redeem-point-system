@@ -1,5 +1,5 @@
 function systemLogin(){
-	var loginForm = new Ext.FormPanel({
+	var loginForm = new Ext.form.FormPanel({
 		url: path+"/j_spring_security_check",
 		//title: 'Login',
 		//renderTo: Ext.getBody(),
@@ -60,6 +60,8 @@ function systemLogin(){
 		id:"loginWindow",
 		title:"Login",
 		//layout:"fit",
+		width:350,
+		//height:300,
 		modal:true,
 		plain:true,
 		items:[loginForm]
