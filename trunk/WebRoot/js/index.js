@@ -121,32 +121,14 @@ function indexPage(){
         		var date = new Date();
         		date.setDate(date.getTime() + 30*24*3600*1000);
         		document.cookie = "css="+skin+";expires="+date.toGMTString();
+        		//调用子窗口中的方法，以便让子窗口随时变化
+        		for(var i=0;i<window.frames.length;i++){
+        			window.frames[i].window.changeXtheme();
+        		}
         	}
         }
 	});
 	
-}
-
-/**
- * 换肤功能
- */
-function changeXtheme(){
-	var cookieArr = document.cookie.split(";");
-	var cssName = "";
-	for(var i=0;i<cookieArr.length;i++){
-		var arr = cookieArr[i].split("=");
-		if(arr[0] == "css"){
-			cssName = arr[1];
-			break;
-		}
-	}
-	if(cssName){
-		var themeCombo = Ext.getCmp("xthemebox");
-		if(themeCombo){
-			themeCombo.setValue(cssName);
-		}
-		Ext.util.CSS.swapStyleSheet("theme", path+"/js/ext-2.2.1/resources/css/"+cssName+".css");
-	}
 }
 
 function loadMenuPanel(user_name){
@@ -226,5 +208,4 @@ Ext.onReady(function(){
 	Ext.QuickTips.init();
 	indexPage();
 	showCalendar("showCalendar");
-	changeXtheme();
 });
