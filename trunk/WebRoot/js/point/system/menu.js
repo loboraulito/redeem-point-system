@@ -68,7 +68,7 @@ function menuManage(){
 		animCollapse:true,//展开时是否有动画效果
 		autoScroll:true,
 		width:Ext.get("menu_div").getWidth(),
-		height:Ext.get("menu_div").getHeight()-25,
+		height:Ext.get("menu_div").getHeight()-50,
 		loadMask:true,//载入遮罩动画（默认）
 		frame:true,
 		autoShow:true,		

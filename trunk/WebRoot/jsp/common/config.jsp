@@ -20,8 +20,10 @@
 <script type="text/javascript" src="<%=path %>/js/ext-2.2.1/ext-all-debug.js"></script>
 <!-- 引用Ext JS 的语言文件 -->
 <script type="text/javascript" src="<%=path %>/js/ext-2.2.1/source/locale/ext-lang-zh_CN.js"></script>
-<!-- 设置默认图片路径 -->
+<script type="text/javascript" src="<%=path %>/js/util/utils.js"></script>
+<!-- 每个页面上的按钮权限管理 -->
 <script type="text/javascript" src="<%=path %>/js/util/buttonRight.js"></script>
+<!-- 设置默认图片路径 -->
 <SCRIPT type="text/javascript">
 	Ext.BLANK_IMAGE_URL = "<%=path %>/js/ext-2.2.1/resources/images/default/s.gif";
 </SCRIPT>
@@ -52,4 +54,9 @@ String userRole = String.valueOf(session.getAttribute("roleId"));
 	var userName = "<%=userName%>";
 	var userRole = "<%=userRole%>";
 	var path = "<%=path%>";
+</SCRIPT>
+<SCRIPT type="text/javascript">
+Ext.onReady(function(){
+	changeXtheme();
+});
 </SCRIPT>
