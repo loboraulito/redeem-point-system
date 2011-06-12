@@ -120,7 +120,7 @@ function indexPage(){
         		}
         		var date = new Date();
         		date.setDate(date.getTime() + 30*24*3600*1000);
-        		document.cookie = "user="+userName+";css="+skin+";expires="+date.toGMTString();
+        		document.cookie = "css="+skin+";expires="+date.toGMTString();
         		//调用子窗口中的方法，以便让子窗口随时变化
         		for(var i=0;i<window.frames.length;i++){
         			window.frames[i].window.changeXtheme();
