@@ -1,9 +1,14 @@
 package com.integral.system.role.dao.impl;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.hibernate.HibernateException;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.springframework.orm.hibernate3.HibernateCallback;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 import com.integral.system.role.dao.IRoleDao;
@@ -40,5 +45,19 @@ public class RoleDao extends HibernateDaoSupport implements IRoleDao {
             log.error("find role failed", re);
             throw re;
         }
+    }
+    
+    public List findRoleListByPage(final int start, final int limit) {
+        return getHibernateTemplate().executeFind(new HibernateCallback(){
+            public Object doInHibernate(Session session)
+                    throws HibernateException, SQLException {
+                Query query = session.createQuery("from RoleInfo");
+                if(start>-1 && limit>0){
+                    query.setFirstResult(start);
+                    query.setMaxResults(limit);
+                }
+                return query.list();
+            }
+        });
     }
 }

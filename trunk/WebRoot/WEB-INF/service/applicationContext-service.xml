@@ -71,6 +71,7 @@
 				<property name="roleDao">
 					<ref bean="RoleDao" />
 				</property>
+				<property name="baseDao" ref="BaseDao"></property>
 			</bean>
 		</property>
 		<property name="transactionAttributes">
