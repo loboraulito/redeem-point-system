@@ -18,4 +18,8 @@
 	<bean class="com.integral.system.user.action.UserAction">
 		<property name="userService" ref="userService"></property>
 	</bean>
+	<!-- 角色管理 -->
+	<bean class="com.integral.system.role.action.RoleAction">
+		<property name="roleService" ref="roleService"></property>
+	</bean>
 </beans>

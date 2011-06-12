@@ -4,7 +4,7 @@ Source Host: localhost
 Source Database: redeempoint
 Target Host: localhost
 Target Database: redeempoint
-Date: 2011/6/6 17:07:16
+Date: 2011/6/12 17:37:25
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -106,18 +106,35 @@ INSERT INTO `menu_info` VALUES ('3', '电子地图', '/map/map.action?method=beg
 INSERT INTO `menu_info` VALUES ('4', '测试1', '/test.action', null, '1', '1');
 INSERT INTO `menu_info` VALUES ('5', '测试2', '/test1.action', null, '3', '1');
 INSERT INTO `menu_info` VALUES ('6', '菜单管理', '/menu/beginMenuManage.action?method=begin', null, '3', '1');
+INSERT INTO `menu_info` VALUES ('7', '用户管理', '/user/userManage.action?method=begin', null, '3', '1');
+INSERT INTO `menu_info` VALUES ('8', '角色管理', '/role/roleManage.action?method=begin', null, '3', '1');
 INSERT INTO `menubutton` VALUES ('1', 'menu_list', '菜单列表', '6', '/menu/menuManage.action?method=menuList');
 INSERT INTO `menubutton` VALUES ('2', 'menu_addMenu', '添加菜单', '6', '/menu/menuManage.action?method=addMenu');
 INSERT INTO `menubutton` VALUES ('3', 'menu_editMenu', '修改菜单', '6', '/menu/menuManage.action?method=editMenu');
+INSERT INTO `menubutton` VALUES ('4', 'user_list', '用户列表', '7', '/user/userList.action?method=userManageList');
+INSERT INTO `menubutton` VALUES ('5', 'role_list', '角色列表', '8', '/role/roleList.action?method=roleManageList');
 INSERT INTO `right_info` VALUES ('1', '测试权限1', '2', '6', '1');
+INSERT INTO `right_info` VALUES ('10', '111', '2', '8', '5');
 INSERT INTO `right_info` VALUES ('2', '测试权限2', '2', '6', '2');
 INSERT INTO `right_info` VALUES ('3', '测试权限3', '2', '6', '3');
+INSERT INTO `right_info` VALUES ('4', '1111', '1', '6', '1');
+INSERT INTO `right_info` VALUES ('5', '112', '1', '6', '2');
+INSERT INTO `right_info` VALUES ('6', '114', '1', '6', '3');
+INSERT INTO `right_info` VALUES ('7', '1111', '1', '7', '4');
+INSERT INTO `right_info` VALUES ('8', '11111', '2', '7', '4');
+INSERT INTO `right_info` VALUES ('9', '1111', '1', '8', '5');
 INSERT INTO `role_info` VALUES ('1', '系统管理员', null);
 INSERT INTO `role_info` VALUES ('2', '客户', null);
 INSERT INTO `role_info` VALUES ('3', '普通用户', null);
 INSERT INTO `rolemenu` VALUES ('1', '1', '1');
 INSERT INTO `rolemenu` VALUES ('10', '2', '7');
 INSERT INTO `rolemenu` VALUES ('11', '2', '6');
+INSERT INTO `rolemenu` VALUES ('12', '1', '4');
+INSERT INTO `rolemenu` VALUES ('13', '1', '5');
+INSERT INTO `rolemenu` VALUES ('14', '1', '6');
+INSERT INTO `rolemenu` VALUES ('15', '1', '7');
+INSERT INTO `rolemenu` VALUES ('16', '1', '8');
+INSERT INTO `rolemenu` VALUES ('17', '2', '8');
 INSERT INTO `rolemenu` VALUES ('2', '1', '2');
 INSERT INTO `rolemenu` VALUES ('3', '1', '3');
 INSERT INTO `rolemenu` VALUES ('4', '2', '2');

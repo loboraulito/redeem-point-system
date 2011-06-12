@@ -11,6 +11,8 @@
 	
 	<!-- 用户管理 -->
 	<include file="com/integral/system/user/config/user.xml"></include>
+	<!-- 角色管理 -->
+	<include file="com/integral/system/role/config/role.xml"></include>
 	<!-- 菜单管理 -->
 	<include file="com/integral/system/menu/config/menu.xml"></include>
 	<!-- 按钮权限管理 -->
