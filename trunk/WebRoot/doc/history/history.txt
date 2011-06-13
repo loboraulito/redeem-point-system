@@ -122,3 +122,10 @@ http://ideapad.zol.com.cn/54/160_538775.html
 2)一个角色->多个权限，一个权限->多个按钮
 
 需要注意的是，当用户对某个菜单具备访问权限的时候，才能对该菜单下的按钮有访问权限。
+
+
+
+
+NETSH INT IP RESET
+　　NETSH WINHTTP RESET PROXY
+　　IPCONFIG /FLUSHDNS
