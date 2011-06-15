@@ -125,7 +125,3 @@ http://ideapad.zol.com.cn/54/160_538775.html
 
 
 
-
-NETSH INT IP RESET
-　　NETSH WINHTTP RESET PROXY
-　　IPCONFIG /FLUSHDNS
