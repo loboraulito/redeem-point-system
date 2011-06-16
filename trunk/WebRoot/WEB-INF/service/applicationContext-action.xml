@@ -22,4 +22,7 @@
 	<bean class="com.integral.system.role.action.RoleAction">
 		<property name="roleService" ref="roleService"></property>
 	</bean>
+	<bean class="com.integral.system.right.action.AuthorizeAction">
+		<property name="authorizeService" ref="authorizeService"></property>
+	</bean>
 </beans>
