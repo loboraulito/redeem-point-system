@@ -45,4 +45,9 @@
 			<ref bean="sessionFactory"/>
 		</property>
 	</bean>
+	<bean class="com.integral.system.right.dao.impl.AuthorizeDao" id="AuthorizeDao">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory"/>
+		</property>
+	</bean>
 </beans>
