@@ -9,7 +9,19 @@
 			 <result name="success">/jsp/system/menu/menu.jsp</result>
 			 <result name="input">/index.jsp</result>
 		</action>
-		<action name="authorize" class="com.integral.system.right.action.RightAction" method="begin">
+		<action name="authorize" class="com.integral.system.right.action.AuthorizeAction" method="begin">
+			 <result name="success">/jsp/system/right/authorize.jsp</result>
+			 <result name="input">/index.jsp</result>
+		</action>
+		<action name="authorizeList" class="com.integral.system.right.action.AuthorizeAction" method="authorizeList">
+			 <result name="success">/jsp/system/right/authorize.jsp</result>
+			 <result name="input">/index.jsp</result>
+		</action>
+		<action name="authorizeUser" class="com.integral.system.right.action.AuthorizeAction" method="authorizeUser">
+			 <result name="success">/jsp/system/right/authorize.jsp</result>
+			 <result name="input">/index.jsp</result>
+		</action>
+		<action name="authorizeMenu" class="com.integral.system.right.action.AuthorizeAction" method="authorizeMenu">
 			 <result name="success">/jsp/system/right/authorize.jsp</result>
 			 <result name="input">/index.jsp</result>
 		</action>
