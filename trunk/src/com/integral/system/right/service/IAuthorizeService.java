@@ -15,5 +15,25 @@ public interface IAuthorizeService {
 	 * @return
 	 */
 	public List showAuthorizeMenuInfo(String rootId);
+	/**
+	 * <p>Discription:[分页查询授权用户]</p>
+	 * @param start
+	 * @param limit
+	 * @param params
+	 * @return
+	 * @author: 代超
+	 * @update: 2011-6-19 代超[变更描述]
+	 */
+	public List showAuthorzieUser(int start, int limit, Object [] params);
 	
+	   /**
+     * <p>Discription:[分页查询授权用户的数量]</p>
+     * @param start
+     * @param limit
+     * @param params
+     * @return
+     * @author: 代超
+     * @update: 2011-6-19 代超[变更描述]
+     */
+    public Long showAuthorzieUser(Object [] params);
 }

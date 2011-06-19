@@ -84,13 +84,13 @@ function authorize(){
 		{name:"comment"}//菜单路径
 	]);
 	
-	var proxyUrl = path+"/role/roleList.action?method=roleManageList";
+	var proxyRoleUrl = path+"/role/roleList.action?method=roleManageList";
 	/**
 	 * roleStore:角色数据仓库
 	 */
 	var roleStore = new Ext.data.Store({
 		proxy:new Ext.data.HttpProxy({
-			url:proxyUrl
+			url:proxyRoleUrl
 		}),
 		reader:roleReader,
 		baseParams:{flag:"authorize_role"}
