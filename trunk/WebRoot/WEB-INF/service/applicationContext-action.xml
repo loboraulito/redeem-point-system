@@ -22,7 +22,13 @@
 	<bean class="com.integral.system.role.action.RoleAction">
 		<property name="roleService" ref="roleService"></property>
 	</bean>
+	<!-- 授权管理 -->
 	<bean class="com.integral.system.right.action.AuthorizeAction">
 		<property name="authorizeService" ref="authorizeService"></property>
+		<property name="menuService" ref="menuService"></property>
+		<property name="menuUtil" ref="menuUtil"></property>
+		<property name="roleMenuService" ref="roleMenuService"></property>
+		<property name="userService" ref="userService"></property>
+		<property name="roleService" ref="roleService"></property>
 	</bean>
 </beans>

@@ -11,8 +11,9 @@ import java.util.List;
  */
 public interface IAuthorizeService {
 	/**
-	 * 查询授权信息
+	 * 查询授权菜单信息
 	 * @return
 	 */
-	public List showAuthorizeInfo();
+	public List showAuthorizeMenuInfo(String rootId);
+	
 }

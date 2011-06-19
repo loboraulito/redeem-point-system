@@ -9,14 +9,14 @@ import java.util.List;
  */
 public interface IUserService {
     /**
-     * <p>Discription:[用户列表，分页查询]</p>
+     * <p>Discription:[用户列表，分页自定义sql条件查询]</p>
      * @param start
      * @param limit
      * @return
      * @author: 代超
      * @update: 2011-6-11 代超[变更描述]
      */
-    public List findUserByPage(int start, int limit);
+    public List findUserByPageCondition(String sql, int start, int limit, Object [] params);
     /**
      * <p>Discription:[查询所有用户的数量]</p>
      * @return

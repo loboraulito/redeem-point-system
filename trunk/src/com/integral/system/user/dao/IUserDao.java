@@ -29,5 +29,5 @@ public interface IUserDao {
      * @author: 代超
      * @update: 2011-6-11 代超[变更描述]
      */
-    public List findUserByPage(int start, int limit);
+    public List findUserByPage(String sql, int start, int limit, Object [] params);
 }

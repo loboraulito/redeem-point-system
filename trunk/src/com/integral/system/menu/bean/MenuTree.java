@@ -1,5 +1,7 @@
 package com.integral.system.menu.bean;
 
+import java.util.List;
+
 /** 
  * <p>Description: [菜单树]</p>
  * @author  <a href="mailto: swpigris81@126.com">Chao Dai</a>
@@ -20,6 +22,37 @@ public class MenuTree {
     private Object listeners; //监听器
     private String hrefComment; //路径注释信息
     private String comment; // 注释信息
+    private boolean checked;// 是否选中,checkbox
+    private List children;// 子菜单
+    
+    /**
+     * <p>Discription:[方法功能描述]</p>
+     * @return boolean checked.
+     */
+    public boolean isChecked() {
+        return checked;
+    }
+    /**
+     * <p>Discription:[方法功能描述]</p>
+     * @param checked The checked to set.
+     */
+    public void setChecked(boolean checked) {
+        this.checked = checked;
+    }
+    /**
+     * <p>Discription:[方法功能描述]</p>
+     * @return List children.
+     */
+    public List getChildren() {
+        return children;
+    }
+    /**
+     * <p>Discription:[方法功能描述]</p>
+     * @param children The children to set.
+     */
+    public void setChildren(List children) {
+        this.children = children;
+    }
     /**
 	 * @return the hrefComment
 	 */

@@ -35,11 +35,21 @@ public class UserDao extends HibernateDaoSupport implements IUserDao {
         }
     }
     
-    public List findUserByPage(final int start, final int limit) {
+    public List findUserByPage(final String sql, final int start, final int limit, final Object[] params) {
         return getHibernateTemplate().executeFind(new HibernateCallback(){
             public Object doInHibernate(Session session)
                     throws HibernateException, SQLException {
-                Query query = session.createQuery("from UserInfo");
+                Query query = null;
+                if(sql == null || "".equals(sql)){
+                    query = session.createQuery("from UserInfo");
+                }else{
+                    query = session.createQuery(sql);
+                }
+                if(params != null && params.length>0){
+                    for(int i=0;i<params.length;i++){
+                        query.setParameter(i, params[i]);
+                    }
+                }
                 if(start>-1 && limit>0){
                     query.setFirstResult(start);
                     query.setMaxResults(limit);
