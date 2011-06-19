@@ -30,7 +30,7 @@ function authorize(){
 		collapsible:true,
 		enableDD:false,//是否可拖曳
 		containerScroll: true,
-		rootVisible:false,//隐藏根节点
+		//rootVisible:false,//隐藏根节点
 		singleExpand:false,//只显示一个树节点中的子节点,默认为显示全部
 		checkModel: 'cascade',	//对树的级联多选 
 		onlyLeafCheckable: false,//对树所有结点都可选 
@@ -84,13 +84,12 @@ function authorize(){
 		{name:"comment"}//菜单路径
 	]);
 	
-	var proxyRoleUrl = path+"/role/roleList.action?method=roleManageList";
 	/**
 	 * roleStore:角色数据仓库
 	 */
 	var roleStore = new Ext.data.Store({
 		proxy:new Ext.data.HttpProxy({
-			url:proxyRoleUrl
+			url:proxyUrl
 		}),
 		reader:roleReader,
 		baseParams:{flag:"authorize_role"}
@@ -147,6 +146,7 @@ function authorize(){
 		        var roleId = gridSelection[0].get("roleId");
 		        //读取角色用户
 		        loadAuthorizeUser(roleId);
+		        loadAuthorizeMenu(roleId);
 			}
 		},
 		bbar:new Ext.PagingToolbar({
@@ -352,6 +352,16 @@ function authorize(){
 		userStore.load({
 			params:{start:0,limit:50,roleId:roleId}
 		});
+	}
+	
+	function loadAuthorizeMenu(roleId){
+		loader.baseParams.rootId = "";
+		loader.baseParams.roleId = roleId;
+		//loader.url = proxyUrl;
+		loader.load(root);
+		root.select();
+		
+		//tree.load();
 	}
 }
 
