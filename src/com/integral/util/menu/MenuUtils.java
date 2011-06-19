@@ -6,6 +6,7 @@ import java.util.List;
 import com.integral.system.menu.bean.MenuInfo;
 import com.integral.system.menu.bean.MenuTree;
 import com.integral.system.menu.service.IMenuService;
+import com.integral.system.role.bean.RoleInfo;
 import com.integral.system.role.service.IRoleMenuService;
 import com.integral.system.role.service.IRoleService;
 import com.integral.system.role.service.IUserRoleService;
@@ -145,7 +146,7 @@ public class MenuUtils {
      * @author 代超
      * @update 2011-5-29 代超[变更描述]
      */
-    public List getMenuTree(List menus){
+    public List getMenuTree(List menus, String ... orgs){
         List menuTrees = new ArrayList();
         if(menus == null){
             return menuTrees;
@@ -153,8 +154,11 @@ public class MenuUtils {
         for(int i=0,j = menus.size();i<j;i++){
             MenuInfo menu = (MenuInfo) menus.get(i);
             MenuTree menuTree = new MenuTree();
-            
-            menuTree.setId(menu.getMenuId());
+            if(orgs != null){
+                menuTree.setId("role_"+orgs[0]+"_"+menu.getMenuId());
+            }else{
+                menuTree.setId(menu.getMenuId());
+            }
             menuTree.setText(menu.getMenuName());
             menuTree.setQtip(menu.getMenuName());
             
@@ -163,6 +167,9 @@ public class MenuUtils {
                 menuTree.setHref(null);
                 menuTree.setLeaf(false);
                 menuTree.setExpandable(true);
+                if(orgs != null){
+                    menuTree.setComment(orgs[0]);
+                }
             }else{ //叶子节点
                 menuTree.setCls("file");
                 menuTree.setHref(null);
@@ -178,4 +185,5 @@ public class MenuUtils {
         }
         return menuTrees;
     }
+    
 }

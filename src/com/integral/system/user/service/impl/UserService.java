@@ -1,6 +1,5 @@
 package com.integral.system.user.service.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.math.NumberUtils;
@@ -9,6 +8,7 @@ import com.integral.common.dao.impl.BaseDao;
 import com.integral.system.user.bean.UserInfo;
 import com.integral.system.user.dao.IUserDao;
 import com.integral.system.user.service.IUserService;
+import com.integral.util.user.ProtectUserInfo;
 
 /** 
  * <p>Description: [用户管理]</p>
@@ -52,8 +52,8 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public List findUserByPage(int start, int limit) {
-        return this.userDao.findUserByPage(start, limit);
+    public List findUserByPageCondition(String sql,int start, int limit, Object [] params) {
+        return this.userDao.findUserByPage(sql, start, limit, params);
     }
     
     public Long findUserSize(){
@@ -68,24 +68,7 @@ public class UserService implements IUserService {
 
     @Override
     public List findUserByPageWithProtect(int start, int limit) {
-        List<UserInfo> list = new ArrayList();
-        List<UserInfo> userList = this.userDao.findUserByPage(start, limit);
-        if(userList !=null){
-            for(UserInfo userInfo : userList){
-                UserInfo user = new UserInfo();
-                user.setAddress(userInfo.getAddress());
-                user.setCity(userInfo.getCity());
-                user.setEmail(userInfo.getEmail());
-                user.setPhoneNo(userInfo.getPhoneNo());
-                user.setPrivence(userInfo.getPrivence());
-                user.setTelphoneNo(userInfo.getTelphoneNo());
-                user.setUserCode(userInfo.getUserCode());
-                user.setUserId(userInfo.getUserId());
-                user.setUserName(userInfo.getUserName());
-                user.setZip(userInfo.getZip());
-                list.add(user);
-            }
-        }
-        return list;
+        List<UserInfo> userList = this.userDao.findUserByPage(null, start, limit, null);
+        return ProtectUserInfo.protectUserInfo(userList);
     }
 }

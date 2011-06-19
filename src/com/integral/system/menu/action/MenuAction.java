@@ -99,11 +99,12 @@ ServletRequestAware, ServletResponseAware {
             }
         }
         
-        List childList = this.menuUtil.getMenuTree(this.menuUtil.showChildMenu(userName, rootId));
+        List childList = this.menuUtil.getMenuTree(this.menuUtil.showChildMenu(userName, rootId), null);
         PrintWriter out = null;
         try {
             out = super.getPrintWriter(request, response);
-            out.print(Json.toJson(childList));
+            //菜单页面,不显示checkBox
+            out.print(Json.toJson(childList).replaceAll("checked :false,", ""));
         } catch (IOException e) {
             e.printStackTrace();
         } finally{

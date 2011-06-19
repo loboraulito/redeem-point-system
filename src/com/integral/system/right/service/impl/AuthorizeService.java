@@ -7,7 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.integral.common.dao.IBaseDao;
-import com.integral.system.right.bean.AuthorizeInfo;
+import com.integral.system.menu.bean.MenuInfo;
+import com.integral.system.menu.bean.MenuTree;
 import com.integral.system.right.dao.IAuthorizeDao;
 import com.integral.system.right.service.IAuthorizeService;
 
@@ -42,27 +43,41 @@ public class AuthorizeService implements IAuthorizeService {
 	public void setBaseDao(IBaseDao baseDao) {
 		this.baseDao = baseDao;
 	}
-	@Override
-	public List showAuthorizeInfo() {
-		String sql = "SELECT employee_info.operater_id, role_info.role_id, employee_info.operater_name, role_info.role_name FROM employee_info , role_info , supplier_role WHERE employee_info.operater_name =  supplier_role.operater_id AND role_info.role_id =  supplier_role.role_id ";
-		List list = this.baseDao.queryBySQL(sql, null);
+	
+	public List showAuthorizeMenuInfo(String rootId) {
+		String sql = "";
+		List list = null;
+		if(rootId == null || "".equals(rootId)){
+		    sql = "FROM MenuInfo where parentMenuId is NULL ";
+		    list = this.baseDao.queryByHQL(sql,null);
+		}else{
+		    sql = "FROM MenuInfo where parentMenuId = ? ";
+		    list = this.baseDao.queryByHQL(sql, new String[]{rootId});
+		}
+		
 		List authorizeList = new ArrayList();
 		if(list != null){
 			for(int i=0,j = list.size();i<j;i++){
-				AuthorizeInfo authorize = new AuthorizeInfo();
-				Object [] obj = (Object[]) list.get(i);
-				authorize.setUserId(String.valueOf(obj[0]));
-				authorize.setRoleId(String.valueOf(obj[1]));
-				authorize.setUserName(String.valueOf(obj[2]));
-				authorize.setRoleName(String.valueOf(obj[3]));
-				authorize.setCls("folder");
-				authorize.setLeaf(false);
-				authorizeList.add(authorize);
+			    MenuTree tree = new MenuTree();
+			    MenuInfo menu = (MenuInfo) list.get(i);
+				tree.setId(menu.getMenuId());
+				tree.setHref(null);
+				tree.setDescription(menu.getMenuName());
+				tree.setLeaf(false);
+				tree.setCls("folder");
+				tree.setQtip(menu.getMenuName());
+				tree.setText(menu.getMenuName());
+				tree.setExpandable(true);
+				tree.setSingleClickExpand(true);
+				if("1".equals(menu.getIsLeave())){
+				    //叶子节点，则查询按钮
+				    tree.setComment("leaf=yes");
+				}else{
+				    tree.setComment("leaf=no");
+				}
+				authorizeList.add(tree);
 			}
 		}
 		return authorizeList;
 	}
-	
-	
-	
 }

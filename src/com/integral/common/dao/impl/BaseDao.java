@@ -48,4 +48,44 @@ public class BaseDao extends HibernateDaoSupport implements IBaseDao {
             }
         });
     }
+
+    @Override
+    public List queryPageByHQL(final String hql, final String[] params, final int start, final int limit) {
+        log.info("query by sql: " + hql);
+        return getHibernateTemplate().executeFind(new HibernateCallback() {
+            public Object doInHibernate(Session session){
+                Query query = session.createQuery(hql);
+                if(params!=null && params.length>0){
+                    for(int i=0;i<params.length;i++){
+                        query.setParameter(i, params[i]);
+                    }
+                }
+                if(start>-1 && limit>0){
+                    query.setFirstResult(start);
+                    query.setMaxResults(limit);
+                }
+                return query.list();
+            }
+        });
+    }
+
+    @Override
+    public List queryPageBySQL(final String sql, final String[] params, final int start, final int limit) {
+        log.info("query by sql: " + sql);
+        return getHibernateTemplate().executeFind(new HibernateCallback() {
+            public Object doInHibernate(Session session){
+                Query query = session.createSQLQuery(sql);
+                if(params!=null && params.length>0){
+                    for(int i=0;i<params.length;i++){
+                        query.setParameter(i, params[i]);
+                    }
+                }
+                if(start>-1 && limit>0){
+                    query.setFirstResult(start);
+                    query.setMaxResults(limit);
+                }
+                return query.list();
+            }
+        });
+    }
 }

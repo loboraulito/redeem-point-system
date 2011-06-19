@@ -6,7 +6,10 @@
  */
 function providetreePanel(mainMenuId, rootName){
 	var url = path+"/menu/rightChildModule.action?method=showChildRightMenu&mainMenuId=";
-	var rloader = new Ext.tree.TreeLoader({url:url+mainMenuId});
+	var rloader = new Ext.tree.TreeLoader({
+		url:url+mainMenuId,
+		baseAttrs:{uiProvider:Ext.tree.TreeNodeUI}
+	});
 	var root = new Ext.tree.AsyncTreeNode({
 		id:mainMenuId,
 		loader: rloader,//new Ext.tree.TreeLoader({url:"extMenu/rootMenu.action?method=showRootMenu&nodeId=1"}),

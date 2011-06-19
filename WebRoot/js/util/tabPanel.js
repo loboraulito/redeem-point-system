@@ -33,6 +33,7 @@ function createTabPanel(title,tabId,href){
 		items:[{
 			title:title,
 			id:tabId,
+			closable:true,
 			html:"<iframe id='"+tabId+"_frame' name='"+tabId+"_frame' src='"+path+href+"' frameborder='0' height='100%' width='100%' style='overflow:hidden;' scrolling=\"no\"></iframe>"
 		}]
 	});
@@ -43,6 +44,7 @@ function addTabPanel(panel,panelId,title,href){
 		var tab = {
 			title:title,
 			id:panelId,
+			closable:true,
 			html:"<iframe id='"+panelId+"_frame' name='"+panelId+"_frame' src='"+path+href+"' frameborder='0' height='100%' width='100%' style='overflow:hidden;' scrolling=\"no\"></iframe>"
 		};
 		panel.add(tab);

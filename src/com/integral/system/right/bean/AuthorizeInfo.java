@@ -17,8 +17,23 @@ public class AuthorizeInfo {
 	private boolean leaf;
 	private String cls;
 	private String iconCls;
+	private String uiProvider;
 	private List children;
-	private List menus;
+    private List menus;
+	/**
+     * <p>Discription:[方法功能描述]</p>
+     * @return String uiProvider.
+     */
+    public String getUiProvider() {
+        return uiProvider;
+    }
+    /**
+     * <p>Discription:[方法功能描述]</p>
+     * @param uiProvider The uiProvider to set.
+     */
+    public void setUiProvider(String uiProvider) {
+        this.uiProvider = uiProvider;
+    }
 	/**
 	 * @return the leaf
 	 */

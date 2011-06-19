@@ -76,6 +76,7 @@ function indexPage(){
 		},{
 			region:"center",
 			html:"<div id='mainpage' style='height: 100%;width: 100%;overflow:hidden;'></div>", //让中间的tabpanel显示区域
+			deferredRender:false,
 			margins:'0 5 0 5'
 		},{
 			region:"south",
