@@ -107,4 +107,24 @@ public class AuthorizeService implements IAuthorizeService {
         }
         return 0L;
     }
+    @Override
+    public List showAuthorzieMenu(String roleId, String rootId) {
+        String sql = "select model.menuId from RoleMenuInfo model where model.roleId = ?";
+        //授权的菜单id
+        List authorizeMenu = this.baseDao.queryByHQL(sql, new Object[]{roleId});
+        
+        String menuSql = "";
+        List rootMenu = null;
+        if(rootId == null || "".equals(rootId)){
+            menuSql = "FROM MenuInfo where parentMenuId is NULL ";
+            rootMenu = this.baseDao.queryByHQL(menuSql,null);
+        }else{
+            menuSql = "FROM MenuInfo where parentMenuId = ? ";
+            rootMenu = this.baseDao.queryByHQL(menuSql, new String[]{rootId});
+        }
+        
+        
+        
+        return authorizeMenu;
+    }
 }

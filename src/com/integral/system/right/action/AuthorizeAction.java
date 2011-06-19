@@ -146,7 +146,12 @@ public class AuthorizeAction extends BaseAction implements ServletRequestAware, 
 	public String begin(){
 		return SUCCESS;
 	}
-	
+	/**
+	 * <p>Discription:[授权页面]</p>
+	 * @return
+	 * @author: 代超
+	 * @update: 2011-6-19 代超[变更描述]
+	 */
 	public String authorizeList(){
 	    //授权界面上的三个列表标志
 	    String flag = request.getParameter("flag");
@@ -155,7 +160,7 @@ public class AuthorizeAction extends BaseAction implements ServletRequestAware, 
 	    }else if("authorize_menu".equals(flag)){
 	        return authorizeMenu();
 	    }else if("authorize_role".equals(flag)){
-	        
+	        return authorizeRole();
 	    }
         return null;
 	}
@@ -186,10 +191,19 @@ public class AuthorizeAction extends BaseAction implements ServletRequestAware, 
         }
         return null;
 	}
-	
+	/**
+	 * <p>Discription:[角色菜单]</p>
+	 * @return
+	 * @author: 代超
+	 * @update: 2011-6-19 代超[变更描述]
+	 */
 	public String authorizeMenu(){
+	    String roleId = request.getParameter("roleId");
         //父级菜单id
         String rootId = request.getParameter("rootId");
+        
+        List test = this.authorizeService.showAuthorzieMenu(roleId, rootId);
+        
         List list = null;
         if(rootId == null || "".equals(rootId) || "roleMenuTree".equals(rootId)){
             //查询顶级菜单
@@ -213,6 +227,34 @@ public class AuthorizeAction extends BaseAction implements ServletRequestAware, 
             }
         }
 		return null;
+	}
+	/**
+	 * <p>Discription:[系统角色]</p>
+	 * @return
+	 * @author: 代超
+	 * @update: 2011-6-19 代超[变更描述]
+	 */
+	public String authorizeRole(){
+	    int start = NumberUtils.toInt(request.getParameter("start"), 0);
+        int limit = NumberUtils.toInt(request.getParameter("limit"), 50);
+        
+        long roleSize = this.roleService.findRoleSize();
+        List roleList = this.roleService.findRoleListByPage(start, limit);
+        
+        PrintWriter out = null;
+        try {
+            out = super.getPrintWriter(request, response);
+            out.print("{success:true,totalCount:"+roleSize+",roleList:"+Json.toJson(roleList)+"}");
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if(out!=null){
+                out.flush();
+                out.close();
+            }
+        }
+	    return null;
 	}
 
 }
