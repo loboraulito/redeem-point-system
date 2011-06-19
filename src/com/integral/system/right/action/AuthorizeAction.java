@@ -159,16 +159,32 @@ public class AuthorizeAction extends BaseAction implements ServletRequestAware, 
 	    }
         return null;
 	}
-	
+	/**
+	 * <p>Discription:[显示角色用户成员]</p>
+	 * @return
+	 * @author: 代超
+	 * @update: 2011-6-19 代超[变更描述]
+	 */
 	public String authorizeUser(){
 		String roleId = request.getParameter("roleId");
 		int start = NumberUtils.toInt(request.getParameter("start"), 0);
         int limit = NumberUtils.toInt(request.getParameter("limit"), 50);
-        
-        String sql = "from UserInfo model, UserRole role where model.userName = role.userId and role.roleId = ? ";
-        
-        
-		return null;
+        Long userListSize = this.authorizeService.showAuthorzieUser(new String[]{roleId});
+        List userList = this.authorizeService.showAuthorzieUser(start, limit, new String[]{roleId});
+        PrintWriter out = null;
+        try {
+            out = super.getPrintWriter(request, response);
+            out.print("{success:true,totalCount:"+userListSize+",userList:"+Json.toJson(userList)+"}");
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        } finally{
+            if(out!=null){
+                out.flush();
+                out.close();
+            }
+        }
+        return null;
 	}
 	
 	public String authorizeMenu(){

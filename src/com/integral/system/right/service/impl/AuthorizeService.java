@@ -6,11 +6,15 @@ package com.integral.system.right.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.math.NumberUtils;
+
 import com.integral.common.dao.IBaseDao;
 import com.integral.system.menu.bean.MenuInfo;
 import com.integral.system.menu.bean.MenuTree;
 import com.integral.system.right.dao.IAuthorizeDao;
 import com.integral.system.right.service.IAuthorizeService;
+import com.integral.system.user.bean.UserInfo;
+import com.integral.util.user.ProtectUserInfo;
 
 /**
  * @author cdai
@@ -80,4 +84,27 @@ public class AuthorizeService implements IAuthorizeService {
 		}
 		return authorizeList;
 	}
+	
+	public List showAuthorzieUser(int start, int limit, Object [] params){
+	    String sql = "from UserInfo model, UserRole role where model.userName = role.userId and role.roleId = ? ";
+	    List list = this.baseDao.queryPageByHQL(sql, params, start, limit);
+	    List userList = new ArrayList();
+	    if(list != null){
+	        for(int i=0,j = list.size();i<j;i++){
+	            Object[] obj = (Object[]) list.get(i);
+	            UserInfo user = (UserInfo) obj[0];
+	            userList.add(user);
+	        }
+	    }
+	    return ProtectUserInfo.protectUserInfo(userList);
+	}
+    @Override
+    public Long showAuthorzieUser(Object[] params) {
+        String sql = "from UserInfo model, UserRole role where model.userName = role.userId and role.roleId = ? ";
+        List list = this.baseDao.queryPageByHQL(sql, params, -1, -1);
+        if(list != null){
+            return (long)list.size();
+        }
+        return 0L;
+    }
 }

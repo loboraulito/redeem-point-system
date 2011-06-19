@@ -18,7 +18,7 @@ public class BaseDao extends HibernateDaoSupport implements IBaseDao {
     }
 
     @Override
-    public List queryByHQL(final String hql, final String[] params) {
+    public List queryByHQL(final String hql, final Object[] params) {
         log.info("query by hql: " + hql);
         return getHibernateTemplate().executeFind(new HibernateCallback() {
             public Object doInHibernate(Session session){
@@ -34,7 +34,7 @@ public class BaseDao extends HibernateDaoSupport implements IBaseDao {
     }
 
     @Override
-    public List queryBySQL(final String sql, final String[] params) {
+    public List queryBySQL(final String sql, final Object[] params) {
         log.info("query by sql: " + sql);
         return getHibernateTemplate().executeFind(new HibernateCallback() {
             public Object doInHibernate(Session session){
@@ -50,7 +50,7 @@ public class BaseDao extends HibernateDaoSupport implements IBaseDao {
     }
 
     @Override
-    public List queryPageByHQL(final String hql, final String[] params, final int start, final int limit) {
+    public List queryPageByHQL(final String hql, final Object[] params, final int start, final int limit) {
         log.info("query by sql: " + hql);
         return getHibernateTemplate().executeFind(new HibernateCallback() {
             public Object doInHibernate(Session session){
@@ -70,7 +70,7 @@ public class BaseDao extends HibernateDaoSupport implements IBaseDao {
     }
 
     @Override
-    public List queryPageBySQL(final String sql, final String[] params, final int start, final int limit) {
+    public List queryPageBySQL(final String sql, final Object[] params, final int start, final int limit) {
         log.info("query by sql: " + sql);
         return getHibernateTemplate().executeFind(new HibernateCallback() {
             public Object doInHibernate(Session session){

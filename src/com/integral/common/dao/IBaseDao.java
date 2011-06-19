@@ -11,7 +11,7 @@ public interface IBaseDao {
      * @author: 代超
      * @update: 2011-6-2 代超[变更描述]
      */
-    public List queryByHQL(String hql, String[] params);
+    public List queryByHQL(String hql, Object[] params);
     /**
      * <p>Discription:[使用Sql查询数据]</p>
      * @param sql
@@ -20,7 +20,7 @@ public interface IBaseDao {
      * @author: 代超
      * @update: 2011-6-2 代超[变更描述]
      */
-    public List queryBySQL(String sql, String[] params);
+    public List queryBySQL(String sql, Object[] params);
     
     /**
      * <p>Discription:[使用Hql语句查询分页数据]</p>
@@ -30,7 +30,7 @@ public interface IBaseDao {
      * @author: 代超
      * @update: 2011-6-2 代超[变更描述]
      */
-    public List queryPageByHQL(String hql, String[] params, int start, int limit);
+    public List queryPageByHQL(String hql, Object[] params, int start, int limit);
     
     /**
      * <p>Discription:[使用Sql查询分页数据]</p>
@@ -40,5 +40,5 @@ public interface IBaseDao {
      * @author: 代超
      * @update: 2011-6-2 代超[变更描述]
      */
-    public List queryPageBySQL(String sql, String[] params, int start, int limit);
+    public List queryPageBySQL(String sql, Object[] params, int start, int limit);
 }
