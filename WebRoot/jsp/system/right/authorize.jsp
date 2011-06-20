@@ -14,6 +14,7 @@
  -->
 
 <title>系统授权</title>
+<script type="text/javascript" src="<%=path %>/js/ext-2.2.1/source/ux/TreeCheckNodeUI.js"></script>
 <script type="text/javascript" src="<%=path %>/js/point/system/authorize.js"></script>
 </head>
 <body>
