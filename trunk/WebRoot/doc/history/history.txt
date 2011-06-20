@@ -136,3 +136,17 @@ http://blog.csdn.net/marksman_hawk/archive/2011/01/25/6162499.aspx
 每个菜单还有按钮需要显示
 显示带checkBox的菜单树：
 查询所有的树节点以及有权限的节点，然后手动的设置菜单树的选中状态。
+
+2011/06/20
+在Extjs中treepanel中树节点为checkbox类的节时，有时候我们需要用程序来设置他的选中和取消选中状态
+var nodes=tree.getChecked(); 
+if(nodes && nodes.length){
+ for(var i=0;i<nodes.length;i++){
+  //设置UI状态为未选中状态
+  nodes[i].getUI().toggleCheck(false);
+  //设置节点属性为未选中状态
+  nodes[i].attributes.checked=false;
+ }
+}
+这样通过获取已选择的节点，用程序取消选择状态
+反之可以设置未选中节点选中状态
