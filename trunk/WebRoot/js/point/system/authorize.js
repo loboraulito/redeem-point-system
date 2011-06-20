@@ -4,7 +4,11 @@
  */
 function authorize(){
 	
-	var proxyUrl = path+"/right/authorizeList.action?method=authorizeList";
+	var proxyUrl = path+"/right/authorizeMenu.action?method=authorizeMenu";
+	var proxyRoleUrl = path+"/right/authorizeRole.action?method=authorizeRole";
+	var proxyUserUrl = path+"/right/authorizeUser.action?method=authorizeUser";
+	var authorizeUrl = path+"/right/authorizeMenu.action?method=authorizeMenu";
+	
 	
 	var loader = new Ext.tree.TreeLoader({
 		url:proxyUrl,
@@ -30,7 +34,7 @@ function authorize(){
 		collapsible:true,
 		enableDD:false,//是否可拖曳
 		containerScroll: true,
-		//rootVisible:false,//隐藏根节点
+		rootVisible:false,//隐藏根节点
 		singleExpand:false,//只显示一个树节点中的子节点,默认为显示全部
 		checkModel: 'cascade',	//对树的级联多选 
 		onlyLeafCheckable: false,//对树所有结点都可选 
@@ -40,28 +44,6 @@ function authorize(){
 		//hight:300,
 		dropConfig: {appendOnly:true},
 		border:false//没有边框
-	});
-	tree.on('beforeload',function(node){
-		var comment = node.attributes.comment;
-		if(comment && comment == "isRole=yes"){
-			loader.baseParams.isRole = "yes";
-			loader.baseParams.rootId = node.id;
-			loader.baseParams.roleId = node.id;
-		}else{
-			loader.baseParams.isRole = "no";
-			loader.baseParams.rootId = node.id;
-			if(typeof(comment) == "undefined"){
-				loader.baseParams.roleId = "";
-			}else{
-				loader.baseParams.roleId = comment;
-			}
-		}
-	});
-	tree.on("click",function(node, e){
-		var comment = node.attributes.comment;
-		if(comment && comment == "isRole=yes" && !node.isLeaf()){
-			alert(node.id);
-		}
 	});
 	
 	var treePanel = new Ext.Panel({
@@ -89,7 +71,7 @@ function authorize(){
 	 */
 	var roleStore = new Ext.data.Store({
 		proxy:new Ext.data.HttpProxy({
-			url:proxyUrl
+			url:proxyRoleUrl
 		}),
 		reader:roleReader,
 		baseParams:{flag:"authorize_role"}
@@ -146,7 +128,8 @@ function authorize(){
 		        var roleId = gridSelection[0].get("roleId");
 		        //读取角色用户
 		        loadAuthorizeUser(roleId);
-		        loadAuthorizeMenu(roleId);
+		        //loadAuthorizeMenuOne(roleId);
+		        loadAuthorizeMenuTwo(roleId);
 			}
 		},
 		bbar:new Ext.PagingToolbar({
@@ -198,7 +181,7 @@ function authorize(){
 	 */
 	var userStore = new Ext.data.Store({
 		proxy:new Ext.data.HttpProxy({
-			url:proxyUrl
+			url:proxyUserUrl
 		}),
 		reader:userReader,
 		baseParams:{flag:"authorize_user"}
@@ -342,7 +325,16 @@ function authorize(){
 	});
 	
 	roleStore.load({
-		params:{start:0,limit:50}
+		params:{start:0,limit:50,flag:"authorize_user"},
+		callback:function(){
+			/*
+			loader.baseParams.rootId = "";
+			loader.baseParams.roleId = "";
+			loader.load(root, function(){
+				tree.expandAll();
+			});
+			*/
+		}
 	});
 	/**
 	 * 读取角色用户
@@ -350,18 +342,56 @@ function authorize(){
 	 */
 	function loadAuthorizeUser(roleId){
 		userStore.load({
-			params:{start:0,limit:50,roleId:roleId}
+			params:{start:0,limit:50,roleId:roleId,flag:"authorize_user"}
 		});
 	}
-	
-	function loadAuthorizeMenu(roleId){
+	/**
+	 * 第一种方案
+	 * @param {} roleId
+	 */
+	function loadAuthorizeMenuOne(roleId){
 		loader.baseParams.rootId = "";
 		loader.baseParams.roleId = roleId;
-		//loader.url = proxyUrl;
-		loader.load(root);
-		root.select();
-		
-		//tree.load();
+		loader.load(root, function(){
+			tree.expandAll();
+		});
+	}
+	/**
+	 * 第二种方案
+	 * @param {} roleId
+	 */
+	function loadAuthorizeMenuTwo(roleId){
+		//每次执行之前都应该把树的选中状态置空
+		var checkedNodes = tree.getChecked();
+		for(var m=0;m<checkedNodes.length;m++){
+			var node = checkedNodes[m];
+			if(node){
+				node.getUI().toggleCheck(false);
+				node.attributes.checked=false;
+			}
+		}
+		Ext.Ajax.request({
+			params:{roleId:roleId,flag:"authorize_menu"},
+			timeout:60000,
+			url:authorizeUrl,
+			success:function(response,options){
+				//Ext.MessageBox.hide();
+				var authorizeMenus = Ext.util.JSON.decode(response.responseText);
+				//Ext.Msg.alert("提示信息",authorizeMenus.length);
+				for(var i=0;i<authorizeMenus.length;i++){
+					var node = tree.getNodeById(authorizeMenus[i]);
+					if(node){
+						node.getUI().toggleCheck(true);
+						node.attributes.checked=true;
+					}
+					//alert(node.attributes.text);
+				}
+			},failure:function(response,options){
+				//Ext.Msg.hide();
+				Ext.Msg.alert("提示信息","数据加载失败！");
+				return;
+			}
+		});
 	}
 }
 
