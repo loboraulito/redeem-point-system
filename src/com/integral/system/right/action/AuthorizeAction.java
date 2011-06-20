@@ -156,11 +156,11 @@ public class AuthorizeAction extends BaseAction implements ServletRequestAware, 
 	    //授权界面上的三个列表标志
 	    String flag = request.getParameter("flag");
 	    if("authorize_user".equals(flag)){
-	        return authorizeUser();
+	        //return authorizeUser();
 	    }else if("authorize_menu".equals(flag)){
-	        return authorizeMenu();
+	        //return authorizeMenu();
 	    }else if("authorize_role".equals(flag)){
-	        return authorizeRole();
+	        //return authorizeRole();
 	    }
         return null;
 	}
@@ -170,7 +170,7 @@ public class AuthorizeAction extends BaseAction implements ServletRequestAware, 
 	 * @author: 代超
 	 * @update: 2011-6-19 代超[变更描述]
 	 */
-	public String authorizeUser(){
+	public String showAuthorizeUser(){
 		String roleId = request.getParameter("roleId");
 		int start = NumberUtils.toInt(request.getParameter("start"), 0);
         int limit = NumberUtils.toInt(request.getParameter("limit"), 50);
@@ -213,24 +213,25 @@ public class AuthorizeAction extends BaseAction implements ServletRequestAware, 
 	 * @author: 代超
 	 * @update: 2011-6-19 代超[变更描述]
 	 */
-	public String authorizeMenu(){
+	public String showAuthorizeMenu(){
 	    String roleId = request.getParameter("roleId");
         //父级菜单id
         String rootId = request.getParameter("rootId");
+        
+        PrintWriter out = null;
         //采用第一种方案，只需要下面一句即可
     	//list = this.authorizeService.showAuthorzieMenu(roleId, rootId);
         //采用第二种方案，需要下面这种方法
         List list = null;
-        if(roleId == null || "".equals(roleId)){
-        	list = this.authorizeService.getChildList(rootId);
-        }else{
-        	list = this.authorizeService.showAuthorzieMenu(roleId);
-        }
-        PrintWriter out = null;
         try {
-            out = super.getPrintWriter(request, response);
-            //out.print("{success:true,totalCount:"+list.size()+",data:"+Json.toJson(list)+"}");
-            out.print(Json.toJson(list));
+        	out = super.getPrintWriter(request, response);
+        	if(roleId == null || "".equals(roleId)){
+            	list = this.authorizeService.getChildList(rootId);
+            	out.print(Json.toJson(list));
+            }else{
+            	list = this.authorizeService.showAuthorzieMenu(roleId);
+            	out.print("{success:true,menus:"+Json.toJson(list)+"}");
+            }
         }
         catch (IOException e) {
             e.printStackTrace();
@@ -248,7 +249,7 @@ public class AuthorizeAction extends BaseAction implements ServletRequestAware, 
 	 * @author: 代超
 	 * @update: 2011-6-19 代超[变更描述]
 	 */
-	public String authorizeRole(){
+	public String showAuthorizeRole(){
 	    int start = NumberUtils.toInt(request.getParameter("start"), 0);
         int limit = NumberUtils.toInt(request.getParameter("limit"), 50);
         

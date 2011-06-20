@@ -4,16 +4,15 @@
  */
 function authorize(){
 	
-	var proxyUrl = path+"/right/authorizeMenu.action?method=authorizeMenu";
-	var proxyRoleUrl = path+"/right/authorizeRole.action?method=authorizeRole";
-	var proxyUserUrl = path+"/right/authorizeUser.action?method=authorizeUser";
-	var authorizeUrl = path+"/right/authorizeMenu.action?method=authorizeMenu";
+	var proxyUrl = path+"/right/authorizeMenu.action?method=showAuthorizeMenu";
+	var proxyRoleUrl = path+"/right/authorizeRole.action?method=showAuthorizeRole";
+	var proxyUserUrl = path+"/right/authorizeUser.action?method=showAuthorizeUser";
+	var authorizeUrl = path+"/right/authorizeMenu.action?method=showAuthorizeMenu";
 	
 	
 	var loader = new Ext.tree.TreeLoader({
 		url:proxyUrl,
-		baseAttrs:{uiProvider:Ext.ux.TreeCheckNodeUI},
-		baseParams:{flag:"authorize_menu"}
+		baseAttrs:{uiProvider:Ext.ux.TreeCheckNodeUI}
 	});
 	
 	var root = new Ext.tree.AsyncTreeNode({
@@ -45,6 +44,8 @@ function authorize(){
 		dropConfig: {appendOnly:true},
 		border:false//没有边框
 	});
+	
+	tree.on('beforeload',function(node){loader.url = proxyUrl});
 	
 	var treePanel = new Ext.Panel({
 		autoScroll : true,
@@ -327,13 +328,13 @@ function authorize(){
 	roleStore.load({
 		params:{start:0,limit:50,flag:"authorize_user"},
 		callback:function(){
-			/*
+			
 			loader.baseParams.rootId = "";
 			loader.baseParams.roleId = "";
 			loader.load(root, function(){
 				tree.expandAll();
 			});
-			*/
+			
 		}
 	});
 	/**
@@ -362,21 +363,23 @@ function authorize(){
 	 */
 	function loadAuthorizeMenuTwo(roleId){
 		//每次执行之前都应该把树的选中状态置空
-		var checkedNodes = tree.getChecked();
-		for(var m=0;m<checkedNodes.length;m++){
-			var node = checkedNodes[m];
-			if(node){
-				node.getUI().toggleCheck(false);
-				node.attributes.checked=false;
-			}
-		}
 		Ext.Ajax.request({
 			params:{roleId:roleId,flag:"authorize_menu"},
 			timeout:60000,
 			url:authorizeUrl,
 			success:function(response,options){
+				var checkedNodes = tree.getChecked();
+				for(var m=0;m<checkedNodes.length;m++){
+					var node = checkedNodes[m];
+					if(node){
+						node.getUI().toggleCheck(false);
+						node.attributes.checked=false;
+					}
+				}
 				//Ext.MessageBox.hide();
 				var authorizeMenus = Ext.util.JSON.decode(response.responseText);
+				authorizeMenus = authorizeMenus.menus;
+				alert(authorizeMenus);
 				//Ext.Msg.alert("提示信息",authorizeMenus.length);
 				for(var i=0;i<authorizeMenus.length;i++){
 					var node = tree.getNodeById(authorizeMenus[i]);
