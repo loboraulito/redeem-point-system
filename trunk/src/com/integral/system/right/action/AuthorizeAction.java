@@ -192,6 +192,22 @@ public class AuthorizeAction extends BaseAction implements ServletRequestAware, 
         return null;
 	}
 	/**
+	 * <p>第一种方案使用方法：
+	 * <code>
+	 * list = this.authorizeService.showAuthorzieMenu(roleId, rootId);
+	 * out.print(Json.toJson(list));
+	 * </code>
+	 * </p>
+	 * <p>第二种方案使用方法：
+	 * <code>
+	 * if(roleId == null || "".equals(roleId)){
+	 * 	list = this.authorizeService.getChildList(rootId);
+	 * }else{
+	 * 	list = this.authorizeService.showAuthorzieMenu(roleId);
+	 * }
+	 * out.print(Json.toJson(list));
+	 * </code>
+	 * </p>
 	 * <p>Discription:[角色菜单]</p>
 	 * @return
 	 * @author: 代超
@@ -201,16 +217,14 @@ public class AuthorizeAction extends BaseAction implements ServletRequestAware, 
 	    String roleId = request.getParameter("roleId");
         //父级菜单id
         String rootId = request.getParameter("rootId");
-        
-        List test = this.authorizeService.showAuthorzieMenu(roleId, rootId);
-        
+        //采用第一种方案，只需要下面一句即可
+    	//list = this.authorizeService.showAuthorzieMenu(roleId, rootId);
+        //采用第二种方案，需要下面这种方法
         List list = null;
-        if(rootId == null || "".equals(rootId) || "roleMenuTree".equals(rootId)){
-            //查询顶级菜单
-            list = this.authorizeService.showAuthorizeMenuInfo(null);
+        if(roleId == null || "".equals(roleId)){
+        	list = this.authorizeService.getChildList(rootId);
         }else{
-            //查询rootId下的第一级子菜单
-            list = this.authorizeService.showAuthorizeMenuInfo(rootId);
+        	list = this.authorizeService.showAuthorzieMenu(roleId);
         }
         PrintWriter out = null;
         try {
