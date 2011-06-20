@@ -6,9 +6,8 @@ package com.integral.system.right.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.lang.math.NumberUtils;
-
 import com.integral.common.dao.IBaseDao;
+import com.integral.system.menu.bean.ButtonInfo;
 import com.integral.system.menu.bean.MenuInfo;
 import com.integral.system.menu.bean.MenuTree;
 import com.integral.system.right.dao.IAuthorizeDao;
@@ -109,22 +108,141 @@ public class AuthorizeService implements IAuthorizeService {
     }
     @Override
     public List showAuthorzieMenu(String roleId, String rootId) {
-        String sql = "select model.menuId from RoleMenuInfo model where model.roleId = ?";
+        String sql = "select CONCAT('menu_',model.menuId) as menuId from RoleMenuInfo model where model.roleId = ?";
         //授权的菜单id
         List authorizeMenu = this.baseDao.queryByHQL(sql, new Object[]{roleId});
+        //授权的按钮ID
+        sql = "select CONCAT('button_',model.buttonId) as buttonId from RightInfo model where model.roleId = ?";
+        authorizeMenu.addAll(this.baseDao.queryByHQL(sql, new Object[]{roleId}));
         
-        String menuSql = "";
-        List rootMenu = null;
-        if(rootId == null || "".equals(rootId)){
-            menuSql = "FROM MenuInfo where parentMenuId is NULL ";
-            rootMenu = this.baseDao.queryByHQL(menuSql,null);
-        }else{
-            menuSql = "FROM MenuInfo where parentMenuId = ? ";
-            rootMenu = this.baseDao.queryByHQL(menuSql, new String[]{rootId});
-        }
-        
-        
+        return getChildList(authorizeMenu, rootId);
+    }
+    
+    public List showAuthorzieMenu(String roleId) {
+        String sql = "select CONCAT('menu_',model.menuId) as menuId from RoleMenuInfo model where model.roleId = ?";
+        //授权的菜单id
+        List authorizeMenu = this.baseDao.queryByHQL(sql, new Object[]{roleId});
+        //授权的按钮ID
+        sql = "select CONCAT('button_',model.buttonId) as buttonId from RightInfo model where model.roleId = ?";
+        authorizeMenu.addAll(this.baseDao.queryByHQL(sql, new Object[]{roleId}));
         
         return authorizeMenu;
     }
+    
+    /**
+     * 查找根节点为rootID的儿子节点
+     * @param menuList
+     * @param rootId
+     * @return
+     */
+    public List getChildList(String rootId){
+    	List childList = new ArrayList();
+    	String sql = "";
+    	List rootMenu = null;
+        if(rootId == null || "".equals(rootId)){
+        	sql = "FROM MenuInfo where parentMenuId is NULL ";
+            rootMenu = this.baseDao.queryByHQL(sql,null);
+        }else{
+        	sql = "FROM MenuInfo where parentMenuId = ? ";
+            rootMenu = this.baseDao.queryByHQL(sql, new String[]{rootId});
+        }
+    	
+    	for(int i=0,j=rootMenu.size();i<j;i++){
+    		MenuInfo menu = (MenuInfo) rootMenu.get(i);
+    		MenuTree tree = new MenuTree();
+    		if(rootId == null || menu.getParentMenuId() == null || menu.getParentMenuId().equals(rootId)){
+    			tree.setId("menu_"+menu.getMenuId());
+    			tree.setChecked(false);
+    			tree.setText(menu.getMenuName());
+    			tree.setCls("folder");
+    			tree.setSingleClickExpand(true);
+    			tree.setQtip(menu.getMenuName());
+    			tree.setLeaf(false);
+    			if("0".equals(menu.getIsLeave())){
+    				tree.setChildren(getChildList(menu.getMenuId()));
+    			}else{
+    				//button
+    				List buttons = this.baseDao.queryByHQL("FROM ButtonInfo where menuId = ?", new Object[]{menu.getMenuId()});
+    				List buttonChild = new ArrayList();
+    				for(int m=0,n=buttons.size();m<n;m++){
+    					ButtonInfo button = (ButtonInfo) buttons.get(m);
+    					MenuTree buttonTree = new MenuTree();
+    					buttonTree.setExpandable(false);
+    					buttonTree.setLeaf(true);
+    					buttonTree.setCls("file");
+    					buttonTree.setId("button_"+button.getButtonId());
+    	    			buttonTree.setChecked(false);
+    					buttonTree.setText(button.getButtonText());
+    					buttonChild.add(buttonTree);
+    				}
+    				tree.setChildren(buttonChild);
+    			}
+    			childList.add(tree);
+    		}
+    	}
+    	return childList;
+    }    
+    
+    
+    /**
+     * 查找根节点为rootID的儿子节点
+     * @param menuList
+     * @param rootId
+     * @return
+     */
+    public List getChildList(List authorizeMenu, String rootId){
+    	List childList = new ArrayList();
+    	String sql = "";
+    	List rootMenu = null;
+        if(rootId == null || "".equals(rootId)){
+        	sql = "FROM MenuInfo where parentMenuId is NULL ";
+            rootMenu = this.baseDao.queryByHQL(sql,null);
+        }else{
+        	sql = "FROM MenuInfo where parentMenuId = ? ";
+            rootMenu = this.baseDao.queryByHQL(sql, new String[]{rootId});
+        }
+    	
+    	for(int i=0,j=rootMenu.size();i<j;i++){
+    		MenuInfo menu = (MenuInfo) rootMenu.get(i);
+    		MenuTree tree = new MenuTree();
+    		if(rootId == null || menu.getParentMenuId() == null || menu.getParentMenuId().equals(rootId)){
+    			tree.setId("menu_"+menu.getMenuId());
+    			if(authorizeMenu.contains(tree.getId())){
+    				tree.setChecked(true);
+    			}else{
+    				tree.setChecked(false);
+    			}
+    			tree.setText(menu.getMenuName());
+    			tree.setCls("folder");
+    			tree.setSingleClickExpand(true);
+    			tree.setQtip(menu.getMenuName());
+    			tree.setLeaf(false);
+    			if("0".equals(menu.getIsLeave())){
+    				tree.setChildren(getChildList(authorizeMenu, menu.getMenuId()));
+    			}else{
+    				//button
+    				List buttons = this.baseDao.queryByHQL("FROM ButtonInfo where menuId = ?", new Object[]{menu.getMenuId()});
+    				List buttonChild = new ArrayList();
+    				for(int m=0,n=buttons.size();m<n;m++){
+    					ButtonInfo button = (ButtonInfo) buttons.get(m);
+    					MenuTree buttonTree = new MenuTree();
+    					buttonTree.setExpandable(false);
+    					buttonTree.setLeaf(true);
+    					buttonTree.setCls("file");
+    					buttonTree.setId("button_"+button.getButtonId());
+    					if(authorizeMenu.contains(buttonTree.getId())){
+    						buttonTree.setChecked(true);
+    	    			}else{
+    	    				buttonTree.setChecked(false);
+    	    			}
+    					buttonTree.setText(button.getButtonText());
+    					buttonChild.add(buttonTree);
+    				}
+    				tree.setChildren(buttonChild);
+    			}
+    			childList.add(tree);
+    		}
+    	}
+    	return childList;
+    }    
 }
