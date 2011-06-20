@@ -17,15 +17,15 @@
 			 <result name="success">/jsp/system/right/authorize.jsp</result>
 			 <result name="input">/index.jsp</result>
 		</action>
-		<action name="authorizeUser" class="com.integral.system.right.action.AuthorizeAction" method="authorizeUser">
+		<action name="authorizeUser" class="com.integral.system.right.action.AuthorizeAction" method="showAuthorizeUser">
 			 <result name="success">/jsp/system/right/authorize.jsp</result>
 			 <result name="input">/index.jsp</result>
 		</action>
-		<action name="authorizeMenu" class="com.integral.system.right.action.AuthorizeAction" method="authorizeMenu">
+		<action name="authorizeMenu" class="com.integral.system.right.action.AuthorizeAction" method="showAuthorizeMenu">
 			 <result name="success">/jsp/system/right/authorize.jsp</result>
 			 <result name="input">/index.jsp</result>
 		</action>
-		<action name="authorizeRole" class="com.integral.system.right.action.AuthorizeAction" method="authorizeRole">
+		<action name="authorizeRole" class="com.integral.system.right.action.AuthorizeAction" method="showAuthorizeRole">
 			 <result name="success">/jsp/system/right/authorize.jsp</result>
 			 <result name="input">/index.jsp</result>
 		</action>
