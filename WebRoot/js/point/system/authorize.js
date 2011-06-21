@@ -130,7 +130,7 @@ function authorize(){
 		        //读取角色用户
 		        loadAuthorizeUser(roleId);
 		        //loadAuthorizeMenuOne(roleId);
-		        loadAuthorizeMenuTwo(roleId);
+		        //loadAuthorizeMenuTwo(roleId);
 			}
 		},
 		bbar:new Ext.PagingToolbar({
@@ -343,7 +343,10 @@ function authorize(){
 	 */
 	function loadAuthorizeUser(roleId){
 		userStore.load({
-			params:{start:0,limit:50,roleId:roleId,flag:"authorize_user"}
+			params:{start:0,limit:50,roleId:roleId,flag:"authorize_user"},
+			callback:function(){
+				loadAuthorizeMenuTwo(roleId);
+			}
 		});
 	}
 	/**
@@ -378,6 +381,7 @@ function authorize(){
 				}
 				//Ext.MessageBox.hide();
 				var authorizeMenus = Ext.util.JSON.decode(response.responseText);
+				alert(authorizeMenus);
 				authorizeMenus = authorizeMenus.menus;
 				alert(authorizeMenus);
 				//Ext.Msg.alert("提示信息",authorizeMenus.length);
