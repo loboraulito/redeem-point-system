@@ -394,6 +394,7 @@ public class AuthorizeAction extends BaseAction implements ServletRequestAware, 
                 this.roleMenuService.saveOrUpdateAll(menus);
                 this.authorizeService.saveOrUpdateAll(buttons);
             }
+            out.print("{success:true}");
         } catch (Exception e) {
             status.setRollbackOnly();
             out.print("{success:false}");
