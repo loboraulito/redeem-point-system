@@ -4,7 +4,7 @@ Source Host: localhost
 Source Database: redeempoint
 Target Host: localhost
 Target Database: redeempoint
-Date: 2011/6/12 17:37:25
+Date: 6/20/2011 7:29:01 PM
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -100,7 +100,7 @@ CREATE TABLE `supplier_role` (
 INSERT INTO `employee_info` VALUES ('1', '1', 'swpigris81', '812877', null, null, null, null, null, null, null);
 INSERT INTO `employee_info` VALUES ('2', '2', 'admin', 'admin', null, null, null, null, null, null, null);
 INSERT INTO `employee_info` VALUES ('3', '3', 'user', 'user', null, null, null, null, null, null, null);
-INSERT INTO `menu_info` VALUES ('1', '账本管理', '/balance/accountbalance.action?method=begin', null, '2', '1');
+INSERT INTO `menu_info` VALUES ('1', '账本管理', '/balance/accountbalance.action?method=begin', null, '2', '0');
 INSERT INTO `menu_info` VALUES ('2', '业务菜单', '/main.action', null, null, '0');
 INSERT INTO `menu_info` VALUES ('3', '电子地图', '/map/map.action?method=begin', null, '2', '0');
 INSERT INTO `menu_info` VALUES ('4', '测试1', '/test.action', null, '1', '1');
@@ -108,16 +108,34 @@ INSERT INTO `menu_info` VALUES ('5', '测试2', '/test1.action', null, '3', '1')
 INSERT INTO `menu_info` VALUES ('6', '菜单管理', '/menu/beginMenuManage.action?method=begin', null, '3', '1');
 INSERT INTO `menu_info` VALUES ('7', '用户管理', '/user/userManage.action?method=begin', null, '3', '1');
 INSERT INTO `menu_info` VALUES ('8', '角色管理', '/role/roleManage.action?method=begin', null, '3', '1');
+INSERT INTO `menu_info` VALUES ('9', '授权管理', '/right/authorize.action?method=begin', null, '3', '1');
 INSERT INTO `menubutton` VALUES ('1', 'menu_list', '菜单列表', '6', '/menu/menuManage.action?method=menuList');
+INSERT INTO `menubutton` VALUES ('10', 'authorize_menu', '授权树', '9', '/right/authorizeMenu.action?method=showAuthorizeMenu');
+INSERT INTO `menubutton` VALUES ('11', 'authorize_user', '授权用户', '9', '/right/authorizeUser.action?method=showAuthorizeUser');
 INSERT INTO `menubutton` VALUES ('2', 'menu_addMenu', '添加菜单', '6', '/menu/menuManage.action?method=addMenu');
 INSERT INTO `menubutton` VALUES ('3', 'menu_editMenu', '修改菜单', '6', '/menu/menuManage.action?method=editMenu');
 INSERT INTO `menubutton` VALUES ('4', 'user_list', '用户列表', '7', '/user/userList.action?method=userManageList');
 INSERT INTO `menubutton` VALUES ('5', 'role_list', '角色列表', '8', '/role/roleList.action?method=roleManageList');
+INSERT INTO `menubutton` VALUES ('6', 'authorizeForUser', '为用户授权', '9', '/right/authorizeUser.action?method=authorizeUser');
+INSERT INTO `menubutton` VALUES ('7', 'authorize_rught_menu', '为角色授予菜单', '9', '/right/authorizeMenu.action?method=authorizeMenu');
+INSERT INTO `menubutton` VALUES ('8', 'authorize_list', '授权列表', '9', '/right/authorizeList.action?method=authorizeList');
+INSERT INTO `menubutton` VALUES ('9', 'authorize_role', '授权角色列表', '9', '/right/authorizeRole.action?method=showAuthorizeRole');
 INSERT INTO `right_info` VALUES ('1', '测试权限1', '2', '6', '1');
 INSERT INTO `right_info` VALUES ('10', '111', '2', '8', '5');
+INSERT INTO `right_info` VALUES ('11', '11', '2', '9', '6');
+INSERT INTO `right_info` VALUES ('12', '11', '2', '9', '7');
+INSERT INTO `right_info` VALUES ('13', '111', '1', '9', '7');
+INSERT INTO `right_info` VALUES ('14', '111', '1', '9', '6');
+INSERT INTO `right_info` VALUES ('15', '111', '1', '9', '8');
+INSERT INTO `right_info` VALUES ('16', '111', '2', '9', '8');
+INSERT INTO `right_info` VALUES ('17', '111', '2', '9', '9');
+INSERT INTO `right_info` VALUES ('18', '111', '2', '9', '10');
+INSERT INTO `right_info` VALUES ('19', '111', '2', '9', '11');
 INSERT INTO `right_info` VALUES ('2', '测试权限2', '2', '6', '2');
+INSERT INTO `right_info` VALUES ('20', '111', '1', '9', '9');
+INSERT INTO `right_info` VALUES ('21', '111', '1', '9', '10');
+INSERT INTO `right_info` VALUES ('22', '111', '1', '9', '11');
 INSERT INTO `right_info` VALUES ('3', '测试权限3', '2', '6', '3');
-INSERT INTO `right_info` VALUES ('4', '1111', '1', '6', '1');
 INSERT INTO `right_info` VALUES ('5', '112', '1', '6', '2');
 INSERT INTO `right_info` VALUES ('6', '114', '1', '6', '3');
 INSERT INTO `right_info` VALUES ('7', '1111', '1', '7', '4');
@@ -135,6 +153,8 @@ INSERT INTO `rolemenu` VALUES ('14', '1', '6');
 INSERT INTO `rolemenu` VALUES ('15', '1', '7');
 INSERT INTO `rolemenu` VALUES ('16', '1', '8');
 INSERT INTO `rolemenu` VALUES ('17', '2', '8');
+INSERT INTO `rolemenu` VALUES ('18', '2', '9');
+INSERT INTO `rolemenu` VALUES ('19', '1', '9');
 INSERT INTO `rolemenu` VALUES ('2', '1', '2');
 INSERT INTO `rolemenu` VALUES ('3', '1', '3');
 INSERT INTO `rolemenu` VALUES ('4', '2', '2');
