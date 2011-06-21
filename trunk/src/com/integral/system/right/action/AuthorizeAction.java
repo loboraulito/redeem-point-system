@@ -373,7 +373,7 @@ public class AuthorizeAction extends BaseAction implements ServletRequestAware, 
             this.authorizeService.deleteAll(buttonRight);
             //第二步：解析分配的权限菜单，按钮
             //如果为空，则不给该角色分配新的菜单
-            if(rightId!=null && "".equals(rightId)){
+            if(rightId!=null && !"".equals(rightId)){
                 List buttons = new ArrayList();
                 List menus = new ArrayList();
                 String [] right = rightId.split(",");
@@ -382,13 +382,15 @@ public class AuthorizeAction extends BaseAction implements ServletRequestAware, 
                     RoleMenuInfo menuInfo = new RoleMenuInfo();
                     if(r.indexOf("button")>=0){
                         //按钮权限
-                        rightInfo.setButtonId(r);
+                        rightInfo.setButtonId(r.replace("button_", ""));
+                        rightInfo.setRoleId(roleId);
+                        buttons.add(rightInfo);
                     }else if(r.indexOf("menu")>=0){
                         //菜单权限
-                        menuInfo.setMenuId(r);
+                        menuInfo.setMenuId(r.replace("menu_", ""));
+                        menuInfo.setRoleId(roleId);
+                        menus.add(menuInfo);
                     }
-                    buttons.add(rightInfo);
-                    menus.add(menuInfo);
                 }
                 //存储数据
                 this.roleMenuService.saveOrUpdateAll(menus);

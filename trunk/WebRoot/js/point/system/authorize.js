@@ -79,8 +79,7 @@ function authorize(){
 		proxy:new Ext.data.HttpProxy({
 			url:proxyRoleUrl
 		}),
-		reader:roleReader,
-		baseParams:{flag:"authorize_role"}
+		reader:roleReader
 	});
 	
 	/**
@@ -354,7 +353,9 @@ function authorize(){
 						        var roleId = gridSelection[0].get("roleId");
 						        //获取所有选中节点的ID,组合成array
 						        var checkedNode = tree.getChecked("id");
-						        alert(Ext.getCmp("authorize_rught_menu").handlerUrl);
+						        checkedNode = checkedNode.join(",");
+						        var url = Ext.getCmp("authorize_rught_menu").handlerUrl;
+						        saveAuthorizeRoleMenu(url, roleId, checkedNode);
 	        				}
 	        			}],
         				items:[treePanel]        				
@@ -375,8 +376,10 @@ function authorize(){
 				for(var i=0;i<buttonRecords.length;i++){
 					//alert(buttonRecords[i].get("buttonName"));
 					var button = Ext.getCmp(buttonRecords[i].get("buttonName"));
+					var buttonText = buttonRecords[i].get("buttonText");
 					if(button){
 						//button.hidden = false;
+						button.setText(buttonText);
 						button.handlerUrl = buttonRecords[i].get("buttonUrl");
 						button.show();
 					}
@@ -391,8 +394,13 @@ function authorize(){
 	function loadAuthorizeRole(){
 		roleStore.load({
 			params:{start:0,limit:50,flag:"authorize_user"},
-			callback:function(){
-				showRightButtonForCurrentUser();
+			callback:function(record, option, success){
+				//alert(success);
+				if(success){
+					showRightButtonForCurrentUser();
+				}else{
+					loadAuthorizeRole();
+				}
 				/*
 				loader.load(tree.root, function(){
 					tree.expandAll();
@@ -420,7 +428,10 @@ function authorize(){
 	function refreshTree(){
 		loader.baseParams.rootId = "";
 		loader.baseParams.roleId = "";
-		tree.expandAll();
+		loader.load(root, function(){
+			tree.expandAll();
+		});
+		//tree.expandAll();
 	}
 	
 	/**
@@ -456,18 +467,56 @@ function authorize(){
 				//Ext.MessageBox.hide();
 				var authorizeMenus = Ext.util.JSON.decode(response.responseText);
 				authorizeMenus = authorizeMenus.menus;
-				//Ext.Msg.alert("提示信息",authorizeMenus.length);
+				//在设置树结构的选中状态时，必须取消级联选中
+				tree.checkModel = "multiple";
 				for(var i=0;i<authorizeMenus.length;i++){
 					var node = tree.getNodeById(authorizeMenus[i]);
 					if(node){
+						//这样设置会使得树变成级联的
 						node.getUI().toggleCheck(true);
 						node.attributes.checked=true;
 					}
-					//alert(node.attributes.text);
 				}
+				//在完成数节点的选中状态后，恢复树节点的级联选中
+				tree.checkModel = "cascade";
 			},failure:function(response,options){
 				//Ext.Msg.hide();
 				Ext.Msg.alert("提示信息","数据加载失败！");
+				return;
+			}
+		});
+	}
+	/**
+	 * 保存角色菜单权限
+	 * @param {} url
+	 * @param {} roleId
+	 * @param {} menuIds
+	 */
+	function saveAuthorizeRoleMenu(url, roleId, menuIds){
+		Ext.MessageBox.show({
+			msg:"正在保存角色权限信息，请稍候...",
+			progressText:"正在保存角色权限信息，请稍候...",
+			width:300,
+			wait:true,
+			waitConfig: {interval:200},
+			icon:Ext.Msg.INFO
+		});
+		Ext.Ajax.request({
+			params:{roleId:roleId,rightId:menuIds},
+			timeout:60000,
+			url:path+""+url,
+			success:function(response,options){
+				Ext.Msg.hide();
+				Ext.Msg.show({
+					title:"提示信息",
+					msg:"数据保存成功！",
+					width:300,
+					icon:Ext.Msg.INFO,
+					buttons: Ext.Msg.OK
+				});
+			},failure:function(response,options){
+				Ext.Msg.hide();
+				Ext.Msg.alert("提示信息","数据保存失败！");
 				return;
 			}
 		});
