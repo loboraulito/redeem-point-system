@@ -1,5 +1,6 @@
 package com.integral.system.role.dao;
 
+import java.util.Collection;
 import java.util.List;
 
 /** 
@@ -10,5 +11,17 @@ import java.util.List;
 public interface IRoleMenuDao {
     public List queryBySQL(String sql, String[] params);
     
-    public List queryByHQL(final String hql, final String[] params);
+    public List queryByHQL(String hql, String[] params);
+    /**
+     * 批量删除
+     * @param entities
+     */
+    public void deleteAll(Collection entities);
+    
+    
+    /**
+     * 批量新增修改
+     * @param entities
+     */
+    public void saveOrUpdateAll(Collection entities);
 }

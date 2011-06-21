@@ -1,5 +1,6 @@
 package com.integral.system.role.service;
 
+import java.util.Collection;
 import java.util.List;
 
 /** 
@@ -49,4 +50,15 @@ public interface IRoleMenuService {
      * @update 2011-5-28 代超[变更描述]
      */
     public List getChildMenuMap(String role, String rootId);
+    /**
+     * 批量删除
+     * @param entities
+     */
+    public void deleteAll(Collection entities);
+    
+    /**
+     * 批量新增修改
+     * @param entities
+     */
+    public void saveOrUpdateAll(Collection entities);
 }

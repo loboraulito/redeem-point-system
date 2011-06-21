@@ -12,7 +12,12 @@ function authorize(){
 	
 	var loader = new Ext.tree.TreeLoader({
 		url:proxyUrl,
-		baseAttrs:{uiProvider:Ext.ux.TreeCheckNodeUI}
+		baseAttrs:{uiProvider:Ext.ux.TreeCheckNodeUI},
+		listeners:{
+			"loadexception":function(loader, node, response){
+				refreshTree();
+			}
+		}
 	});
 	
 	var root = new Ext.tree.AsyncTreeNode({
@@ -100,7 +105,10 @@ function authorize(){
 		dataIndex:"comment",
 		width:150
 	}]);
-	
+	var loadMask = new Ext.LoadMask(Ext.getBody(),{
+		msg:"please wait...",
+		removeMask:true
+	});
 	/**
 	 * roleGrid: 角色展示列表
 	 */
@@ -131,6 +139,13 @@ function authorize(){
 		        loadAuthorizeUser(roleId);
 		        //loadAuthorizeMenuOne(roleId);
 		        //loadAuthorizeMenuTwo(roleId);
+			},
+			"beforerender":function(grid){
+				loadMask.show();
+			},
+			"render":function(grid){
+				loadAuthorizeRole();
+				loadMask.hide();
 			}
 		},
 		bbar:new Ext.PagingToolbar({
@@ -318,25 +333,51 @@ function authorize(){
         				title:"角色菜单",
         				layout:"fit",
         				border:false,
-        				items:[treePanel]
+        				tbar:[{
+	        				text:"刷新权限树",
+	        				iconCls:"table_refresh",
+	        				handler:function(){
+	        					refreshTree();
+	        				}
+	        			},"-",{
+	        				text:"保存角色权限",
+	        				iconCls:"table_save",
+	        				handler:function(){
+	        					var gridSelectionModel = roleGrid.getSelectionModel();
+								var gridSelection = gridSelectionModel.getSelections();
+								if(gridSelection.length != 1){
+						            Ext.MessageBox.alert('提示','请选择一个角色，再勾选该角色的权限菜单！');
+						            return false;
+						        }
+						        var roleId = gridSelection[0].get("roleId");
+						        //获取所有选中节点的ID,组合成array
+						        var checkedNode = tree.getChecked("id");
+						        alert(checkedNode)
+	        				}
+	        			}],
+        				items:[treePanel]        				
         			}]
         		}]
         	}]
         }]
 	});
+	/**
+	 * 读取权限角色
+	 */
+	function loadAuthorizeRole(){
+		roleStore.load({
+			params:{start:0,limit:50,flag:"authorize_user"},
+			callback:function(){
+				refreshTree();
+				/*
+				loader.load(tree.root, function(){
+					tree.expandAll();
+				});
+				*/
+			}
+		});
+	}
 	
-	roleStore.load({
-		params:{start:0,limit:50,flag:"authorize_user"},
-		callback:function(){
-			
-			loader.baseParams.rootId = "";
-			loader.baseParams.roleId = "";
-			loader.load(root, function(){
-				tree.expandAll();
-			});
-			
-		}
-	});
 	/**
 	 * 读取角色用户
 	 * @param {} roleId：角色ID
@@ -349,6 +390,15 @@ function authorize(){
 			}
 		});
 	}
+	/**
+	 * 树形结构刷新
+	 */
+	function refreshTree(){
+		loader.baseParams.rootId = "";
+		loader.baseParams.roleId = "";
+		tree.expandAll();
+	}
+	
 	/**
 	 * 第一种方案
 	 * @param {} roleId

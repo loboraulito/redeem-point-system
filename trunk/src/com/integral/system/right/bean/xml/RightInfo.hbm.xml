@@ -3,7 +3,7 @@
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <!-- Generated 2011-6-5 13:25:58 by Hibernate Tools 3.3.0.GA -->
 <hibernate-mapping>
-    <class name="com.integral.system.right.bean.RightInfo" table="right_info">
+    <class name="com.integral.system.right.bean.RightInfo" table="right_info" dynamic-insert="true" dynamic-update="true">
         <id name="rightId" type="java.lang.String">
             <column name="right_id" />
             <generator class="uuid.hex" />

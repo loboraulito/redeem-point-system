@@ -1,5 +1,6 @@
 package com.integral.system.role.dao.impl;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
@@ -50,5 +51,26 @@ public class RoleMenuDao extends HibernateDaoSupport implements IRoleMenuDao {
                 return query.list();
             }
         });
+    }
+    
+    public void deleteAll(Collection entities){
+		log.debug("Hibernate delete all entities");
+		try {
+            getHibernateTemplate().deleteAll(entities);
+        } catch (RuntimeException re) {
+            log.error("delete all entities error", re);
+            throw re;
+        }
+	}
+
+    @Override
+    public void saveOrUpdateAll(Collection entities) {
+        log.debug("Hibernate save or update all entities");
+        try {
+            getHibernateTemplate().saveOrUpdateAll(entities);
+        } catch (RuntimeException re) {
+            log.error("save or update all entities error", re);
+            throw re;
+        }
     }
 }

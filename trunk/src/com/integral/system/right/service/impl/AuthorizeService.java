@@ -4,6 +4,7 @@
 package com.integral.system.right.service.impl;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import com.integral.common.dao.IBaseDao;
@@ -245,4 +246,23 @@ public class AuthorizeService implements IAuthorizeService {
     	}
     	return childList;
     }    
+    
+    public List findAuthorizeMenu(String roleId){
+        String hql = "from RoleMenuInfo model where model.roleId= ?";
+        return this.baseDao.queryByHQL(hql, new Object[]{roleId});
+    }
+    
+    public List findAuthorizeButton(String roleId){
+        String hql = "from RightInfo model where model.roleId= ?";
+        return this.baseDao.queryByHQL(hql, new Object[]{roleId});
+    }
+    
+    public void deleteAll(Collection entities){
+        this.authorizeDao.deleteAll(entities);
+    }
+    
+    @Override
+    public void saveOrUpdateAll(Collection entities) {
+        this.authorizeDao.saveOrUpdateAll(entities);
+    }
 }

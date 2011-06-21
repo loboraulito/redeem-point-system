@@ -3,7 +3,7 @@
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <!-- Generated May 18, 2011 4:59:23 PM by Hibernate Tools 3.3.0.GA -->
 <hibernate-mapping>
-    <class name="com.integral.system.role.bean.RoleMenuInfo" table="rolemenu">
+    <class name="com.integral.system.role.bean.RoleMenuInfo" table="rolemenu" dynamic-insert="true" dynamic-update="true">
         <id name="id" type="java.lang.String">
             <column name="ID" />
             <generator class="uuid.hex" />

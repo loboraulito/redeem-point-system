@@ -3,7 +3,7 @@
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <!-- Generated May 18, 2011 4:57:55 PM by Hibernate Tools 3.3.0.GA -->
 <hibernate-mapping>
-    <class name="com.integral.system.menu.bean.MenuInfo" table="menu_info">
+    <class name="com.integral.system.menu.bean.MenuInfo" table="menu_info" dynamic-insert="true" dynamic-update="true">
         <id name="menuId" type="java.lang.String">
             <column name="menu_id" />
             <generator class="uuid.hex" />
