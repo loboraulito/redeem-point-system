@@ -22,7 +22,7 @@ public class RightDao extends HibernateDaoSupport implements IRightDao {
     public List getButtonByRight(String menuId,String roleId){
         log.debug("finding all right button");
         try {
-            String queryString = "from ButtonInfo as model, RightInfo modelr WHERE modelr.buttonId = model.buttonId AND modelr.roleId = ? AND modelr.menuId = ?";
+            String queryString = "from ButtonInfo as model, RightInfo modelr WHERE modelr.buttonId = model.buttonId AND modelr.roleId = ? AND model.menuId = ?";
             return getHibernateTemplate().find(queryString,roleId,menuId);
         } catch (RuntimeException re) {
             log.error("find all right button failed", re);
