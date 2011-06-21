@@ -354,7 +354,7 @@ function authorize(){
 						        var roleId = gridSelection[0].get("roleId");
 						        //获取所有选中节点的ID,组合成array
 						        var checkedNode = tree.getChecked("id");
-						        alert(checkedNode)
+						        alert(Ext.getCmp("authorize_rught_menu").handlerUrl);
 	        				}
 	        			}],
         				items:[treePanel]        				
@@ -367,9 +367,24 @@ function authorize(){
 	/**
 	 * 按钮存储器，尚未执行查询
 	 */
-	var buttonStore = buttonRight();
-	
-	
+	function showRightButtonForCurrentUser(){
+		var buttonStore = buttonRight();
+		buttonStore.load({
+			params:{roleId:userRole,menuId:parent.menuId},
+			callback:function(buttonRecords,buttonOptions,buttonSuccess){
+				for(var i=0;i<buttonRecords.length;i++){
+					//alert(buttonRecords[i].get("buttonName"));
+					var button = Ext.getCmp(buttonRecords[i].get("buttonName"));
+					if(button){
+						//button.hidden = false;
+						button.handlerUrl = buttonRecords[i].get("buttonUrl");
+						button.show();
+					}
+				}
+				refreshTree();
+			}
+		});
+	}
 	/**
 	 * 读取权限角色
 	 */
@@ -377,7 +392,7 @@ function authorize(){
 		roleStore.load({
 			params:{start:0,limit:50,flag:"authorize_user"},
 			callback:function(){
-				refreshTree();
+				showRightButtonForCurrentUser();
 				/*
 				loader.load(tree.root, function(){
 					tree.expandAll();
