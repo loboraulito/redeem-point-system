@@ -3,6 +3,7 @@
  */
 package com.integral.system.right.service;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -66,4 +67,27 @@ public interface IAuthorizeService {
      * @return
      */
     public List showAuthorzieMenu(String roleId);
+    /**
+     * 权限分配第一步,查询当前已分配的权限菜单
+     * @param roleId
+     * @return
+     */
+    public List findAuthorizeMenu(String roleId);
+    
+    /**
+     * 权限分配第一步,查询当前已分配的权限按钮
+     * @param roleId
+     * @return
+     */
+    public List findAuthorizeButton(String roleId);
+    /**
+     * 批量删除权限按钮
+     * @param entities
+     */
+    public void deleteAll(Collection entities);
+    /**
+     * 批量新增修改
+     * @param entities
+     */
+    public void saveOrUpdateAll(Collection entities);
 }

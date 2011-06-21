@@ -92,13 +92,15 @@
 		</property>
 		<property name="hibernateProperties">
 			<props>
-				<prop key="hibernate.dialect">
-					org.hibernate.dialect.MySQLDialect
-				</prop>
+				<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
 				<prop key="hibernate.show_sql">false</prop>
 				<!-- 显示格式化的sql语句 -->
 				<!-- <prop key="hibernate.format_sql">true</prop> -->
 				<prop key="hibernate.autoReconnect">true</prop>
+				<!-- Fetch Size 是设定JDBC的Statement读取数据的时候每次从数据库中取出的记录条数
+					设置Fetch Size设置为：30、50，性能会有明显提升，如果继续增大，超出100，性能提升不明显，反而会消耗内存。
+				 -->
+				<prop key="hibernate.jdbc.batch_size">50</prop>
 			</props>
 		</property>
 	</bean>

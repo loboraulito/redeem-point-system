@@ -1,5 +1,6 @@
 package com.integral.system.role.service.impl;
 
+import java.util.Collection;
 import java.util.List;
 
 import com.integral.system.menu.dao.IMenuDao;
@@ -79,6 +80,16 @@ public class RoleMenuService implements IRoleMenuService {
         String sql = "FROM MenuInfo as menu , RoleMenuInfo rolemenu WHERE menu.menuId =  rolemenu.menuId AND menu.parentMenuId = ? AND rolemenu.roleId =  ? ";
         String param[] = new String[]{rootId, role};
         return this.roleMenuDao.queryByHQL(sql, param);
+    }
+    
+    @Override
+    public void deleteAll(Collection entities) {
+        this.roleMenuDao.deleteAll(entities);
+    }
+
+    @Override
+    public void saveOrUpdateAll(Collection entities) {
+        this.roleMenuDao.saveOrUpdateAll(entities);
     }
 
     /**
@@ -195,5 +206,6 @@ public class RoleMenuService implements IRoleMenuService {
     public void setUserDao(IUserDao userDao) {
         this.userDao = userDao;
     }
+
 
 }

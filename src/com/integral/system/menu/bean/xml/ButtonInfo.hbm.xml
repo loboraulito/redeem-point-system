@@ -3,7 +3,7 @@
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <!-- Generated 2011-6-5 15:28:30 by Hibernate Tools 3.3.0.GA -->
 <hibernate-mapping>
-    <class name="com.integral.system.menu.bean.ButtonInfo" table="menubutton">
+    <class name="com.integral.system.menu.bean.ButtonInfo" table="menubutton" dynamic-insert="true" dynamic-update="true">
         <id name="buttonId" type="java.lang.String">
             <column name="button_id" />
             <generator class="assigned" />

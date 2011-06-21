@@ -150,3 +150,12 @@ if(nodes && nodes.length){
 }
 这样通过获取已选择的节点，用程序取消选择状态
 反之可以设置未选中节点选中状态
+
+2011/06/21
+mysql的字段名如果为保留字或者其他的如（PHONE.1）类型的，在查询的时候使用：select `PHONE.1` from table;
+``:键盘1的左边（Esc按钮下面）
+
+Hibernate生成动态语句SQL的开销很小，所以不会影响应用的运行性能。如果表中包含许多字段，建议把dynmaic-insert和dynmaic-update属性设置为true。
+这样，在insert和update语句中就只包含需要插入或者更新的字段，这样可以节省数据库执行SQL语句的时间，从而提高应用的运行性能。
+
+使用hibernate的update方法，会自动更新全部字段。

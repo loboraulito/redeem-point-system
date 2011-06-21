@@ -30,5 +30,7 @@
 		<property name="roleMenuService" ref="roleMenuService"></property>
 		<property name="userService" ref="userService"></property>
 		<property name="roleService" ref="roleService"></property>
+		<!-- 事务控制 -->
+		<property name="transactionManager" ref="transactionManager"></property>
 	</bean>
 </beans>
