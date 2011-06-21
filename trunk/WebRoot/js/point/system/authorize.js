@@ -381,9 +381,7 @@ function authorize(){
 				}
 				//Ext.MessageBox.hide();
 				var authorizeMenus = Ext.util.JSON.decode(response.responseText);
-				alert(authorizeMenus);
 				authorizeMenus = authorizeMenus.menus;
-				alert(authorizeMenus);
 				//Ext.Msg.alert("提示信息",authorizeMenus.length);
 				for(var i=0;i<authorizeMenus.length;i++){
 					var node = tree.getNodeById(authorizeMenus[i]);
