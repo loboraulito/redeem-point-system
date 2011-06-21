@@ -50,7 +50,8 @@ public class RightService implements IRightService {
     }
     
     public List<String> getButtonRoleNameByButton(String buttonId){
-        String sql = "SELECT role_info.role_name FROM menubutton , right_info , role_info WHERE menubutton.button_id =  right_info.button_id AND right_info.role_id =  role_info.role_id AND menubutton.menu_id =  right_info.menu_id AND menubutton.button_id =  ? ";
+        //String sql = "SELECT role_info.role_name FROM menubutton , right_info , role_info WHERE menubutton.button_id =  right_info.button_id AND right_info.role_id =  role_info.role_id AND menubutton.menu_id =  right_info.menu_id AND menubutton.button_id =  ? ";
+        String sql = "SELECT role_info.role_name FROM menubutton , right_info , role_info WHERE menubutton.button_id =  right_info.button_id AND right_info.role_id =  role_info.role_id AND menubutton.button_id =  ? ";
         String []params = new String[]{buttonId};
         return this.baseDao.queryBySQL(sql, params);
     }
