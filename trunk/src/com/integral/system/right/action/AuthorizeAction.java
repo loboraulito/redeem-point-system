@@ -349,7 +349,7 @@ public class AuthorizeAction extends BaseAction implements ServletRequestAware, 
      * 
      * @return
      */
-    public String updateAuthorizeRomeMenu() {
+    public String updateAuthorizeRoleMenu() {
         // 角色ID
         String roleId = request.getParameter("roleId");
         // 权限菜单ID

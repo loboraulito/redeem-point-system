@@ -342,6 +342,8 @@ function authorize(){
 	        			},"-",{
 	        				text:"保存角色权限",
 	        				iconCls:"table_save",
+	        				id:"authorize_rught_menu",
+	        				hidden:true,
 	        				handler:function(){
 	        					var gridSelectionModel = roleGrid.getSelectionModel();
 								var gridSelection = gridSelectionModel.getSelections();
@@ -361,6 +363,13 @@ function authorize(){
         	}]
         }]
 	});
+	
+	/**
+	 * 按钮存储器，尚未执行查询
+	 */
+	var buttonStore = buttonRight();
+	
+	
 	/**
 	 * 读取权限角色
 	 */

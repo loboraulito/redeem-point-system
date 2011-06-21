@@ -29,5 +29,9 @@
 			 <result name="success">/jsp/system/right/authorize.jsp</result>
 			 <result name="input">/index.jsp</result>
 		</action>
+		<action name="authorizeRoleMenu" class="com.integral.system.right.action.AuthorizeAction" method="updateAuthorizeRoleMenu">
+			 <result name="success">/jsp/system/right/authorize.jsp</result>
+			 <result name="input">/index.jsp</result>
+		</action>
 	</package>
 </struts>
