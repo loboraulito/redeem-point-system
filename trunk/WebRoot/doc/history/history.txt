@@ -163,3 +163,14 @@ Hibernate生成动态语句SQL的开销很小，所以不会影响应用的运�
 2011/06/22
 授权角色菜单完成。
 下一步，准备完成菜单的增删改查功能。
+
+SELECT
+menu_info.menu_id,
+menu_info.menu_name,
+menu_info.page_path,
+menu_info.menu_level,
+menu_info.parent_menu,
+menu_info.is_leave,
+(select menu.menu_name menuname from menu_info menu where menu_info.parent_menu = menu.menu_id)
+FROM
+menu_info
