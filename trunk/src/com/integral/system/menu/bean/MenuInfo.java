@@ -14,7 +14,24 @@ public class MenuInfo {
     private String pagePath;
     private String menuLevel;
     private String parentMenuId;
+    private String parentMenuName;
     private String isLeave;
+
+    /**
+     * <p>Discription:[方法功能描述]</p>
+     * @return String parentMenuName.
+     */
+    public String getParentMenuName() {
+        return parentMenuName;
+    }
+
+    /**
+     * <p>Discription:[方法功能描述]</p>
+     * @param parentMenuName The parentMenuName to set.
+     */
+    public void setParentMenuName(String parentMenuName) {
+        this.parentMenuName = parentMenuName;
+    }
 
     /**
      * <p>

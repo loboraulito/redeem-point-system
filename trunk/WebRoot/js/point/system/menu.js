@@ -11,6 +11,7 @@ function menuManage(){
 		{name:"pagePath"},//菜单路径
 		{name:"menuLevel"},//菜单等级
 		{name:"parentMenuId"},//父级菜单
+		{name:"parentMenuName"},//父级菜单
 		{name:"isLeave"}//是否子节点
 	]);
 	var proxyUrl = path+"/menu/menuManage.action?method=menuList";
@@ -46,9 +47,11 @@ function menuManage(){
 		header:"菜单级别",
 		groupable: false,
 		dataIndex:"menuLevel",
+		hidden:true,
+		hideable:false,
 		width:180
 	},{
-		header:"父级菜单",
+		header:"上级菜单",
 		groupable: false,
 		dataIndex:"parentMenuId",
 		sortable:true,
@@ -121,8 +124,11 @@ function menuManage(){
 			for(var i=0;i<buttonRecords.length;i++){
 				//alert(buttonRecords[i].get("buttonName"));
 				var button = Ext.getCmp(buttonRecords[i].get("buttonName"));
+				var buttonText = buttonRecords[i].get("buttonText");
 				if(button){
 					//button.hidden = false;
+					button.setText(buttonText);
+					button.handlerUrl = buttonRecords[i].get("buttonUrl");
 					button.show();
 				}
 				/*
