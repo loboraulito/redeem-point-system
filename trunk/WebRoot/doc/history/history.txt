@@ -174,3 +174,8 @@ menu_info.is_leave,
 (select menu.menu_name menuname from menu_info menu where menu_info.parent_menu = menu.menu_id)
 FROM
 menu_info
+
+2011/06/23
+http://hi.baidu.com/lvsiquan/blog/item/d46acc9797a83d7455fb96dc.html
+http://hi.baidu.com/qethan/blog/item/fb6f3c18e596abe2e1fe0b04.html
+http://hi.baidu.com/ybhanxiao/blog/item/63175789cce4e3be0e2444f9.html
