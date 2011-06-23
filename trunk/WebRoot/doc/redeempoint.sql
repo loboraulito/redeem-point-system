@@ -4,7 +4,7 @@ Source Host: localhost
 Source Database: redeempoint
 Target Host: localhost
 Target Database: redeempoint
-Date: 2011/6/22 22:34:41
+Date: 6/23/2011 5:21:22 PM
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -48,6 +48,9 @@ CREATE TABLE `menubutton` (
   `button_text` varchar(500) default NULL,
   `menu_id` varchar(32) character set utf8 collate utf8_bin default NULL COMMENT '所属菜单ID',
   `button_url` varchar(500) default NULL COMMENT '按钮路径',
+  `button_show` varchar(10) default NULL COMMENT '是否显示',
+  `button_css` varchar(20) default NULL COMMENT '按钮样式',
+  `handler` varchar(100) default NULL COMMENT '要处理的事件',
   PRIMARY KEY  (`button_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -111,28 +114,17 @@ INSERT INTO `menu_info` VALUES ('6', '菜单管理', '/menu/beginMenuManage.acti
 INSERT INTO `menu_info` VALUES ('7', '用户管理', '/user/userManage.action?method=begin', null, '3', '1');
 INSERT INTO `menu_info` VALUES ('8', '角色管理', '/role/roleManage.action?method=begin', null, '3', '1');
 INSERT INTO `menu_info` VALUES ('9', '授权管理', '/right/authorize.action?method=begin', null, '3', '1');
-INSERT INTO `menubutton` VALUES ('1', 'menu_list', '菜单列表', '6', '/menu/menuManage.action?method=menuList');
-INSERT INTO `menubutton` VALUES ('10', 'authorize_menu', '授权树', '9', '/right/authorizeMenu.action?method=showAuthorizeMenu');
-INSERT INTO `menubutton` VALUES ('11', 'authorize_user', '授权用户', '9', '/right/authorizeUser.action?method=showAuthorizeUser');
-INSERT INTO `menubutton` VALUES ('2', 'menu_addMenu', '添加菜单', '6', '/menu/menuManage.action?method=addMenu');
-INSERT INTO `menubutton` VALUES ('3', 'menu_editMenu', '修改菜单', '6', '/menu/menuManage.action?method=editMenu');
-INSERT INTO `menubutton` VALUES ('4', 'user_list', '用户列表', '7', '/user/userList.action?method=userManageList');
-INSERT INTO `menubutton` VALUES ('5', 'role_list', '角色列表', '8', '/role/roleList.action?method=roleManageList');
-INSERT INTO `menubutton` VALUES ('6', 'authorizeForUser', '为用户授权', '9', '/right/authorizeUser.action?method=authorizeUser');
-INSERT INTO `menubutton` VALUES ('7', 'authorize_rught_menu', '保存角色权限菜单', '9', '/right/authorizeRoleMenu.action?method=updateAuthorizeRoleMenu');
-INSERT INTO `menubutton` VALUES ('8', 'authorize_list', '授权列表', '9', '/right/authorizeList.action?method=authorizeList');
-INSERT INTO `menubutton` VALUES ('9', 'authorize_role', '授权角色列表', '9', '/right/authorizeRole.action?method=showAuthorizeRole');
-INSERT INTO `right_info` VALUES ('402880e430b7ab2c0130b7acbcd6000c', null, '1', null, '1');
-INSERT INTO `right_info` VALUES ('402880e430b7ab2c0130b7acbcd6000d', null, '1', null, '2');
-INSERT INTO `right_info` VALUES ('402880e430b7ab2c0130b7acbcd6000e', null, '1', null, '3');
-INSERT INTO `right_info` VALUES ('402880e430b7ab2c0130b7acbcd6000f', null, '1', null, '4');
-INSERT INTO `right_info` VALUES ('402880e430b7ab2c0130b7acbcd60010', null, '1', null, '5');
-INSERT INTO `right_info` VALUES ('402880e430b7ab2c0130b7acbcd70011', null, '1', null, '10');
-INSERT INTO `right_info` VALUES ('402880e430b7ab2c0130b7acbcd70012', null, '1', null, '11');
-INSERT INTO `right_info` VALUES ('402880e430b7ab2c0130b7acbcd70013', null, '1', null, '6');
-INSERT INTO `right_info` VALUES ('402880e430b7ab2c0130b7acbcd70014', null, '1', null, '7');
-INSERT INTO `right_info` VALUES ('402880e430b7ab2c0130b7acbcd70015', null, '1', null, '8');
-INSERT INTO `right_info` VALUES ('402880e430b7ab2c0130b7acbcd70016', null, '1', null, '9');
+INSERT INTO `menubutton` VALUES ('1', 'menu_list', '菜单列表', '6', '/menu/menuManage.action?method=menuList', 'no', null, null);
+INSERT INTO `menubutton` VALUES ('10', 'authorize_menu', '授权树', '9', '/right/authorizeMenu.action?method=showAuthorizeMenu', 'no', null, null);
+INSERT INTO `menubutton` VALUES ('11', 'authorize_user', '授权用户', '9', '/right/authorizeUser.action?method=showAuthorizeUser', 'no', null, null);
+INSERT INTO `menubutton` VALUES ('2', 'menu_addMenu', '添加菜单', '6', '/menu/menuManage.action?method=addMenu', 'yes', 'table_add', 'addMenu');
+INSERT INTO `menubutton` VALUES ('3', 'menu_editMenu', '修改菜单', '6', '/menu/menuManage.action?method=editMenu', 'yes', 'table_edit', null);
+INSERT INTO `menubutton` VALUES ('4', 'user_list', '用户列表', '7', '/user/userList.action?method=userManageList', 'no', null, null);
+INSERT INTO `menubutton` VALUES ('5', 'role_list', '角色列表', '8', '/role/roleList.action?method=roleManageList', 'no', null, null);
+INSERT INTO `menubutton` VALUES ('6', 'authorizeForUser', '为用户授权', '9', '/right/authorizeUser.action?method=authorizeUser', 'yes', 'table_add', null);
+INSERT INTO `menubutton` VALUES ('7', 'authorize_rught_menu', '保存角色权限菜单', '9', '/right/authorizeRoleMenu.action?method=updateAuthorizeRoleMenu', 'yes', 'table_save', null);
+INSERT INTO `menubutton` VALUES ('8', 'authorize_list', '授权列表', '9', '/right/authorizeList.action?method=authorizeList', 'no', null, null);
+INSERT INTO `menubutton` VALUES ('9', 'authorize_role', '授权角色列表', '9', '/right/authorizeRole.action?method=showAuthorizeRole', 'no', null, null);
 INSERT INTO `right_info` VALUES ('402880e430b7ab2c0130b7accdd50022', null, '2', null, '1');
 INSERT INTO `right_info` VALUES ('402880e430b7ab2c0130b7accdd50023', null, '2', null, '2');
 INSERT INTO `right_info` VALUES ('402880e430b7ab2c0130b7accdd50024', null, '2', null, '3');
@@ -144,20 +136,20 @@ INSERT INTO `right_info` VALUES ('402880e430b7ab2c0130b7accdd60029', null, '2', 
 INSERT INTO `right_info` VALUES ('402880e430b7ab2c0130b7accdd6002a', null, '2', null, '7');
 INSERT INTO `right_info` VALUES ('402880e430b7ab2c0130b7accdd6002b', null, '2', null, '8');
 INSERT INTO `right_info` VALUES ('402880e430b7ab2c0130b7accdd6002c', null, '2', null, '9');
+INSERT INTO `right_info` VALUES ('8ac388eb30bb20a50130bb80330d0020', null, '1', null, '1');
+INSERT INTO `right_info` VALUES ('8ac388eb30bb20a50130bb80330d0021', null, '1', null, '2');
+INSERT INTO `right_info` VALUES ('8ac388eb30bb20a50130bb80330d0022', null, '1', null, '3');
+INSERT INTO `right_info` VALUES ('8ac388eb30bb20a50130bb80330d0023', null, '1', null, '4');
+INSERT INTO `right_info` VALUES ('8ac388eb30bb20a50130bb80330d0024', null, '1', null, '5');
+INSERT INTO `right_info` VALUES ('8ac388eb30bb20a50130bb80330d0025', null, '1', null, '10');
+INSERT INTO `right_info` VALUES ('8ac388eb30bb20a50130bb80330d0026', null, '1', null, '11');
+INSERT INTO `right_info` VALUES ('8ac388eb30bb20a50130bb80330d0027', null, '1', null, '6');
+INSERT INTO `right_info` VALUES ('8ac388eb30bb20a50130bb80330d0028', null, '1', null, '7');
+INSERT INTO `right_info` VALUES ('8ac388eb30bb20a50130bb80330d0029', null, '1', null, '8');
+INSERT INTO `right_info` VALUES ('8ac388eb30bb20a50130bb80330d002a', null, '1', null, '9');
 INSERT INTO `role_info` VALUES ('1', '系统管理员', null);
 INSERT INTO `role_info` VALUES ('2', '客户', null);
 INSERT INTO `role_info` VALUES ('3', '普通用户', null);
-INSERT INTO `rolemenu` VALUES ('402880e430b7ab2c0130b7acbcd10001', '1', '2');
-INSERT INTO `rolemenu` VALUES ('402880e430b7ab2c0130b7acbcd30002', '1', '1');
-INSERT INTO `rolemenu` VALUES ('402880e430b7ab2c0130b7acbcd30003', '1', '4');
-INSERT INTO `rolemenu` VALUES ('402880e430b7ab2c0130b7acbcd30004', '1', '3');
-INSERT INTO `rolemenu` VALUES ('402880e430b7ab2c0130b7acbcd40005', '1', '10');
-INSERT INTO `rolemenu` VALUES ('402880e430b7ab2c0130b7acbcd40006', '1', '11');
-INSERT INTO `rolemenu` VALUES ('402880e430b7ab2c0130b7acbcd40007', '1', '6');
-INSERT INTO `rolemenu` VALUES ('402880e430b7ab2c0130b7acbcd60008', '1', '5');
-INSERT INTO `rolemenu` VALUES ('402880e430b7ab2c0130b7acbcd60009', '1', '7');
-INSERT INTO `rolemenu` VALUES ('402880e430b7ab2c0130b7acbcd6000a', '1', '8');
-INSERT INTO `rolemenu` VALUES ('402880e430b7ab2c0130b7acbcd6000b', '1', '9');
 INSERT INTO `rolemenu` VALUES ('402880e430b7ab2c0130b7accdd20017', '2', '2');
 INSERT INTO `rolemenu` VALUES ('402880e430b7ab2c0130b7accdd20018', '2', '1');
 INSERT INTO `rolemenu` VALUES ('402880e430b7ab2c0130b7accdd20019', '2', '4');
@@ -172,6 +164,17 @@ INSERT INTO `rolemenu` VALUES ('402880e430b7ab2c0130b7accdd50021', '2', '9');
 INSERT INTO `rolemenu` VALUES ('402880e430b7ab2c0130b7ad0f80002d', '3', '2');
 INSERT INTO `rolemenu` VALUES ('402880e430b7ab2c0130b7ad0f81002e', '3', '1');
 INSERT INTO `rolemenu` VALUES ('402880e430b7ab2c0130b7ad0f81002f', '3', '4');
+INSERT INTO `rolemenu` VALUES ('8ac388eb30bb20a50130bb80330d0015', '1', '2');
+INSERT INTO `rolemenu` VALUES ('8ac388eb30bb20a50130bb80330d0016', '1', '1');
+INSERT INTO `rolemenu` VALUES ('8ac388eb30bb20a50130bb80330d0017', '1', '4');
+INSERT INTO `rolemenu` VALUES ('8ac388eb30bb20a50130bb80330d0018', '1', '3');
+INSERT INTO `rolemenu` VALUES ('8ac388eb30bb20a50130bb80330d0019', '1', '10');
+INSERT INTO `rolemenu` VALUES ('8ac388eb30bb20a50130bb80330d001a', '1', '11');
+INSERT INTO `rolemenu` VALUES ('8ac388eb30bb20a50130bb80330d001b', '1', '6');
+INSERT INTO `rolemenu` VALUES ('8ac388eb30bb20a50130bb80330d001c', '1', '5');
+INSERT INTO `rolemenu` VALUES ('8ac388eb30bb20a50130bb80330d001d', '1', '7');
+INSERT INTO `rolemenu` VALUES ('8ac388eb30bb20a50130bb80330d001e', '1', '8');
+INSERT INTO `rolemenu` VALUES ('8ac388eb30bb20a50130bb80330d001f', '1', '9');
 INSERT INTO `supplier_role` VALUES ('1', 'swpigris81', '1', '1');
 INSERT INTO `supplier_role` VALUES ('2', 'admin', '2', '2');
 INSERT INTO `supplier_role` VALUES ('3', 'user', null, '3');

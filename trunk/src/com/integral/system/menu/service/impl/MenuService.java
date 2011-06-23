@@ -1,10 +1,12 @@
 package com.integral.system.menu.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.math.NumberUtils;
 
 import com.integral.common.dao.IBaseDao;
+import com.integral.system.menu.bean.MenuInfo;
 import com.integral.system.menu.dao.IMenuDao;
 import com.integral.system.menu.service.IMenuService;
 
@@ -67,5 +69,26 @@ public class MenuService implements IMenuService {
     @Override
     public List findMenuByPage(int start, int limit) {
         return this.menuDao.findMenuByPage(start, limit);
+    }
+    
+    public List findMenuByPageWithParentName(int start, int limit){
+        String sql = "SELECT menu_info.menu_id, menu_info.menu_name, menu_info.page_path, menu_info.menu_level, menu_info.parent_menu, menu_info.is_leave, (select menu.menu_name menuname from menu_info menu where menu_info.parent_menu = menu.menu_id) parent_menu_name FROM menu_info order by parent_menu_name";
+        List menus = this.baseDao.queryPageBySQL(sql, null, start, limit);
+        List list = new ArrayList();
+        if(menus!=null){
+            for(int i=0,j = menus.size();i<j;i++){
+                MenuInfo menu = new MenuInfo();
+                Object obj[] = (Object[]) menus.get(i);
+                menu.setMenuId(obj[0] == null?"":obj[0].toString());
+                menu.setMenuName(obj[1] == null?"":obj[1].toString());
+                menu.setPagePath(obj[2] == null?"":obj[2].toString());
+                menu.setMenuLevel(obj[3] == null?"":obj[3].toString());
+                menu.setParentMenuId(obj[4] == null?"":obj[4].toString());
+                menu.setIsLeave(obj[5] == null?"":obj[5].toString());
+                menu.setParentMenuName(obj[6] == null?"":obj[6].toString());
+                list.add(menu);
+            }
+        }
+        return list;
     }
 }

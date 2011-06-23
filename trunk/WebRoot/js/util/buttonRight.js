@@ -13,6 +13,9 @@ function buttonRight(roleId, menuId, callbackFunction){
 		{name:"buttonName"},//按钮名称
 		{name:"buttonText"},//按钮显示的文字
 		{name:"menuId"},//菜单ID
+		{name:"isShow"},//是否显示
+		{name:"buttonIconCls"},//按钮样式
+		{name:"handler"},//触发的事件
 		{name:"buttonUrl"}//按钮路径
 	]);
 	/**

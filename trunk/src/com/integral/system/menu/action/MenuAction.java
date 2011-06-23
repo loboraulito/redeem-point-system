@@ -158,7 +158,7 @@ ServletRequestAware, ServletResponseAware {
         int start = NumberUtils.toInt(request.getParameter("start"), 0);
         int limit = NumberUtils.toInt(request.getParameter("limit"), 50);
         long menuSize = this.menuService.findAllMenuSize();
-        List menuList = this.menuService.findMenuByPage(start, limit);
+        List menuList = this.menuService.findMenuByPageWithParentName(start, limit);
         PrintWriter out = null;
         try {
             out = super.getPrintWriter(request, response);

@@ -24,7 +24,58 @@ public class ButtonInfo {
     /** 按钮的路径 **/
     private String buttonUrl;
     
+    /** 是否显示 **/
+    private String isShow;
     
+    /** 按钮的css显示样式 **/
+    private String buttonIconCls;
+    
+    /** 触发的事件 **/
+    private String handler;
+    
+    
+    /**
+     * @return the handler
+     */
+    public String getHandler() {
+        return handler;
+    }
+
+    /**
+     * @param handler the handler to set
+     */
+    public void setHandler(String handler) {
+        this.handler = handler;
+    }
+
+    /**
+     * @return the isShow
+     */
+    public String getIsShow() {
+        return isShow;
+    }
+
+    /**
+     * @param isShow the isShow to set
+     */
+    public void setIsShow(String isShow) {
+        this.isShow = isShow;
+    }
+
+    /**
+     * @return the buttonIconCls
+     */
+    public String getButtonIconCls() {
+        return buttonIconCls;
+    }
+
+    /**
+     * @param buttonIconCls the buttonIconCls to set
+     */
+    public void setButtonIconCls(String buttonIconCls) {
+        this.buttonIconCls = buttonIconCls;
+    }
+
     /**
      * <p>Discription:[方法功能描述]</p>
      * @return String buttonText.
