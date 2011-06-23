@@ -53,7 +53,7 @@ function menuManage(){
 	},{
 		header:"上级菜单",
 		groupable: false,
-		dataIndex:"parentMenuId",
+		dataIndex:"parentMenuName",
 		sortable:true,
 		width:80
 	},{
@@ -90,6 +90,8 @@ function menuManage(){
 			prevText:"上一页",
 			emptyMsg:"无相关记录"
 		}),
+		tbar:[]
+		/*,
 		tbar:[{
 			text:"测试按钮1",
 			hidden:true,
@@ -103,6 +105,7 @@ function menuManage(){
 			iconCls:"table_edit",
 			tooltip:"测试按钮2"
 		}]
+		*/
 	});
 	
 	function isYesOrNo(value,metadata,record,rowIndex,colIndex,store){
@@ -121,34 +124,42 @@ function menuManage(){
 		callback:function(buttonRecords,buttonOptions,buttonSuccess){
 			//这里处理按钮的显示和隐藏
 			//alert(buttonRecords.length);
+			var tbar = menuGrid.getTopToolbar();
+			if(!tbar){
+				tbar = new Ext.Toolbar();
+			}
+			var hasButtonShow = false;
 			for(var i=0;i<buttonRecords.length;i++){
 				//alert(buttonRecords[i].get("buttonName"));
 				var button = Ext.getCmp(buttonRecords[i].get("buttonName"));
 				var buttonText = buttonRecords[i].get("buttonText");
-				if(button){
-					//button.hidden = false;
-					button.setText(buttonText);
-					button.handlerUrl = buttonRecords[i].get("buttonUrl");
-					button.show();
+				var buttonUrl = buttonRecords[i].get("buttonUrl");
+				var buttonCss = buttonRecords[i].get("buttonIconCls");
+				var isShow = buttonRecords[i].get("isShow");
+				var buttonHandler = buttonRecords[i].get("handler");
+				if(isShow && isShow == "yes"){
+					hasButtonShow = true;
+					tbar.add({
+						text:buttonText,
+						id:button,
+						iconCls:buttonCss,
+						tooltip:buttonText,
+						handlerFunction:buttonHandler,//handlerFunction:自定义属性，保存该按钮的点击事件
+						listeners:{
+							"click":function(bt, e){
+								var handlerFunction = bt.handlerFunction;
+								if(handlerFunction && handlerFunction!= "" && typeof (eval(""+handlerFunction+"")) == "function"){
+									eval(""+handlerFunction+"('"+buttonUrl+"')");
+								}
+							}
+						}
+					});
+					tbar.addSeparator();
 				}
-				/*
-				var tbar = menuGrid.getTopToolbar();
-				if(!tbar){
-					tbar = new Ext.Toolbar();
-				}
-				*/
-				/*
-				tbar.addButton({
-					text:buttonRecords[i].get("buttonText"),
-					id:buttonRecords[i].get("buttonName")
-				});
-				*/
-				/*
-				tbar.add({
-					text:buttonRecords[i].get("buttonText"),
-					id:buttonRecords[i].get("buttonName")
-				});
-				*/
+			}
+			if(!hasButtonShow){
+				menuGrid.setHeight(Ext.get("menu_div").getHeight());
+				menuGrid.render();
 			}
 			menuStore.load({
 				params:{start:0,limit:50},
@@ -158,12 +169,180 @@ function menuManage(){
 			});
 		}
 	});
+	/**
+	 * 增加菜单
+	 * @param {} buttonUrl : 处理该请求的url
+	 */
+	function addMenu(buttonUrl){
+		var form = showMenuForm(buttonUrl, false);
+		var button = [{
+			text:"保存",
+			handler:function(){
+				if(form.form.isValid()){
+					saveMenu("addMenuWindow", form)
+				}
+			}
+		},{
+			text:"关闭本窗口",
+			handler:function(){
+				var menuWindow = Ext.getCmp("addMenuWindow");
+				if(menuWindow){
+					menuWindow.close();
+				}
+			}
+		}];
+		showMenuWindow("addMenuWindow", "添加菜单", 550, 280, form, button);
+	}
+	/**
+	 * 菜单窗口, 用于新增，修改
+	 * @param {} id 窗口ID
+	 * @param {} title 窗口名字
+	 * @param {} width 窗口宽度
+	 * @param {} height 窗口高度
+	 * @param {} items 窗口的内部
+	 * @param {} buttons 窗口的按钮
+	 */
+	function showMenuWindow(id, title, width, height, items, buttons){
+		var menuWindow = new Ext.Window({
+			id:id,
+			title:title,
+			width:width,
+			height:height,
+			items:items,
+			buttons:buttons,
+			modal:true,
+			layout:"fit"
+		});
+		menuWindow.show();
+	}
+	
+	function showMenuForm(url,isNull){
+		var menuForm = new Ext.form.FormPanel({
+			frame: true,
+			labelAlign: 'right',
+			labelWidth:60,
+			autoScroll:false,
+			waitMsgTarget:true,
+			url:path+url,
+			items:[{
+				layout:"column",
+				border:false,
+				labelSeparator:'：',
+				items:[{
+					layout:"form",
+					columnWidth:.5,
+					height:50,
+					items:[{
+						xtype: 'textfield',
+						name:"menuName",
+						anchor:"90%",
+						fieldLabel:"菜单名称",
+						allowBlank:isNull
+					}]
+				},{
+					layout:"form",
+					columnWidth:.5,
+					height:50,
+					items:[{
+						xtype: 'textfield',
+						name:"parentMenuId",
+						anchor:"90%",
+						fieldLabel:"上级菜单",
+						allowBlank:isNull
+					}]
+				}]
+			},{
+				layout:"column",
+				border:false,
+				labelSeparator:'：',
+				items:[{
+					layout:"form",
+					columnWidth:.5,
+					height:50,
+					items:[{
+						xtype: 'combo',
+						name:"isLeave",
+						anchor:"90%",
+						fieldLabel:"叶子节点",
+						editable:false,//false：不可编辑
+						triggerAction:"all",//避免选定了一个值之后，再选的时候只显示刚刚选择的那个值
+						valueField:"codeid",//将codeid设置为传递给后台的值
+						displayField:"codename",
+						hiddenName:"isLeave",//这个值就是传递给后台获取的值
+						mode: "local",
+						store:new Ext.data.SimpleStore({
+							fields:["codeid","codename"],
+							data:[["1","是"],["0","否"]]
+						}),
+						allowBlank:isNull
+					}]
+				}]
+			},{
+				layout:"column",
+				border:false,
+				labelSeparator:'：',
+				items:[{
+					layout:"form",
+					columnWidth:.9,
+					height:50,
+					items:[{
+						xtype: 'textfield',
+						name:"pagePath",
+						anchor:"90%",
+						fieldLabel:"菜单路径",
+						allowBlank:isNull
+					},{
+						xtype: 'hidden',
+						name:"menuId"
+					},{
+						xtype: 'hidden',
+						name:"menuLevel"
+					},{
+						xtype: 'hidden',
+						name:"parentMenuName"
+					}]
+				}]
+			}]
+		});
+		return menuForm;
+	}
+	/**
+	 * 保存菜单信息
+	 * @param {} menuWindow 弹出窗口ID
+	 * @param {} form 表单内容
+	 */
+	function saveMenu(menuWindow, form){
+		Ext.MessageBox.show({
+			msg:"正在保存菜单信息，请稍候...",
+			progressText:"正在保存菜单信息，请稍候...",
+			width:300,
+			wait:true,
+			waitConfig: {interval:200},
+			icon:Ext.Msg.INFO
+		});
+		form.getForm().submit({
+			success: function(form, action) {
+				Ext.Msg.hide();
+				Ext.Msg.alert('Success', 'Save Successful!', function(btn, text) {
+					if (btn == 'ok') {
+						var msg = Ext.decode(action.response.responseText);
+						menuStore.reload();
+						Ext.getCmp(menuWindow).close();
+					}
+				});
+			},
+			failure: function(form, action) {//action.result.errorMessage
+				Ext.Msg.hide();
+				Ext.Msg.alert('Warning', "error");
+			}
+		});
+	}
 }
 /**
  * 菜单管理入口
  */
 Ext.onReady(function(){
 	Ext.QuickTips.init();
-	Ext.form.Field.prototype.msgTarget = 'under';
+	Ext.form.Field.prototype.msgTarget = 'under';//side
 	menuManage();
 });

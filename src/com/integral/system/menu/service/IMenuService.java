@@ -26,4 +26,11 @@ public interface IMenuService {
      * @update: 2011-6-2 代超[变更描述]
      */
     public List findMenuByPage(int start, int limit);
+    /**
+     * 分页查询，并且查询出上级菜单的名称
+     * @param start
+     * @param limit
+     * @return
+     */
+    public List findMenuByPageWithParentName(int start, int limit);
 }
