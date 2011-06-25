@@ -38,30 +38,31 @@ function menuManage(){
 	},{
 		header:"菜单名称",
 		dataIndex:"menuName",
-		width:150
+		width:80
 	},{
 		header:"菜单路径",
 		dataIndex:"pagePath",
-		width:150
+		width:180
 	},{
 		header:"菜单级别",
 		groupable: false,
 		dataIndex:"menuLevel",
 		hidden:true,
 		hideable:false,
-		width:180
+		width:200
 	},{
 		header:"上级菜单",
 		groupable: false,
 		dataIndex:"parentMenuName",
 		sortable:true,
+		renderer:showParentMenuName,
 		width:80
 	},{
 		header:"是否叶子菜单",
 		groupable: false,
 		dataIndex:"isLeave",
 		renderer:isYesOrNo,
-		width:130
+		width:50
 	}]);
 	/**
 	 * menuGrid: 菜单展示列表
@@ -107,7 +108,16 @@ function menuManage(){
 		}]
 		*/
 	});
-	
+	/**
+	 * 显示是否叶子节点
+	 * @param {} value
+	 * @param {} metadata
+	 * @param {} record
+	 * @param {} rowIndex
+	 * @param {} colIndex
+	 * @param {} store
+	 * @return {String}
+	 */
 	function isYesOrNo(value,metadata,record,rowIndex,colIndex,store){
 		if(value=="1"){
 			return "是";
@@ -115,6 +125,24 @@ function menuManage(){
 			return "否";
 		}
 	}
+	/**
+	 * 显示上级菜单的名称
+	 * @param {} value
+	 * @param {} metadata
+	 * @param {} record
+	 * @param {} rowIndex
+	 * @param {} colIndex
+	 * @param {} store
+	 * @return {String}
+	 */
+	function showParentMenuName(value,metadata,record,rowIndex,colIndex,store){
+		if(!value || value.trim() == ""){
+			return "会员积分兑换系统";
+		}else{
+			return value;
+		}
+	}
+	
 	/**
 	 * 按钮存储器，尚未执行查询
 	 */
