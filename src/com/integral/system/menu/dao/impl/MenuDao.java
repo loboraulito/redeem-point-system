@@ -11,6 +11,7 @@ import org.hibernate.Session;
 import org.springframework.orm.hibernate3.HibernateCallback;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
+import com.integral.system.menu.bean.MenuInfo;
 import com.integral.system.menu.dao.IMenuDao;
 
 /** 
@@ -55,6 +56,18 @@ public class MenuDao extends HibernateDaoSupport implements IMenuDao {
             throw re;
         }
     }
+    
+    public List findRootMenu(){
+        log.debug("finding Root menu");
+        try {
+            String queryString = "from MenuInfo as model where model.parentMenuId is null";
+            return getHibernateTemplate().find(queryString);
+        } catch (RuntimeException re) {
+            log.error("find Root menu failed", re);
+            throw re;
+        }
+    }
+    
     @Override
     public List findAll() {
         log.debug("finding all menu");
@@ -79,5 +92,32 @@ public class MenuDao extends HibernateDaoSupport implements IMenuDao {
                 return query.list();
             }
         });
+    }
+    
+    /**
+     * <p>Discription:[添加或修改菜单信息]</p>
+     * @param menu
+     * @author: 代超
+     * @update: 2011-6-25 代超[变更描述]
+     */
+    public void saveOrUpdateMenu(MenuInfo menu){
+        log.debug("save or update menu");
+        try {
+            getHibernateTemplate().saveOrUpdate(menu);
+        } catch (RuntimeException re) {
+            log.error("save or update menu ", re);
+            throw re;
+        }
+    }
+    
+    public MenuInfo findById(String menuId){
+        log.debug("find by menu id");
+        try {
+            MenuInfo menuInfo = (MenuInfo)getHibernateTemplate().get(MenuInfo.class, menuId);
+            return menuInfo;
+        } catch (RuntimeException re) {
+            log.error("find by menu id ", re);
+            throw re;
+        }
     }
 }

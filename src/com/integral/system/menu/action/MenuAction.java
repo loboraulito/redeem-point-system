@@ -3,18 +3,27 @@ package com.integral.system.menu.action;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang.math.NumberUtils;
 import org.apache.struts2.interceptor.ServletRequestAware;
 import org.apache.struts2.interceptor.ServletResponseAware;
 import org.nutz.json.Json;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.transaction.TransactionDefinition;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 import com.integral.common.action.BaseAction;
+import com.integral.system.menu.bean.MenuInfo;
 import com.integral.system.menu.service.IMenuService;
+import com.integral.util.RequestUtil;
 import com.integral.util.menu.MenuUtils;
+import com.integral.util.spring.security.ResourceDetailsMonitor;
 
 /** 
  * <p>Description: [菜单管理类]</p>
@@ -29,6 +38,45 @@ ServletRequestAware, ServletResponseAware {
     
     private IMenuService menuService;
     private MenuUtils menuUtil;
+    
+    /** 事务处理 */
+    private DataSourceTransactionManager transactionManager;
+    /** 当更新了菜单信息后, 需要手动的刷新系统内存, 以保证内存中的菜单权限信息最新 **/
+    private ResourceDetailsMonitor resourceDetailsMonitor;
+
+    /**
+     * <p>Discription:[方法功能描述]</p>
+     * @return ResourceDetailsMonitor resourceDetailsMonitor.
+     */
+    public ResourceDetailsMonitor getResourceDetailsMonitor() {
+        return resourceDetailsMonitor;
+    }
+
+    /**
+     * <p>Discription:[方法功能描述]</p>
+     * @param resourceDetailsMonitor The resourceDetailsMonitor to set.
+     */
+    public void setResourceDetailsMonitor(
+            ResourceDetailsMonitor resourceDetailsMonitor) {
+        this.resourceDetailsMonitor = resourceDetailsMonitor;
+    }
+
+    /**
+     * <p>Discription:[方法功能描述]</p>
+     * @return DataSourceTransactionManager transactionManager.
+     */
+    public DataSourceTransactionManager getTransactionManager() {
+        return transactionManager;
+    }
+
+    /**
+     * <p>Discription:[方法功能描述]</p>
+     * @param transactionManager The transactionManager to set.
+     */
+    public void setTransactionManager(
+            DataSourceTransactionManager transactionManager) {
+        this.transactionManager = transactionManager;
+    }
 
     /**
      * <p>Discription:[方法功能描述]</p>
@@ -167,6 +215,79 @@ ServletRequestAware, ServletResponseAware {
         catch (IOException e) {
             e.printStackTrace();
         } finally {
+            if(out!=null){
+                out.flush();
+                out.close();
+            }
+        }
+        return null;
+    }
+    /**
+     * <p>Discription:[菜单下拉树]</p>
+     * @return
+     * @author: 代超
+     * @update: 2011-6-25 代超[变更描述]
+     */
+    public String menuComboTree(){
+        String rootId = this.request.getParameter("node");
+        List list = null;
+        if(rootId == null || "".equals(rootId.trim())){
+            list = this.menuService.findRootMenu();
+        }else{
+            list = this.menuService.findChildMenu(rootId);
+        }
+        PrintWriter out = null;
+        try {
+            out = super.getPrintWriter(request, response);
+            out.print(Json.toJson(this.menuUtil.getMenuTree(list, null)).replaceAll("checked :false,", ""));
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if(out!=null){
+                out.flush();
+                out.close();
+            }
+        }
+        return null;
+    }
+    
+    public String addMenu(){
+        Map requestMap = RequestUtil.getRequestMap(request);
+        MenuInfo menu = new MenuInfo();
+        // 定义TransactionDefinition并设置好事务的隔离级别和传播方式。
+        DefaultTransactionDefinition definition = new DefaultTransactionDefinition();
+        // 代价最大、可靠性最高的隔离级别，所有的事务都是按顺序一个接一个地执行
+        definition.setIsolationLevel(TransactionDefinition.ISOLATION_SERIALIZABLE);
+        // 开始事务
+        TransactionStatus status = transactionManager.getTransaction(definition);
+        PrintWriter out = null;
+        try{
+            out = super.getPrintWriter(request, response);
+            BeanUtils.populate(menu, requestMap);
+            //当主键为空字符串时，必须这样操作一次。否则提交的时候将会异常
+            if(menu.getMenuId() == null || "".equals(menu.getMenuId().trim())){
+                menu.setMenuId(null);
+            }
+            this.menuService.saveOrUpdateMenu(menu);
+            //新的菜单或者旧菜单修改完成之后，需要对它的上级菜单做处理。
+            String parentId = menu.getParentMenuId();
+            if(parentId != null && !"".equals(parentId.trim())){
+                MenuInfo parentMenu = this.menuService.findById(parentId);
+                if(parentMenu != null){
+                    //其父节点不再是子菜单了
+                    parentMenu.setIsLeave("0");
+                    this.menuService.saveOrUpdateMenu(parentMenu);
+                }
+            }
+            //刷新系统内存
+            resourceDetailsMonitor.refresh();
+            out.print("{success:true}");
+        }catch(Exception e){
+            status.setRollbackOnly();
+            out.print("{success:false}");
+        }finally{
+            transactionManager.commit(status);
             if(out!=null){
                 out.flush();
                 out.close();

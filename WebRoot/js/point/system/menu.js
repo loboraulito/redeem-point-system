@@ -130,32 +130,38 @@ function menuManage(){
 			}
 			var hasButtonShow = false;
 			for(var i=0;i<buttonRecords.length;i++){
-				//alert(buttonRecords[i].get("buttonName"));
-				var button = Ext.getCmp(buttonRecords[i].get("buttonName"));
-				var buttonText = buttonRecords[i].get("buttonText");
-				var buttonUrl = buttonRecords[i].get("buttonUrl");
-				var buttonCss = buttonRecords[i].get("buttonIconCls");
+				//是否显示
 				var isShow = buttonRecords[i].get("isShow");
-				var buttonHandler = buttonRecords[i].get("handler");
+				//var button = "";
 				if(isShow && isShow == "yes"){
 					hasButtonShow = true;
-					tbar.add({
+					var buttonId = buttonRecords[i].get("buttonName");
+					var buttonText = buttonRecords[i].get("buttonText");
+					var buttonUrl = buttonRecords[i].get("buttonUrl");
+					var buttonCss = buttonRecords[i].get("buttonIconCls");
+					var buttonHandler = buttonRecords[i].get("handler");
+					var button = new Ext.Button({
 						text:buttonText,
-						id:button,
+						id:buttonId,
 						iconCls:buttonCss,
 						tooltip:buttonText,
-						handlerFunction:buttonHandler,//handlerFunction:自定义属性，保存该按钮的点击事件
+						handlerFunction:buttonHandler,
+						handlerUrl:buttonUrl,
 						listeners:{
 							"click":function(bt, e){
-								var handlerFunction = bt.handlerFunction;
-								if(handlerFunction && handlerFunction!= "" && typeof (eval(""+handlerFunction+"")) == "function"){
-									eval(""+handlerFunction+"('"+buttonUrl+"')");
+								var handlerFun = bt.handlerFunction;
+								if(handlerFun && handlerFun!= "" && typeof (eval(""+handlerFun+"")) == "function"){
+									eval(""+handlerFun+"('"+bt.handlerUrl+"')");
 								}
 							}
 						}
 					});
-					tbar.addSeparator();
+					tbar.add(button);
+				}else{
+					continue;
 				}
+				
+				tbar.addSeparator();
 			}
 			if(!hasButtonShow){
 				menuGrid.setHeight(Ext.get("menu_div").getHeight());
@@ -173,8 +179,8 @@ function menuManage(){
 	 * 增加菜单
 	 * @param {} buttonUrl : 处理该请求的url
 	 */
-	function addMenu(buttonUrl){
-		var form = showMenuForm(buttonUrl, false);
+	function addMenu(url){
+		var form = showMenuForm(url, false);
 		var button = [{
 			text:"保存",
 			handler:function(){
@@ -244,8 +250,18 @@ function menuManage(){
 					columnWidth:.5,
 					height:50,
 					items:[{
-						xtype: 'textfield',
+						xtype: 'treeField',
 						name:"parentMenuId",
+						displayField:"menuName",
+						valueField:"menuId",
+						hiddenName:"parentMenuId",
+						dataUrl:path+"/menu/menuComboTree.action?method=menuComboTree",
+						listHeight:180,
+						treeRootConfig:{
+							id:" ",
+							draggable:false,
+							text:"会员积分兑换系统"
+						},
 						anchor:"90%",
 						fieldLabel:"上级菜单",
 						allowBlank:isNull

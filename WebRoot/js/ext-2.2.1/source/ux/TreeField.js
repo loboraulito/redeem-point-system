@@ -148,8 +148,8 @@ Ext.form.TreeField = Ext.extend(Ext.form.TriggerField,  {
 		}
 	},
     onSelect:function(node){
-		this.setValue(node);
-	    this.collapse();
+	    this.setValue(node);
+		this.collapse();
 	},
     createTree:function(el){
 		var Tree = Ext.tree;
@@ -158,6 +158,7 @@ Ext.form.TreeField = Ext.extend(Ext.form.TriggerField,  {
 			el:el,
 			autoScroll:true,
 			animate:true,
+			//autoHeight:true,
 			containerScroll: true, 
 			loader: new Tree.TreeLoader({
 				dataUrl : this.dataUrl,
@@ -181,12 +182,11 @@ Ext.form.TreeField = Ext.extend(Ext.form.TriggerField,  {
 		//if(!node)return;
 		var text,value;
 		if(node && typeof node == 'object'){
-			text = node[this.displayField];
-			value = node[this.valueField || this.displayField];
+			text = node.text;//node[this.displayField];
+			value = node.id;//node[this.valueField || this.displayField];
 		}else{
 			text = node;
 			value = node;
-				
 		}
 		if(this.hiddenField){
             this.hiddenField.value = value;
