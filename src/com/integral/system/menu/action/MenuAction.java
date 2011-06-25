@@ -2,6 +2,7 @@ package com.integral.system.menu.action;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -20,6 +21,7 @@ import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 import com.integral.common.action.BaseAction;
 import com.integral.system.menu.bean.MenuInfo;
+import com.integral.system.menu.service.IButtonService;
 import com.integral.system.menu.service.IMenuService;
 import com.integral.util.RequestUtil;
 import com.integral.util.menu.MenuUtils;
@@ -37,6 +39,7 @@ ServletRequestAware, ServletResponseAware {
     
     
     private IMenuService menuService;
+    private IButtonService buttonService;
     private MenuUtils menuUtil;
     
     /** 事务处理 */
@@ -110,6 +113,22 @@ ServletRequestAware, ServletResponseAware {
         this.menuService = menuService;
     }
     
+    /**
+     * <p>Discription:[方法功能描述]</p>
+     * @return IButtonService buttonService.
+     */
+    public IButtonService getButtonService() {
+        return buttonService;
+    }
+
+    /**
+     * <p>Discription:[方法功能描述]</p>
+     * @param buttonService The buttonService to set.
+     */
+    public void setButtonService(IButtonService buttonService) {
+        this.buttonService = buttonService;
+    }
+
     @Override
     public void setServletRequest(HttpServletRequest request) {
         this.request = request;
@@ -251,7 +270,12 @@ ServletRequestAware, ServletResponseAware {
         }
         return null;
     }
-    
+    /**
+     * <p>Discription:[新增菜单]</p>
+     * @return
+     * @author: 代超
+     * @update: 2011-6-25 代超[变更描述]
+     */
     public String addMenu(){
         Map requestMap = RequestUtil.getRequestMap(request);
         MenuInfo menu = new MenuInfo();
@@ -269,12 +293,116 @@ ServletRequestAware, ServletResponseAware {
             if(menu.getMenuId() == null || "".equals(menu.getMenuId().trim())){
                 menu.setMenuId(null);
             }
+            if(menu.getParentMenuId() == null || "".equals(menu.getParentMenuId().trim())){
+                menu.setParentMenuId(null);
+            }
             this.menuService.saveOrUpdateMenu(menu);
             //新的菜单或者旧菜单修改完成之后，需要对它的上级菜单做处理。
             String parentId = menu.getParentMenuId();
             if(parentId != null && !"".equals(parentId.trim())){
                 MenuInfo parentMenu = this.menuService.findById(parentId);
-                if(parentMenu != null){
+                if(parentMenu != null && parentMenu.getIsLeave() != null && "1".equals(parentMenu.getIsLeave())){
+                    //其父节点不再是子菜单了
+                    parentMenu.setIsLeave("0");
+                    this.menuService.saveOrUpdateMenu(parentMenu);
+                }
+            }
+            //刷新系统内存
+            resourceDetailsMonitor.refresh();
+            out.print("{success:true}");
+        }catch(Exception e){
+            status.setRollbackOnly();
+            out.print("{success:false}");
+        }finally{
+            transactionManager.commit(status);
+            if(out!=null){
+                out.flush();
+                out.close();
+            }
+        }
+        return null;
+    }
+    /**
+     * <p>Discription:[删除菜单, 无法删除含有子菜单的菜单. 删除菜单的同时, 它的按钮也应该同时删除]</p>
+     * @return
+     * @author: 代超
+     * @update: 2011-6-25 代超[变更描述]
+     */
+    public String deleteMenu(){
+        String menuIds = request.getParameter("menuIds");
+        List menuList = new ArrayList();
+        List buttonList = new ArrayList();
+        boolean hasChild = false;
+        if(menuIds != null && !"".equals(menuIds)){
+            String [] menuId = menuIds.split(",");
+            for(int i=0;i< menuId.length;i++){
+                String menu = menuId[i];
+                List childMenu = this.menuService.findChildMenu(menu);
+                if(childMenu != null && childMenu.size()>0){
+                    hasChild = true;
+                    break;
+                }
+                buttonList.addAll(this.buttonService.findButtonByMenuId(menu));
+                MenuInfo menuInfo = new MenuInfo();
+                menuInfo.setMenuId(menu);
+                menuList.add(menuInfo);
+            }
+        }
+        // 定义TransactionDefinition并设置好事务的隔离级别和传播方式。
+        DefaultTransactionDefinition definition = new DefaultTransactionDefinition();
+        // 代价最大、可靠性最高的隔离级别，所有的事务都是按顺序一个接一个地执行
+        definition.setIsolationLevel(TransactionDefinition.ISOLATION_SERIALIZABLE);
+        // 开始事务
+        TransactionStatus status = transactionManager.getTransaction(definition);
+        PrintWriter out = null;
+        try{
+            out = super.getPrintWriter(request, response);
+            if(!hasChild){
+                this.menuService.deleteAll(menuList);
+                this.buttonService.deleteAll(buttonList);
+                out.print("{success:true}");
+            }else{
+                out.print("{success:false,msg:'您所选菜单包含下级菜单，无法删除！'}");
+            }
+        }catch(Exception e){
+            status.setRollbackOnly();
+            out.print("{success:false}");
+        }finally{
+            transactionManager.commit(status);
+            if(out!=null){
+                out.flush();
+                out.close();
+            }
+        }
+        return null;
+    }
+    
+    public String editMenu(){
+        Map requestMap = RequestUtil.getRequestMap(request);
+        MenuInfo menu = new MenuInfo();
+        // 定义TransactionDefinition并设置好事务的隔离级别和传播方式。
+        DefaultTransactionDefinition definition = new DefaultTransactionDefinition();
+        // 代价最大、可靠性最高的隔离级别，所有的事务都是按顺序一个接一个地执行
+        definition.setIsolationLevel(TransactionDefinition.ISOLATION_SERIALIZABLE);
+        // 开始事务
+        TransactionStatus status = transactionManager.getTransaction(definition);
+        PrintWriter out = null;
+        try{
+            out = super.getPrintWriter(request, response);
+            BeanUtils.populate(menu, requestMap);
+            //当主键为空字符串时，必须这样操作一次。否则提交的时候将会异常
+            if(menu.getMenuId() == null || "".equals(menu.getMenuId().trim())){
+                menu.setMenuId(null);
+            }
+            if(menu.getParentMenuId() == null || "".equals(menu.getParentMenuId().trim())){
+                menu.setParentMenuId(null);
+            }
+            this.menuService.saveOrUpdateMenu(menu);
+            //新的菜单或者旧菜单修改完成之后，需要对它的上级菜单做处理。
+            String parentId = menu.getParentMenuId();
+            if(parentId != null && !"".equals(parentId.trim())){
+                MenuInfo parentMenu = this.menuService.findById(parentId);
+                if(parentMenu != null && parentMenu.getIsLeave() != null && "1".equals(parentMenu.getIsLeave())){
                     //其父节点不再是子菜单了
                     parentMenu.setIsLeave("0");
                     this.menuService.saveOrUpdateMenu(parentMenu);

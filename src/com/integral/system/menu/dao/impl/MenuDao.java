@@ -1,6 +1,7 @@
 package com.integral.system.menu.dao.impl;
 
 import java.sql.SQLException;
+import java.util.Collection;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
@@ -117,6 +118,16 @@ public class MenuDao extends HibernateDaoSupport implements IMenuDao {
             return menuInfo;
         } catch (RuntimeException re) {
             log.error("find by menu id ", re);
+            throw re;
+        }
+    }
+    
+    public void deleteAll(Collection menus){
+        log.debug("delete all menu");
+        try {
+            getHibernateTemplate().deleteAll(menus);
+        } catch (RuntimeException re) {
+            log.error("delete all menu ", re);
             throw re;
         }
     }

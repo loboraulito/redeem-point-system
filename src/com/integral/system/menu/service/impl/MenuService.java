@@ -1,6 +1,7 @@
 package com.integral.system.menu.service.impl;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.apache.commons.lang.math.NumberUtils;
@@ -130,5 +131,15 @@ public class MenuService implements IMenuService {
      */
     public MenuInfo findById(String menuId){
         return this.menuDao.findById(menuId);
+    }
+    
+    /**
+     * <p>Discription:[批量删除菜单信息]</p>
+     * @param menus
+     * @author: 代超
+     * @update: 2011-6-25 代超[变更描述]
+     */
+    public void deleteAll(Collection menus){
+        this.menuDao.deleteAll(menus);
     }
 }
