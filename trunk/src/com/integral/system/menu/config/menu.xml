@@ -35,5 +35,13 @@
 			 <result name="success">/jsp/system/menu/menu.jsp</result>
 			 <result name="input">/index.jsp</result>
 		</action>
+		<action name="menuManageDelete" class="com.integral.system.menu.action.MenuAction" method="deleteMenu">
+			 <result name="success">/jsp/system/menu/menu.jsp</result>
+			 <result name="input">/index.jsp</result>
+		</action>
+		<action name="menuManageEdit" class="com.integral.system.menu.action.MenuAction" method="editMenu">
+			 <result name="success">/jsp/system/menu/menu.jsp</result>
+			 <result name="input">/index.jsp</result>
+		</action>
 	</package>
 </struts>

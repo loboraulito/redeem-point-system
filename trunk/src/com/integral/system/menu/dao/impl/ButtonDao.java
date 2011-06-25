@@ -1,5 +1,6 @@
 package com.integral.system.menu.dao.impl;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
@@ -36,6 +37,27 @@ public class ButtonDao extends HibernateDaoSupport  implements IButtonDao {
         try {
             String queryString = "From ButtonInfo as model";
             return getHibernateTemplate().find(queryString);
+        } catch (RuntimeException re) {
+            log.error("find all button failed", re);
+            throw re;
+        }
+    }
+    
+    public void deleteAll(Collection button){
+        log.debug("delete all button");
+        try {
+            getHibernateTemplate().deleteAll(button);
+        } catch (RuntimeException re) {
+            log.error("delete all button ", re);
+            throw re;
+        }
+    }
+    
+    public List findButtonByMenuId(String menuId){
+        log.debug("finding all button");
+        try {
+            String queryString = "From ButtonInfo as model where model.menuId = ?";
+            return getHibernateTemplate().find(queryString, menuId);
         } catch (RuntimeException re) {
             log.error("find all button failed", re);
             throw re;

@@ -151,7 +151,7 @@ function menuManage(){
 							"click":function(bt, e){
 								var handlerFun = bt.handlerFunction;
 								if(handlerFun && handlerFun!= "" && typeof (eval(""+handlerFun+"")) == "function"){
-									eval(""+handlerFun+"('"+bt.handlerUrl+"')");
+									eval(""+handlerFun+"('"+path + bt.handlerUrl+"')");
 								}
 							}
 						}
@@ -200,6 +200,98 @@ function menuManage(){
 		showMenuWindow("addMenuWindow", "添加菜单", 550, 280, form, button);
 	}
 	/**
+	 * 删除菜单
+	 * @param {} url 进行删除菜单的系统url
+	 */
+	function deleteMenu(url){
+		var gridSelectionModel = menuGrid.getSelectionModel();
+		var gridSelection = gridSelectionModel.getSelections();
+		if(gridSelection.length < 1){
+			Ext.MessageBox.alert('提示','请至少选择一条菜单信息！');
+		    return false;
+		}
+		Ext.Msg.confirm("系统提示信息","确定要删除所选菜单信息？删除菜单信息的同时将会删除它们的按钮信息！",function(btn){
+			if(btn == "ok" || btn == "yes"){
+				var menuids = [];
+				for(var i=0;i<gridSelection.length; i++){
+					var menuId = gridSelection[i].get("menuId");
+					menuids.push(menuId);
+				}
+				var deleteMenu = menuids.join(",");
+				Ext.MessageBox.show({
+					msg:"正在删除所选菜单信息，请稍候...",
+					progressText:"正在删除所选菜单信息，请稍候...",
+					width:300,
+					wait:true,
+					waitConfig: {interval:200},
+					icon:Ext.Msg.INFO
+				});
+				Ext.Ajax.request({
+					params:{menuIds:deleteMenu},
+					timeout:60000,
+					url:url,
+					success:function(response,options){
+						Ext.MessageBox.hide();
+						var msg = Ext.util.JSON.decode(response.responseText);
+						if(msg && msg.msg){
+							Ext.Msg.alert("提示信息",msg.msg);
+						}else{
+							Ext.Msg.alert("提示信息","所选菜单删除成功！");
+							menuStore.reload();
+						}
+					},failure:function(response,options){
+						Ext.Msg.hide();
+						Ext.Msg.alert("提示信息","所选菜单删除失败！");
+						return;
+					}
+				});
+			}
+		});
+	}
+	/**
+	 * 
+	 * @param {} url
+	 */
+	function editMenu(url){
+		var gridSelectionModel = menuGrid.getSelectionModel();
+		var gridSelection = gridSelectionModel.getSelections();
+		if(gridSelection.length != 1){
+			Ext.MessageBox.alert('提示','请选择一条菜单信息！');
+		    return false;
+		}
+		var form = showMenuForm(url, false);
+		var button = [{
+			text:"保存",
+			handler:function(){
+				if(form.form.isValid()){
+					var menuId = form.form.findField("menuId").getValue();
+					var parentMenuId = form.form.findField("parentMenuId").getValue();
+					if(menuId == parentMenuId){
+						Ext.Msg.alert("系统提示信息","不能选择当前菜单为上级菜单！");
+						return false;
+					}
+					saveMenu("editMenuWindow", form)
+				}
+			}
+		},{
+			text:"关闭本窗口",
+			handler:function(){
+				var menuWindow = Ext.getCmp("editMenuWindow");
+				if(menuWindow){
+					menuWindow.close();
+				}
+			}
+		}];
+		showMenuWindow("editMenuWindow", "添加菜单", 550, 280, form, button);
+		
+		form.getForm().loadRecord(gridSelection[0]);
+		var node = {};
+		node.text = gridSelection[0].get("parentMenuName");
+		node.id = gridSelection[0].get("parentMenuId");
+		form.form.findField("parentMenuId").setValue(node);
+	}
+	
+	/**
 	 * 菜单窗口, 用于新增，修改
 	 * @param {} id 窗口ID
 	 * @param {} title 窗口名字
@@ -229,7 +321,7 @@ function menuManage(){
 			labelWidth:60,
 			autoScroll:false,
 			waitMsgTarget:true,
-			url:path+url,
+			url:url,
 			items:[{
 				layout:"column",
 				border:false,
@@ -339,7 +431,7 @@ function menuManage(){
 		form.getForm().submit({
 			success: function(form, action) {
 				Ext.Msg.hide();
-				Ext.Msg.alert('Success', 'Save Successful!', function(btn, text) {
+				Ext.Msg.alert('系统提示信息', '菜单信息保存成功!', function(btn, text) {
 					if (btn == 'ok') {
 						var msg = Ext.decode(action.response.responseText);
 						menuStore.reload();
@@ -349,7 +441,7 @@ function menuManage(){
 			},
 			failure: function(form, action) {//action.result.errorMessage
 				Ext.Msg.hide();
-				Ext.Msg.alert('Warning', "error");
+				Ext.Msg.alert('系统提示信息', "菜单信息保存过程中出现异常!");
 			}
 		});
 	}

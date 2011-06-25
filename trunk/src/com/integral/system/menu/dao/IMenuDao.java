@@ -1,5 +1,6 @@
 package com.integral.system.menu.dao;
 
+import java.util.Collection;
 import java.util.List;
 
 import com.integral.system.menu.bean.MenuInfo;
@@ -72,4 +73,11 @@ public interface IMenuDao {
      * @update: 2011-6-25 代超[变更描述]
      */
     public MenuInfo findById(String menuId);
+    /**
+     * <p>Discription:[批量删除菜单信息]</p>
+     * @param menus
+     * @author: 代超
+     * @update: 2011-6-25 代超[变更描述]
+     */
+    public void deleteAll(Collection menus);
 }
