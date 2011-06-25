@@ -18,9 +18,15 @@
 		<security:intercept-url pattern="/js/**" filters="none"/>
 		<security:intercept-url pattern="/jsp/common/config.jsp" filters="none"/>
 		<security:intercept-url pattern="/index.jsp" filters="none"/>
+		<!-- 
 		<security:intercept-url pattern="/menu/childModule.action/**" filters="none"/>
+		 -->
+		<!-- 菜单目录,左边的菜单部分  begin -->
 		<security:intercept-url pattern="/menu/rightChildModule.action/**" filters="none"/>
 		<security:intercept-url pattern="/menu/rootModule.action/**" filters="none"/>
+		<!-- 菜单目录,左边的菜单部分  end -->
+		<!-- 下拉树型结构 -->
+		<security:intercept-url pattern="/menu/menuComboTree.action/**" filters="none"/>
 		<!-- 获取有权限访问的按钮 -->
 		<security:intercept-url pattern="/right/showButtons.action/**" filters="none"/>
 		

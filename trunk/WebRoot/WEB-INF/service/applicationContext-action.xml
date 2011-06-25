@@ -9,6 +9,8 @@
 	<bean class="com.integral.system.menu.action.MenuAction" id="menuAction">
 		<property name="menuService" ref="menuService"></property>
 		<property name="menuUtil" ref="menuUtil"></property>
+		<property name="transactionManager" ref="transactionManager"></property>
+		<property name="resourceDetailsMonitor" ref="resourceDetailsMonitor"></property>
 	</bean>
 	<!-- 按钮权限管理 -->
 	<bean class="com.integral.system.right.action.RightAction" id="rightAction">

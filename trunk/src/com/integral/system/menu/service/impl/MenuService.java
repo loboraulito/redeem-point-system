@@ -91,4 +91,44 @@ public class MenuService implements IMenuService {
         }
         return list;
     }
+    
+    /**
+     * <p>Discription:[查询父级菜单]</p>
+     * @return
+     * @author: 代超
+     * @update: 2011-6-25 代超[变更描述]
+     */
+    public List findRootMenu(){
+        return this.menuDao.findRootMenu();
+    }
+    /**
+     * <p>Discription:[查询父菜单下的子菜单]</p>
+     * @param rootMenuId
+     * @return
+     * @author 代超
+     * @update 2011-5-29 代超[变更描述]
+     */
+    public List findChildMenu(String rootMenuId){
+        return this.menuDao.findChildMenu(rootMenuId);
+    }
+    /**
+     * <p>Discription:[添加或修改菜单信息]</p>
+     * @param menu
+     * @author: 代超
+     * @update: 2011-6-25 代超[变更描述]
+     */
+    public void saveOrUpdateMenu(MenuInfo menu){
+        this.menuDao.saveOrUpdateMenu(menu);
+    }
+    
+    /**
+     * <p>Discription:[使用主键查询]</p>
+     * @param menuId
+     * @return
+     * @author: 代超
+     * @update: 2011-6-25 代超[变更描述]
+     */
+    public MenuInfo findById(String menuId){
+        return this.menuDao.findById(menuId);
+    }
 }

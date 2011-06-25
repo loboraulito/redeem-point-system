@@ -2,6 +2,8 @@ package com.integral.system.menu.service;
 
 import java.util.List;
 
+import com.integral.system.menu.bean.MenuInfo;
+
 public interface IMenuService {
     /**
      * <p>Discription:[菜单管理功能的列表]</p>
@@ -33,4 +35,38 @@ public interface IMenuService {
      * @return
      */
     public List findMenuByPageWithParentName(int start, int limit);
+    
+    /**
+     * <p>Discription:[查询父级菜单]</p>
+     * @return
+     * @author: 代超
+     * @update: 2011-6-25 代超[变更描述]
+     */
+    public List findRootMenu();
+    
+    /**
+     * <p>Discription:[查询父菜单下的子菜单]</p>
+     * @param rootMenuId
+     * @return
+     * @author 代超
+     * @update 2011-5-29 代超[变更描述]
+     */
+    public List findChildMenu(String rootMenuId);
+    
+    /**
+     * <p>Discription:[添加或修改菜单信息]</p>
+     * @param menu
+     * @author: 代超
+     * @update: 2011-6-25 代超[变更描述]
+     */
+    public void saveOrUpdateMenu(MenuInfo menu);
+    
+    /**
+     * <p>Discription:[使用主键查询]</p>
+     * @param menuId
+     * @return
+     * @author: 代超
+     * @update: 2011-6-25 代超[变更描述]
+     */
+    public MenuInfo findById(String menuId);
 }

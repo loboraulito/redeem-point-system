@@ -2,6 +2,8 @@ package com.integral.system.menu.dao;
 
 import java.util.List;
 
+import com.integral.system.menu.bean.MenuInfo;
+
 /** 
  * <p>Description: [描述该类概要功能介绍]</p>
  * @author  <a href="mailto: swpigris81@126.com">Chao Dai</a>
@@ -31,6 +33,13 @@ public interface IMenuDao {
      */
     public List findChildMenu(String rootMenuId);
     /**
+     * <p>Discription:[查询父级菜单]</p>
+     * @return
+     * @author: 代超
+     * @update: 2011-6-25 代超[变更描述]
+     */
+    public List findRootMenu();
+    /**
      * 查询所有的菜单全部信息
      * <p>Discription:[方法功能描述]</p>
      * @return
@@ -47,4 +56,20 @@ public interface IMenuDao {
      * @update: 2011-6-2 代超[变更描述]
      */
     public List findMenuByPage(int start, int limit);
+    
+    /**
+     * <p>Discription:[添加或修改菜单信息]</p>
+     * @param menu
+     * @author: 代超
+     * @update: 2011-6-25 代超[变更描述]
+     */
+    public void saveOrUpdateMenu(MenuInfo menu);
+    /**
+     * <p>Discription:[使用主键查询]</p>
+     * @param menuId
+     * @return
+     * @author: 代超
+     * @update: 2011-6-25 代超[变更描述]
+     */
+    public MenuInfo findById(String menuId);
 }
