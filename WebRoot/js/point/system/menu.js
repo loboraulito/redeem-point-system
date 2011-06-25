@@ -377,6 +377,7 @@ function menuManage(){
 						hiddenName:"parentMenuId",
 						dataUrl:path+"/menu/menuComboTree.action?method=menuComboTree",
 						listHeight:180,
+						//selectNodeModel:"all",
 						treeRootConfig:{
 							id:" ",
 							draggable:false,
