@@ -13,6 +13,14 @@
 		<property name="transactionManager" ref="transactionManager"></property>
 		<property name="resourceDetailsMonitor" ref="resourceDetailsMonitor"></property>
 	</bean>
+	<!-- 按钮管理 -->
+	<bean class="com.integral.system.menu.action.ButtonAction" id="buttonAction">
+		<property name="menuService" ref="menuService"></property>
+		<property name="buttonService" ref="buttonService"></property>
+		<property name="menuUtil" ref="menuUtil"></property>
+		<property name="transactionManager" ref="transactionManager"></property>
+		<property name="resourceDetailsMonitor" ref="resourceDetailsMonitor"></property>
+	</bean>
 	<!-- 按钮权限管理 -->
 	<bean class="com.integral.system.right.action.RightAction" id="rightAction">
 		<property name="rightService" ref="rightService"></property>
