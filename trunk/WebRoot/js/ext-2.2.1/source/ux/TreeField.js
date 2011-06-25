@@ -75,6 +75,18 @@ Ext.form.TreeField = Ext.extend(Ext.form.TriggerField,  {
      */
 	baseParams : {},
 	/**
+	 * 下拉树形结构的选择类型，默认全部可选。
+	 * all - 全部可选, leaf - 只允许叶子节点可选， exceptRoot - 除了根节点外其他都可选, folder:只有目录（非叶子和非根结点）可选
+	 * @type String
+	 */
+	selectNodeModel : "all",
+	/**
+	 * 下拉树的根节点
+	 * @type 
+	 */
+	root : null,
+	
+	/**
      * @cfg {Object} treeRootConfig
      * 树根节点的配置参数
      */
@@ -142,6 +154,15 @@ Ext.form.TreeField = Ext.extend(Ext.form.TriggerField,  {
         this.initList();
     },
 	select : function(node){
+		var selectModel = this.selectNodeModel;
+		var isLeaf = node.isLeaf();
+		if((node == this.root) && selectModel == 'exceptRoot'){
+			return;
+		}else if(selectModel=='leaf' && !isLeaf){
+			return;
+		}else if(selectModel=='folder' && isLeaf){
+			return;
+		}
 		if(this.fireEvent('beforeselect', node, this)!= false){
 			this.onSelect(node);
 			this.fireEvent('select', this, node);
@@ -165,9 +186,11 @@ Ext.form.TreeField = Ext.extend(Ext.form.TriggerField,  {
 				baseParams : this.baseParams
 			})
 		});
-	
 		var root = new Tree.AsyncTreeNode(this.treeRootConfig);
-		tree.setRootNode(root);
+		if(!this.root){
+			this.root = root;
+		}
+		tree.setRootNode(this.root);
 		return tree;
 	},
 
