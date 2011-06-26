@@ -147,67 +147,17 @@ function menuManage(){
 	 * 按钮存储器，尚未执行查询
 	 */
 	var buttonStore = buttonRight();
-	buttonStore.load({
-		params:{roleId:userRole,menuId:parent.menuId},
-		callback:function(buttonRecords,buttonOptions,buttonSuccess){
-			//这里处理按钮的显示和隐藏
-			//alert(buttonRecords.length);
-			var tbar = menuGrid.getTopToolbar();
-			if(!tbar){
-				tbar = new Ext.Toolbar();
-			}
-			var hasButtonShow = false;
-			for(var i=0;i<buttonRecords.length;i++){
-				//是否显示
-				var isShow = buttonRecords[i].get("isShow");
-				//var button = "";
-				if(isShow && isShow == "yes"){
-					hasButtonShow = true;
-					var buttonId = buttonRecords[i].get("buttonName");
-					var buttonText = buttonRecords[i].get("buttonText");
-					var buttonUrl = buttonRecords[i].get("buttonUrl");
-					var buttonCss = buttonRecords[i].get("buttonIconCls");
-					var buttonHandler = buttonRecords[i].get("handler");
-					var button = new Ext.Button({
-						text:buttonText,
-						id:buttonId,
-						iconCls:buttonCss,
-						tooltip:buttonText,
-						handlerFunction:buttonHandler,
-						handlerUrl:buttonUrl,
-						listeners:{
-							"click":function(bt, e){
-								var handlerFun = bt.handlerFunction;
-								if(handlerFun && handlerFun!= "" && typeof (eval(""+handlerFun+"")) == "function"){
-									eval(""+handlerFun+"('"+path + bt.handlerUrl+"')");
-								}
-							}
-						}
-					});
-					tbar.add(button);
-				}else{
-					continue;
-				}
-				
-				tbar.addSeparator();
-			}
-			if(!hasButtonShow){
-				menuGrid.setHeight(Ext.get("menu_div").getHeight());
-				menuGrid.render();
-			}
-			menuStore.load({
-				params:{start:0,limit:50},
-				callback:function(records,options,success){
-					//alert(proxyUrl);
-				}
-			});
-		}
-	});
+	/**
+	 * 加载权限按钮,加载页面数据
+	 * see buttonRight.js
+	 */
+	loadButtonRight(buttonStore, menuStore, menuGrid, "menu_div");
+	
 	/**
 	 * 增加菜单
 	 * @param {} buttonUrl : 处理该请求的url
 	 */
-	function addMenu(url){
+	this.addMenu = function(url){
 		var form = showMenuForm(url, false);
 		var button = [{
 			text:"保存",
@@ -231,7 +181,7 @@ function menuManage(){
 	 * 删除菜单
 	 * @param {} url 进行删除菜单的系统url
 	 */
-	function deleteMenu(url){
+	this.deleteMenu = function(url){
 		var gridSelectionModel = menuGrid.getSelectionModel();
 		var gridSelection = gridSelectionModel.getSelections();
 		if(gridSelection.length < 1){
@@ -277,10 +227,10 @@ function menuManage(){
 		});
 	}
 	/**
-	 * 
+	 * 编辑菜单信息
 	 * @param {} url
 	 */
-	function editMenu(url){
+	this.editMenu = function(url){
 		var gridSelectionModel = menuGrid.getSelectionModel();
 		var gridSelection = gridSelectionModel.getSelections();
 		if(gridSelection.length != 1){
@@ -341,7 +291,12 @@ function menuManage(){
 		});
 		menuWindow.show();
 	}
-	
+	/**
+	 * 菜单表单
+	 * @param {} url
+	 * @param {} isNull
+	 * @return {}
+	 */
 	function showMenuForm(url,isNull){
 		var menuForm = new Ext.form.FormPanel({
 			frame: true,

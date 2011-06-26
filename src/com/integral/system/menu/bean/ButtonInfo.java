@@ -20,6 +20,9 @@ public class ButtonInfo {
 
     /** 所属菜单ID **/
     private String menuId;
+    
+    /** 所属菜单名称 **/
+    private String menuName;
 
     /** 按钮的路径 **/
     private String buttonUrl;
@@ -34,6 +37,22 @@ public class ButtonInfo {
     private String handler;
     
     
+    /**
+     * <p>Discription:[方法功能描述]</p>
+     * @return String menuName.
+     */
+    public String getMenuName() {
+        return menuName;
+    }
+
+    /**
+     * <p>Discription:[方法功能描述]</p>
+     * @param menuName The menuName to set.
+     */
+    public void setMenuName(String menuName) {
+        this.menuName = menuName;
+    }
+
     /**
      * @return the handler
      */

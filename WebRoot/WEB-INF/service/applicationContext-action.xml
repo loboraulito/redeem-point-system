@@ -43,5 +43,7 @@
 		<property name="roleService" ref="roleService"></property>
 		<!-- 事务控制 -->
 		<property name="transactionManager" ref="transactionManager"></property>
+		<!-- 刷新内存 -->
+		<property name="resourceDetailsMonitor" ref="resourceDetailsMonitor"></property>
 	</bean>
 </beans>

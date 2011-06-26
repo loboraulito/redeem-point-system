@@ -15,5 +15,21 @@
 			 <result name="success">/jsp/system/menu/button.jsp</result>
 			 <result name="input">/index.jsp</result>
 		</action>
+		<action name="buttonManageList" class="com.integral.system.menu.action.ButtonAction" method="buttonList">
+			 <result name="success">/jsp/system/menu/button.jsp</result>
+			 <result name="input">/index.jsp</result>
+		</action>
+		<action name="buttonManageAdd" class="com.integral.system.menu.action.ButtonAction" method="addButton">
+			 <result name="success">/jsp/system/menu/button.jsp</result>
+			 <result name="input">/index.jsp</result>
+		</action>
+		<action name="buttonManageEdit" class="com.integral.system.menu.action.ButtonAction" method="editButton">
+			 <result name="success">/jsp/system/menu/button.jsp</result>
+			 <result name="input">/index.jsp</result>
+		</action>
+		<action name="buttonManageDelete" class="com.integral.system.menu.action.ButtonAction" method="deleteButton">
+			 <result name="success">/jsp/system/menu/button.jsp</result>
+			 <result name="input">/index.jsp</result>
+		</action>
 	</package>
 </struts>

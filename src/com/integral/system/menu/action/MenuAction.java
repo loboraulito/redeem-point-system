@@ -307,14 +307,14 @@ ServletRequestAware, ServletResponseAware {
                     this.menuService.saveOrUpdateMenu(parentMenu);
                 }
             }
-            //刷新系统内存
-            resourceDetailsMonitor.refresh();
             out.print("{success:true}");
         }catch(Exception e){
             status.setRollbackOnly();
             out.print("{success:false}");
         }finally{
             transactionManager.commit(status);
+            //刷新系统内存
+            resourceDetailsMonitor.refresh();
             if(out!=null){
                 out.flush();
                 out.close();
@@ -369,6 +369,8 @@ ServletRequestAware, ServletResponseAware {
             out.print("{success:false}");
         }finally{
             transactionManager.commit(status);
+            //刷新系统内存
+            resourceDetailsMonitor.refresh();
             if(out!=null){
                 out.flush();
                 out.close();
@@ -408,14 +410,14 @@ ServletRequestAware, ServletResponseAware {
                     this.menuService.saveOrUpdateMenu(parentMenu);
                 }
             }
-            //刷新系统内存
-            resourceDetailsMonitor.refresh();
             out.print("{success:true}");
         }catch(Exception e){
             status.setRollbackOnly();
             out.print("{success:false}");
         }finally{
             transactionManager.commit(status);
+            //刷新系统内存
+            resourceDetailsMonitor.refresh();
             if(out!=null){
                 out.flush();
                 out.close();

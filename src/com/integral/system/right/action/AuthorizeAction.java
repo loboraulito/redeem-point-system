@@ -29,6 +29,7 @@ import com.integral.system.role.service.IRoleMenuService;
 import com.integral.system.role.service.IRoleService;
 import com.integral.system.user.service.IUserService;
 import com.integral.util.menu.MenuUtils;
+import com.integral.util.spring.security.ResourceDetailsMonitor;
 
 /**
  * @author cdai 权限授权
@@ -46,6 +47,27 @@ public class AuthorizeAction extends BaseAction implements ServletRequestAware, 
 
     /** 事务处理 */
     private DataSourceTransactionManager transactionManager;
+    
+    /** 当更新了访问权限信息后, 需要手动的刷新系统内存, 以保证内存中的菜单权限信息最新 **/
+    private ResourceDetailsMonitor resourceDetailsMonitor;
+    
+
+    /**
+     * <p>Discription:[方法功能描述]</p>
+     * @return ResourceDetailsMonitor resourceDetailsMonitor.
+     */
+    public ResourceDetailsMonitor getResourceDetailsMonitor() {
+        return resourceDetailsMonitor;
+    }
+
+    /**
+     * <p>Discription:[方法功能描述]</p>
+     * @param resourceDetailsMonitor The resourceDetailsMonitor to set.
+     */
+    public void setResourceDetailsMonitor(
+            ResourceDetailsMonitor resourceDetailsMonitor) {
+        this.resourceDetailsMonitor = resourceDetailsMonitor;
+    }
 
     /**
      * @return the transactionManager
@@ -402,6 +424,8 @@ public class AuthorizeAction extends BaseAction implements ServletRequestAware, 
             out.print("{success:false}");
         } finally {
             transactionManager.commit(status);
+            //刷新系统内存
+            resourceDetailsMonitor.refresh();
             if(out!=null){
                 out.flush();
                 out.close();
