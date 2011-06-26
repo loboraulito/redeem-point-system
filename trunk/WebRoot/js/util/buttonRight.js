@@ -47,3 +47,73 @@ function buttonRight(roleId, menuId, callbackFunction){
 	*/
 	return buttonStore;
 }
+/**
+ * 读取权限按钮以及页面数据
+ * @param {} buttonStore 权限按钮数据
+ * @param {} mainDataStore 页面数据
+ * @param {} dataGrid 页面展示
+ * @param {} pageDiv 页面div
+ */
+function loadButtonRight(buttonStore, mainDataStore, dataGrid, pageDiv){
+	if(!buttonStore || !dataGrid || !pageDiv){
+		return;
+	}
+	buttonStore.load({
+		params:{roleId:userRole,menuId:parent.menuId},
+		callback:function(buttonRecords,buttonOptions,buttonSuccess){
+			//这里处理按钮的显示和隐藏
+			//alert(buttonRecords.length);
+			var tbar = dataGrid.getTopToolbar();
+			if(!tbar){
+				tbar = new Ext.Toolbar();
+			}
+			var hasButtonShow = false;
+			for(var i=0;i<buttonRecords.length;i++){
+				//是否显示
+				var isShow = buttonRecords[i].get("isShow");
+				//var button = "";
+				if(isShow && isShow == "yes"){
+					hasButtonShow = true;
+					var buttonId = buttonRecords[i].get("buttonName");
+					var buttonText = buttonRecords[i].get("buttonText");
+					var buttonUrl = buttonRecords[i].get("buttonUrl");
+					var buttonCss = buttonRecords[i].get("buttonIconCls");
+					var buttonHandler = buttonRecords[i].get("handler");
+					var button = new Ext.Button({
+						text:buttonText,
+						id:buttonId,
+						iconCls:buttonCss,
+						tooltip:buttonText,
+						handlerFunction:buttonHandler,
+						handlerUrl:buttonUrl,
+						listeners:{
+							"click":function(bt, e){
+								var handlerFun = bt.handlerFunction;
+								if(handlerFun && handlerFun!= "" && typeof (eval(""+handlerFun+"")) == "function"){
+									eval(""+handlerFun+"('"+path + bt.handlerUrl+"')");
+								}
+							}
+						}
+					});
+					tbar.add(button);
+				}else{
+					continue;
+				}
+				
+				tbar.addSeparator();
+			}
+			if(!hasButtonShow){
+				dataGrid.setHeight(Ext.get(pageDiv).getHeight());
+				dataGrid.render();
+			}
+			if(mainDataStore){
+				mainDataStore.load({
+					params:{start:0,limit:50},
+					callback:function(records,options,success){
+						//alert(proxyUrl);
+					}
+				});
+			}
+		}
+	});
+}

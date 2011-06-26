@@ -138,6 +138,7 @@
 				class="com.integral.system.menu.service.impl.ButtonService"
 				abstract="false" lazy-init="default" autowire="default">
 				<property name="buttonDao" ref="ButtonDao"></property>
+				<property name="baseDao" ref="BaseDao"></property>
 			</bean>
 		</property>
 		<property name="transactionAttributes">

@@ -42,4 +42,20 @@ public interface IButtonService {
      * @update: 2011-6-25 代超[变更描述]
      */
     public List findButtonByMenuId(String menuId);
+    /**
+     * <p>Discription:[查询所有的按钮数量]</p>
+     * @return
+     * @author: 代超
+     * @update: 2011-6-26 代超[变更描述]
+     */
+    public Long findAllButtonSize();
+    /**
+     * <p>Discription:[分页查询按钮信息,并且显示其所属按钮的名称]</p>
+     * @param start
+     * @param limit
+     * @return
+     * @author: 代超
+     * @update: 2011-6-26 代超[变更描述]
+     */
+    public List findButtonByPageWithMenu(int start, int limit);
 }
