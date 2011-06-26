@@ -179,3 +179,8 @@ menu_info
 http://hi.baidu.com/lvsiquan/blog/item/d46acc9797a83d7455fb96dc.html
 http://hi.baidu.com/qethan/blog/item/fb6f3c18e596abe2e1fe0b04.html
 http://hi.baidu.com/ybhanxiao/blog/item/63175789cce4e3be0e2444f9.html
+
+2911/06/26
+完成菜单的增删改
+按钮的删
+注意这些东西的改动，必须在事务提交之后进行刷新内存的操作，以便让修改的操作生效。
