@@ -167,7 +167,17 @@ function buttonManage(){
 	 * @param {} url
 	 */
 	this.addButton = function(url){
+		var buttonForm = showMenuForm(url,false);
+		var buttons = [{
+			text:"保存"
+		},{
+			text:"关闭窗口",
+			handler:function(){
+				Ext.getCmp("addButtonWindow").close();
+			}
+		}];
 		
+		showMenuWindow("addButtonWindow", "添加按钮", 550, 300, buttonForm, buttons)
 	}
 	/**
 	 * 修改按钮
@@ -258,7 +268,7 @@ function buttonManage(){
 		var menuForm = new Ext.form.FormPanel({
 			frame: true,
 			labelAlign: 'right',
-			labelWidth:60,
+			labelWidth:80,
 			autoScroll:false,
 			waitMsgTarget:true,
 			url:url,
@@ -272,9 +282,10 @@ function buttonManage(){
 					height:50,
 					items:[{
 						xtype: 'textfield',
-						name:"menuName",
+						name:"buttonName",
 						anchor:"90%",
-						fieldLabel:"菜单名称",
+						fieldLabel:"按钮标识符",
+						vtype:"alphanum",
 						allowBlank:isNull
 					}]
 				},{
@@ -282,21 +293,10 @@ function buttonManage(){
 					columnWidth:.5,
 					height:50,
 					items:[{
-						xtype: 'treeField',
-						name:"parentMenuId",
-						displayField:"menuName",
-						valueField:"menuId",
-						hiddenName:"parentMenuId",
-						dataUrl:path+"/menu/menuComboTree.action?method=menuComboTree",
-						listHeight:180,
-						//selectNodeModel:"all",
-						treeRootConfig:{
-							id:" ",
-							draggable:false,
-							text:"会员积分兑换系统"
-						},
+						xtype: 'textfield',
+						name:"buttonText",
 						anchor:"90%",
-						fieldLabel:"上级菜单",
+						fieldLabel:"按钮显示文字",
 						allowBlank:isNull
 					}]
 				}]
@@ -309,21 +309,89 @@ function buttonManage(){
 					columnWidth:.5,
 					height:50,
 					items:[{
-						xtype: 'combo',
-						name:"isLeave",
+						xtype: 'treeField',
+						name:"menuId",
+						displayField:"menuName",
+						valueField:"menuId",
+						hiddenName:"menuId",
+						dataUrl:path+"/menu/menuComboTree.action?method=menuComboTree",
+						listHeight:180,
+						selectNodeModel:"leaf",
+						treeRootConfig:{
+							id:" ",
+							draggable:false,
+							singleClickExpand:true,
+							text:"会员积分兑换系统"
+						},
 						anchor:"90%",
-						fieldLabel:"叶子节点",
+						fieldLabel:"所属菜单",
+						allowBlank:isNull
+					}]
+				},{
+					layout:"form",
+					columnWidth:.5,
+					height:50,
+					items:[{
+						xtype: 'combo',
+						name:"isShow",
+						anchor:"90%",
+						fieldLabel:"是否显示",
 						editable:false,//false：不可编辑
 						triggerAction:"all",//避免选定了一个值之后，再选的时候只显示刚刚选择的那个值
 						valueField:"codeid",//将codeid设置为传递给后台的值
 						displayField:"codename",
-						hiddenName:"isLeave",//这个值就是传递给后台获取的值
+						hiddenName:"isShow",//这个值就是传递给后台获取的值
 						mode: "local",
 						store:new Ext.data.SimpleStore({
 							fields:["codeid","codename"],
 							data:[["1","是"],["0","否"]]
 						}),
+						value:"1",
 						allowBlank:isNull
+					}]
+				}]
+			},{
+				layout:"column",
+				border:false,
+				labelSeparator:'：',
+				items:[{
+					layout:"form",
+					columnWidth:.5,
+					height:50,
+					items:[{
+						xtype: 'textfield',
+						name:"handler",
+						anchor:"90%",
+						vtype:"alphanum",
+						fieldLabel:"按钮触发事件"
+					}]
+				},{
+					layout:"form",
+					columnWidth:.5,
+					height:50,
+					items:[{
+						xtype: 'combo',
+						name:"buttonIconCls",
+						anchor:"90%",
+						fieldLabel:"按钮样式",
+						editable:false,//false：不可编辑
+						triggerAction:"all",//避免选定了一个值之后，再选的时候只显示刚刚选择的那个值
+						valueField:"codeid",//将codeid设置为传递给后台的值
+						displayField:"codename",
+						iconClsField: 'iconCss',
+						hiddenName:"buttonIconCls",//这个值就是传递给后台获取的值
+						mode: "local",
+						store:new Ext.data.SimpleStore({
+							fields:["codeid","codename","iconCss"],
+							data:[["table_add","添加按钮样式","table_add"],["table_edit","修改按钮样式","table_edit"],
+							["table_delete","删除按钮样式","table_delete"],["table_find","查找按钮样式","table_find"],
+							["table_gear","调整按钮样式","table_gear"],["table_attach","附件按钮样式","table_attach"],
+							["table_link","超级链接按钮样式","table_link"],["table_goto","跳转按钮样式","table_goto"],
+							["table_key","关键字按钮样式","table_key"],["table_save","保存按钮样式","table_save"],
+							["table_refresh","刷新按钮样式","table_refresh"],["table_row_insert","添加行按钮样式","table_row_insert"],
+							["table_row_delete","删除行按钮样式","table_row_delete"],["none","无样式","table"]]
+						}),
+						plugins:new Ext.ux.plugins.IconCombo()
 					}]
 				}]
 			},{
@@ -336,19 +404,16 @@ function buttonManage(){
 					height:50,
 					items:[{
 						xtype: 'textfield',
-						name:"pagePath",
+						name:"buttonUrl",
 						anchor:"90%",
-						fieldLabel:"菜单路径",
+						fieldLabel:"按钮路径",
 						allowBlank:isNull
 					},{
 						xtype: 'hidden',
-						name:"menuId"
+						name:"buttonId"
 					},{
 						xtype: 'hidden',
-						name:"menuLevel"
-					},{
-						xtype: 'hidden',
-						name:"parentMenuName"
+						name:"menuName"
 					}]
 				}]
 			}]
@@ -363,6 +428,6 @@ function buttonManage(){
  */
 Ext.onReady(function(){
 	Ext.QuickTips.init();
-	Ext.form.Field.prototype.msgTarget = 'under';//side
+	Ext.form.Field.prototype.msgTarget = 'side';//under
 	buttonManage();
 });

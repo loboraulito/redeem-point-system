@@ -336,6 +336,7 @@ function menuManage(){
 						treeRootConfig:{
 							id:" ",
 							draggable:false,
+							singleClickExpand:true,
 							text:"会员积分兑换系统"
 						},
 						anchor:"90%",
