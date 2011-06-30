@@ -93,7 +93,15 @@ function buttonManage(){
 		renderTo:button_div,
 		cm:buttonCM,
 		sm:buttonSM,
-		viewConfig:{forceFit:true},//若父容器的layout为fit，那么强制本grid充满该父容器
+		viewConfig:{
+			forceFit:true,//若父容器的layout为fit，那么强制本grid充满该父容器
+			getRowClass:function(record, rowIndex, rowParams, store){
+				//if(rowIndex == 7){
+					alert(record.data.buttonIconCls);
+					return record.data.buttonIconCls;
+				//}
+			}
+		},
 		split: true,
 		bbar:new Ext.PagingToolbar({
 			pageSize:50,//每页显示数
@@ -169,7 +177,12 @@ function buttonManage(){
 	this.addButton = function(url){
 		var buttonForm = showMenuForm(url,false);
 		var buttons = [{
-			text:"保存"
+			text:"保存",
+			handler:function(){
+				if(buttonForm.form.isValid()){
+					saveMenu("addButtonWindow",buttonForm);
+				}
+			}
 		},{
 			text:"关闭窗口",
 			handler:function(){
@@ -177,14 +190,42 @@ function buttonManage(){
 			}
 		}];
 		
-		showMenuWindow("addButtonWindow", "添加按钮", 550, 300, buttonForm, buttons)
+		showMenuWindow("addButtonWindow", "添加按钮", 550, 300, buttonForm, buttons);
 	}
 	/**
 	 * 修改按钮
 	 * @param {} url
 	 */
 	this.editButton = function(url){
+		var gridSelectionModel = buttonGrid.getSelectionModel();
+		var gridSelection = gridSelectionModel.getSelections();
+		if(gridSelection.length != 1){
+			Ext.MessageBox.alert('提示','请选择一条按钮信息！');
+		    return false;
+		}
+		var buttonForm = showMenuForm(url,false);
+		var buttons = [{
+			text:"保存",
+			handler:function(){
+				if(buttonForm.form.isValid()){
+					saveMenu("editButtonWindow",buttonForm);
+				}
+			}
+		},{
+			text:"关闭窗口",
+			handler:function(){
+				Ext.getCmp("editButtonWindow").close();
+			}
+		}];
 		
+		showMenuWindow("editButtonWindow", "修改按钮", 550, 300, buttonForm, buttons);
+		buttonForm.getForm().loadRecord(gridSelection[0]);
+		var node = {};
+		node.text = gridSelection[0].get("menuName");
+		node.id = gridSelection[0].get("menuId");
+		buttonForm.form.findField("menuId").setValue(node);
+		buttonForm.form.findField("menuId").tree.expandAll();
+		//buttonForm.form.findField("menuId").tree.getNodeById(node.id).select();
 	}
 	/**
 	 * 删除菜单
@@ -344,7 +385,7 @@ function buttonManage(){
 						mode: "local",
 						store:new Ext.data.SimpleStore({
 							fields:["codeid","codename"],
-							data:[["1","是"],["0","否"]]
+							data:[["yes","显示"],["no","不显示"]]
 						}),
 						value:"1",
 						allowBlank:isNull
@@ -419,6 +460,38 @@ function buttonManage(){
 			}]
 		});
 		return menuForm;
+	}
+	
+	/**
+	 * 保存菜单信息
+	 * @param {} menuWindow 弹出窗口ID
+	 * @param {} form 表单内容
+	 */
+	function saveMenu(menuWindow, form){
+		Ext.MessageBox.show({
+			msg:"正在保存按钮信息，请稍候...",
+			progressText:"正在保存按钮信息，请稍候...",
+			width:300,
+			wait:true,
+			waitConfig: {interval:200},
+			icon:Ext.Msg.INFO
+		});
+		form.getForm().submit({
+			success: function(form, action) {
+				Ext.Msg.hide();
+				Ext.Msg.alert('系统提示信息', '按钮信息保存成功!', function(btn, text) {
+					if (btn == 'ok') {
+						var msg = Ext.decode(action.response.responseText);
+						menuStore.reload();
+						Ext.getCmp(menuWindow).close();
+					}
+				});
+			},
+			failure: function(form, action) {//action.result.errorMessage
+				Ext.Msg.hide();
+				Ext.Msg.alert('系统提示信息', "按钮信息保存过程中出现异常!");
+			}
+		});
 	}
 }
 

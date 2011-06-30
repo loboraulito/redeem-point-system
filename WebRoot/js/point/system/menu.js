@@ -267,6 +267,7 @@ function menuManage(){
 		node.text = gridSelection[0].get("parentMenuName");
 		node.id = gridSelection[0].get("parentMenuId");
 		form.form.findField("parentMenuId").setValue(node);
+		form.form.findField("parentMenuId").tree.expandAll();
 	}
 	
 	/**
