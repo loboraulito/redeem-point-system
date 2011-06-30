@@ -66,6 +66,7 @@ function buttonManage(){
 	},{
 		header:"按钮样式",
 		dataIndex:"buttonIconCls",
+		renderer:cellCss,
 		width:50
 	},{
 		header:"按钮触发事件",
@@ -94,13 +95,7 @@ function buttonManage(){
 		cm:buttonCM,
 		sm:buttonSM,
 		viewConfig:{
-			forceFit:true,//若父容器的layout为fit，那么强制本grid充满该父容器
-			getRowClass:function(record, rowIndex, rowParams, store){
-				//if(rowIndex == 7){
-					alert(record.data.buttonIconCls);
-					return record.data.buttonIconCls;
-				//}
-			}
+			forceFit:true//若父容器的layout为fit，那么强制本grid充满该父容器
 		},
 		split: true,
 		bbar:new Ext.PagingToolbar({
@@ -145,6 +140,23 @@ function buttonManage(){
 	function showMenuUrl(value,metadata,record,rowIndex,colIndex,store){
 		return "<a href = '###' onclick='showMenuManage()' title='点击查看菜单管理页面'>"+value+"</a>";
 	}
+	/**
+	 * 单元格样式
+	 * @param {} value
+	 * @param {} metadata
+	 * @param {} record
+	 * @param {} rowIndex
+	 * @param {} colIndex
+	 * @param {} store
+	 */
+	function cellCss(value,metadata,record,rowIndex,colIndex,store){
+		if(value){
+			return "<div class='"+value+" ux-icon-combo-item'>aaaa</div>";
+		}else{
+			return value;
+		}
+	}
+	
 	/**
 	 * 跳转到菜单管理页面, 如何处理？
 	 */
