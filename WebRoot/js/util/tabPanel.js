@@ -12,6 +12,7 @@ function createTabPanel(title,tabId,href,closable){
 		id:"mainTabPanel",
 		activeTab:0,
 		autoScroll:false,
+		border:false,
 		bodyStyle:"overflow:hidden;",
 		plugins:new Ext.ux.TabCloseMenu(),
 		//autoHeight:true,
