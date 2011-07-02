@@ -75,7 +75,7 @@ function buttonManage(){
 	},{
 		header:"所属菜单",
 		dataIndex:"menuName",
-		renderer:showMenuUrl,
+		//renderer:showMenuUrl,
 		width:60
 	},{
 		header:"所属菜单ID",
@@ -175,7 +175,11 @@ function buttonManage(){
 	function cellCss(value,metadata,record,rowIndex,colIndex,store){
 		if(value){
 			var index = styleStore.find("codeid",value);
-			return "<div class='"+value+" ux-icon-combo-item' style='height:20px;'>"+styleStore.getAt(index).get("codename")+"</div>";
+			if(value == "none"){
+				return "<div class='table ux-icon-combo-item' style='height:20px;'>"+styleStore.getAt(index).get("codename")+"</div>";
+			}else{
+				return "<div class='"+value+" ux-icon-combo-item' style='height:20px;'>"+styleStore.getAt(index).get("codename")+"</div>";
+			}
 		}else{
 			var index = styleStore.find("codeid","none");
 			return "<div class='table ux-icon-combo-item' style='height:20px'>"+styleStore.getAt(index).get("codename")+"</div>";
