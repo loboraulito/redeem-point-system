@@ -38,8 +38,8 @@ function indexPage(){
 					var response = Ext.decode(responses.responseText);
 					var rootMenu = response.rootMenu;
 					var menuSize = response.menuSize;
-					//alert(rootMenu);
-					menuPanel.body.dom.innerHTML = "";
+					//menuPanel.body.dom.innerHTML = "";
+					menuPanel.body.update("");
 					showRootMenu(rootMenu,menuSize);
 				}catch(e){
 					//alert(e);
@@ -77,7 +77,15 @@ function indexPage(){
 			region:"center",
 			html:"<div id='mainpage' style='height: 100%;width: 100%;overflow:hidden;'></div>", //让中间的tabpanel显示区域
 			deferredRender:false,
-			margins:'0 5 0 5'
+			id:"mainpagepanel",
+			margins:'0 5 0 5',
+			autoLoad:{
+				callback:function(scope,success,responses){
+					Ext.getCmp("mainpagepanel").body.update("<div id='mainpage' style='height: 100%;width: 100%;overflow:hidden;'></div>");
+					//Ext.getCmp("mainpagepanel").body.dom.innerHTML = "<div id='mainpage' style='height: 100%;width: 100%;overflow:hidden;'></div>";
+					createMainTabPanel("首&nbsp;&nbsp;&nbsp;&nbsp;页", "mainPagePanel", "/jsp/main.jsp", false);
+				}
+			}
 		},{
 			region:"south",
 			height:20,
@@ -93,6 +101,14 @@ function indexPage(){
 			margins:'0 5 0 0'
 		}]
 	});
+	
+	viewport.on("show",function(){
+		alert(1);
+		createMainTabPanel("首页", "mainPagePanel", "/jsp/main.jsp", false);
+	});
+	
+	
+	
 	//loadMenuPanel();
 	var themeCombo = new Ext.form.ComboBox({
 		id:"xthemebox",
@@ -129,7 +145,6 @@ function indexPage(){
         	}
         }
 	});
-	
 }
 
 function loadMenuPanel(user_name){

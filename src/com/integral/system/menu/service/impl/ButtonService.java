@@ -117,4 +117,9 @@ public class ButtonService implements IButtonService {
         }
         return list;
     }
+
+    @Override
+    public void saveOrUpdate(ButtonInfo button) {
+        this.buttonDao.saveOrUpdate(button);
+    }
 }

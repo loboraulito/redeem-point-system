@@ -190,3 +190,6 @@ http://hi.baidu.com/ybhanxiao/blog/item/63175789cce4e3be0e2444f9.html
 http://www.huomo.cn/developer/article-4222.html
 //更改行高
 http://www.iteye.com/topic/165218
+
+2010/07/01
+只有通过解析当前tab的iframe页面的id来获取当前页面的url的ID了。

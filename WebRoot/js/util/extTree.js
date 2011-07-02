@@ -36,21 +36,11 @@ function providetreePanel(mainMenuId, rootName){
 		border:false//没有边框
 	});
 	tree.on('beforeload',function(node){rloader.url = url+node.id;});//mainMenuId
-	// TODO 可以在这里做，当用户点击菜单的时候，在中间出现tabPanel
+	//当用户点击菜单的时候，在中间出现tabPanel
 	tree.on("click",function(node){
 		menuId = node.id;
 		if(node.isLeaf()){
-			var tabPanel = Ext.getCmp("mainTabPanel");
-			if(!tabPanel){
-				createTabPanel(node.text,node.id+"_tab",node.attributes.hrefComment);
-			}else{
-				var tabPanelPage = Ext.getCmp(node.id+"_tab");
-				if(!tabPanelPage){
-					addTabPanel(tabPanel,node.id+"_tab",node.text,node.attributes.hrefComment);
-				}else{
-					activeTabPanel(tabPanel,node.id+"_tab");
-				}
-			}
+			createMainTabPanel(node.text, node.id, node.attributes.hrefComment, true);
 			return;
 		}
 	});

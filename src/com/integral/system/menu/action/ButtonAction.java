@@ -4,10 +4,12 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang.math.NumberUtils;
 import org.apache.struts2.interceptor.ServletRequestAware;
 import org.apache.struts2.interceptor.ServletResponseAware;
@@ -21,6 +23,7 @@ import com.integral.common.action.BaseAction;
 import com.integral.system.menu.bean.ButtonInfo;
 import com.integral.system.menu.service.IButtonService;
 import com.integral.system.menu.service.IMenuService;
+import com.integral.util.RequestUtil;
 import com.integral.util.menu.MenuUtils;
 import com.integral.util.spring.security.ResourceDetailsMonitor;
 
@@ -197,6 +200,80 @@ public class ButtonAction extends BaseAction implements ServletRequestAware, Ser
         try{
             out = super.getPrintWriter(request, response);
             this.buttonService.deleteAll(list);
+            out.print("{success:true}");
+        }catch(Exception e){
+            status.setRollbackOnly();
+            out.print("{success:false}");
+        }finally{
+            transactionManager.commit(status);
+            //刷新系统内存
+            resourceDetailsMonitor.refresh();
+            if(out!=null){
+                out.flush();
+                out.close();
+            }
+        }
+        return null;
+    }
+    
+    public String addButton(){
+        Map requestMap = RequestUtil.getRequestMap(request);
+        ButtonInfo button = new ButtonInfo();
+        // 定义TransactionDefinition并设置好事务的隔离级别和传播方式。
+        DefaultTransactionDefinition definition = new DefaultTransactionDefinition();
+        // 代价最大、可靠性最高的隔离级别，所有的事务都是按顺序一个接一个地执行
+        definition.setIsolationLevel(TransactionDefinition.ISOLATION_SERIALIZABLE);
+        // 开始事务
+        TransactionStatus status = transactionManager.getTransaction(definition);
+        PrintWriter out = null;
+        try{
+            out = super.getPrintWriter(request, response);
+            BeanUtils.populate(button, requestMap);
+            
+            if(button.getButtonId() == null || "".equals(button.getButtonId().trim())){
+                button.setButtonId(null);
+            }
+            if(button.getMenuId() == null || "".equals(button.getMenuId().trim())){
+                button.setMenuId(null);
+            }
+            this.buttonService.saveOrUpdate(button);
+            out.print("{success:true}");
+        }catch(Exception e){
+            status.setRollbackOnly();
+            out.print("{success:false}");
+        }finally{
+            transactionManager.commit(status);
+            //刷新系统内存
+            resourceDetailsMonitor.refresh();
+            if(out!=null){
+                out.flush();
+                out.close();
+            }
+        }
+        return null;
+    }
+    
+    public String editButton(){
+        Map requestMap = RequestUtil.getRequestMap(request);
+        ButtonInfo button = new ButtonInfo();
+        // 定义TransactionDefinition并设置好事务的隔离级别和传播方式。
+        DefaultTransactionDefinition definition = new DefaultTransactionDefinition();
+        // 代价最大、可靠性最高的隔离级别，所有的事务都是按顺序一个接一个地执行
+        definition.setIsolationLevel(TransactionDefinition.ISOLATION_SERIALIZABLE);
+        // 开始事务
+        TransactionStatus status = transactionManager.getTransaction(definition);
+        PrintWriter out = null;
+        try{
+            out = super.getPrintWriter(request, response);
+            BeanUtils.populate(button, requestMap);
+            
+            if(button.getButtonId() == null || "".equals(button.getButtonId().trim())){
+                button.setButtonId(null);
+            }
+            if(button.getMenuId() == null || "".equals(button.getMenuId().trim())){
+                button.setMenuId(null);
+            }
+            this.buttonService.saveOrUpdate(button);
             out.print("{success:true}");
         }catch(Exception e){
             status.setRollbackOnly();

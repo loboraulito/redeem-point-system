@@ -40,4 +40,11 @@ public interface IButtonDao {
      * @update: 2011-6-25 代超[变更描述]
      */
     public List findButtonByMenuId(String menuId);
+    /**
+     * <p>Discription:[新增或修改按钮信息]</p>
+     * @param button
+     * @author: 代超
+     * @update: 2011-7-1 代超[变更描述]
+     */
+    public void saveOrUpdate(ButtonInfo button);
 }

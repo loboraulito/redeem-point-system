@@ -29,6 +29,18 @@ function buttonManage(){
 		}),
 		reader:buttonReader
 	});
+	
+	var styleStore = new Ext.data.SimpleStore({
+		fields:["codeid","codename","iconCss"],
+		data:[["table_add","添加按钮","table_add"],["table_edit","修改按钮","table_edit"],
+			["table_delete","删除按钮","table_delete"],["table_find","查找按钮","table_find"],
+			["table_gear","调整按钮","table_gear"],["table_attach","附件按钮","table_attach"],
+			["table_link","超级链接按钮","table_link"],["table_goto","跳转按钮","table_goto"],
+			["table_key","关键字按钮","table_key"],["table_save","保存按钮","table_save"],
+			["table_refresh","刷新按钮","table_refresh"],["table_row_insert","添加行按钮","table_row_insert"],
+			["table_row_delete","删除行按钮","table_row_delete"],["none","无","table"]]
+	});
+	
 	/**
 	 * buttonSM:数据展现样式
 	 */
@@ -67,7 +79,7 @@ function buttonManage(){
 		header:"按钮样式",
 		dataIndex:"buttonIconCls",
 		renderer:cellCss,
-		width:50
+		width:80
 	},{
 		header:"按钮触发事件",
 		dataIndex:"handler",
@@ -151,9 +163,11 @@ function buttonManage(){
 	 */
 	function cellCss(value,metadata,record,rowIndex,colIndex,store){
 		if(value){
-			return "<div class='"+value+" ux-icon-combo-item'>aaaa</div>";
+			var index = styleStore.find("codeid",value);
+			return "<div class='"+value+" ux-icon-combo-item' style='height:20px;'>"+styleStore.getAt(index).get("codename")+"</div>";
 		}else{
-			return value;
+			var index = styleStore.find("codeid","none");
+			return "<div class='table ux-icon-combo-item' style='height:20px'>"+styleStore.getAt(index).get("codename")+"</div>";
 		}
 	}
 	
@@ -277,7 +291,7 @@ function buttonManage(){
 							Ext.Msg.alert("提示信息",msg.msg);
 						}else{
 							Ext.Msg.alert("提示信息","所选按钮信息删除成功！");
-							menuStore.reload();
+							buttonStore.reload();
 						}
 					},failure:function(response,options){
 						Ext.Msg.hide();
@@ -399,7 +413,7 @@ function buttonManage(){
 							fields:["codeid","codename"],
 							data:[["yes","显示"],["no","不显示"]]
 						}),
-						value:"1",
+						value:"yes",
 						allowBlank:isNull
 					}]
 				}]
@@ -434,16 +448,8 @@ function buttonManage(){
 						iconClsField: 'iconCss',
 						hiddenName:"buttonIconCls",//这个值就是传递给后台获取的值
 						mode: "local",
-						store:new Ext.data.SimpleStore({
-							fields:["codeid","codename","iconCss"],
-							data:[["table_add","添加按钮样式","table_add"],["table_edit","修改按钮样式","table_edit"],
-							["table_delete","删除按钮样式","table_delete"],["table_find","查找按钮样式","table_find"],
-							["table_gear","调整按钮样式","table_gear"],["table_attach","附件按钮样式","table_attach"],
-							["table_link","超级链接按钮样式","table_link"],["table_goto","跳转按钮样式","table_goto"],
-							["table_key","关键字按钮样式","table_key"],["table_save","保存按钮样式","table_save"],
-							["table_refresh","刷新按钮样式","table_refresh"],["table_row_insert","添加行按钮样式","table_row_insert"],
-							["table_row_delete","删除行按钮样式","table_row_delete"],["none","无样式","table"]]
-						}),
+						value:"none",
+						store:styleStore,
 						plugins:new Ext.ux.plugins.IconCombo()
 					}]
 				}]
@@ -494,7 +500,7 @@ function buttonManage(){
 				Ext.Msg.alert('系统提示信息', '按钮信息保存成功!', function(btn, text) {
 					if (btn == 'ok') {
 						var msg = Ext.decode(action.response.responseText);
-						menuStore.reload();
+						buttonStore.reload();
 						Ext.getCmp(menuWindow).close();
 					}
 				});

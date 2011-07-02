@@ -54,9 +54,11 @@ String userRole = String.valueOf(session.getAttribute("roleId"));
 	var userName = "<%=userName%>";
 	var userRole = "<%=userRole%>";
 	var path = "<%=path%>";
+	var currentMenuId = "";
 </SCRIPT>
 <SCRIPT type="text/javascript">
 Ext.onReady(function(){
 	changeXtheme();
+	currentMenuId = getCurrentMenuId();
 });
 </SCRIPT>
