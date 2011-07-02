@@ -1,4 +1,10 @@
-function createTabPanel(title,tabId,href){
+/**
+ * 初始化tab面板，并且默认一个页面
+ * @param {} title
+ * @param {} tabId
+ * @param {} href
+ */
+function createTabPanel(title,tabId,href,closable){
 	var tabPanel = new Ext.TabPanel({
 		//width:Ext.get("mainpage").getWidth(),
 		height:Ext.get("mainpage").getHeight(),
@@ -7,6 +13,7 @@ function createTabPanel(title,tabId,href){
 		activeTab:0,
 		autoScroll:false,
 		bodyStyle:"overflow:hidden;",
+		plugins:new Ext.ux.TabCloseMenu(),
 		//autoHeight:true,
 		/*
 		autoLoad:{
@@ -33,25 +40,35 @@ function createTabPanel(title,tabId,href){
 		items:[{
 			title:title,
 			id:tabId,
-			closable:true,
+			closable:closable,
 			html:"<iframe id='"+tabId+"_frame' name='"+tabId+"_frame' src='"+path+href+"' frameborder='0' height='100%' width='100%' style='overflow:hidden;' scrolling=\"no\"></iframe>"
 		}]
 	});
 }
-
-function addTabPanel(panel,panelId,title,href){
+/**
+ * 增加一个tab页
+ * @param {} panel
+ * @param {} panelId
+ * @param {} title
+ * @param {} href
+ */
+function addTabPanel(panel,panelId,title,href,closable){
 	if(panel){
 		var tab = {
 			title:title,
 			id:panelId,
-			closable:true,
+			closable:closable,
 			html:"<iframe id='"+panelId+"_frame' name='"+panelId+"_frame' src='"+path+href+"' frameborder='0' height='100%' width='100%' style='overflow:hidden;' scrolling=\"no\"></iframe>"
 		};
 		panel.add(tab);
 		panel.setActiveTab(panelId);
 	}
 }
-
+/**
+ * 激活当前面板
+ * @param {} panel
+ * @param {} tabId
+ */
 function activeTabPanel(panel,tabId){
 	panel.setActiveTab(tabId);
 }

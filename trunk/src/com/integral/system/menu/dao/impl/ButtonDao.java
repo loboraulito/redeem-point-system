@@ -63,4 +63,15 @@ public class ButtonDao extends HibernateDaoSupport  implements IButtonDao {
             throw re;
         }
     }
+
+    @Override
+    public void saveOrUpdate(ButtonInfo button) {
+        log.debug("saveOrUpdate button");
+        try {
+            getHibernateTemplate().saveOrUpdate(button);
+        } catch (RuntimeException re) {
+            log.error("saveOrUpdate button ", re);
+            throw re;
+        }
+    }
 }

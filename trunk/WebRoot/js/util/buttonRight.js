@@ -59,7 +59,7 @@ function loadButtonRight(buttonStore, mainDataStore, dataGrid, pageDiv){
 		return;
 	}
 	buttonStore.load({
-		params:{roleId:userRole,menuId:parent.menuId},
+		params:{roleId:userRole,menuId:currentMenuId},
 		callback:function(buttonRecords,buttonOptions,buttonSuccess){
 			//这里处理按钮的显示和隐藏
 			//alert(buttonRecords.length);
