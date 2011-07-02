@@ -16,10 +16,15 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>无权访问</title>
+<script type="text/javascript">
+function hasNoRight(){
+	parent.top.location = "<%=path%>";
+}
+</script>
 </head>
 <body>
 <h3>无权访问</h3>
 抱歉，您无权访问此页面，如需访问此页面，请联系<系统管理员>！<br><br>
-<a href="<%=path%>">点此返回</a>
+<a href="javascript:hasNoRight()">点此返回</a>
 </body>
 </html>
