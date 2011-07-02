@@ -356,7 +356,11 @@ public class AuthorizeAction extends BaseAction implements ServletRequestAware, 
             out = super.getPrintWriter(request, response);
             out.print("{success:true,totalCount:" + roleSize + ",roleList:" + Json.toJson(roleList) + "}");
         } catch (IOException e) {
-            e.printStackTrace();
+            if("no right".equals(e.getMessage())){
+                out.print("{success:false, msg:'noRight'}");
+            }else{
+                out.print("{success:false}");
+            }
         } finally {
             if (out != null) {
                 out.flush();

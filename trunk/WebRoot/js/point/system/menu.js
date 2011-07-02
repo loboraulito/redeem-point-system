@@ -22,6 +22,17 @@ function menuManage(){
 		proxy:new Ext.data.HttpProxy({
 			url:proxyUrl
 		}),
+		listeners:{
+			"loadexception":function(loader, node, response){
+				if(response.status == "403"){
+					Ext.Msg.alert("系统提示","您无权访问本页面,请联系系统管理员！",function(btn){
+						if(btn == "ok" || btn == "yes"){
+							parent.top.location = path;
+						}
+					});
+				}
+			}
+		},
 		reader:menuReader
 	});
 	/**
