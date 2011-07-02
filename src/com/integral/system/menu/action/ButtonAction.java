@@ -163,7 +163,7 @@ public class ButtonAction extends BaseAction implements ServletRequestAware, Ser
         catch (IOException e) {
             e.printStackTrace();
             if("no right".equals(e.getMessage())){
-                out.print("{success:false, msg:'您无权访问本页面！'}");
+                out.print("{success:false, msg:'noRight'}");
             }
         } finally {
             if(out!=null){

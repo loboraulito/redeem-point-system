@@ -15,7 +15,15 @@ function authorize(){
 		baseAttrs:{uiProvider:Ext.ux.TreeCheckNodeUI},
 		listeners:{
 			"loadexception":function(loader, node, response){
-				refreshTree();
+				if(response.status == "403"){
+					Ext.Msg.alert("系统提示","您无权访问本页面,请联系系统管理员！",function(btn){
+						if(btn == "ok" || btn == "yes"){
+							parent.top.location = path;
+						}
+					});
+				}else{
+					refreshTree();
+				}
 			}
 		}
 	});
@@ -65,7 +73,8 @@ function authorize(){
 	 */
 	var roleReader = new Ext.data.JsonReader({
 		totalProperty : "totalCount",
-		root : "roleList"
+		root : "roleList",
+		msg:"msg"
 	},[
 		{name:"roleId"},//唯一id
 		{name:"roleName"},//菜单名称
@@ -79,7 +88,20 @@ function authorize(){
 		proxy:new Ext.data.HttpProxy({
 			url:proxyRoleUrl
 		}),
-		reader:roleReader
+		reader:roleReader,
+		listeners:{
+			"loadexception":function(loader, node, response){
+				if(response.status == "403"){
+					Ext.Msg.alert("系统提示","您无权访问本页面,请联系系统管理员！",function(btn){
+						if(btn == "ok" || btn == "yes"){
+							parent.top.location = path;
+						}
+					});
+				}else{
+					loadAuthorizeRole();
+				}
+			}
+		}
 	});
 	
 	/**
@@ -199,6 +221,27 @@ function authorize(){
 			url:proxyUserUrl
 		}),
 		reader:userReader,
+		listeners:{
+			"loadexception":function(loader, node, response){
+				if(response.status == "403"){
+					Ext.Msg.alert("系统提示","您无权访问本页面,请联系系统管理员！",function(btn){
+						if(btn == "ok" || btn == "yes"){
+							parent.top.location = path;
+						}
+					});
+				}else{
+					var gridSelectionModel = roleGrid.getSelectionModel();
+					var gridSelection = gridSelectionModel.getSelections();
+					if(gridSelection.length != 1){
+			            Ext.MessageBox.alert('提示','请选择一条信息！');
+			            return false;
+			        }
+			        var roleId = gridSelection[0].get("roleId");
+			        //读取角色用户
+			        loadAuthorizeUser(roleId);
+				}
+			}
+		},
 		baseParams:{flag:"authorize_user"}
 	});
 	
@@ -398,8 +441,6 @@ function authorize(){
 				//alert(success);
 				if(success){
 					showRightButtonForCurrentUser();
-				}else{
-					loadAuthorizeRole();
 				}
 				/*
 				loader.load(tree.root, function(){
@@ -480,9 +521,17 @@ function authorize(){
 				//在完成数节点的选中状态后，恢复树节点的级联选中
 				tree.checkModel = "cascade";
 			},failure:function(response,options){
-				//Ext.Msg.hide();
-				Ext.Msg.alert("提示信息","数据加载失败！");
-				return;
+				if(response.status == "403"){
+					Ext.Msg.alert("系统提示","您无权访问本页面,请联系系统管理员！",function(btn){
+						if(btn == "ok" || btn == "yes"){
+							parent.top.location = path;
+						}
+					});
+				}else{
+					//Ext.Msg.hide();
+					Ext.Msg.alert("提示信息","数据加载失败！");
+					return;
+				}
 			}
 		});
 	}
