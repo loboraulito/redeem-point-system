@@ -192,4 +192,9 @@ http://www.huomo.cn/developer/article-4222.html
 http://www.iteye.com/topic/165218
 
 2010/07/01
+今天是我的账目信息上线一周年纪念日哟！
 只有通过解析当前tab的iframe页面的id来获取当前页面的url的ID了。
+
+2010/07/02
+新加入了首页不管是否登录都能看到。
+对权限更加严格化，无权限的页面即便是刷新也将会返回首页。
