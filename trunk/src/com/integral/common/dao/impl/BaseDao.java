@@ -1,11 +1,15 @@
 package com.integral.common.dao.impl;
 
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.orm.hibernate3.HibernateCallback;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
@@ -87,5 +91,17 @@ public class BaseDao extends HibernateDaoSupport implements IBaseDao {
                 return query.list();
             }
         });
+    }
+    
+    public int excuteSQL(final String sql, final Object[] params) throws DataAccessResourceFailureException, HibernateException, IllegalStateException, SQLException{
+        log.info("excute by sql: " + sql);
+        PreparedStatement prepareStatement = getSession().connection().prepareStatement(sql);
+        if(params != null){
+            for(int i=0;i<params.length;i++){
+                prepareStatement.setObject(i+1, params[i]);
+            }
+        }
+        prepareStatement.execute();
+        return 0;
     }
 }

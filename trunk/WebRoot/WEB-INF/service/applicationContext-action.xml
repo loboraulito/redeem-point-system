@@ -32,6 +32,11 @@
 	<!-- 角色管理 -->
 	<bean class="com.integral.system.role.action.RoleAction">
 		<property name="roleService" ref="roleService"></property>
+		<property name="roleMenuService" ref="roleMenuService"></property>
+		<property name="userRoleService" ref="userRoleService"></property>
+		<property name="rightService" ref="rightService"></property>
+		<property name="transactionManager" ref="transactionManager"></property>
+		<property name="resourceDetailsMonitor" ref="resourceDetailsMonitor"></property>
 	</bean>
 	<!-- 授权管理 -->
 	<bean class="com.integral.system.right.action.AuthorizeAction">

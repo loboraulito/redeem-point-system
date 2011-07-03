@@ -105,25 +105,18 @@ function userManage(){
 			prevText:"上一页",
 			emptyMsg:"无相关记录"
 		}),
-		tbar:[{
-			text:"测试按钮1",
-			hidden:true,
-			id:"menu_addMenu",
-			iconCls:"table_add",
-			tooltip:"测试按钮1"
-		},{
-			text:"测试按钮2",
-			hidden:true,
-			id:"menu_editMenu",
-			iconCls:"table_edit",
-			tooltip:"测试按钮2"
-		}]
+		tbar:[]
 	});
 	
-	userStore.load({
-		params:{start:0,limit:50}
-	});
-	
+	/**
+	 * 按钮存储器，尚未执行查询
+	 */
+	var buttonRightStore = buttonRight();
+	/**
+	 * 执行权限按钮加载, 并且加载列表数据, 显示权限按钮
+	 * see buttonRight.js
+	 */
+	loadButtonRight(buttonRightStore, userStore, userGrid, "user_div");
 }
 /**
  * 用户管理

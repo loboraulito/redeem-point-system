@@ -1,7 +1,11 @@
 package com.integral.system.right.service.impl;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.hibernate.HibernateException;
+import org.springframework.dao.DataAccessResourceFailureException;
 
 import com.integral.common.dao.IBaseDao;
 import com.integral.system.menu.bean.ButtonInfo;
@@ -68,5 +72,20 @@ public class RightService implements IRightService {
             }
         }
         return buttons;
+    }
+
+    @Override
+    public void deleteByRole(String[] roles) throws Exception {
+        if(roles == null || roles.length<1){
+            return;
+        }
+        String sql = "delete from right_info where role_id in ( ? ";
+        if(roles != null && roles.length>1){
+            for(int i=1;i<roles.length;i++){
+                sql += " , ? ";
+            }
+        }
+        sql += " )";
+        this.baseDao.excuteSQL(sql, roles);
     }
 }

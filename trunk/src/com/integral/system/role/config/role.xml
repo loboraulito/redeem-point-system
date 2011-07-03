@@ -13,5 +13,17 @@
 			 <result name="success">/jsp/system/role/role.jsp</result>
 			 <result name="input">/index.jsp</result>
 		</action>
+		<action name="roleManageAdd" class="com.integral.system.role.action.RoleAction" method="addRole">
+			 <result name="success">/jsp/system/role/role.jsp</result>
+			 <result name="input">/index.jsp</result>
+		</action>
+		<action name="roleManageEdit" class="com.integral.system.role.action.RoleAction" method="editRole">
+			 <result name="success">/jsp/system/role/role.jsp</result>
+			 <result name="input">/index.jsp</result>
+		</action>
+		<action name="roleManageDelete" class="com.integral.system.role.action.RoleAction" method="deleteRole">
+			 <result name="success">/jsp/system/role/role.jsp</result>
+			 <result name="input">/index.jsp</result>
+		</action>
 	</package>
 </struts>

@@ -26,6 +26,7 @@
 				<property name="userDao">
 					<ref bean="UserDao" />
 				</property>
+				<property name="baseDao" ref="BaseDao"></property>
 			</bean>
 		</property>
 		<property name="transactionAttributes">
@@ -86,7 +87,7 @@
 	</bean>
 	
 	<!-- 用户角色Service -->
-	<bean id="uerRoleService" parent="serviceProxy">
+	<bean id="userRoleService" parent="serviceProxy">
 		<property name="target">
 			<bean
 				class="com.integral.system.role.service.impl.UserRoleService"
@@ -95,6 +96,7 @@
 					<ref bean="RoleDao" />
 				</property>
 				<property name="userRoleDao" ref="UserRoleDao"></property>
+				<property name="baseDao" ref="BaseDao"></property>
 			</bean>
 		</property>
 		<property name="transactionAttributes">
@@ -117,7 +119,7 @@
 				<property name="roleMenuService" ref="roleMenuService"></property>
 				<property name="menuService" ref="menuService"></property>
 				<property name="roleService" ref="roleService"></property>
-				<property name="userRoleService" ref="uerRoleService"></property>
+				<property name="userRoleService" ref="userRoleService"></property>
 			</bean>
 		</property>
 		<property name="transactionAttributes">

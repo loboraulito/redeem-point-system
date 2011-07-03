@@ -179,7 +179,7 @@
 		<property name="roleMenuService" ref="roleMenuService"></property>
 		<property name="menuService" ref="menuService"></property>
 		<property name="roleService" ref="roleService"></property>
-		<property name="userRoleService" ref="uerRoleService"></property>
+		<property name="userRoleService" ref="userRoleService"></property>
 	</bean>
 	<!-- 用户登录失败处理类 -->
 	<bean id="loginFailureHandler" class="com.integral.system.login.LoginFailureHandler"></bean>

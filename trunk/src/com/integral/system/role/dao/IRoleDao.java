@@ -1,6 +1,9 @@
 package com.integral.system.role.dao;
 
+import java.util.Collection;
 import java.util.List;
+
+import com.integral.system.role.bean.RoleInfo;
 
 public interface IRoleDao {
     /**
@@ -27,4 +30,20 @@ public interface IRoleDao {
      * @update: 2011-6-12 代超[变更描述]
      */
     public List findRoleListByPage(int start, int limit);
+    /**
+     * 批量删除角色信息
+     * <p>Discription:[方法功能描述]</p>
+     * @param entities
+     * @author: 代超
+     * @update: 2011-7-3 代超[变更描述]
+     */
+    public void deleteAll(Collection entities);
+    /**
+     * 新增或修改角色信息
+     * <p>Discription:[方法功能描述]</p>
+     * @param role
+     * @author: 代超
+     * @update: 2011-7-3 代超[变更描述]
+     */
+    public void saveOrUpdate(RoleInfo role);
 }

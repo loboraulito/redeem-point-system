@@ -299,7 +299,8 @@ function menuManage(){
 			items:items,
 			buttons:buttons,
 			modal:true,
-			layout:"fit"
+			layout:"fit",
+			resizable:false
 		});
 		menuWindow.show();
 	}
@@ -329,6 +330,7 @@ function menuManage(){
 						xtype: 'textfield',
 						name:"menuName",
 						anchor:"90%",
+						maxLength:50,
 						fieldLabel:"菜单名称",
 						allowBlank:isNull
 					}]
@@ -394,6 +396,7 @@ function menuManage(){
 						xtype: 'textfield',
 						name:"pagePath",
 						anchor:"90%",
+						maxLength:500,
 						fieldLabel:"菜单路径",
 						allowBlank:isNull
 					},{
