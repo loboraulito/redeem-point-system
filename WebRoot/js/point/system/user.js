@@ -10,15 +10,15 @@ function userManage(){
 		root : "userList"
 	},[
 		{name:"userId"},//唯一id
-		{name:"userCode"},//菜单名称
-		{name:"userName"},//菜单路径
-		{name:"telphoneNo"},//菜单等级
-		{name:"phoneNo"},//父级菜单
-		{name:"privence"},//是否子节点
-		{name:"city"},//是否子节点
-		{name:"address"},//是否子节点
-		{name:"zip"},//是否子节点
-		{name:"email"}//是否子节点
+		{name:"userCode"},//用户编号
+		{name:"userName"},//用户名
+		{name:"telphoneNo"},//电话
+		{name:"phoneNo"},//手机
+		{name:"privence"},//省
+		{name:"city"},//城市
+		{name:"address"},//地址
+		{name:"zip"},//邮编
+		{name:"email"}//电子邮件
 	]);
 	
 	var proxyUrl = path+"/user/userList.action?method=userManageList";
@@ -182,14 +182,14 @@ function userManage(){
 				labelSeparator:'：',
 				items:[{
 					layout:"form",
-					columnWidth:.9,
+					columnWidth:.5,
 					height:50,
 					items:[{
 						xtype: 'textfield',
-						name:"roleName",
+						name:"userName",
 						anchor:"90%",
-						fieldLabel:"角色名称",
-						maxLength:200,
+						fieldLabel:"用户名",
+						maxLength:50,
 						allowBlank:isNull
 					}]
 				}]
