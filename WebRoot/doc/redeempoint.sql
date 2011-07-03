@@ -4,7 +4,7 @@ Source Host: localhost
 Source Database: redeempoint
 Target Host: localhost
 Target Database: redeempoint
-Date: 2011/7/2 23:44:35
+Date: 2011/7/3 18:40:21
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -32,7 +32,7 @@ CREATE TABLE `employee_info` (
 CREATE TABLE `menu_info` (
   `menu_id` varchar(32) NOT NULL,
   `menu_name` varchar(100) default NULL,
-  `page_path` varchar(256) default NULL,
+  `page_path` varchar(500) default NULL,
   `menu_level` varchar(32) default NULL,
   `parent_menu` varchar(32) default NULL,
   `is_leave` varchar(2) default NULL,
@@ -100,9 +100,9 @@ CREATE TABLE `supplier_role` (
 -- ----------------------------
 -- Records 
 -- ----------------------------
-INSERT INTO `employee_info` VALUES ('1', '1', 'swpigris81', '812877', null, null, null, null, null, null, null);
-INSERT INTO `employee_info` VALUES ('2', '2', 'admin', 'admin', null, null, null, null, null, null, null);
-INSERT INTO `employee_info` VALUES ('3', '3', 'user', 'user', null, null, null, null, null, null, null);
+INSERT INTO `employee_info` VALUES ('1', '1', 'swpigris81', '67b811e6506d79014211e32cda238696', null, null, null, null, null, null, null);
+INSERT INTO `employee_info` VALUES ('2', '2', 'admin', 'ceb4f32325eda6142bd65215f4c0f371', null, null, null, null, null, null, null);
+INSERT INTO `employee_info` VALUES ('3', '3', 'user', '47a733d60998c719cf3526ae7d106d13', null, null, null, null, null, null, null);
 INSERT INTO `menu_info` VALUES ('402880e4270e8f7c01270ea42f020004', '权限管理', '/map/map.action?method=begin', '', '402880e430e992d60130e9cab80b0002', '0');
 INSERT INTO `menu_info` VALUES ('402880e4270e8f7c01270ea9ff4c0025', '系统资源管理', '/main.action', null, '402880e4270e8f7c01270ea42f020004', '0');
 INSERT INTO `menu_info` VALUES ('402880e4270e8f7c01270eaaa5730041', '菜单管理', '/menu/beginMenuManage.action?method=begin', null, '402880e4270e8f7c01270ea9ff4c0025', '1');
@@ -159,8 +159,8 @@ INSERT INTO `right_info` VALUES ('402880e430eb58470130eb6448510024', null, '1', 
 INSERT INTO `right_info` VALUES ('402880e430eb58470130eb6448510025', null, '1', null, 'ff8080812c487f3a012c48e306290007');
 INSERT INTO `right_info` VALUES ('402880e430eb58470130eb6448510026', null, '1', null, 'ff8080812c487f3a012c48e3c02c0009');
 INSERT INTO `role_info` VALUES ('1', '系统管理员', null);
-INSERT INTO `role_info` VALUES ('2', '客户', null);
-INSERT INTO `role_info` VALUES ('3', '普通用户', null);
+INSERT INTO `role_info` VALUES ('2', '客户', '客户');
+INSERT INTO `role_info` VALUES ('3', '普通用户', '用户');
 INSERT INTO `rolemenu` VALUES ('402880e430e992d60130e9e4e938006f', '2', '402880e430e992d60130e9c8b54d0001');
 INSERT INTO `rolemenu` VALUES ('402880e430e992d60130e9e4e9380070', '2', '402880e430e992d60130e9cab80b0002');
 INSERT INTO `rolemenu` VALUES ('402880e430e992d60130e9e4e9380071', '2', '402880e4270e8f7c01270ea42f020004');
