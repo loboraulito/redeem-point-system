@@ -205,3 +205,7 @@ http://www.iteye.com/topic/165218
 2010/07/03
 session.createSQLQuery(nativeSql).executeUpdate();
 session.getConnection().createStatement().execute(sql); 
+
+盐值加密：
+密码{用户名}
+admin{admin}
