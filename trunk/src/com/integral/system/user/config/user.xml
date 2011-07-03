@@ -13,5 +13,17 @@
 			 <result name="success">/jsp/system/user/user.jsp</result>
 			 <result name="input">/index.jsp</result>
 		</action>
+		<action name="userManageAdd" class="com.integral.system.user.action.UserAction" method="addUser">
+			 <result name="success">/jsp/system/user/user.jsp</result>
+			 <result name="input">/index.jsp</result>
+		</action>
+		<action name="userManageEdit" class="com.integral.system.user.action.UserAction" method="editUser">
+			 <result name="success">/jsp/system/user/user.jsp</result>
+			 <result name="input">/index.jsp</result>
+		</action>
+		<action name="userManageDelete" class="com.integral.system.user.action.UserAction" method="deleteUser">
+			 <result name="success">/jsp/system/user/user.jsp</result>
+			 <result name="input">/index.jsp</result>
+		</action>
 	</package>
 </struts>

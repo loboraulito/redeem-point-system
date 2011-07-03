@@ -117,6 +117,137 @@ function userManage(){
 	 * see buttonRight.js
 	 */
 	loadButtonRight(buttonRightStore, userStore, userGrid, "user_div");
+	/**
+	 * 添加用户信息
+	 * @param {} url
+	 */
+	this.addUser = function(url){
+		
+	}
+	/**
+	 * 编辑用户信息
+	 * @param {} url
+	 */
+	this.editUser = function(url){
+		
+	}
+	/**
+	 * 删除用户信息
+	 * @param {} url
+	 */
+	this.deleteUser = function(url){
+		
+	}
+	
+	/**
+	 * 窗口, 用于新增，修改
+	 * @param {} id 窗口ID
+	 * @param {} title 窗口名字
+	 * @param {} width 窗口宽度
+	 * @param {} height 窗口高度
+	 * @param {} items 窗口的内部
+	 * @param {} buttons 窗口的按钮
+	 */
+	function showUserWindow(id, title, width, height, items, buttons){
+		var userWindow = new Ext.Window({
+			id:id,
+			title:title,
+			width:width,
+			height:height,
+			items:items,
+			buttons:buttons,
+			modal:true,
+			layout:"fit",
+			resizable:false
+		});
+		userWindow.show();
+	}
+	/**
+	 * 表单信息
+	 * @param {} url
+	 * @param {} isNull
+	 * @return {}
+	 */
+	function showUserForm(url,isNull){
+		var userForm = new Ext.form.FormPanel({
+			frame: true,
+			labelAlign: 'right',
+			labelWidth:60,
+			autoScroll:false,
+			waitMsgTarget:true,
+			url:url,
+			items:[{
+				layout:"column",
+				border:false,
+				labelSeparator:'：',
+				items:[{
+					layout:"form",
+					columnWidth:.9,
+					height:50,
+					items:[{
+						xtype: 'textfield',
+						name:"roleName",
+						anchor:"90%",
+						fieldLabel:"角色名称",
+						maxLength:200,
+						allowBlank:isNull
+					}]
+				}]
+			},{
+				layout:"column",
+				border:false,
+				labelSeparator:'：',
+				items:[{
+					layout:"form",
+					columnWidth:.9,
+					height:80,
+					items:[{
+						xtype: 'textarea',
+						name:"comment",
+						anchor:"90%",
+						fieldLabel:"备注",
+						maxLength:500
+					},{
+						xtype:"hidden",
+						name:"roleId"
+					}]
+				}]
+			}]
+		});
+		return userForm;
+	}
+	
+	/**
+	 * 保存用户信息
+	 * @param {} windowId
+	 * @param {} form
+	 */
+	function saveUser(windowId, form){
+		Ext.MessageBox.show({
+			msg:"正在保存用户信息，请稍候...",
+			progressText:"正在保存用户信息，请稍候...",
+			width:300,
+			wait:true,
+			waitConfig: {interval:200},
+			icon:Ext.Msg.INFO
+		});
+		form.getForm().submit({
+			success: function(form, action) {
+				Ext.Msg.hide();
+				Ext.Msg.alert('系统提示信息', '用户信息保存成功!', function(btn, text) {
+					if (btn == 'ok') {
+						var msg = Ext.decode(action.response.responseText);
+						userStore.reload();
+						Ext.getCmp(windowId).close();
+					}
+				});
+			},
+			failure: function(form, action) {//action.result.errorMessage
+				Ext.Msg.hide();
+				Ext.Msg.alert('系统提示信息', "用户信息保存过程中出现异常!");
+			}
+		});
+	}
 }
 /**
  * 用户管理

@@ -84,4 +84,31 @@ public class UserAction extends BaseAction implements ServletRequestAware, Servl
     public String begin(){
         return SUCCESS;
     }
+    /**
+     * <p>Discription:[删除用户信息]</p>
+     * @return
+     * @author: 代超
+     * @update: 2011-7-3 代超[变更描述]
+     */
+    public String deleteUser(){
+        return null;
+    }
+    /**
+     * <p>Discription:[修改用户信息]</p>
+     * @return
+     * @author: 代超
+     * @update: 2011-7-3 代超[变更描述]
+     */
+    public String editUser(){
+        return null;
+    }
+    /**
+     * <p>Discription:[增加用户信息]</p>
+     * @return
+     * @author: 代超
+     * @update: 2011-7-3 代超[变更描述]
+     */
+    public String addUser(){
+        return null;
+    }
 }
