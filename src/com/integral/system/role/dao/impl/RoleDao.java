@@ -30,7 +30,7 @@ public class RoleDao extends HibernateDaoSupport implements IRoleDao {
     public List findAllRole(){
         log.debug("finding all role");
         try {
-            String queryString = "select model.roleName from RoleInfo as model";
+            String queryString = "select model.roleId from RoleInfo as model";
             return getHibernateTemplate().find(queryString);
         } catch (RuntimeException re) {
             log.error("find all role failed", re);
@@ -41,7 +41,7 @@ public class RoleDao extends HibernateDaoSupport implements IRoleDao {
     public List findRoleByUserIdName(String userId){
         log.debug("finding role");
         try {
-            String queryString = "select model.roleName from RoleInfo as model, UserRole as urmodel where model.roleId = urmodel.roleId and urmodel.userId = ?";
+            String queryString = "select model.roleId from RoleInfo as model, UserRole as urmodel where model.roleId = urmodel.roleId and urmodel.userId = ?";
             return getHibernateTemplate().find(queryString,userId);
         } catch (RuntimeException re) {
             log.error("find role failed", re);
