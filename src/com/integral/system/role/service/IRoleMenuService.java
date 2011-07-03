@@ -61,4 +61,12 @@ public interface IRoleMenuService {
      * @param entities
      */
     public void saveOrUpdateAll(Collection entities);
+    /**
+     * <p>Discription:[删除角色菜单信息，根据角色ID。角色ID是以,分隔的字符串]</p>
+     * @param roles
+     * @author: 代超
+     * @throws Exception 
+     * @update: 2011-7-3 代超[变更描述]
+     */
+    public void deleteByRoleId(String[] roles) throws Exception;
 }

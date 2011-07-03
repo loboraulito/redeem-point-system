@@ -336,7 +336,8 @@ function buttonManage(){
 			items:items,
 			buttons:buttons,
 			modal:true,
-			layout:"fit"
+			layout:"fit",
+			resizable:false
 		});
 		menuWindow.show();
 	}
@@ -368,6 +369,7 @@ function buttonManage(){
 						anchor:"90%",
 						fieldLabel:"按钮标识符",
 						vtype:"alphanum",
+						maxLength:200,
 						allowBlank:isNull
 					}]
 				},{
@@ -378,6 +380,7 @@ function buttonManage(){
 						xtype: 'textfield',
 						name:"buttonText",
 						anchor:"90%",
+						maxLength:200,
 						fieldLabel:"按钮显示文字",
 						allowBlank:isNull
 					}]
@@ -444,6 +447,7 @@ function buttonManage(){
 						xtype: 'textfield',
 						name:"handler",
 						anchor:"90%",
+						maxLength:50,
 						vtype:"alphanum",
 						fieldLabel:"按钮触发事件"
 					}]
@@ -481,6 +485,7 @@ function buttonManage(){
 						name:"buttonUrl",
 						anchor:"90%",
 						fieldLabel:"按钮路径",
+						maxLength:500,
 						allowBlank:isNull
 					},{
 						xtype: 'hidden',

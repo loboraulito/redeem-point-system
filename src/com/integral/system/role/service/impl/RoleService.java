@@ -1,10 +1,12 @@
 package com.integral.system.role.service.impl;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.apache.commons.lang.math.NumberUtils;
 
 import com.integral.common.dao.IBaseDao;
+import com.integral.system.role.bean.RoleInfo;
 import com.integral.system.role.dao.IRoleDao;
 import com.integral.system.role.service.IRoleService;
 
@@ -62,5 +64,15 @@ public class RoleService implements IRoleService {
             size = NumberUtils.toLong((String.valueOf(list.get(0))), 0L);
         }
         return size;
+    }
+
+    @Override
+    public void deleteAll(Collection entities) {
+        this.roleDao.deleteAll(entities);
+    }
+
+    @Override
+    public void saveOrUpdate(RoleInfo role) {
+        this.roleDao.saveOrUpdate(role);
     }
 }

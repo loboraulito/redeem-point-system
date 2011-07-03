@@ -1,6 +1,7 @@
 package com.integral.system.role.dao.impl;
 
 import java.sql.SQLException;
+import java.util.Collection;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
@@ -11,6 +12,7 @@ import org.hibernate.Session;
 import org.springframework.orm.hibernate3.HibernateCallback;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
+import com.integral.system.role.bean.RoleInfo;
 import com.integral.system.role.dao.IRoleDao;
 
 /** 
@@ -59,5 +61,25 @@ public class RoleDao extends HibernateDaoSupport implements IRoleDao {
                 return query.list();
             }
         });
+    }
+    
+    public void deleteAll(Collection entities){
+        log.debug("delete role");
+        try {
+            getHibernateTemplate().deleteAll(entities);
+        } catch (RuntimeException re) {
+            log.error("delete role", re);
+            throw re;
+        }
+    }
+    
+    public void saveOrUpdate(RoleInfo role){
+        log.debug("save or update role");
+        try {
+            getHibernateTemplate().saveOrUpdate(role);
+        } catch (RuntimeException re) {
+            log.error("save or update", re);
+            throw re;
+        }
     }
 }

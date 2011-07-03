@@ -198,3 +198,7 @@ http://www.iteye.com/topic/165218
 2010/07/02
 新加入了首页不管是否登录都能看到。
 对权限更加严格化，无权限的页面即便是刷新也将会返回首页。
+
+2010/07/03
+session.createSQLQuery(nativeSql).executeUpdate();
+session.getConnection().createStatement().execute(sql); 

@@ -26,4 +26,12 @@ public interface IRightService {
      * @update: 2011-6-6 代超[变更描述]
      */
     public List getButtonByRight(String menuId,String roleId);
+    /**
+     * <p>Discription:[根据角色ID，删除对应的权限按钮信息]</p>
+     * @param roles
+     * @author: 代超
+     * @throws Exception 
+     * @update: 2011-7-3 代超[变更描述]
+     */
+    public void deleteByRole(String[] roles) throws Exception;
 }

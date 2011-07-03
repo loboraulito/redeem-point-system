@@ -1,8 +1,13 @@
 package com.integral.system.role.service.impl;
 
+import java.sql.SQLException;
 import java.util.Collection;
 import java.util.List;
 
+import org.hibernate.HibernateException;
+import org.springframework.dao.DataAccessResourceFailureException;
+
+import com.integral.common.dao.IBaseDao;
 import com.integral.system.menu.dao.IMenuDao;
 import com.integral.system.role.dao.IRoleDao;
 import com.integral.system.role.dao.IRoleMenuDao;
@@ -24,6 +29,7 @@ public class RoleMenuService implements IRoleMenuService {
     private IRoleMenuDao roleMenuDao;
     private IUserRoleDao userRoleDao;
     private IUserDao userDao;
+    private IBaseDao baseDao;
     
     
     public List<String> getRoleMenuMap(String role){
@@ -80,6 +86,21 @@ public class RoleMenuService implements IRoleMenuService {
         String sql = "FROM MenuInfo as menu , RoleMenuInfo rolemenu WHERE menu.menuId =  rolemenu.menuId AND menu.parentMenuId = ? AND rolemenu.roleId =  ? ";
         String param[] = new String[]{rootId, role};
         return this.roleMenuDao.queryByHQL(sql, param);
+    }
+    
+    @Override
+    public void deleteByRoleId(String[] roles) throws Exception {
+        if(roles == null || roles.length<1){
+            return;
+        }
+        String sql = "delete from rolemenu where roleId in ( ? ";
+        if(roles != null && roles.length>1){
+            for(int i=1;i<roles.length;i++){
+                sql += " , ? ";
+            }
+        }
+        sql += " )";
+        this.baseDao.excuteSQL(sql, roles);
     }
     
     @Override
@@ -207,5 +228,20 @@ public class RoleMenuService implements IRoleMenuService {
         this.userDao = userDao;
     }
 
+    /**
+     * <p>Discription:[方法功能描述]</p>
+     * @return IBaseDao baseDao.
+     */
+    public IBaseDao getBaseDao() {
+        return baseDao;
+    }
+
+    /**
+     * <p>Discription:[方法功能描述]</p>
+     * @param baseDao The baseDao to set.
+     */
+    public void setBaseDao(IBaseDao baseDao) {
+        this.baseDao = baseDao;
+    }
 
 }
