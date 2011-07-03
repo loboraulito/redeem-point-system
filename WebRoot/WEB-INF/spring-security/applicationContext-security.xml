@@ -62,10 +62,14 @@
 	<security:authentication-manager alias="authenticationManager">
 		<security:authentication-provider user-service-ref="userDetailsService">
 		<!-- <security:authentication-provider ref="daoAuthenticationProvider"> --> <!-- 如果这里不用这个userDetailsService的话，系统将不会调用decide方法  -->
-			<!-- <security:password-encoder hash="md5"></security:password-encoder> -->
+			<security:password-encoder hash="md5">
+				<security:salt-source user-property="username"/>
+			</security:password-encoder>
 		</security:authentication-provider>
 		<security:authentication-provider ref="rememberMeAuthenticationProvider">
-			<!-- <security:password-encoder hash="md5"></security:password-encoder> -->
+			<security:password-encoder hash="md5">
+				<security:salt-source user-property="username"/>
+			</security:password-encoder>
 		</security:authentication-provider>
 	</security:authentication-manager>
 	<!-- 
