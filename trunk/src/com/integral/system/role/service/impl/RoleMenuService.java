@@ -34,8 +34,8 @@ public class RoleMenuService implements IRoleMenuService {
     
     public List<String> getRoleMenuMap(String role){
         //查询资源（地址）的名称
-        //String sql = "SELECT menu_info.menu_name FROM menu_info , rolemenu , role_info WHERE menu_info.menu_id =  rolemenu.menuId AND rolemenu.roleId =  role_info.role_id AND role_info.role_name= ?";
-        String sql = "SELECT menu_info.page_path FROM menu_info , rolemenu , role_info WHERE menu_info.menu_id =  rolemenu.menuId AND rolemenu.roleId =  role_info.role_id AND role_info.role_name= ?";
+        //String sql = "SELECT menu_info.page_path FROM menu_info , rolemenu , role_info WHERE menu_info.menu_id =  rolemenu.menuId AND rolemenu.roleId =  role_info.role_id AND role_info.role_name= ?";
+        String sql = "SELECT menu_info.page_path FROM menu_info , rolemenu , role_info WHERE menu_info.menu_id =  rolemenu.menuId AND rolemenu.roleId =  role_info.role_id AND role_info.role_id= ?";
         String param[] = new String[]{role};
         return this.roleMenuDao.queryBySQL(sql, param);
     }
@@ -49,7 +49,7 @@ public class RoleMenuService implements IRoleMenuService {
     
     public List<String> getMenuRoleMapByMenuId(String menu){
         //查询能访问资源的角色
-        String sql = "SELECT DISTINCT role_info.role_name FROM rolemenu , menu_info , role_info WHERE rolemenu.menuId =  menu_info.menu_id AND rolemenu.roleId =  role_info.role_id AND menu_info.menu_id= ?";
+        String sql = "SELECT DISTINCT role_info.role_id FROM rolemenu , menu_info , role_info WHERE rolemenu.menuId =  menu_info.menu_id AND rolemenu.roleId =  role_info.role_id AND menu_info.menu_id= ?";
         String param[] = new String[]{menu};
         return this.roleMenuDao.queryBySQL(sql, param);
     }

@@ -5,6 +5,8 @@
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 
+
+
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta http-equiv="pragma" content="no-cache">
 <meta http-equiv="cache-control" content="no-cache">
@@ -33,21 +35,29 @@
 <%@page import="org.springframework.security.core.Authentication"%>
 <%@page import="org.springframework.security.core.userdetails.UserDetails"%>
 <%@page import="org.springframework.security.core.context.SecurityContextImpl"%>
+<%@page import="org.springframework.security.web.authentication.WebAuthenticationDetails"%>
+<%@page import="java.util.Collection"%>
 <%
 String userName = "";
+String userRole = "";
 SecurityContext secCtx = (SecurityContextImpl)session.getAttribute("SPRING_SECURITY_CONTEXT");
+String securitySessionId = "";
 if(secCtx!=null){
 Authentication authentication = secCtx.getAuthentication();
 	if(authentication!=null){
+	    WebAuthenticationDetails detail = (WebAuthenticationDetails)authentication.getDetails();
+	    securitySessionId = detail.getSessionId();
 		Object principal = authentication.getPrincipal();
 		if(principal instanceof UserDetails){
 		    userName = ((UserDetails)principal).getUsername();
+		    Collection authorities = ((UserDetails)principal).getAuthorities();
+		    userRole = (authorities == null || authorities.size()<0)?"":String.valueOf(authorities.toArray()[0]);
 		}else{
 		    userName = principal.toString();
+		    userRole = String.valueOf(authentication.getAuthorities().toArray()[0]);
 		}
 	}
 }
-String userRole = String.valueOf(session.getAttribute("roleId"));
 %>
 
 <SCRIPT type="text/javascript">
@@ -62,3 +72,21 @@ Ext.onReady(function(){
 	currentMenuId = getCurrentMenuId();
 });
 </SCRIPT>
+<%
+//TODO 用于判断用户Session是否超时，超时则要求用户重新登录。暂不实现此功能，应该劲量避免这种情况出现。
+if(session.isNew() && (securitySessionId == null || "null".equals(securitySessionId))){
+%>
+<!-- 
+<script type="text/javascript">
+Ext.onReady(function(){
+	Ext.Msg.alert("系统提示","您长时间未操作，请重新登录！",function(btn){
+		if(btn == "yes" || btn == "ok"){
+			window.top.location = path+"/j_spring_security_logout";
+		}
+	});
+});
+</script>
+ -->
+<%
+}
+%>

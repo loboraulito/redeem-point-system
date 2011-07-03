@@ -86,9 +86,12 @@ private ResourceDetailsMonitor resourceDetailsMonitor;并且加上get与set方�
 使用方法: 在每个jsp页面的第二行，加入以下代码：<%@include file="/jsp/common/config.jsp" %>即可。
 
 用户登录成功之后，存放在Session里面的数据:
+9B8180A61C9E9C40FBACF656D2AEBB77
+49143B00BBFF3900B83B544561F4EE88
 {SPRING_SECURITY_CONTEXT=org.springframework.security.core.context.SecurityContextImpl@fff5afed: Authentication: org.springframework.security.authentication.UsernamePasswordAuthenticationToken@fff5afed: Principal: org.springframework.security.core.userdetails.User@36ebcb: Username: user; Password: [PROTECTED]; Enabled: true; AccountNonExpired: true; credentialsNonExpired: true; AccountNonLocked: true; Granted Authorities: 客户; Credentials: [PROTECTED]; Authenticated: true; Details: org.springframework.security.web.authentication.WebAuthenticationDetails@12afc: RemoteIpAddress: 127.0.0.1; SessionId: 451E60931A333F7B2BBB342925CEBA54; Granted Authorities: 客户, SPRING_SECURITY_LAST_USERNAME=user}
+{userName=swpigris81, SPRING_SECURITY_CONTEXT=org.springframework.security.core.context.SecurityContextImpl@e1a14949: Authentication: org.springframework.security.authentication.UsernamePasswordAuthenticationToken@e1a14949: Principal: org.springframework.security.core.userdetails.User@83fa6aab: Username: swpigris81; Password: [PROTECTED]; Enabled: true; AccountNonExpired: true; credentialsNonExpired: true; AccountNonLocked: true; Granted Authorities: 1; Credentials: [PROTECTED]; Authenticated: true; Details: org.springframework.security.web.authentication.WebAuthenticationDetails@fffdaa08: RemoteIpAddress: 127.0.0.1; SessionId: 61E94EE294E2CFFFB57F95F1B0CC0F1D; Granted Authorities: 1, SPRING_SECURITY_LAST_USERNAME=swpigris81, roleId=1}
 用户注销成功之后，Session里面没有数据.
-
+但是Session到期之后，SpringSecurity并不会注销，当用户刷新的时候，会创建一个新的Session，该新建Session是旧Session的复制品。
 
 2011/05/27
 一个相当漂亮的网站：

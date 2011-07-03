@@ -20,6 +20,8 @@
 		<security:intercept-url pattern="/index.jsp" filters="none"/>
 		<!-- 主页 -->
 		<security:intercept-url pattern="/jsp/main.jsp" filters="none"/>
+		<!-- 会话超时 -->
+		<security:intercept-url pattern="/timeout.jsp" filters="none"/>
 		
 		<!-- 
 		<security:intercept-url pattern="/menu/childModule.action/**" filters="none"/>
