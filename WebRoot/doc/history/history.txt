@@ -203,6 +203,7 @@ http://www.iteye.com/topic/165218
 对权限更加严格化，无权限的页面即便是刷新也将会返回首页。
 
 2010/07/03
+Hibernate 提供的JDBC的sql执行方法2种：
 session.createSQLQuery(nativeSql).executeUpdate();
 session.getConnection().createStatement().execute(sql); 
 
