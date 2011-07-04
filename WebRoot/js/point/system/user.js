@@ -122,21 +122,68 @@ function userManage(){
 	 * @param {} url
 	 */
 	this.addUser = function(url){
-		
+		var userForm = showUserForm(url, false);
+		var button = [{
+			text:"保存",
+			handler:function(){
+				if(userForm.form.isValid()){
+					saveUser("addUserWindow", userForm);
+				}
+			}
+		},{
+			text:"关闭窗口",
+			handler:function(){
+				var userWindow = Ext.getCmp("addUserWindow");
+				if(userWindow){
+					userWindow.close();
+				}
+			}
+		}];
+		showUserWindow("addUserWindow", "添加用户信息",500, 320, userForm, button);
 	}
 	/**
 	 * 编辑用户信息
 	 * @param {} url
 	 */
 	this.editUser = function(url){
+		var gridSelectionModel = userGrid.getSelectionModel();
+		var gridSelection = gridSelectionModel.getSelections();
+		if(gridSelection.length != 1){
+			Ext.MessageBox.alert('提示','请选择一条用户信息！');
+		    return false;
+		}
 		
+		var userForm = showUserForm(url, false);
+		var button = [{
+			text:"保存",
+			handler:function(){
+				if(userForm.form.isValid()){
+					saveUser("editUserWindow", userForm);
+				}
+			}
+		},{
+			text:"关闭窗口",
+			handler:function(){
+				var userWindow = Ext.getCmp("editUserWindow");
+				if(userWindow){
+					userWindow.close();
+				}
+			}
+		}];
+		showUserWindow("editUserWindow", "修改用户信息",500, 320, userForm, button);
+		userForm.getForm().loadRecord(gridSelection[0]);
 	}
 	/**
 	 * 删除用户信息
 	 * @param {} url
 	 */
 	this.deleteUser = function(url){
-		
+		var gridSelectionModel = userGrid.getSelectionModel();
+		var gridSelection = gridSelectionModel.getSelections();
+		if(gridSelection.length < 1){
+			Ext.MessageBox.alert('提示','请至少选择一条用户信息！');
+		    return false;
+		}
 	}
 	
 	/**
@@ -192,6 +239,61 @@ function userManage(){
 						maxLength:50,
 						allowBlank:isNull
 					}]
+				},{
+					layout:"form",
+					columnWidth:.5,
+					height:50,
+					items:[{
+						xtype: 'textfield',
+						name:"telphoneNo",
+						anchor:"90%",
+						fieldLabel:"电话号码",
+						maxLength:50,
+						allowBlank:isNull
+					}]
+				}]
+			},{
+				layout:"column",
+				border:false,
+				labelSeparator:'：',
+				items:[{
+					layout:"form",
+					columnWidth:.5,
+					height:50,
+					items:[{
+						xtype: 'textfield',
+						name:"phoneNo",
+						anchor:"90%",
+						fieldLabel:"手机号码",
+						maxLength:50
+					}]
+				}]
+			},{
+				layout:"column",
+				border:false,
+				labelSeparator:'：',
+				items:[{
+					layout:"form",
+					columnWidth:.5,
+					height:50,
+					items:[{
+						xtype: 'textfield',
+						name:"privence",
+						anchor:"90%",
+						fieldLabel:"省/直辖市",
+						maxLength:50
+					}]
+				},{
+					layout:"form",
+					columnWidth:.5,
+					height:50,
+					items:[{
+						xtype: 'textfield',
+						name:"city",
+						anchor:"90%",
+						fieldLabel:"市/县",
+						maxLength:50
+					}]
 				}]
 			},{
 				layout:"column",
@@ -200,16 +302,46 @@ function userManage(){
 				items:[{
 					layout:"form",
 					columnWidth:.9,
-					height:80,
+					height:50,
 					items:[{
-						xtype: 'textarea',
-						name:"comment",
+						xtype: 'textfield',
+						name:"address",
 						anchor:"90%",
-						fieldLabel:"备注",
+						fieldLabel:"地址",
 						maxLength:500
 					},{
 						xtype:"hidden",
-						name:"roleId"
+						name:"userId"
+					},{
+						xtype:"hidden",
+						name:"userCode"
+					}]
+				}]
+			},{
+				layout:"column",
+				border:false,
+				labelSeparator:'：',
+				items:[{
+					layout:"form",
+					columnWidth:.5,
+					height:50,
+					items:[{
+						xtype: 'textfield',
+						name:"zip",
+						anchor:"90%",
+						fieldLabel:"邮编",
+						maxLength:50
+					}]
+				},{
+					layout:"form",
+					columnWidth:.5,
+					height:50,
+					items:[{
+						xtype: 'textfield',
+						name:"email",
+						anchor:"90%",
+						fieldLabel:"电子邮件",
+						maxLength:50
 					}]
 				}]
 			}]
