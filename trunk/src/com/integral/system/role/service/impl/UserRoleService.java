@@ -107,4 +107,28 @@ public class UserRoleService implements IUserRoleService {
         sql += " )";
         this.baseDao.excuteSQL(sql, roles);
     }
+    
+    /**
+     * <p>Discription:[通过用户ID删除用户角色信息]</p>
+     * @param roles
+     * @author: 代超
+     * @throws SQLException 
+     * @throws IllegalStateException 
+     * @throws HibernateException 
+     * @throws DataAccessResourceFailureException 
+     * @update: 2011-7-3 代超[变更描述]
+     */
+    public void deleteByUser(String[] users) throws DataAccessResourceFailureException, HibernateException, IllegalStateException, SQLException{
+        if(users == null || users.length<1){
+            return;
+        }
+        String sql = "delete from supplier_role where operater_id in ( ? ";
+        if(users != null && users.length>1){
+            for(int i=1;i<users.length;i++){
+                sql += " , ? ";
+            }
+        }
+        sql += " )";
+        this.baseDao.excuteSQL(sql, users);
+    }
 }
