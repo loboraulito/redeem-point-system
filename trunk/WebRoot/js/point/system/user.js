@@ -122,7 +122,7 @@ function userManage(){
 	 * @param {} url
 	 */
 	this.addUser = function(url){
-		var userForm = showUserForm(url, false);
+		var userForm = showUserForm(url, false, false);
 		var button = [{
 			text:"保存",
 			handler:function(){
@@ -153,7 +153,7 @@ function userManage(){
 		    return false;
 		}
 		
-		var userForm = showUserForm(url, false);
+		var userForm = showUserForm(url, false, true);
 		var button = [{
 			text:"保存",
 			handler:function(){
@@ -215,7 +215,7 @@ function userManage(){
 	 * @param {} isNull
 	 * @return {}
 	 */
-	function showUserForm(url,isNull){
+	function showUserForm(url,isNull,readOnly){
 		var userForm = new Ext.form.FormPanel({
 			frame: true,
 			labelAlign: 'right',
@@ -237,6 +237,7 @@ function userManage(){
 						anchor:"90%",
 						fieldLabel:"用户名",
 						maxLength:50,
+						readOnly:readOnly,
 						allowBlank:isNull
 					}]
 				},{
