@@ -51,7 +51,7 @@ Authentication authentication = secCtx.getAuthentication();
 		if(principal instanceof UserDetails){
 		    userName = ((UserDetails)principal).getUsername();
 		    Collection authorities = ((UserDetails)principal).getAuthorities();
-		    userRole = (authorities == null || authorities.size()<0)?"":String.valueOf(authorities.toArray()[0]);
+		    userRole = (authorities == null || authorities.size()<1)?"":String.valueOf(authorities.toArray()[0]);
 		}else{
 		    userName = principal.toString();
 		    userRole = String.valueOf(authentication.getAuthorities().toArray()[0]);

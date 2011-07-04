@@ -198,7 +198,9 @@ public class UserAction extends BaseAction implements ServletRequestAware, Servl
      */
     public String editUser(){
         Map requestMap = RequestUtil.getRequestMap(request);
-        UserInfo user = new UserInfo();
+        String userId = request.getParameter("userId");
+        UserInfo user = null;
+        String passWord = "";
         // 定义TransactionDefinition并设置好事务的隔离级别和传播方式。
         DefaultTransactionDefinition definition = new DefaultTransactionDefinition();
         // 代价最大、可靠性最高的隔离级别，所有的事务都是按顺序一个接一个地执行
@@ -208,23 +210,23 @@ public class UserAction extends BaseAction implements ServletRequestAware, Servl
         PrintWriter out = null;
         try{
             out = super.getPrintWriter(request, response);
-            BeanUtils.populate(user, requestMap);
-            String passWord = "";
-            if(user.getUserId() == null || "".equals(user.getUserId().trim())){
+            if(userId == null || "".equals(userId.trim())){
+                user = new UserInfo();
+                BeanUtils.populate(user, requestMap);
                 user.setUserId(null);
-                //为新增的用户设置初始密码
-                if(user.getPassword() == null || "".equals(user.getPassword().trim())){
-                    //设置初始密码为0000
-                    passWord = CipherUtil.generatePassword("0000{"+user.getUserName()+"}");
+                passWord = CipherUtil.generatePassword("0000{"+user.getUserName()+"}");
+                user.setPassword(passWord);
+            }else{
+                user = this.userService.findById(userId);
+                if(user != null){
+                    passWord = user.getPassword();
+                    BeanUtils.populate(user, requestMap);
                     user.setPassword(passWord);
                 }
-            }else{
-                //修改用户时，需要保持其原密码
-                UserInfo u = this.userService.findById(user.getUserId());
-                passWord = u.getPassword();
-                user.setPassword(passWord);
             }
-            this.userService.saveOrUpdate(user);
+            if(user != null){
+                this.userService.saveOrUpdate(user);
+            }
             out.print("{success:true}");
         }catch(Exception e){
             status.setRollbackOnly();
