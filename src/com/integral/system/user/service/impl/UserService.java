@@ -1,5 +1,6 @@
 package com.integral.system.user.service.impl;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.apache.commons.lang.math.NumberUtils;
@@ -70,5 +71,22 @@ public class UserService implements IUserService {
     public List findUserByPageWithProtect(int start, int limit) {
         List<UserInfo> userList = this.userDao.findUserByPage(null, start, limit, null);
         return ProtectUserInfo.protectUserInfo(userList);
+    }
+    
+    public void saveOrUpdate(UserInfo entity){
+        this.userDao.saveOrUpdate(entity);
+    }
+    
+    /**
+     * 根据用户ID查询用户信息
+     * @param id
+     * @return
+     */
+    public UserInfo findById(String id){
+        return this.userDao.findById(id);
+    }
+    
+    public void deleteAll(Collection entities){
+        this.userDao.deleteAll(entities);
     }
 }

@@ -1,6 +1,7 @@
 package com.integral.system.user.dao.impl;
 
 import java.sql.SQLException;
+import java.util.Collection;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
@@ -11,6 +12,7 @@ import org.hibernate.Session;
 import org.springframework.orm.hibernate3.HibernateCallback;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
+import com.integral.system.user.bean.UserInfo;
 import com.integral.system.user.dao.IUserDao;
 
 public class UserDao extends HibernateDaoSupport implements IUserDao {
@@ -57,5 +59,36 @@ public class UserDao extends HibernateDaoSupport implements IUserDao {
                 return query.list();
             }
         });
+    }
+    
+    public UserInfo findById(String id) {
+        log.debug("getting UserInfo instance with id: " + id);
+        try {
+            UserInfo instance = (UserInfo) getHibernateTemplate().get(UserInfo.class, id);
+            return instance;
+        } catch (RuntimeException re) {
+            log.error("get failed", re);
+            throw re;
+        }
+    }
+    
+    public void saveOrUpdate(UserInfo entity){
+        log.debug("save or update user");
+        try {
+            getHibernateTemplate().saveOrUpdate(entity);
+        } catch (RuntimeException re) {
+            log.error("save or update user failed", re);
+            throw re;
+        }
+    }
+    
+    public void deleteAll(Collection entities){
+        log.debug("delete all user");
+        try {
+            getHibernateTemplate().deleteAll(entities);
+        } catch (RuntimeException re) {
+            log.error("delete all failed", re);
+            throw re;
+        }
     }
 }

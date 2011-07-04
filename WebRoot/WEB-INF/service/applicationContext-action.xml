@@ -28,6 +28,9 @@
 	<!-- 用户管理 -->
 	<bean class="com.integral.system.user.action.UserAction">
 		<property name="userService" ref="userService"></property>
+		<property name="userRoleService" ref="userRoleService"></property>
+		<property name="transactionManager" ref="transactionManager"></property>
+		<property name="resourceDetailsMonitor" ref="resourceDetailsMonitor"></property>
 	</bean>
 	<!-- 角色管理 -->
 	<bean class="com.integral.system.role.action.RoleAction">
