@@ -130,9 +130,9 @@ public class LoginSuccessHandler extends BaseAction implements AuthenticationSuc
         String roleId = "";
         if(userRoles == null || userRoles.size()<1){
             roleId = "";
+        }else{
+            roleId = (String) userRoles.get(0);
         }
-        roleId = (String) userRoles.get(0);
-        
         List menus = showRootMenu(userName);
         if(menus == null){
             menus = new ArrayList();
