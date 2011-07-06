@@ -184,6 +184,45 @@ function userManage(){
 			Ext.MessageBox.alert('提示','请至少选择一条用户信息！');
 		    return false;
 		}
+		Ext.Msg.confirm("系统提示信息","删除用户信息的同时将删除与其相关的权限信息！确定吗？",function(btn){
+			if(btn == "yes" || btn == "ok"){
+				var userNameList = new Array();
+				var userIdList = new Array();
+				for(var i=0;i<gridSelection.length;i++){
+					userNameList.push(gridSelection[i].get("userName"));
+					userIdList.push(gridSelection[i].get("userId"));
+				}
+				var userName = userNameList.join(",");
+				var userId = userIdList.join(",");
+				Ext.MessageBox.show({
+					msg:"正在删除所选用户信息，请稍候...",
+					progressText:"正在删除所选用户信息，请稍候...",
+					width:300,
+					wait:true,
+					waitConfig: {interval:200},
+					icon:Ext.Msg.INFO
+				});
+				Ext.Ajax.request({
+					params:{userList:userId,userNameList:userName},
+					timeout:60000,
+					url:url,
+					success:function(response,options){
+						Ext.MessageBox.hide();
+						var msg = Ext.util.JSON.decode(response.responseText);
+						if(msg && msg.success){
+							Ext.Msg.alert("提示信息","所选用户信息删除成功！");
+							userStore.reload();
+						}else if(msg && !msg.success){
+							Ext.Msg.alert("提示信息","所选用户信息删除失败！");
+						}
+					},failure:function(response,options){
+						Ext.Msg.hide();
+						Ext.Msg.alert("提示信息","所选用户信息删除失败！");
+						return;
+					}
+				});
+			}
+		});
 	}
 	
 	/**
