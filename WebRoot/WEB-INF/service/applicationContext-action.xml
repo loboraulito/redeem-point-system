@@ -49,6 +49,7 @@
 		<property name="roleMenuService" ref="roleMenuService"></property>
 		<property name="userService" ref="userService"></property>
 		<property name="roleService" ref="roleService"></property>
+		<property name="userRoleService" ref="userRoleService"></property>
 		<!-- 事务控制 -->
 		<property name="transactionManager" ref="transactionManager"></property>
 		<!-- 刷新内存 -->
