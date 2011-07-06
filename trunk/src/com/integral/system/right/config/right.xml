@@ -33,5 +33,13 @@
 			 <result name="success">/jsp/system/right/authorize.jsp</result>
 			 <result name="input">/index.jsp</result>
 		</action>
+		<action name="authorizeUserAdd" class="com.integral.system.right.action.AuthorizeAction" method="authorizeUserAdd">
+			 <result name="success">/jsp/system/right/authorize.jsp</result>
+			 <result name="input">/index.jsp</result>
+		</action>
+		<action name="authorizeUserDelete" class="com.integral.system.right.action.AuthorizeAction" method="authorizeUserDelete">
+			 <result name="success">/jsp/system/right/authorize.jsp</result>
+			 <result name="input">/index.jsp</result>
+		</action>
 	</package>
 </struts>

@@ -27,6 +27,7 @@ import com.integral.system.right.service.IAuthorizeService;
 import com.integral.system.role.bean.RoleMenuInfo;
 import com.integral.system.role.service.IRoleMenuService;
 import com.integral.system.role.service.IRoleService;
+import com.integral.system.role.service.IUserRoleService;
 import com.integral.system.user.service.IUserService;
 import com.integral.util.menu.MenuUtils;
 import com.integral.util.spring.security.ResourceDetailsMonitor;
@@ -44,6 +45,8 @@ public class AuthorizeAction extends BaseAction implements ServletRequestAware, 
     private IRoleMenuService roleMenuService;
     private IUserService userService;
     private IRoleService roleService;
+    private IUserRoleService userRoleService;
+    
 
     /** 事务处理 */
     private DataSourceTransactionManager transactionManager;
@@ -82,6 +85,22 @@ public class AuthorizeAction extends BaseAction implements ServletRequestAware, 
      */
     public void setTransactionManager(DataSourceTransactionManager transactionManager) {
         this.transactionManager = transactionManager;
+    }
+
+    /**
+     * <p>Discription:[方法功能描述]</p>
+     * @return IUserRoleService userRoleService.
+     */
+    public IUserRoleService getUserRoleService() {
+        return userRoleService;
+    }
+
+    /**
+     * <p>Discription:[方法功能描述]</p>
+     * @param userRoleService The userRoleService to set.
+     */
+    public void setUserRoleService(IUserRoleService userRoleService) {
+        this.userRoleService = userRoleService;
     }
 
     /**
@@ -437,5 +456,44 @@ public class AuthorizeAction extends BaseAction implements ServletRequestAware, 
         }
         return null;
     }
-
+    /**
+     * 删除用户角色信息
+     * <p>Discription:[方法功能描述]</p>
+     * @return
+     * @author: 代超
+     * @update: 2011-7-6 代超[变更描述]
+     */
+    public String authorizeUserDelete(){
+        String userNameList = request.getParameter("userNameList");
+        String [] userNames = userNameList.split(",");
+        // 定义TransactionDefinition并设置好事务的隔离级别和传播方式。
+        DefaultTransactionDefinition definition = new DefaultTransactionDefinition();
+        // 代价最大、可靠性最高的隔离级别，所有的事务都是按顺序一个接一个地执行
+        definition.setIsolationLevel(TransactionDefinition.ISOLATION_SERIALIZABLE);
+        // 开始事务
+        TransactionStatus status = transactionManager.getTransaction(definition);
+        PrintWriter out = null;
+        try{
+            out = super.getPrintWriter(request, response);
+            //删除用户的角色信息
+            this.userRoleService.deleteByUser(userNames);
+            out.print("{success:true}");
+        }catch(Exception e){
+            status.setRollbackOnly();
+            out.print("{success:false}");
+        }finally{
+            this.transactionManager.commit(status);
+            this.resourceDetailsMonitor.refresh();
+            if(out != null){
+                out.flush();
+                out.close();
+            }
+        }
+        return null;
+    }
+    
+    public String authorizeUserAdd(){
+        
+        return null;
+    }
 }

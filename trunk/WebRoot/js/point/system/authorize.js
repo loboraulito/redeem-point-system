@@ -317,7 +317,8 @@ function authorize(){
 			nextText:"下一页",
 			prevText:"上一页",
 			emptyMsg:"无相关记录"
-		})
+		}),
+		tbar:["-"]
 	});
 	
 	var panel = new Ext.Panel({
@@ -363,14 +364,8 @@ function authorize(){
         				layout:"fit",
         				title:"角色用户",
         				border:false,
-        				items:[userGrid],
-        				tbar:[{
-	        				text:"添加用户",
-	        				iconCls:"table_add"
-	        			},"-",{
-	        				text:"删除用户",
-	        				iconCls:"table_delete"
-	        			}]
+        				id:"roleUserPanel",
+        				items:[userGrid]
         			},{
         				title:"角色菜单",
         				layout:"fit",
@@ -416,15 +411,51 @@ function authorize(){
 		buttonStore.load({
 			params:{roleId:userRole,menuId:parent.menuId},
 			callback:function(buttonRecords,buttonOptions,buttonSuccess){
+				var tbar = userGrid.getTopToolbar();
+				if(!tbar){
+					tbar = new Ext.Toolbar();
+				}
+				var hasButtonShow = false;
 				for(var i=0;i<buttonRecords.length;i++){
 					//alert(buttonRecords[i].get("buttonName"));
-					var button = Ext.getCmp(buttonRecords[i].get("buttonName"));
+					var buttonName = buttonRecords[i].get("buttonName");
+					var button = Ext.getCmp(buttonName);
 					var buttonText = buttonRecords[i].get("buttonText");
+					var buttonUrl = buttonRecords[i].get("buttonUrl");
+					var buttonCss = buttonRecords[i].get("buttonIconCls");
+					var buttonHandler = buttonRecords[i].get("handler");
+					var isShow = buttonRecords[i].get("isShow");
 					if(button){
 						//button.hidden = false;
 						button.setText(buttonText);
 						button.handlerUrl = buttonRecords[i].get("buttonUrl");
-						button.show();
+						if(isShow && isShow == "yes"){
+							button.show();
+						}
+					}else{
+						if(isShow && isShow == "yes"){
+							hasButtonShow = true;
+							var button = new Ext.Button({
+								text:buttonText,
+								id:buttonName,
+								iconCls:buttonCss == "none"?"table":buttonCss,
+								tooltip:buttonText,
+								handlerFunction:buttonHandler,
+								handlerUrl:buttonUrl,
+								listeners:{
+									"click":function(bt, e){
+										var handlerFun = bt.handlerFunction;
+										if(handlerFun && handlerFun!= "" && typeof (eval(""+handlerFun+"")) == "function"){
+											eval(""+handlerFun+"('"+path + bt.handlerUrl+"')");
+										}
+									}
+								}
+							});
+							tbar.add(button);
+						}else{
+							continue;
+						}
+						tbar.addSeparator();
 					}
 				}
 				refreshTree();
@@ -570,6 +601,63 @@ function authorize(){
 			}
 		});
 	}
+	/**
+	 * 增加授权用户
+	 * @param {} url
+	 */
+	this.addAuthorizeUser = function(url){
+		
+	}
+	/**
+	 * 删除授权用户
+	 * @param {} url
+	 */
+	this.deleteAuthorizeUser = function(url){
+		var gridSelectionModel = userGrid.getSelectionModel();
+		var gridSelection = gridSelectionModel.getSelections();
+		if(gridSelection.length < 1){
+			Ext.MessageBox.alert('提示','请至少选择一条用户信息！');
+		    return false;
+		}
+		
+		Ext.Msg.confirm("系统提示信息","确定删除选定用户的权限吗？",function(btn){
+			if(btn == "yes" || btn == "ok"){
+				var userNameList = new Array();
+				for(var i=0;i<gridSelection.length;i++){
+					userNameList.push(gridSelection[i].get("userName"));
+				}
+				var userName = userNameList.join(",");
+				Ext.MessageBox.show({
+					msg:"正在删除所选用户权限信息，请稍候...",
+					progressText:"正在删除所选用户权限信息，请稍候...",
+					width:300,
+					wait:true,
+					waitConfig: {interval:200},
+					icon:Ext.Msg.INFO
+				});
+				Ext.Ajax.request({
+					params:{userNameList:userName},
+					timeout:60000,
+					url:url,
+					success:function(response,options){
+						Ext.MessageBox.hide();
+						var msg = Ext.util.JSON.decode(response.responseText);
+						if(msg && msg.success){
+							Ext.Msg.alert("提示信息","所选用户信息权限删除成功！");
+							userStore.reload();
+						}else if(msg && !msg.success){
+							Ext.Msg.alert("提示信息","所选用户信息权限删除失败！");
+						}
+					},failure:function(response,options){
+						Ext.Msg.hide();
+						Ext.Msg.alert("提示信息","所选用户信息权限删除失败！");
+						return;
+					}
+				});
+			}
+		});
+	}
+	
 }
 
 /**
