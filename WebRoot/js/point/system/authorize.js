@@ -631,6 +631,23 @@ function authorize(){
 			}),
 			reader:auReader
 		});
+		
+		var auGroupReader = new Ext.data.GroupingStore({
+			url:auProxyUrl,
+			reader:auReader,
+			groupField:"roleName",
+			sortInfo:{field: 'userId', direction: "ASC"}
+		});
+		
+		//分组显示
+		var groupView = new Ext.grid.GroupingView({
+			forceFit:true,
+			showGroupName: false,
+			enableNoGroups:false, // REQUIRED!
+			hideGroupedColumn: false,
+			groupTextTpl: '{[values.rs[0].data.roleName ? values.rs[0].data.roleName : "未分配角色"]} ({[values.rs.length]} 位用户)'
+		});
+		
 		var auSM = new Ext.grid.CheckboxSelectionModel();
 		var auCM = new Ext.grid.ColumnModel([new Ext.grid.RowNumberer(),auSM,{
 			dataIndex:"userId",
@@ -667,14 +684,15 @@ function authorize(){
 			loadMask:true,//载入遮罩动画（默认）
 			frame:true,
 			autoShow:true,		
-			store:auStore,
+			store:auGroupReader,
 			cm:auCM,
 			sm:auSM,
 			viewConfig:{forceFit:true},//若父容器的layout为fit，那么强制本grid充满该父容器
 			split: true,
+			view:groupView,
 			bbar:new Ext.PagingToolbar({
 				pageSize:50,//每页显示数
-				store:auStore,
+				store:auGroupReader,
 				displayInfo:true,
 				displayMsg:"显示{0}-{1}条记录，共{2}条记录",
 				nextText:"下一页",
@@ -744,7 +762,7 @@ function authorize(){
 			}
 		}]; 
 		showWindow("addAuthorizeUserWindow","添加授权用户",500,400,authorizeUserGrid,button);
-		auStore.load({
+		auGroupReader.load({
 			params:{start:0,limit:50}
 		});
 	}
