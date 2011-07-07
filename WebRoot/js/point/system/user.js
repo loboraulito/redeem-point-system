@@ -290,9 +290,10 @@ function userManage(){
 										var msg = Ext.decode(response.responseText);
 										if(msg && msg.success){
 											isPersonNameOK=true;
+											userForm.form.findField('userName').clearInvalid();
 										}else{
 											isPersonNameOK=false;
-											form.form.findField('userName').markInvalid('用户名已被使用');
+											userForm.form.findField('userName').markInvalid('用户名已被使用');
 										}
 									},failure: function(form, action) {//action.result.errorMessage
 										//Ext.Msg.hide();
