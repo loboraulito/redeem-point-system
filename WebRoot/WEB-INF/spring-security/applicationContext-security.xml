@@ -36,6 +36,8 @@
 		<security:intercept-url pattern="/right/showButtons.action/**" filters="none"/>
 		<!-- 获取所有用户以及角色 -->
 		<security:intercept-url pattern="/right/finAuthorizeUserRole.action/**" filters="none"/>
+		<!-- 验证用户名是否重复 -->
+		<security:intercept-url pattern="/user/userValidation.action/**" filters="none"/>
 		
 		<!-- 配置登录页面 -->
 		<security:form-login login-page="/index.jsp" default-target-url="/index.jsp" authentication-success-handler-ref="loginSuccessHandler" authentication-failure-handler-ref="loginFailureHandler"/>

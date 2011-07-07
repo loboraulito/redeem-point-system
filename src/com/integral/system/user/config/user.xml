@@ -25,5 +25,9 @@
 			 <result name="success">/jsp/system/user/user.jsp</result>
 			 <result name="input">/index.jsp</result>
 		</action>
+		<action name="userValidation" class="com.integral.system.user.action.UserAction" method="validateUserName">
+			 <result name="success">/jsp/system/user/user.jsp</result>
+			 <result name="input">/index.jsp</result>
+		</action>
 	</package>
 </struts>
