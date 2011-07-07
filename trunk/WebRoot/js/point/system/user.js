@@ -431,7 +431,7 @@ function userManage(){
 		form.getForm().submit({
 			success: function(form, action) {
 				Ext.Msg.hide();
-				Ext.Msg.alert('系统提示信息', '用户信息保存成功!', function(btn, text) {
+				Ext.Msg.alert('系统提示信息', '用户信息保存成功!', function(btn) {
 					if (btn == 'ok') {
 						//var msg = Ext.decode(action.response.responseText);
 						userStore.reload();
