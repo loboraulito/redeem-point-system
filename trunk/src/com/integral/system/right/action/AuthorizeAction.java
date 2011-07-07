@@ -25,6 +25,7 @@ import com.integral.system.menu.service.IMenuService;
 import com.integral.system.right.bean.RightInfo;
 import com.integral.system.right.service.IAuthorizeService;
 import com.integral.system.role.bean.RoleMenuInfo;
+import com.integral.system.role.bean.UserRole;
 import com.integral.system.role.service.IRoleMenuService;
 import com.integral.system.role.service.IRoleService;
 import com.integral.system.role.service.IUserRoleService;
@@ -491,9 +492,81 @@ public class AuthorizeAction extends BaseAction implements ServletRequestAware, 
         }
         return null;
     }
-    
+    /**
+     * 添加权限用户
+     * @return
+     */
     public String authorizeUserAdd(){
+        String destRoleId = request.getParameter("roleId");
+        String users = request.getParameter("userList");
+        String []user_role = users.split(",");
+        List newUser = new ArrayList();
+        StringBuffer sb = new StringBuffer(destRoleId);
         
+        if(user_role!=null && user_role.length>0){
+            for(int i=0;i<user_role.length;i++){
+                String []user = user_role[i].split("_");
+                if(user !=null){
+                    if(user.length<2){
+                        //当前选中的用户赞未分配角色
+                        UserRole userRole = new UserRole();
+                        userRole.setRoleId(destRoleId);
+                        userRole.setUserId(user[0]);
+                        newUser.add(userRole);
+                    }else{
+                        //当前用户已有角色
+                        sb.append(",").append(user[0]);
+                    }
+                }
+            }
+        }
+        
+        // 定义TransactionDefinition并设置好事务的隔离级别和传播方式。
+        DefaultTransactionDefinition definition = new DefaultTransactionDefinition();
+        // 代价最大、可靠性最高的隔离级别，所有的事务都是按顺序一个接一个地执行
+        definition.setIsolationLevel(TransactionDefinition.ISOLATION_SERIALIZABLE);
+        // 开始事务
+        TransactionStatus status = transactionManager.getTransaction(definition);
+        PrintWriter out = null;
+        try{
+            out = super.getPrintWriter(request, response);
+            this.userRoleService.saveOrUpdateAll(newUser);
+            this.userRoleService.updateByUser(sb.toString().split(","));
+            out.print("{success:true}");
+        }catch(Exception e){
+            status.setRollbackOnly();
+            out.print("{success:false}");
+        }finally{
+            this.transactionManager.commit(status);
+            this.resourceDetailsMonitor.refresh();
+            if(out!=null){
+                out.flush();
+                out.close();
+            }
+        }
+        return null;
+    }
+    /**
+     * 查询所有的用户信息，包括角色信息
+     * @return
+     */
+    public String findAllAuthorizeUserAndRole(){
+        int start = NumberUtils.toInt(request.getParameter("start"), 0);
+        int limit = NumberUtils.toInt(request.getParameter("limit"), 50);
+        List auths = this.authorizeService.findAllAuthorizeUserAndRole(start, limit);
+        long allUsers = this.userService.findUserSize();
+        PrintWriter out = null;
+        try{
+            out = super.getPrintWriter(request, response);
+            out.print("{success:true,totalCount:"+allUsers+",userList:"+Json.toJson(auths)+"}");
+        }catch(Exception e){
+            out.print("{success:false}");
+        }finally{
+            if(out != null){
+                out.flush();
+                out.close();
+            }
+        }
         return null;
     }
 }

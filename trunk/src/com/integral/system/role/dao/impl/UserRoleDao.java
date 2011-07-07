@@ -1,5 +1,6 @@
 package com.integral.system.role.dao.impl;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
@@ -27,6 +28,20 @@ public class UserRoleDao extends HibernateDaoSupport implements IUserRoleDao {
             return getHibernateTemplate().find(queryString,userId);
         } catch (RuntimeException re) {
             log.error("find role failed", re);
+            throw re;
+        }
+    }
+    
+    /**
+     * 新增用户角色信息
+     * @param entities
+     */
+    public void saveOrUpdateAll(Collection entities){
+        log.debug("saveOrUpdateAll role");
+        try {
+            getHibernateTemplate().saveOrUpdateAll(entities);
+        } catch (RuntimeException re) {
+            log.error("saveOrUpdateAll failed", re);
             throw re;
         }
     }

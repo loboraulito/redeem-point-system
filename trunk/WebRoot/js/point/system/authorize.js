@@ -409,7 +409,7 @@ function authorize(){
 	function showRightButtonForCurrentUser(){
 		var buttonStore = buttonRight();
 		buttonStore.load({
-			params:{roleId:userRole,menuId:parent.menuId},
+			params:{roleId:userRole,menuId:currentMenuId},
 			callback:function(buttonRecords,buttonOptions,buttonSuccess){
 				var tbar = userGrid.getTopToolbar();
 				if(!tbar){
@@ -607,7 +607,163 @@ function authorize(){
 	 */
 	this.addAuthorizeUser = function(url){
 		
+		var roleGridSelectionModel = roleGrid.getSelectionModel();
+		var roleGridSelection = roleGridSelectionModel.getSelections();
+		if(roleGridSelection.length != 1){
+			Ext.MessageBox.alert('提示','请选择一条角色信息！');
+			 return false;
+		}
+		
+		var auReader = new Ext.data.JsonReader({
+			totalProperty : "totalCount",
+			root : "userList"
+		},[
+			{name:"userId"},//唯一id
+			{name:"userCode"},//用户编号
+			{name:"userName"},//用户名
+			{name:"roleId"},//角色ID
+			{name:"roleName"}//角色名
+		]);
+		var auProxyUrl = path+"/right/finAuthorizeUserRole.action?method=findAllAuthorizeUserAndRole";
+		var auStore = new Ext.data.Store({
+			proxy:new Ext.data.HttpProxy({
+				url:auProxyUrl
+			}),
+			reader:auReader
+		});
+		var auSM = new Ext.grid.CheckboxSelectionModel();
+		var auCM = new Ext.grid.ColumnModel([new Ext.grid.RowNumberer(),auSM,{
+			dataIndex:"userId",
+			hidden:true,
+			hideable:false//不允许将隐藏的字段显示出来
+		},{
+			dataIndex:"userCode",
+			hidden:true,
+			hideable:false
+		},{
+			dataIndex:"roleId",
+			hidden:true,
+			hideable:false
+		},{
+			header:"用户名",
+			dataIndex:"userName",
+			width:150
+		},{
+			header:"当前角色",
+			dataIndex:"roleName",
+			width:150,
+			renderer:function(value){
+				if(!value || value.trim() == ""){
+					return "<div style='color:red'>未分配角色</div>";
+				}else{
+					return value;
+				}
+			}
+		}]);
+		var authorizeUserGrid = new Ext.grid.GridPanel({
+			collapsible:true,//是否可以展开
+			animCollapse:true,//展开时是否有动画效果
+			autoScroll:true,
+			loadMask:true,//载入遮罩动画（默认）
+			frame:true,
+			autoShow:true,		
+			store:auStore,
+			cm:auCM,
+			sm:auSM,
+			viewConfig:{forceFit:true},//若父容器的layout为fit，那么强制本grid充满该父容器
+			split: true,
+			bbar:new Ext.PagingToolbar({
+				pageSize:50,//每页显示数
+				store:auStore,
+				displayInfo:true,
+				displayMsg:"显示{0}-{1}条记录，共{2}条记录",
+				nextText:"下一页",
+				prevText:"上一页",
+				emptyMsg:"无相关记录"
+			})
+		});
+		var button = [{
+			text:"保存",
+			handler:function(){
+				var gridSelectionModel = authorizeUserGrid.getSelectionModel();
+				var gridSelection = gridSelectionModel.getSelections();
+				if(gridSelection.length < 1){
+					Ext.MessageBox.alert('提示','请至少选择一条用户信息！');
+				    return false;
+				}
+				var destRole = roleGridSelection[0].get("roleId");
+				var destRoleName = roleGridSelection[0].get("roleName");
+				Ext.Msg.confirm("系统提示","您确定要修改所选用户的角色信息？",function(btn){
+					if(btn == "yes" || btn == "ok"){
+						var currentUser = new Array();
+						for(var i=0;i<gridSelection.length;i++){
+							currentUser.push(gridSelection[i].get("userName")+"_"+gridSelection[i].get("roleId"));
+						}
+						var users = currentUser.join(",");
+						Ext.MessageBox.show({
+							msg:"正在更新所选用户的角色信息，请稍候...",
+							progressText:"正在更新所选用户的角色信息，请稍候...",
+							width:300,
+							wait:true,
+							waitConfig: {interval:200},
+							icon:Ext.Msg.INFO
+						});
+						Ext.Ajax.request({
+							params:{userList:users,roleId:destRole},
+							timeout:60000,
+							url:url,
+							success:function(response,options){
+								Ext.MessageBox.hide();
+								var msg = Ext.util.JSON.decode(response.responseText);
+								if(msg && msg.success){
+									Ext.Msg.alert("提示信息","所选用户角色信息更新成功！");
+									userStore.reload();
+									var awindow = Ext.getCmp("addAuthorizeUserWindow");
+									if(awindow){
+										awindow.close();
+									}
+								}else if(msg && !msg.success){
+									Ext.Msg.alert("提示信息","所选用户角色信息更新失败！");
+								}
+							},failure:function(response,options){
+								Ext.Msg.hide();
+								Ext.Msg.alert("提示信息","所选用户角色信息更新失败！");
+								return;
+							}
+						});
+					}
+				});
+			}
+		},{
+			text:"关闭窗口",
+			handler:function(){
+				var awindow = Ext.getCmp("addAuthorizeUserWindow");
+				if(awindow){
+					awindow.close();
+				}
+			}
+		}]; 
+		showWindow("addAuthorizeUserWindow","添加授权用户",500,400,authorizeUserGrid,button);
+		auStore.load({
+			params:{start:0,limit:50}
+		});
 	}
+	
+	function showWindow(id, title, width, height, items, buttons){
+		var userWindow = new Ext.Window({
+			id:id,
+			title:title,
+			width:width,
+			height:height,
+			items:items,
+			buttons:buttons,
+			modal:true,
+			layout:"fit",
+			resizable:false
+		});
+		userWindow.show();
+	}
+	
 	/**
 	 * 删除授权用户
 	 * @param {} url
