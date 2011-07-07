@@ -2,6 +2,7 @@
  * 用户管理
  */
 function userManage(){
+	var isPersonNameOK = true;
 	/**
 	 * userReader - 用户信息解析器
 	 */
@@ -277,7 +278,30 @@ function userManage(){
 						fieldLabel:"用户名",
 						maxLength:50,
 						readOnly:readOnly,
-						allowBlank:isNull
+						allowBlank:isNull,
+						validationEvent:"blur",
+						validator:function(thisText){
+							if (thisText != '') {
+								Ext.Ajax.request({ 
+									url:path + "/user/userValidation.action?method=validateUserName",
+									method:"post",
+									params:{userName:thisText},
+									success:function(response, options){
+										var msg = Ext.decode(response.responseText);
+										if(msg && msg.success){
+											isPersonNameOK=true;
+										}else{
+											isPersonNameOK=false;
+											form.form.findField('userName').markInvalid('用户名已被使用');
+										}
+									},failure: function(form, action) {//action.result.errorMessage
+										//Ext.Msg.hide();
+										//Ext.Msg.alert('系统提示信息', "用户信息保存过程中出现异常!");
+									}
+								});
+							}
+							return isPersonNameOK;
+						}
 					}]
 				},{
 					layout:"form",

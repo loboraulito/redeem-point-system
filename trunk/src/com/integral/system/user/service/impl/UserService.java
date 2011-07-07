@@ -89,4 +89,15 @@ public class UserService implements IUserService {
     public void deleteAll(Collection entities){
         this.userDao.deleteAll(entities);
     }
+    
+    /**
+     * <p>Discription:[根据用户名查询用户信息]</p>
+     * @param userName
+     * @return
+     * @author: 代超
+     * @update: 2011-6-11 代超[变更描述]
+     */
+    public List getUserByName(String userName){
+        return this.userDao.getUserByName(userName);
+    }
 }

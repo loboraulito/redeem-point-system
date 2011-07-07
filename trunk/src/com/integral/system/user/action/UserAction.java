@@ -282,4 +282,33 @@ public class UserAction extends BaseAction implements ServletRequestAware, Servl
         }
         return null;
     }
+    /**
+     * 校验用户名是否重复
+     * @return
+     */
+    public String validateUserName(){
+        String userName = request.getParameter("userName");
+        List list = this.userService.getUserByName(userName);
+        boolean bool = true;
+        if(list == null || list.size()<1){
+            //验证通过
+            bool = true;
+        }else{
+            //验证失败
+            bool = false;
+        }
+        PrintWriter out = null;
+        try{
+            out = super.getPrintWriter(request, response);
+            out.print("{success:"+bool+"}");
+        }catch(Exception e){
+            out.print("{success:false}");
+        }finally{
+            if(out != null){
+                out.flush();
+                out.close();
+            }
+        }
+        return null;
+    }
 }
