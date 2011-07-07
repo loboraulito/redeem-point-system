@@ -90,4 +90,11 @@ public interface IAuthorizeService {
      * @param entities
      */
     public void saveOrUpdateAll(Collection entities);
+    /**
+     * 查询用户信息以及角色信息，分页查询
+     * @param start
+     * @param limit
+     * @return
+     */
+    public List findAllAuthorizeUserAndRole(int start, int limit);
 }

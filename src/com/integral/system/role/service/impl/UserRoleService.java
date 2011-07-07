@@ -1,6 +1,7 @@
 package com.integral.system.role.service.impl;
 
 import java.sql.SQLException;
+import java.util.Collection;
 import java.util.List;
 
 import org.hibernate.HibernateException;
@@ -123,6 +124,33 @@ public class UserRoleService implements IUserRoleService {
             return;
         }
         String sql = "delete from supplier_role where operater_id in ( ? ";
+        if(users != null && users.length>1){
+            for(int i=1;i<users.length;i++){
+                sql += " , ? ";
+            }
+        }
+        sql += " )";
+        this.baseDao.excuteSQL(sql, users);
+    }
+    
+    /**
+     * 新增用户角色信息
+     * @param entities
+     */
+    public void saveOrUpdateAll(Collection entities){
+        this.userRoleDao.saveOrUpdateAll(entities);
+    }
+    
+    /**
+     * 更新用户的角色信息
+     * @param users - users 的第一项是角色ID，之后才是userID
+     * @throws Exception 
+     */
+    public void updateByUser(String [] users) throws Exception{
+        if(users == null || users.length<2){
+            return;
+        }
+        String sql = "update supplier_role set role_id = ? where operater_id in ( ? ";
         if(users != null && users.length>1){
             for(int i=1;i<users.length;i++){
                 sql += " , ? ";

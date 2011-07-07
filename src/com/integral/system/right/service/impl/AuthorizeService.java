@@ -11,6 +11,7 @@ import com.integral.common.dao.IBaseDao;
 import com.integral.system.menu.bean.ButtonInfo;
 import com.integral.system.menu.bean.MenuInfo;
 import com.integral.system.menu.bean.MenuTree;
+import com.integral.system.right.bean.AuthorizeInfo;
 import com.integral.system.right.dao.IAuthorizeDao;
 import com.integral.system.right.service.IAuthorizeService;
 import com.integral.system.user.bean.UserInfo;
@@ -264,5 +265,24 @@ public class AuthorizeService implements IAuthorizeService {
     @Override
     public void saveOrUpdateAll(Collection entities) {
         this.authorizeDao.saveOrUpdateAll(entities);
+    }
+    
+    public List findAllAuthorizeUserAndRole(int start, int limit){
+        List list = new ArrayList();
+        String sql = "SELECT employee_info.operater_id, employee_info.operater_code, employee_info.operater_name, role_info.role_id, role_info.role_name FROM employee_info Left Join supplier_role on employee_info.operater_name =  supplier_role.operater_id left join role_info on supplier_role.role_id =  role_info.role_id ";
+        List l = this.baseDao.queryPageBySQL(sql, null, start, limit);
+        if(l!=null){
+            for(int i=0,j = l.size();i<j;i++){
+                Object[] obj = (Object[]) l.get(i);
+                AuthorizeInfo auth = new AuthorizeInfo();
+                auth.setUserId(obj[0]==null ? "" : obj[0].toString());
+                auth.setUserCode(obj[1] == null ? "" : obj[1].toString());
+                auth.setUserName(obj[2] == null ? "" : obj[2].toString());
+                auth.setRoleId(obj[3] == null ? "" : obj[3].toString());
+                auth.setRoleName(obj[4] == null ? "" : obj[4].toString());
+                list.add(auth);
+            }
+        }
+        return list;
     }
 }

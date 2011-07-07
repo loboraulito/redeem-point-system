@@ -11,6 +11,7 @@ import java.util.List;
  */
 public class AuthorizeInfo {
 	private String userId;
+	private String userCode;
 	private String userName;
 	private String roleId;
 	private String roleName;
@@ -20,7 +21,20 @@ public class AuthorizeInfo {
 	private String uiProvider;
 	private List children;
     private List menus;
+    
 	/**
+     * @return the userCode
+     */
+    public String getUserCode() {
+        return userCode;
+    }
+    /**
+     * @param userCode the userCode to set
+     */
+    public void setUserCode(String userCode) {
+        this.userCode = userCode;
+    }
+    /**
      * <p>Discription:[方法功能描述]</p>
      * @return String uiProvider.
      */
