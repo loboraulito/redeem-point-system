@@ -433,7 +433,7 @@ function userManage(){
 				Ext.Msg.hide();
 				Ext.Msg.alert('系统提示信息', '用户信息保存成功!', function(btn, text) {
 					if (btn == 'ok') {
-						var msg = Ext.decode(action.response.responseText);
+						//var msg = Ext.decode(action.response.responseText);
 						userStore.reload();
 						Ext.getCmp(windowId).close();
 					}
