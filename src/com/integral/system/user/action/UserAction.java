@@ -270,7 +270,7 @@ public class UserAction extends BaseAction implements ServletRequestAware, Servl
             }
             List l = this.userService.getUserByName(user.getUserName());
             if(l!=null && l.size()>0){
-                out.print("success:false,msg:'您输入的用户名已被别人使用，请更换用户名！'");
+                out.print("{success:false, msg:'您输入的用户名已被别人使用，请更换用户名！'}");
             }else{
                 this.userService.saveOrUpdate(user);
                 out.print("{success:true}");
