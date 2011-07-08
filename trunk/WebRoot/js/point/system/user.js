@@ -280,6 +280,7 @@ function userManage(){
 						readOnly:readOnly,
 						allowBlank:isNull,
 						validationEvent:"blur",
+						invalidText:"该用户名已被使用",
 						validator:function(thisText){
 							if (thisText != '') {
 								Ext.Ajax.request({ 
@@ -287,14 +288,18 @@ function userManage(){
 									method:"post",
 									params:{userName:thisText},
 									success:function(response, options){
-										var msg = Ext.decode(response.responseText);
-										if(msg && msg.success){
-											isPersonNameOK=true;
-											userForm.form.findField('userName').clearInvalid();
-										}else{
-											isPersonNameOK=false;
-											userForm.form.findField('userName').markInvalid('用户名已被使用');
-										}
+										try{
+											var msg = Ext.decode(response.responseText);
+											if(msg && msg.success){
+												isPersonNameOK=true;
+												userForm.form.findField('userName').clearInvalid();
+											}else{
+												isPersonNameOK=false;
+												userForm.form.findField('userName').markInvalid('用户名已被使用');
+											}
+											}catch(e){
+												isPersonNameOK=false;
+											}
 									},failure: function(form, action) {//action.result.errorMessage
 										//Ext.Msg.hide();
 										//Ext.Msg.alert('系统提示信息', "用户信息保存过程中出现异常!");
@@ -441,7 +446,12 @@ function userManage(){
 			},
 			failure: function(form, action) {//action.result.errorMessage
 				Ext.Msg.hide();
-				Ext.Msg.alert('系统提示信息', "用户信息保存过程中出现异常!");
+				var msg = Ext.decode(action.response.responseText);
+				if(msg && msg.msg){
+					Ext.Msg.alert('系统提示信息', msg.msg);
+				}else{
+					Ext.Msg.alert('系统提示信息', "用户信息保存过程中出现异常!");
+				}
 			}
 		});
 	}
