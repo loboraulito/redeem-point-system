@@ -123,9 +123,10 @@ function userManage(){
 	 * @param {} url
 	 */
 	this.addUser = function(url){
-		var userForm = showUserForm(url, false, false);
+		var userForm = showUserForm(url, false, false, true);
 		var button = [{
 			text:"保存",
+			type:"submit",
 			handler:function(){
 				if(userForm.form.isValid()){
 					saveUser("addUserWindow", userForm);
@@ -154,7 +155,7 @@ function userManage(){
 		    return false;
 		}
 		
-		var userForm = showUserForm(url, false, true);
+		var userForm = showUserForm(url, false, true, false);
 		var button = [{
 			text:"保存",
 			handler:function(){
@@ -251,11 +252,13 @@ function userManage(){
 	}
 	/**
 	 * 表单信息
-	 * @param {} url
-	 * @param {} isNull
+	 * @param {} url 提交表单的url
+	 * @param {} isNull 是否允许为null，false-不允许
+	 * @param {} readOnly 是否只读， true-只读
+	 * @param {} validator 是否校验， true-校验数据
 	 * @return {}
 	 */
-	function showUserForm(url,isNull,readOnly){
+	function showUserForm(url,isNull,readOnly,validator){
 		var userForm = new Ext.form.FormPanel({
 			frame: true,
 			labelAlign: 'right',
@@ -280,33 +283,10 @@ function userManage(){
 						readOnly:readOnly,
 						allowBlank:isNull,
 						validationEvent:"blur",
-						invalidText:"该用户名已被使用",
-						validator:function(thisText){
-							if (thisText != '') {
-								Ext.Ajax.request({ 
-									url:path + "/user/userValidation.action?method=validateUserName",
-									method:"post",
-									params:{userName:thisText},
-									success:function(response, options){
-										try{
-											var msg = Ext.decode(response.responseText);
-											if(msg && msg.success){
-												isPersonNameOK=true;
-												userForm.form.findField('userName').clearInvalid();
-											}else{
-												isPersonNameOK=false;
-												userForm.form.findField('userName').markInvalid('用户名已被使用');
-											}
-											}catch(e){
-												isPersonNameOK=false;
-											}
-									},failure: function(form, action) {//action.result.errorMessage
-										//Ext.Msg.hide();
-										//Ext.Msg.alert('系统提示信息', "用户信息保存过程中出现异常!");
-									}
-								});
-							}
-							return isPersonNameOK;
+						//see @js/ext-2.2.1/source/ux/RemoteValidator.js. Be sure that the response text must be like this:{success:true,valid:true/false,reson:'some reson'}
+						plugins:validator ? [Ext.ux.plugins.RemoteValidator] : null,
+						rvOptions:{
+							url:path + "/user/userValidation.action?method=validateUserName"
 						}
 					}]
 				},{
