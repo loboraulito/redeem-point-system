@@ -5,10 +5,12 @@ function systemLogin(){
 		//renderTo: Ext.getBody(),
 		frame: true,
 		cls: 'my-form-class',
-		width: 350,
+		labelWidth:80,
+		
+		width: 300,
 		items: [{
 			xtype: 'textfield',
-			fieldLabel: 'Login Name',
+			fieldLabel: '用户名',
 			allowBlank:false,
 			name: 'j_username',
 			enableKeyEvents:true,
@@ -23,7 +25,7 @@ function systemLogin(){
 	    },{
 			xtype: 'textfield',
 			inputType: 'password',
-			fieldLabel: 'Password',
+			fieldLabel: '密码',
 			allowBlank:false,
 			id:"j_password",
 			name: 'j_password',
@@ -38,19 +40,19 @@ function systemLogin(){
 			}
 		}, {
 			xtype: 'checkbox',
-			fieldLabel: 'Remember Me?',
+			fieldLabel: '记住我',
 			name: '_spring_security_remember_me',
 			checked: false
 		}],
 		buttons: [{
 			id: 'lf.btn.login',
-			text: 'Login',
+			text: '登录',
 			handler: function() {
 				fnLoginForm(loginForm);
 			}
 		},{
 			id: 'lf.btn.reset',
-			text: 'Reset',
+			text: '重置',
 			handler: function() {
 				fnResetForm(loginForm);
 			}
@@ -58,9 +60,9 @@ function systemLogin(){
 	});
 	var loginWindow = new Ext.Window({
 		id:"loginWindow",
-		title:"Login",
+		title:"登录系统",
 		//layout:"fit",
-		width:350,
+		width:300,
 		//height:300,
 		modal:true,
 		plain:true,
@@ -77,7 +79,7 @@ function fnLoginForm(theForm)
 	if(theForm.form.isValid()){
 		theForm.getForm().submit({
 			success: function(form, action) {
-				Ext.Msg.alert('Success', 'Login Successful!', function(btn, text) {
+				Ext.Msg.alert('系统提示', '您已成功登录系统!', function(btn, text) {
 					if (btn == 'ok') {
 						//window.location = path+"/index.jsp";
 						var msg = Ext.decode(action.response.responseText);
@@ -100,5 +102,5 @@ function fnLoginForm(theForm)
 
 function fnResetForm(theForm)
 {
-theForm.getForm().reset();
+	theForm.getForm().reset();
 } //end fnResetForm
