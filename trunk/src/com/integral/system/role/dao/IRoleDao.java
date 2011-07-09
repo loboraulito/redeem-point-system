@@ -46,4 +46,12 @@ public interface IRoleDao {
      * @update: 2011-7-3 代超[变更描述]
      */
     public void saveOrUpdate(RoleInfo role);
+    /**
+     * <p>Discription:[根据角色名称查询角色信息]</p>
+     * @param roleName
+     * @return
+     * @author: 代超
+     * @update: 2011-7-9 代超[变更描述]
+     */
+    public List findRoleByName(String roleName);
 }

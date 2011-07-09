@@ -27,6 +27,8 @@
 	</bean>
 	<!-- 用户管理 -->
 	<bean class="com.integral.system.user.action.UserAction">
+		<property name="systemRoleName" value="系统注册用户"></property>
+		<property name="roleService" ref="roleService"></property>
 		<property name="userService" ref="userService"></property>
 		<property name="userRoleService" ref="userRoleService"></property>
 		<property name="transactionManager" ref="transactionManager"></property>

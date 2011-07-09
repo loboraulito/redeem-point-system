@@ -1,4 +1,24 @@
 function systemLogin(){
+	var loginForm = userLoginForm();
+	var loginWindow = userLoginWindow("loginWindow",loginForm);
+	loginWindow.show();
+}
+
+function userLoginWindow(id, items){
+	var loginWindow = new Ext.Window({
+		id:id,
+		title:"登录系统",
+		//layout:"fit",
+		width:300,
+		//height:300,
+		modal:true,
+		plain:true,
+		items:items
+	});
+	return loginWindow;
+}
+
+function userLoginForm(username,password){
 	var loginForm = new Ext.form.FormPanel({
 		url: path+"/j_spring_security_check",
 		//title: 'Login',
@@ -14,6 +34,7 @@ function systemLogin(){
 			allowBlank:false,
 			name: 'j_username',
 			enableKeyEvents:true,
+			value:username,
 			listeners:{
 				"keydown":function(field,event){
 					if(event.keyCode==13){
@@ -29,6 +50,7 @@ function systemLogin(){
 			allowBlank:false,
 			id:"j_password",
 			name: 'j_password',
+			value:password,
 			enableKeyEvents:true,
 			listeners:{
 				"keydown":function(field,event){
@@ -58,17 +80,8 @@ function systemLogin(){
 			}
 		}]
 	});
-	var loginWindow = new Ext.Window({
-		id:"loginWindow",
-		title:"登录系统",
-		//layout:"fit",
-		width:300,
-		//height:300,
-		modal:true,
-		plain:true,
-		items:[loginForm]
-	});
-	loginWindow.show();
+	
+	return loginForm;
 }
 
 //Submit login and handler response
@@ -89,12 +102,21 @@ function fnLoginForm(theForm)
 						//showRootMenu(rootMenu,msg.menuSize);
 						loadMenuPanel(msg.userName);
 						Ext.getCmp("userInfo").setTitle("欢迎您   "+msg.userName);
-						Ext.getCmp("loginWindow").close();
+						var loginWindow = Ext.getCmp("loginWindow");
+						if(loginWindow){
+							loginWindow.close();
+						}
 					}
 				});
 			},
 			failure: function(form, action) {//action.result.errorMessage
-				Ext.Msg.alert('Warning', "error");
+				var msg = Ext.decode(action.response.responseText);
+				if(msg && msg.error){
+					Ext.Msg.alert('系统提示', "登录失败，可能是以下原因导致您登录失败："+msg.error);
+				}else{
+					Ext.Msg.alert('系统提示', "登录失败！");
+				}
+				
 			}
 		});
 	}

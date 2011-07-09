@@ -35,7 +35,9 @@ public class LoginFailureHandler extends BaseAction implements AuthenticationFai
             HttpServletResponse response, AuthenticationException exception)
             throws IOException, ServletException {
         PrintWriter out = super.getPrintWriter(request, response);
-        out.print("{success:false,msg:'登录失败'}");
+        String msg = exception.getMessage();
+        
+        out.print("{success:false,msg:'登录失败',error:'"+exception.getMessage()+"'}");
         out.flush();
         out.close();
     }

@@ -7,6 +7,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
+import com.integral.system.role.bean.UserRole;
 import com.integral.system.role.dao.IUserRoleDao;
 
 /** 
@@ -40,6 +41,20 @@ public class UserRoleDao extends HibernateDaoSupport implements IUserRoleDao {
         log.debug("saveOrUpdateAll role");
         try {
             getHibernateTemplate().saveOrUpdateAll(entities);
+        } catch (RuntimeException re) {
+            log.error("saveOrUpdateAll failed", re);
+            throw re;
+        }
+    }
+    
+    /**
+     * 新增用户角色信息
+     * @param entities
+     */
+    public void saveOrUpdate(UserRole userRole){
+        log.debug("saveOrUpdateAll role");
+        try {
+            getHibernateTemplate().saveOrUpdate(userRole);
         } catch (RuntimeException re) {
             log.error("saveOrUpdateAll failed", re);
             throw re;

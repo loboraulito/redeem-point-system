@@ -20,6 +20,9 @@ import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 import com.integral.common.action.BaseAction;
+import com.integral.system.role.bean.RoleInfo;
+import com.integral.system.role.bean.UserRole;
+import com.integral.system.role.service.IRoleService;
 import com.integral.system.role.service.IUserRoleService;
 import com.integral.system.user.bean.UserInfo;
 import com.integral.system.user.service.IUserService;
@@ -33,6 +36,9 @@ public class UserAction extends BaseAction implements ServletRequestAware, Servl
     
     private IUserService userService;
     private IUserRoleService userRoleService;
+    private IRoleService roleService;
+    
+    private String systemRoleName;
     
     /** 事务处理 */
     private DataSourceTransactionManager transactionManager;
@@ -40,6 +46,22 @@ public class UserAction extends BaseAction implements ServletRequestAware, Servl
     /** 当更新了角色信息后, 需要手动的刷新系统内存, 以保证内存中的菜单角色信息最新 **/
     private ResourceDetailsMonitor resourceDetailsMonitor;
     
+    /**
+     * <p>Discription:[方法功能描述]</p>
+     * @return IRoleService roleService.
+     */
+    public IRoleService getRoleService() {
+        return roleService;
+    }
+
+    /**
+     * <p>Discription:[方法功能描述]</p>
+     * @param roleService The roleService to set.
+     */
+    public void setRoleService(IRoleService roleService) {
+        this.roleService = roleService;
+    }
+
     /**
      * @return the userRoleService
      */
@@ -88,6 +110,22 @@ public class UserAction extends BaseAction implements ServletRequestAware, Servl
      */
     public IUserService getUserService() {
         return userService;
+    }
+    
+    /**
+     * <p>Discription:[方法功能描述]</p>
+     * @return String systemRoleName.
+     */
+    public String getSystemRoleName() {
+        return systemRoleName;
+    }
+
+    /**
+     * <p>Discription:[方法功能描述]</p>
+     * @param systemRoleName The systemRoleName to set.
+     */
+    public void setSystemRoleName(String systemRoleName) {
+        this.systemRoleName = systemRoleName;
     }
 
     /**
@@ -316,6 +354,77 @@ public class UserAction extends BaseAction implements ServletRequestAware, Servl
         }catch(Exception e){
             out.print("{success:true,valid:false,reason:'数据异常'}");
         }finally{
+            if(out != null){
+                out.flush();
+                out.close();
+            }
+        }
+        return null;
+    }
+    /**
+     * <p>Discription:[系统用户注册]</p>
+     * @return
+     * @author: 代超
+     * @update: 2011-7-9 代超[变更描述]
+     */
+    public String registerUser(){
+        Map requestMap = RequestUtil.getRequestMap(request);
+        UserInfo user = new UserInfo();
+        // 定义TransactionDefinition并设置好事务的隔离级别和传播方式。
+        DefaultTransactionDefinition definition = new DefaultTransactionDefinition();
+        // 代价最大、可靠性最高的隔离级别，所有的事务都是按顺序一个接一个地执行
+        definition.setIsolationLevel(TransactionDefinition.ISOLATION_SERIALIZABLE);
+        // 开始事务
+        TransactionStatus status = transactionManager.getTransaction(definition);
+        
+        String msg = "";
+        PrintWriter out = null;
+        try{
+            out = super.getPrintWriter(request, response);
+            BeanUtils.populate(user, requestMap);
+            if(user.getUserId() == null || "".equals(user.getUserId().trim())){
+                user.setUserId(null);
+                //为新增的用户设置初始密码
+                if(user.getPassword() == null || "".equals(user.getPassword().trim())){
+                    //设置初始密码为0000
+                    String passWord = CipherUtil.generatePassword("0000{"+user.getUserName()+"}");
+                    user.setPassword(passWord);
+                }else{
+                    String passWord = CipherUtil.generatePassword(user.getPassword()+"{"+user.getUserName()+"}");
+                    user.setPassword(passWord);
+                }
+            }
+            List l = this.userService.getUserByName(user.getUserName());
+            if(l!=null && l.size()>0){
+                out.print("{success:false, msg:'您输入的用户名已被别人使用，请更换用户名！'}");
+            }else{
+                //构建用户角色
+                UserRole userRole = new UserRole();
+                userRole.setUserId(user.getUserName());
+                String roleId = "";
+                if(this.systemRoleName != null && !"".equals(this.systemRoleName)){
+                    List roles = this.roleService.findRoleByName(systemRoleName);
+                    if(roles!=null && roles.size()>0){
+                        RoleInfo role = (RoleInfo) roles.get(0);
+                        roleId = role.getRoleId();
+                        msg = "您已成功注册，当前权限是：["+systemRoleName+"]";
+                    }else{
+                        msg = "您已成功注册，但是尚未分配任何权限，请联系管理员为您分配权限！";
+                    }
+                }else{
+                    msg = "您已成功注册，但是尚未分配任何权限，请联系管理员为您分配权限！";
+                }
+                userRole.setRoleId(roleId);
+                
+                this.userService.saveOrUpdate(user);
+                this.userRoleService.saveOrUpdate(userRole);
+                out.print("{success:true,msg:'"+msg+"'}");
+            }
+        }catch(Exception e){
+            status.setRollbackOnly();
+            out.print("{success:false,msg:'系统异常，请联系管理员！'}");
+        }finally{
+            transactionManager.commit(status);
             if(out != null){
                 out.flush();
                 out.close();
