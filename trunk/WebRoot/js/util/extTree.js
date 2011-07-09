@@ -33,7 +33,15 @@ function providetreePanel(mainMenuId, rootName){
 		width:250,
 		//hight:600,
 		dropConfig: {appendOnly:true},
-		border:false//没有边框
+		border:false,//没有边框
+		tbar:[{
+			text:"刷新菜单",
+			tooltip:"刷新["+rootName+"]菜单",
+			iconCls:"table_refresh",
+			handler:function(){
+				root.reload();
+			}
+		}]
 	});
 	tree.on('beforeload',function(node){rloader.url = url+node.id;});//mainMenuId
 	//当用户点击菜单的时候，在中间出现tabPanel
