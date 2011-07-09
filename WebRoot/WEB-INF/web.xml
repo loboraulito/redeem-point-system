@@ -57,6 +57,9 @@
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
   <session-config>
-  	<session-timeout>1</session-timeout>
+  	<!-- 8小时 -->
+  	<session-timeout>480</session-timeout>
+  	<!-- 24小时 -->
+  	<!-- <session-timeout>1440</session-timeout> -->
   </session-config>
 </web-app>

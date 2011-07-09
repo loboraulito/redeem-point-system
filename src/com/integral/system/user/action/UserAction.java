@@ -292,22 +292,29 @@ public class UserAction extends BaseAction implements ServletRequestAware, Servl
      * @return
      */
     public String validateUserName(){
-        String userName = request.getParameter("userName");
+        String userName = "";
+        String field = request.getParameter("field");
+        String value = request.getParameter("value");
+        if(field != null && "userName".equals(field)){
+            userName = value;
+        }
         List list = this.userService.getUserByName(userName);
-        boolean bool = true;
+        String bool = "true";
+        String reason = "该用户名可以使用";
         if(list == null || list.size()<1){
             //验证通过
-            bool = true;
+            bool = "true";
         }else{
             //验证失败
-            bool = false;
+            bool = "false";
+            reason = "该用户名已被使用";
         }
         PrintWriter out = null;
         try{
             out = super.getPrintWriter(request, response);
-            out.print("{success:"+bool+"}");
+            out.print("{success:true,valid:"+bool+",reason:'"+reason+"'}");
         }catch(Exception e){
-            out.print("{success:false}");
+            out.print("{success:true,valid:false,reason:'数据异常'}");
         }finally{
             if(out != null){
                 out.flush();
