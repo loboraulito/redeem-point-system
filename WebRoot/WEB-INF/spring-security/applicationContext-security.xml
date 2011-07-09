@@ -38,7 +38,8 @@
 		<security:intercept-url pattern="/right/finAuthorizeUserRole.action/**" filters="none"/>
 		<!-- 验证用户名是否重复 -->
 		<security:intercept-url pattern="/user/userValidation.action/**" filters="none"/>
-		
+		<!-- 系统用户注册 -->
+		<security:intercept-url pattern="/user/userRegister.action/**" filters="none"/>
 		<!-- 配置登录页面 -->
 		<security:form-login login-page="/index.jsp" default-target-url="/index.jsp" authentication-success-handler-ref="loginSuccessHandler" authentication-failure-handler-ref="loginFailureHandler"/>
 		<!-- 
@@ -215,4 +216,21 @@
 		<property name="accessDecisionManager" ref="myAccessDecisionManagerBean"></property>
 		<property name="securityMetadataSource" ref="myMethodSecurityMetadataSource"></property>
 	</bean>
+	
+	<!-- 国际化配置 -->
+	<!-- 调用Spring Security自带的国际化文件 （测试通过）
+	<bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+		<property name="basename" value="org/springframework/security/messages_zh_CN"></property>
+	</bean>
+	 -->
+	<!-- 调用Spring Security自带的国际化文件（测试通过）
+	<bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+		<property name="basename" value="classpath:org/springframework/security/messages_zh_CN"></property>
+	</bean>
+	 -->
+	<!-- 自定义国际化文件 -->
+	<bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+		<property name="basename" value="classpath:com/integral/util/i18n/message_zh_CN"></property>
+	</bean> 
+	<bean id="localResolver" class="org.springframework.web.servlet.i18n.AcceptHeaderLocaleResolver"></bean> 
 </beans>

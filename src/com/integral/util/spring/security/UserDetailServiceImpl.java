@@ -73,6 +73,7 @@ public class UserDetailServiceImpl implements UserDetailsService {
         if (userList == null || userList.size() < 1) {
             log.error(username + " is not exist",
                     new UsernameNotFoundException(username + " is not exist"));
+            throw new UsernameNotFoundException(username + " is not exist");
         }
         log.debug("userList is not null :" + userList.size());
         UserInfo user = (UserInfo) userList.get(0);

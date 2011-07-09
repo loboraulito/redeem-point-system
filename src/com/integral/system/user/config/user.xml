@@ -29,5 +29,9 @@
 			 <result name="success">/jsp/system/user/user.jsp</result>
 			 <result name="input">/index.jsp</result>
 		</action>
+		<action name="userRegister" class="com.integral.system.user.action.UserAction" method="registerUser">
+			 <result name="success">/jsp/system/user/user.jsp</result>
+			 <result name="input">/index.jsp</result>
+		</action>
 	</package>
 </struts>

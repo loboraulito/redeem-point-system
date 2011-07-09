@@ -27,6 +27,17 @@ public class RoleDao extends HibernateDaoSupport implements IRoleDao {
         //do nothing
     }
     
+    public List findRoleByName(String roleName){
+        log.debug("finding all role");
+        try {
+            String queryString = "from RoleInfo as model where model.roleName = ?";
+            return getHibernateTemplate().find(queryString,roleName);
+        } catch (RuntimeException re) {
+            log.error("find all role failed", re);
+            throw re;
+        }
+    }
+    
     public List findAllRole(){
         log.debug("finding all role");
         try {

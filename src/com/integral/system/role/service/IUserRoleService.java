@@ -7,6 +7,8 @@ import java.util.List;
 import org.hibernate.HibernateException;
 import org.springframework.dao.DataAccessResourceFailureException;
 
+import com.integral.system.role.bean.UserRole;
+
 public interface IUserRoleService {
     /**
      * <p>Discription:[查询用户的角色ID]</p>
@@ -44,6 +46,12 @@ public interface IUserRoleService {
      * @param entities
      */
     public void saveOrUpdateAll(Collection entities);
+    
+    /**
+     * 新增用户角色信息
+     * @param entities
+     */
+    public void saveOrUpdate(UserRole userRole);
     /**
      * 更新用户的角色信息
      * @param users 的第一项是角色ID，之后才是userID。其长度至少为2

@@ -8,6 +8,7 @@ import org.hibernate.HibernateException;
 import org.springframework.dao.DataAccessResourceFailureException;
 
 import com.integral.common.dao.IBaseDao;
+import com.integral.system.role.bean.UserRole;
 import com.integral.system.role.dao.IUserRoleDao;
 import com.integral.system.role.dao.impl.RoleDao;
 import com.integral.system.role.service.IUserRoleService;
@@ -158,5 +159,13 @@ public class UserRoleService implements IUserRoleService {
         }
         sql += " )";
         this.baseDao.excuteSQL(sql, users);
+    }
+    
+    /**
+     * 新增用户角色信息
+     * @param entities
+     */
+    public void saveOrUpdate(UserRole userRole){
+        this.userRoleDao.saveOrUpdate(userRole);
     }
 }
