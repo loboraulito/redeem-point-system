@@ -500,10 +500,16 @@ function authorize(){
 	function refreshTree(){
 		loader.baseParams.rootId = "";
 		loader.baseParams.roleId = "";
+		/*
 		loader.load(root, function(){
 			tree.expandAll();
 		});
-		//tree.expandAll();
+		*/
+		root.reload(
+			function(){
+				tree.expandAll();
+			}
+		);
 	}
 	
 	/**
