@@ -261,3 +261,8 @@ admin{admin}
   9)请使用当前数据库。命令: use redeempoint
   10)请输入以下命令，导入数据库文件。命令：source c:/redeempoint.sql (该文件就是第2步中提到的数据库文件)
   11)请将发布包放在Tomcat的webapp目录下，启动tomcat即可
+
+
+2011/07/11
+安装jQuery插件
+http://www.cnblogs.com/shulin/archive/2010/08/09/1796146.html
