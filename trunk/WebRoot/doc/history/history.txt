@@ -266,3 +266,5 @@ admin{admin}
 2011/07/11
 安装jQuery插件
 http://www.cnblogs.com/shulin/archive/2010/08/09/1796146.html
+240多个jQuery插件
+http://www.iteye.com/topic/779476
