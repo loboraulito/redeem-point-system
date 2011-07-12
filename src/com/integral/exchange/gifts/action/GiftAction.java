@@ -1,10 +1,16 @@
 package com.integral.exchange.gifts.action;
 
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.math.NumberUtils;
 import org.apache.struts2.interceptor.ServletRequestAware;
 import org.apache.struts2.interceptor.ServletResponseAware;
+import org.nutz.json.Json;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 
 import com.integral.common.action.BaseAction;
@@ -80,5 +86,26 @@ public class GiftAction extends BaseAction implements ServletRequestAware, Servl
      */
     public String begin(){
         return SUCCESS;
+    }
+    
+    public String giftManageList(){
+        int start = NumberUtils.toInt(request.getParameter("start"), 0);
+        int limit = NumberUtils.toInt(request.getParameter("limit"), 50);
+        
+        List list = this.giftService.findAll();
+        PrintWriter out = null;
+        try {
+            out = super.getPrintWriter(request, response);
+            out.print("{success:true,totalCount:"+list.size()+",giftList:"+Json.toJson(list)+"}");
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if(out!=null){
+                out.flush();
+                out.close();
+            }
+        }
+        return null;
     }
 }
