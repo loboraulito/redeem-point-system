@@ -19,4 +19,6 @@
 	<include file="com/integral/system/menu/config/button.xml"></include>
 	<!-- 按钮权限管理 -->
 	<include file="com/integral/system/right/config/right.xml"></include>
+	<!-- 礼品管理 -->
+	<include file="com/integral/exchange/gifts/config/gift.xml"></include>
 </struts>

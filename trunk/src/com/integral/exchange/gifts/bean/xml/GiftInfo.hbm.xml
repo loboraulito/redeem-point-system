@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Jul 12, 2011 4:32:03 PM by Hibernate Tools 3.3.0.GA -->
+<hibernate-mapping>
+    <class name="com.integral.exchange.gifts.bean.GiftInfo" table="gift_info">
+        <id name="giftId" type="java.lang.String">
+            <column name="gift_id" />
+            <generator class="uuid.hex" />
+        </id>
+        <property name="giftCode" type="java.lang.String">
+            <column name="gift_code" />
+        </property>
+        <property name="giftName" type="java.lang.String">
+            <column name="gift_name" />
+        </property>
+        <property name="giftModel" type="java.lang.String">
+            <column name="gift_model" />
+        </property>
+        <property name="giftComment" type="java.lang.String">
+            <column name="gift_comment" />
+        </property>
+        <property name="giftColor" type="java.lang.String">
+            <column name="gift_color" />
+        </property>
+        <property name="giftSize" type="java.lang.String">
+            <column name="gift_size" />
+        </property>
+        <property name="giftUnit" type="java.lang.String">
+            <column name="gift_unit" />
+        </property>
+        <property name="giftType" type="java.lang.String">
+            <column name="gift_type" />
+        </property>
+        <property name="giftImage" type="java.lang.String">
+            <column name="gift_image" />
+        </property>
+        <property name="supplierId" type="java.lang.String">
+            <column name="supplier_id" />
+        </property>
+        <property name="stockNo" type="java.lang.String">
+            <column name="stock_no" />
+        </property>
+    </class>
+</hibernate-mapping>

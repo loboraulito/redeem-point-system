@@ -57,4 +57,9 @@
 		<!-- 刷新内存 -->
 		<property name="resourceDetailsMonitor" ref="resourceDetailsMonitor"></property>
 	</bean>
+	<!-- 礼品管理 -->
+	<bean class="com.integral.exchange.gifts.action.GiftAction">
+		<property name="giftService" ref="giftService"></property>
+		<property name="transactionManager" ref="transactionManager"></property>
+	</bean>
 </beans>
