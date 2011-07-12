@@ -290,3 +290,7 @@ http://trirand.com/blog/jqgrid/jqgrid.html
 DataTables
 http://www.51ascx.com/212.html
 http://www.datatables.net/
+jQuery系列文章
+http://www.helloweba.com/blog.html?cata=5&p=1
+jQuery图表生成组件
+http://www.helloweba.com/view-blog-40.html
