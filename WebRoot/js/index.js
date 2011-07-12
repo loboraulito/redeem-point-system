@@ -83,7 +83,7 @@ function indexPage(){
 				callback:function(scope,success,responses){
 					Ext.getCmp("mainpagepanel").body.update("<div id='mainpage' style='height: 100%;width: 100%;overflow:hidden;'></div>");
 					//Ext.getCmp("mainpagepanel").body.dom.innerHTML = "<div id='mainpage' style='height: 100%;width: 100%;overflow:hidden;'></div>";
-					createMainTabPanel("首&nbsp;&nbsp;&nbsp;&nbsp;页", "mainPagePanel", "/jsp/main.jsp", false);
+					createMainTabPanel("首&nbsp;&nbsp;&nbsp;&nbsp;页", "mainPagePanel", "/jsp/client/index.jsp", false);
 				}
 			}
 		},{

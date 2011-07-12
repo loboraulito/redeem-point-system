@@ -16,10 +16,13 @@
 		<security:intercept-url pattern="/images/**" filters="none"/>
 		<security:intercept-url pattern="/css/**" filters="none"/>
 		<security:intercept-url pattern="/js/**" filters="none"/>
+		<security:intercept-url pattern="/picture/**" filters="none"/>
 		<security:intercept-url pattern="/jsp/common/config.jsp" filters="none"/>
 		<security:intercept-url pattern="/index.jsp" filters="none"/>
 		<!-- 主页 -->
 		<security:intercept-url pattern="/jsp/main.jsp" filters="none"/>
+		<!-- 测试jQuery主页 -->
+		<security:intercept-url pattern="/jsp/client/index.jsp" filters="none"/>
 		<!-- 会话超时 -->
 		<security:intercept-url pattern="/timeout.jsp" filters="none"/>
 		
