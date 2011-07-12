@@ -50,4 +50,9 @@
 			<ref bean="sessionFactory"/>
 		</property>
 	</bean>
+	<bean class="com.integral.exchange.gifts.dao.impl.GiftDao" id="GiftDao">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory"/>
+		</property>
+	</bean>
 </beans>

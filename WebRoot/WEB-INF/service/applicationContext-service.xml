@@ -216,4 +216,25 @@
 		</property>
 	</bean>
 	
+	<!-- 授权管理Service -->
+	<bean id="giftService" parent="serviceProxy">
+		<property name="target">
+			<bean
+				class="com.integral.exchange.gifts.service.impl.GiftService"
+				abstract="false" lazy-init="default" autowire="default">
+				<property name="giftDao" ref="GiftDao"></property>
+				<property name="baseDao" ref="BaseDao"></property>
+			</bean>
+		</property>
+		<property name="transactionAttributes">
+			<props>
+				<prop key="add*">PROPAGATION_REQUIRED</prop>
+				<prop key="del*">PROPAGATION_REQUIRED</prop>
+				<prop key="edit*">PROPAGATION_REQUIRED</prop>
+				<prop key="upd*">PROPAGATION_REQUIRED</prop>
+				<prop key="sa*">PROPAGATION_REQUIRED</prop>
+			</props>
+		</property>
+	</bean>
+	
 </beans>
