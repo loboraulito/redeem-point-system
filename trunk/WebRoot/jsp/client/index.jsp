@@ -4,9 +4,15 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<%@include file="/jsp/common/config.jsp" %>
+
+<%
+    String path = request.getContextPath();
+%>
 <title>Insert title here</title>
-</head>]
+</head>
+<script type="text/javascript">
+var path = "<%=path%>";
+</script>
 <script src="<%=path%>/js/jQuery/jquery-1.6.2.min.js"></script>
 <script src="<%=path%>/js/point/client/test.js"></script>
 <body>
