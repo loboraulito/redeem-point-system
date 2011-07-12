@@ -5,13 +5,11 @@
 <struts>
 	<package name="gift" namespace="/gift" extends="struts-default">
 		<!-- 切记：action name不能是一样的，否则会进不了Action -->
-		<!--
-		<action name="childModule" class="com.integral.system.menu.action.MenuAction" method="showChildMenu">
-			 <result name="success">/jsp/system/menu/menu.jsp</result>
+		<action name="giftManage" class="com.integral.exchange.gifts.action.GiftAction" method="begin">
+			 <result name="success">/jsp/exchange/gift.jsp</result>
 			 <result name="input">/index.jsp</result>
 		</action>
-		-->
-		<action name="giftManage" class="com.integral.system.menu.action.ButtonAction" method="begin">
+		<action name="giftManageList" class="com.integral.exchange.gifts.action.GiftAction" method="giftManageList">
 			 <result name="success">/jsp/exchange/gift.jsp</result>
 			 <result name="input">/index.jsp</result>
 		</action>

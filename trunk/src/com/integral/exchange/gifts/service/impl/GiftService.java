@@ -1,5 +1,7 @@
 package com.integral.exchange.gifts.service.impl;
 
+import java.util.List;
+
 import com.integral.common.dao.impl.BaseDao;
 import com.integral.exchange.gifts.dao.IGiftDao;
 import com.integral.exchange.gifts.service.IGiftService;
@@ -40,5 +42,15 @@ public class GiftService implements IGiftService {
      */
     public void setBaseDao(BaseDao baseDao) {
         this.baseDao = baseDao;
+    }
+    
+    /**
+     * <p>Discription:[查询所有的礼品]</p>
+     * @return
+     * @author:[代超]
+     * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
+     */
+    public List findAll(){
+        return this.giftDao.findAll();
     }
 }
