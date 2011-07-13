@@ -17,7 +17,7 @@ $(document).ready(function(){
 		data:{start:0,limit:50},
 		dataType:"json",
 		success:function(data,textStatus){
-			alert(data);
+			alert(data.giftList[0].giftColor);
 		},
 		//global: false, //不触发全局Ajax事件   
 		complete:function(httpRequest, textStatus){
