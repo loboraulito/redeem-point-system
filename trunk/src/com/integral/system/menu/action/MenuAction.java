@@ -171,7 +171,7 @@ ServletRequestAware, ServletResponseAware {
         try {
             out = super.getPrintWriter(request, response);
             //菜单页面,不显示checkBox
-            out.print(Json.toJson(childList).replaceAll("checked :false,", ""));
+            out.print(Json.toJson(childList).replaceAll("\"checked\" :false,", ""));
         } catch (IOException e) {
             e.printStackTrace();
         } finally{
