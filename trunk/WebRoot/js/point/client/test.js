@@ -16,12 +16,12 @@ $(document).ready(function(){
 		type:"post",
 		data:{start:0,limit:50},
 		dataType:"json",
-		success:function(data,textStatus,jqXHR){
+		success:function(data,textStatus){
 			alert(data);
 		},
-		complete:function(){
+		//global: false, //不触发全局Ajax事件   
+		complete:function(httpRequest, textStatus){
 			alert(1);
-		},
-        global: false //不触发全局Ajax事件   
+		}
     });
 });

@@ -290,7 +290,23 @@ http://trirand.com/blog/jqgrid/jqgrid.html
 DataTables
 http://www.51ascx.com/212.html
 http://www.datatables.net/
+
 jQuery系列文章
 http://www.helloweba.com/blog.html?cata=5&p=1
 jQuery图表生成组件
 http://www.helloweba.com/view-blog-40.html
+
+2011/07/13
+nutz在线API
+http://build.sunfarms.net/nutz/lastest/api/
+发现jQuery的$.ajax异步请求数据的success回调方法的调用方法：在返回的数据格式必须是带有双引号的json数据(如果dataType='json'的话)
+如：{"success":"true","totalCount":"34"}.其中的success不是必须的。如果没有双引号，则success回调方法不执行。
+这一点与ExtJs不一样。ExtJs不用必须是双引号。
+
+如果这样的话，需要在返回Json字符串之前加上nutz的配置,代码如下：
+//设置json字符串的格式
+JsonFormat jf = new JsonFormat();
+//为属性名加上引号
+jf.setQuoteName(true);
+
+更换了nutZ的最新版本，但是发现其中的中文是乱码，真是晕啊。
