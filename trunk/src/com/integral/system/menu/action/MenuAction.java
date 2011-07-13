@@ -258,7 +258,7 @@ ServletRequestAware, ServletResponseAware {
         PrintWriter out = null;
         try {
             out = super.getPrintWriter(request, response);
-            out.print(Json.toJson(this.menuUtil.getMenuTree(list, null)).replaceAll("checked :false,", ""));
+            out.print(Json.toJson(this.menuUtil.getMenuTree(list, null)).replaceAll("\"checked\" :false,", ""));
         }
         catch (IOException e) {
             e.printStackTrace();
