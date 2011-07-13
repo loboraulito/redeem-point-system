@@ -21,7 +21,7 @@ $(document).ready(function(){
 		},
 		//global: false, //不触发全局Ajax事件   
 		complete:function(httpRequest, textStatus){
-			alert(1);
+			//alert(1);
 		}
     });
 });
