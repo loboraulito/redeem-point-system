@@ -2,7 +2,9 @@ package com.integral.exchange.gifts.action;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -11,6 +13,7 @@ import org.apache.commons.lang.math.NumberUtils;
 import org.apache.struts2.interceptor.ServletRequestAware;
 import org.apache.struts2.interceptor.ServletResponseAware;
 import org.nutz.json.Json;
+import org.nutz.json.JsonFormat;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 
 import com.integral.common.action.BaseAction;
@@ -96,7 +99,16 @@ public class GiftAction extends BaseAction implements ServletRequestAware, Servl
         PrintWriter out = null;
         try {
             out = super.getPrintWriter(request, response);
-            out.print("{success:true,totalCount:"+list.size()+",giftList:"+Json.toJson(list)+"}");
+            JsonFormat jf = new JsonFormat();
+            jf.setQuoteName(true);
+            //设置Unicode编码
+            jf.setAutoUnicode(true);
+            Map<String, Object> map = new HashMap<String, Object>();
+            map.put("success", true);
+            map.put("totalCount", list.size());
+            map.put("giftList", list);
+            out.print(Json.toJson(map, jf));
+            //out.print("{\"success\":\"true\",\"totalCount\":\"34\"}");
         }
         catch (IOException e) {
             e.printStackTrace();
