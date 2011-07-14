@@ -310,3 +310,7 @@ JsonFormat jf = new JsonFormat();
 jf.setQuoteName(true);
 
 更换了nutZ的最新版本，但是发现其中的中文是乱码，真是晕啊。
+jQueryf分页插件
+http://linapex.blog.163.com/blog/static/1892375162011523101954885/
+//仙剑4
+ed2k://|file|%E4%BB%99%E5%8A%8D%E5%A5%87%E4%BF%A0%E5%82%B3.4.%E7%B9%81%E9%AB%94%E4%B8%AD%E6%96%87%E7%A1%AC%E7%A2%9F%E7%89%88.1.1.rar|2082279474|effde19f6e769fd6afbc43ae5e79c086|h=7vqg4x2f3l7mgekgfgqyjfrsxb7dlv5b|/

@@ -7,13 +7,14 @@ pageEncoding="UTF-8" %>
         <% String path = request.getContextPath(); %>
         <title>Insert title here</title>
     </head>
+	<link rel="stylesheet" type="text/css" href="<%=path%>/css/jQuery/pagination.css">
     <script type="text/javascript">
         var path = "<%=path%>";
     </script>
-    <script src="<%=path%>/js/jQuery/jquery-1.6.2.js">
-    </script>
-    <script src="<%=path%>/js/point/client/test.js">
-    </script>
+    <script src="<%=path%>/js/jQuery/jquery-1.6.2.js"></script>
+	<script src="<%=path%>/js/jQuery/jquery.cookie-min.js"></script>
+	<script src="<%=path%>/js/jQuery/pagination.js"></script>
+    <script src="<%=path%>/js/point/client/test.js"></script>
     <body>
     	<div id="loadimg">Loading....</div>
 		<div id="mainpagediv"></div>
