@@ -46,7 +46,7 @@
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/logback-classic-0.9.28.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/logback-core-0.9.28.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/mysql-connector-java-5.1.7-bin.jar"/>
-	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/nutz-1.b.37-jdk6.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/nutz-1.b.37-jdk6.jar" sourcepath="D:/slefstudy/nutz-1.b.37/nutz-1.b.37-sources.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/ognl-2.7.3.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/openid4java-nodeps-0.9.6.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/org.springframework.aop-3.0.5.RELEASE.jar"/>
