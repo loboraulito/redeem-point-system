@@ -2,6 +2,7 @@ package com.integral.exchange.gifts.action;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -106,6 +107,10 @@ public class GiftAction extends BaseAction implements ServletRequestAware, Servl
             Map<String, Object> map = new HashMap<String, Object>();
             map.put("success", true);
             map.put("totalCount", list.size());
+            BigDecimal recordSize = new BigDecimal(""+list.size());
+            BigDecimal pageCount = new BigDecimal("0");
+            pageCount = recordSize.divide(new BigDecimal(""+limit), BigDecimal.ROUND_CEILING);
+            map.put("pageCount", pageCount.intValue());
             map.put("giftList", list);
             out.print(Json.toJson(map, jf));
             //out.print("{\"success\":\"true\",\"totalCount\":\"34\"}");
