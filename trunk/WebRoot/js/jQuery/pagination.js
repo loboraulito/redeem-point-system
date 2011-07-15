@@ -27,10 +27,10 @@ function init(t,config){
 	}
 	var configPage = config.perPage > 0 ? config.perPage : 10;																					
 	var perPage = $.cookie(t+"_perPage") == null ? configPage : parseInt($.cookie(t+"_perPage"));				//每页显示记录数
-	var proxyUrl = config.proxyUrl > 0 ? config.proxyUrl : 'pgdataproxy.jsp';															//数据代理地址
+	var proxyUrl = config.proxyUrl ? config.proxyUrl : 'pgdataproxy.jsp';															//数据代理地址
 	var groupSize = config.groupSize;																																//组大小
 	var barPosition = config.barPosition == null ? 'bottom' : config.barPosition;													//工具条位置
-	var ajaxParam = config.ajaxParam;																																//ajax的请求参数
+	var ajaxParam = config.ajaxParam ? config.ajaxParam : {};//ajax的请求参数
 
 	//私有变量
 	var totalPage = Math.ceil(totalRecord/perPage);																									//总页数
@@ -109,8 +109,9 @@ function init(t,config){
 	$(t+" .pgPerPage").attr("value",perPage);
 	getGroupStartEnd();
 	getStartEnd();
-	if(dataStore==null)
-		getRemoteData();
+	if(dataStore==null){
+		//getRemoteData();
+	}
 	else{
 		getStartEnd();
 		loadData();
@@ -266,10 +267,12 @@ function init(t,config){
 	   */
 	function getRemoteData(){
 		startLoad();
+		ajaxParam.start = gpStartRecord;
+		ajaxParam.limit = gpEndRecord;
 		$.ajax(
 			{
 				type: "POST",
-				url: proxyUrl + "?startrecord="+gpStartRecord+"&endrecord="+gpEndRecord ,
+				url: proxyUrl,// + "?startrecord="+gpStartRecord+"&endrecord="+gpEndRecord
 				cache: false,
 				data: ajaxParam,
 				dataType: "script",
