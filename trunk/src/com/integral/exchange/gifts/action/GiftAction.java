@@ -97,7 +97,7 @@ public class GiftAction extends BaseAction implements ServletRequestAware, Servl
         int limit = NumberUtils.toInt(request.getParameter("limit"), 50);
         int page = NumberUtils.toInt(request.getParameter("page"), 0);
         
-        List list = this.giftService.findByPage(start+limit*(page-1), limit*(page-1));
+        List list = this.giftService.findByPage(start+limit*(page-1), limit+limit*(page-1));
         long giftSize = this.giftService.findAllGiftSize();
         PrintWriter out = null;
         try {
