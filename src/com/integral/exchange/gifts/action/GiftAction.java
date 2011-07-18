@@ -95,8 +95,10 @@ public class GiftAction extends BaseAction implements ServletRequestAware, Servl
     public String giftManageList(){
         int start = NumberUtils.toInt(request.getParameter("start"), 0);
         int limit = NumberUtils.toInt(request.getParameter("limit"), 50);
+        int page = NumberUtils.toInt(request.getParameter("page"), 0);
         
-        List list = this.giftService.findAll();
+        List list = this.giftService.findByPage(start+limit*(page-1), limit*(page-1));
+        long giftSize = this.giftService.findAllGiftSize();
         PrintWriter out = null;
         try {
             out = super.getPrintWriter(request, response);
@@ -107,7 +109,7 @@ public class GiftAction extends BaseAction implements ServletRequestAware, Servl
             Map<String, Object> map = new HashMap<String, Object>();
             map.put("success", true);
             map.put("totalCount", list.size());
-            BigDecimal recordSize = new BigDecimal(""+list.size());
+            BigDecimal recordSize = new BigDecimal(""+giftSize);
             BigDecimal pageCount = new BigDecimal("0");
             pageCount = recordSize.divide(new BigDecimal(""+limit), BigDecimal.ROUND_CEILING);
             map.put("pageCount", pageCount.intValue());

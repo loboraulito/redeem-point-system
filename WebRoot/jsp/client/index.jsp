@@ -13,12 +13,19 @@ pageEncoding="UTF-8" %>
 	<script type="text/javascript">
         var path = "<%=path%>";
     </script>
-    <script src="<%=path%>/js/jQuery/jquery-1.6.2.js"></script>
-	<script src="<%=path%>/js/jQuery/jquery.cookie-min.js"></script>
-	<script src="<%=path%>/js/jQuery/ux/myPaginationV3.0/js/myPagination.js"></script>
+    <script src="<%=path%>/js/jQuery/jquery-1.6.2.js" type="text/javascript"></script>
+	<script src="<%=path%>/js/jQuery/jquery.cookie-min.js" type="text/javascript"></script>
+	<script src="<%=path%>/js/jQuery/ux/myPaginationV3.0/js/myPagination.js" type="text/javascript"></script>
 	<!--  <script src="<%=path%>/js/jQuery/ux/myPaginationV3.0/js/myPagination.min.js"></script> -->
 	<!-- <script src="<%=path%>/js/jQuery/pagination.js"></script> -->
-    <script src="<%=path%>/js/point/client/test.js"></script>
+    <script src="<%=path%>/js/util/PopBox/scripts/PopBox.js" type="text/javascript"></script>
+	<script src="<%=path%>/js/util/imgReady.js" type="text/javascript"></script>
+	<script type="text/javascript">
+		popBoxShowRevertBar = false;
+		popBoxShowRevertText = false;
+		popBoxShowRevertImage = false;
+	</script>
+	<script src="<%=path%>/js/point/client/test.js" type="text/javascript"></script>
     <style type="text/css">
     	ul.mainProductList { }
 		ul.mainProductList li { float:left; text-align:center; height:160px; list-style:none; }
@@ -37,7 +44,7 @@ pageEncoding="UTF-8" %>
     </style>
 	<body>
     	<div id="loadimg">Loading....</div>
-		<div id="mainpagediv"></div>
+		<div id="mainpagediv" style="overflow-y:auto; overflow-x:hidden;width:100%"></div>
 		<div id="pagionbar"></div>
     </body>
 </html>

@@ -75,10 +75,10 @@
 					return""
 				}
 				if(options.info&&options.info.first_on&&options.info.first){
-					var str="<a hef='"+getLink()+"' title='1' style='cursor:hand'>"+options.info.first+"</a>";
+					var str="<a hef='"+getLink()+"' title='1' style='cursor:pointer'>"+options.info.first+"</a>";
 					return str
 				}else{
-					var str="<a hef='"+getLink()+"' title='1' style='cursor:hand'>"+defaults.info.first+"</a>";
+					var str="<a hef='"+getLink()+"' title='1' style='cursor:pointer'>"+defaults.info.first+"</a>";
 					return str
 				}
 			}
@@ -87,10 +87,10 @@
 					return""
 				}
 				if(options.info&&options.info.last_on&&options.info.last){
-					var str="<a hef='"+getLink()+"' title='"+pageCount+"' style='cursor:hand'>"+options.info.last+"</a>";
+					var str="<a hef='"+getLink()+"' title='"+pageCount+"' style='cursor:pointer'>"+options.info.last+"</a>";
 					return str
 				}else{
-					var str="<a hef='"+getLink()+"' title='"+pageCount+"' style='cursor:hand'>"+defaults.info.last+"</a>";
+					var str="<a hef='"+getLink()+"' title='"+pageCount+"' style='cursor:pointer'>"+defaults.info.last+"</a>";
 					return str
 				}
 			}
