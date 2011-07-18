@@ -330,3 +330,13 @@ a.nav5:hover {
 	background-position: 3px 50% ! important;
 	padding-left: 24px ! important;
 }
+/* 文字换行 */
+.text-warp-line {
+	width:120px;
+	word-wrap:break-word;
+	overflow:hidden;
+}
+/* 鼠标手型 */
+.cursor-pointer {
+	cursor: pointer;
+}

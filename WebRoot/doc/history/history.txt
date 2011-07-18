@@ -318,3 +318,6 @@ ed2k://|file|%E4%BB%99%E5%8A%8D%E5%A5%87%E4%BF%A0%E5%82%B3.4.%E7%B9%81%E9%AB%94%
 2011/07/15
 jQuery Easy UI(类似ExtJS的各个组件)
 http://www.jeasyui.com/index.php
+
+2011/07/18
+图片缩放插件：PopBox
