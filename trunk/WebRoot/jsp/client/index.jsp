@@ -43,8 +43,8 @@ pageEncoding="UTF-8" %>
 		ul.mainProductList li .listItem h4 a span { color:#f00; }
     </style>
 	<body>
-    	<div id="loadimg">Loading....</div>
+    	<div id="loadimg" style="top:'50%'"><img src="<%=path%>/js/jQuery/ux/myPaginationV3.0/images/loading.gif"></img></div>
 		<div id="mainpagediv" style="overflow-y:auto; overflow-x:hidden;width:100%"></div>
-		<div id="pagionbar"></div>
+		<div id="pagionbar" />
     </body>
 </html>
