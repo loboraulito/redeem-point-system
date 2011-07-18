@@ -2,6 +2,8 @@ package com.integral.exchange.gifts.service.impl;
 
 import java.util.List;
 
+import org.apache.commons.lang.math.NumberUtils;
+
 import com.integral.common.dao.impl.BaseDao;
 import com.integral.exchange.gifts.dao.IGiftDao;
 import com.integral.exchange.gifts.service.IGiftService;
@@ -52,5 +54,19 @@ public class GiftService implements IGiftService {
      */
     public List findAll(){
         return this.giftDao.findAll();
+    }
+    
+    public List findByPage(int start, int limit){
+        return this.baseDao.queryPageByHQL("From GiftInfo model", null, start, limit);
+    }
+    
+    public Long findAllGiftSize(){
+        long size = 0L;
+        String sql = "select count(gift_info.gift_id) as giftsize from gift_info";
+        List list = this.baseDao.queryBySQL(sql, null);
+        if(list!=null){
+            size = NumberUtils.toLong((String.valueOf(list.get(0))), 0L);
+        }
+        return size;
     }
 }
