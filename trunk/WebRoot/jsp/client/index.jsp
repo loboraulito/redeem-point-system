@@ -43,8 +43,10 @@ pageEncoding="UTF-8" %>
 		ul.mainProductList li .listItem h4 a span { color:#f00; }
     </style>
 	<body>
-    	<div id="loadimg" style="top:'50%'"><img src="<%=path%>/js/jQuery/ux/myPaginationV3.0/images/loading.gif"></img></div>
-		<div id="mainpagediv" style="overflow-y:auto; overflow-x:hidden;width:100%"></div>
-		<div id="pagionbar" />
+		<div id="loadimg" style="top:50%;left:40%;z-index:9999;position: absolute;width:40%;height:10%"><img src="<%=path%>/js/jQuery/ux/myPaginationV3.0/images/loading.gif"></img>正在加载中，请稍候...</div><!-- loading -->
+		<div id="maskDiv" style="top:0;left:0;z-index:9998;position:absolute;width:100%;height:100%;background-color:#c8c8c8;"></div><!-- 遮罩层 -->
+		<div id="giftCart" style="height:20px;z-index:1">礼品兑换车</div><!-- 礼品兑换车 -->
+		<div id="mainpagediv" style="overflow-y:auto; overflow-x:hidden;width:100%;z-index:1"></div><!-- 礼品列表 -->
+		<div id="pagionbar" style="z-index:1"/><!-- 分页插件 -->
     </body>
 </html>

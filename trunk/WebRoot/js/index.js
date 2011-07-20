@@ -92,14 +92,17 @@ function indexPage(){
 			collapsible:true,
 			html:"world",
 			margins:'5 0 0 0'
-		},{
+		}
+		/*
+		,{
 			title:"HelloWorld",
 			region:"east",
 			width:230,
 			collapsible:true,
 			html:"world",
 			margins:'0 5 0 0'
-		}]
+		}*/
+		]
 	});
 	
 	viewport.on("show",function(){

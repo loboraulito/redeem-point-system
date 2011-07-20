@@ -6,6 +6,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
+import com.integral.exchange.gifts.bean.GiftInfo;
 import com.integral.exchange.gifts.dao.IGiftDao;
 
 /** 
@@ -26,6 +27,16 @@ public class GiftDao extends HibernateDaoSupport implements IGiftDao {
             return getHibernateTemplate().find(queryString);
         } catch (RuntimeException re) {
             log.error("find all GiftInfo failed", re);
+            throw re;
+        }
+    }
+    
+    public void saveOrUpdate(GiftInfo entity){
+        log.debug("saveOrUpdate GiftInfo");
+        try {
+            getHibernateTemplate().saveOrUpdate(entity);
+        } catch (RuntimeException re) {
+            log.error("saveOrUpdate GiftInfo failed", re);
             throw re;
         }
     }
