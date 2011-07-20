@@ -4,9 +4,11 @@ $(document).ready(function(){
     //mainpagediv
 	//pagionbar
     $("#loadimg").ajaxStart(function(){
-        $(this).show();
+		$("#maskDiv").show();
+		$(this).show();
     });
     $("#loadimg").ajaxStop(function(){
+		$("#maskDiv").hide();
         $(this).hide();
     });
 	var hightManus = false;
@@ -42,7 +44,7 @@ $(document).ready(function(){
 	function callbackHandler(data){
 		//var liWidth = $("#p5");
 		if(!hightManus){
-			$("#mainpagediv").height($("#mainpagediv").height() - $("#pagionbar").height());
+			$("#mainpagediv").height($("#mainpagediv").height() - $("#pagionbar").height() - $("#giftCart").height());
 			hightManus = true;
 		}
 		$("#mainpagediv").html("");
@@ -67,9 +69,12 @@ $(document).ready(function(){
 				var d = data[i];
 				var li = "<li class='p5'>";
 				var gift = "<div>";
-				var img = "<img src='"+path+"/picture/logo_cn.png' width='120px'><br/>";
+				//picture/logo_cn.png
+				//d.giftImage
+				var img = "<img src='"+path+""+d.giftImage+"' width='120px'></img><br/>";
+				//alert(img);
 				//onload='PopEx(this,0,0,120,0,20,null)'
-				gift = gift+img+"</img>";
+				gift = gift+img;
 				
 				gift = gift + "礼品颜色："+d.giftColor+"";
 				
@@ -82,7 +87,7 @@ $(document).ready(function(){
 		html += "</ul><br>";
 		return html;
 	}
-	$("#mainpagediv").css({position: "absolute", border: "1px solid #d5e1f2", left:"0",top:"0"}).height("98%");
+	$("#mainpagediv").css({position: "absolute", border: "1px solid #d5e1f2", left:"0",top:"20"}).height("98%");
 	$("#pagionbar").css({position: "absolute", border: "0px solid green", left:"0",bottom:"0"}).width("100%");
 	
 	$("#pagionbar").myPagination({

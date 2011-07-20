@@ -53,10 +53,18 @@ function buttonRight(roleId, menuId, callbackFunction){
  * @param {} mainDataStore 页面数据
  * @param {} dataGrid 页面展示
  * @param {} pageDiv 页面div
+ * @param {} params mainDataStore加载时的参数列表
  */
-function loadButtonRight(buttonStore, mainDataStore, dataGrid, pageDiv){
+function loadButtonRight(buttonStore, mainDataStore, dataGrid, pageDiv, params){
 	if(!buttonStore || !dataGrid || !pageDiv){
 		return;
+	}
+	var storeParams = {};
+	if(!params){
+		storeParams.start = 0;
+		storeParams.limit = 50;
+	}else{
+		storeParams = params;
 	}
 	buttonStore.load({
 		params:{roleId:userRole,menuId:currentMenuId},
@@ -108,7 +116,7 @@ function loadButtonRight(buttonStore, mainDataStore, dataGrid, pageDiv){
 			}
 			if(mainDataStore){
 				mainDataStore.load({
-					params:{start:0,limit:50},
+					params:storeParams,
 					callback:function(records,options,success){
 						//alert(proxyUrl);
 					}

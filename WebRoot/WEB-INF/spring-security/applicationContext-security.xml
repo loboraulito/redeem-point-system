@@ -23,6 +23,8 @@
 		<security:intercept-url pattern="/jsp/main.jsp" filters="none"/>
 		<!-- 测试jQuery主页 -->
 		<security:intercept-url pattern="/jsp/client/index.jsp" filters="none"/>
+		<!-- 礼品列表信息 -->
+		<security:intercept-url pattern="/gift/giftManageList.action/**" filters="none"/>
 		<!-- 会话超时 -->
 		<security:intercept-url pattern="/timeout.jsp" filters="none"/>
 		

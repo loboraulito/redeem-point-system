@@ -93,7 +93,7 @@ public class CipherUtil {
     }
     
     public static void main(String [] args){
-        String name = "user{user}";
+        String name = "812877{代超}";
         System.out.println(encodeByMD5(name));
     }
 }

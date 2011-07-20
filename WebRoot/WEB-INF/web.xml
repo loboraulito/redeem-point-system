@@ -25,6 +25,10 @@
   		<param-name>encoding</param-name>
   		<param-value>UTF-8</param-value>
   	</init-param>
+  	<init-param>
+  		<param-name>forceEncoding</param-name>
+  		<param-value>true</param-value>
+  	</init-param>
   </filter>
   <filter-mapping>
   	<filter-name>encodingFilter</filter-name>
@@ -50,6 +54,20 @@
   	<filter-name>struts2</filter-name>
   	<url-pattern>/*</url-pattern>
   </filter-mapping>
+  
+  <!-- 避免乱码问题 -->
+  <filter>
+  	<filter-name>struts-cleanup</filter-name>
+  	<filter-class>org.apache.struts2.dispatcher.ActionContextCleanUp</filter-class>
+  </filter>
+  <filter-mapping>
+  	<filter-name>struts-cleanup</filter-name>
+  	<url-pattern>/*</url-pattern>
+  </filter-mapping>
+  <!-- Spring刷新Interceptor防止内存泄漏 -->
+  <listener>
+  	<listener-class>org.springframework.web.util.IntrospectorCleanupListener</listener-class>
+  </listener>
   
   <welcome-file-list>
     <welcome-file>index.html</welcome-file>

@@ -2,6 +2,8 @@ package com.integral.exchange.gifts.service;
 
 import java.util.List;
 
+import com.integral.exchange.gifts.bean.GiftInfo;
+
 /** 
  * <p>Description: [描述该类概要功能介绍]</p>
  * @author  <a href="mailto: xxx@neusoft.com">作者中文名</a>
@@ -34,4 +36,29 @@ public interface IGiftService {
      * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
      */
     public Long findAllGiftSize();
+    /**
+     * <p>Discription:[分页查询供应商的礼品信息]</p>
+     * @param supplier
+     * @param start
+     * @param limit
+     * @return
+     * @author:[代超]
+     * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
+     */
+    public List findByPageWithSupplier(String supplier, int start, int limit);
+    /**
+     * <p>Discription:[查询供应商的礼品数量]</p>
+     * @return
+     * @author:[代超]
+     * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
+     */
+    public Long findAllSupplierGiftSize(String supplier);
+    
+    /**
+     * <p>Discription:[保存或修改礼品信息]</p>
+     * @param entity
+     * @author:[代超]
+     * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
+     */
+    public void saveOrUpdate(GiftInfo entity);
 }

@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.commons.lang.math.NumberUtils;
 
 import com.integral.common.dao.impl.BaseDao;
+import com.integral.exchange.gifts.bean.GiftInfo;
 import com.integral.exchange.gifts.dao.IGiftDao;
 import com.integral.exchange.gifts.service.IGiftService;
 
@@ -60,6 +61,10 @@ public class GiftService implements IGiftService {
         return this.baseDao.queryPageByHQL("From GiftInfo model", null, start, limit);
     }
     
+    public List findByPageWithSupplier(String supplier, int start, int limit){
+        return this.baseDao.queryPageByHQL("From GiftInfo model where model.supplierId = ?", new String[]{supplier}, start, limit);
+    }
+    
     public Long findAllGiftSize(){
         long size = 0L;
         String sql = "select count(gift_info.gift_id) as giftsize from gift_info";
@@ -68,5 +73,25 @@ public class GiftService implements IGiftService {
             size = NumberUtils.toLong((String.valueOf(list.get(0))), 0L);
         }
         return size;
+    }
+    @Override
+    public Long findAllSupplierGiftSize(String supplier) {
+        long size = 0L;
+        String sql = "select count(gift_info.gift_id) as giftsize from gift_info where gift_info.supplier_id = ?";
+        List list = this.baseDao.queryBySQL(sql, new String[]{supplier});
+        if(list!=null){
+            size = NumberUtils.toLong((String.valueOf(list.get(0))), 0L);
+        }
+        return size;
+    }
+    
+    /**
+     * <p>Discription:[保存或修改礼品信息]</p>
+     * @param entity
+     * @author:[代超]
+     * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
+     */
+    public void saveOrUpdate(GiftInfo entity){
+        this.giftDao.saveOrUpdate(entity);
     }
 }
