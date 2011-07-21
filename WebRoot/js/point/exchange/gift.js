@@ -81,9 +81,9 @@ function giftManage(){
 		width:80
 	},{
 		header:"实物图片",
-		dataIndex:"giftImage",
-		hidden:true,
-		hideable:false
+		dataIndex:"giftImage"
+		//hidden:true,
+		//hideable:false
 	},{
 		header:"库存数量",
 		dataIndex:"stockNo",
