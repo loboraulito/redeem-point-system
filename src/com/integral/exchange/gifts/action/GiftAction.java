@@ -29,6 +29,7 @@ import com.integral.common.action.BaseAction;
 import com.integral.exchange.gifts.bean.GiftInfo;
 import com.integral.exchange.gifts.service.IGiftService;
 import com.integral.util.RequestUtil;
+import com.integral.util.Tools;
 
 /** 
  * <p>Description: [描述该类概要功能介绍]</p>
@@ -288,15 +289,22 @@ public class GiftAction extends BaseAction implements ServletRequestAware, Servl
             }
             String imagePath = "";
             for(int i=0; i< files.length; i++){
+                String imageName = getGiftImageFileName()[i];
+                String imageExt = ".jpg";
+                String uuid = Tools.getUUID();
+                if(imageName != null && !"".equals(imageName)){
+                    imageExt = imageName.substring(imageName.lastIndexOf("."));
+                }
                 //以服务器的文件保存地址和原文件名建立上传文件输出流
-                fos = new FileOutputStream(getSavePath() + "\\" + getGiftImageFileName()[i]);
+                fos = new FileOutputStream(getSavePath() + "\\" + uuid+imageExt);
                 fis = new FileInputStream(files[i]);
                 byte[] buffer = new byte[1024];
                 int len = 0;
                 while ((len = fis.read(buffer)) > 0){
                     fos.write(buffer , 0 , len);
                 }
-                imagePath = savePath + "/" + getGiftImageFileName()[i]; 
+                
+                imagePath = savePath + "/" + uuid+imageExt;
             }
             
             GiftInfo gift = new GiftInfo();
