@@ -2,6 +2,8 @@ package com.integral.util;
 
 import java.security.MessageDigest;
 
+import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
+
 /**
  * MD5加密密码以及密码校验的类
  * 
@@ -92,8 +94,23 @@ public class CipherUtil {
         return hexDigits[d1] + hexDigits[d2];
     }
     
+    /**
+     * <p>Discription:[使用SpringSecurity3自带的md5加密方法加密,避免与自写的代码冲突]</p>
+     * @param passWord - 密码
+     * @param salt - 用户名
+     * @return
+     * @author:[代超]
+     * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
+     */
+    public static String generatePassword(String passWord, String salt){
+        Md5PasswordEncoder md5 = new Md5PasswordEncoder();
+        return md5.encodePassword(passWord, salt);
+    }
+    
     public static void main(String [] args){
         String name = "812877{代超}";
         System.out.println(encodeByMD5(name));
+        Md5PasswordEncoder md5 = new Md5PasswordEncoder();
+        System.out.println(md5.encodePassword("812877", "代超"));
     }
 }

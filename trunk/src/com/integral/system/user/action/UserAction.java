@@ -252,7 +252,7 @@ public class UserAction extends BaseAction implements ServletRequestAware, Servl
                 user = new UserInfo();
                 BeanUtils.populate(user, requestMap);
                 user.setUserId(null);
-                passWord = CipherUtil.generatePassword("0000{"+user.getUserName()+"}");
+                passWord = CipherUtil.generatePassword("0000",user.getUserName());
                 user.setPassword(passWord);
             }else{
                 user = this.userService.findById(userId);
@@ -302,7 +302,7 @@ public class UserAction extends BaseAction implements ServletRequestAware, Servl
                 //为新增的用户设置初始密码
                 if(user.getPassword() == null || "".equals(user.getPassword().trim())){
                     //设置初始密码为0000
-                    String passWord = CipherUtil.generatePassword("0000{"+user.getUserName()+"}");
+                    String passWord = CipherUtil.generatePassword("0000",user.getUserName());
                     user.setPassword(passWord);
                 }
             }
@@ -387,10 +387,10 @@ public class UserAction extends BaseAction implements ServletRequestAware, Servl
                 //为新增的用户设置初始密码
                 if(user.getPassword() == null || "".equals(user.getPassword().trim())){
                     //设置初始密码为0000
-                    String passWord = CipherUtil.generatePassword("0000{"+user.getUserName()+"}");
+                    String passWord = CipherUtil.generatePassword("0000",user.getUserName());
                     user.setPassword(passWord);
                 }else{
-                    String passWord = CipherUtil.generatePassword(user.getPassword()+"{"+user.getUserName()+"}");
+                    String passWord = CipherUtil.generatePassword(user.getPassword(), user.getUserName());
                     user.setPassword(passWord);
                 }
             }

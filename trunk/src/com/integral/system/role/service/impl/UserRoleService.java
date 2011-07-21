@@ -153,7 +153,7 @@ public class UserRoleService implements IUserRoleService {
         }
         String sql = "update supplier_role set role_id = ? where operater_id in ( ? ";
         if(users != null && users.length>1){
-            for(int i=1;i<users.length;i++){
+            for(int i=2;i<users.length;i++){
                 sql += " , ? ";
             }
         }
