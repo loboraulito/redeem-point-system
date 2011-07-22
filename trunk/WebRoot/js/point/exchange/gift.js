@@ -165,6 +165,37 @@ function giftManage(){
 		showGiftWindow("addGiftWindow", "添加礼品信息", 500, 400, giftForm, button);
 	}
 	/**
+	 * 编辑礼品信息
+	 * @param {Object} url
+	 */
+	this.editGift = function(url){
+		var gridSelectionModel = giftGrid.getSelectionModel();
+		var gridSelection = gridSelectionModel.getSelections();
+		if(gridSelection.length != 1){
+			Ext.MessageBox.alert('提示','请选择一条礼品信息！');
+		    return false;
+		}
+		var giftForm = getGiftForm(url, false, false);
+		var button = [{
+			text:"保存",
+			handler:function(){
+				if(giftForm.form.isValid()){
+					saveGift("editGiftWindow", giftForm);
+				}
+			}
+		},{
+			text:"关闭窗口",
+			handler:function(){
+				var giftWin = Ext.getCmp("editGiftWindow");
+				if(giftWin){
+					giftWin.close();
+				}
+			}
+		}];
+		showGiftWindow("editGiftWindow", "修改礼品信息", 500, 700, giftForm, button);
+		giftForm.getForm().loadRecord(gridSelection[0]);
+	}
+	/**
 	 * 公用窗口
 	 * @param {Object} id  唯一标识
 	 * @param {Object} title 窗口显示的名称
@@ -328,7 +359,7 @@ function giftManage(){
 				labelSeparator:'：',
 				items:[{
 					layout:"form",
-					columnWidth:".9",
+					columnWidth:".7",
 					height:70,
 					items:[{
 						xtype: 'textarea',
@@ -344,6 +375,17 @@ function giftManage(){
 						xtype:"hidden",
 						name:"giftCode"
 					}]
+				},{
+					layout:"form",
+					columnWidth:".3",
+					height:170,
+					rowspan:2,
+					items:[{
+						xtype: 'textfield',
+						name:"stockNo1",
+						anchor:"90%",
+						fieldLabel:"库存数量"
+					}]
 				}]
 			},{
 				layout:"column",
@@ -351,7 +393,7 @@ function giftManage(){
 				labelSeparator:'：',
 				items:[{
 					layout:"form",
-					columnWidth:".9",
+					columnWidth:".7",
 					height:50,
 					items:[{
 						xtype: 'fileuploadfield',
@@ -360,6 +402,50 @@ function giftManage(){
 						anchor:"90%",
 						fieldLabel:"实物图片",
 						readOnly:readOnly
+					}]
+				}]
+			},{
+				layout:"form",
+				items:[{
+					layout:"column",
+					border:false,
+					labelSeparator:'：',
+					items:[{
+						layout:"form",
+						columnWidth:".7",
+						height:50,
+						items:[{
+							xtype: 'textfield',
+							name:"stockNo2",
+							anchor:"90%",
+							fieldLabel:"库存数量"
+						}]
+					},{
+						layout:"form",
+						columnWidth:".3",
+						height:150,
+						items:[{
+							xtype: 'textarea',
+							name:"stockNo2",
+							anchor:"90%",
+							fieldLabel:"库存数量",
+							height:150
+						}]
+					}]
+				},{
+					layout:"column",
+					border:false,
+					labelSeparator:'：',
+					items:[{
+						layout:"form",
+						columnWidth:".7",
+						height:50,
+						items:[{
+							xtype: 'textfield',
+							name:"stockNo2",
+							anchor:"90%",
+							fieldLabel:"库存数量"
+						}]
 					}]
 				}]
 			}]
