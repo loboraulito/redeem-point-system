@@ -175,7 +175,7 @@ function giftManage(){
 			Ext.MessageBox.alert('提示','请选择一条礼品信息！');
 		    return false;
 		}
-		var giftForm = getGiftForm(url, false, false);
+		var giftForm = getGiftForm(url, false, true);
 		var button = [{
 			text:"保存",
 			handler:function(){
@@ -192,8 +192,10 @@ function giftManage(){
 				}
 			}
 		}];
-		showGiftWindow("editGiftWindow", "修改礼品信息", 500, 700, giftForm, button);
+		showGiftWindow("editGiftWindow", "修改礼品信息", 500, 400, giftForm, button);
 		giftForm.getForm().loadRecord(gridSelection[0]);
+		//giftForm.form.findField("currentGiftImage").html="<img>"+path+gridSelection[0].get("giftImage")+"</img>";
+		Ext.getCmp("currentGiftImage").body.update("当前礼品图片:<br><img src='"+path+gridSelection[0].get("giftImage")+"' style='width:"+Ext.getCmp('currentGiftImage').getSize().width+"'></img>");
 	}
 	/**
 	 * 公用窗口
@@ -360,93 +362,50 @@ function giftManage(){
 				items:[{
 					layout:"form",
 					columnWidth:".7",
-					height:70,
+					//height:70,
 					items:[{
-						xtype: 'textarea',
-						name:"giftComment",
-						anchor:"90%",
-						fieldLabel:"备注",
-						maxLength:500,
-						readOnly:readOnly
+						layout:"form",
+						height:70,
+						items:[{
+							xtype: 'textarea',
+							name:"giftComment",
+							anchor:"90%",
+							fieldLabel:"备注",
+							maxLength:500,
+							readOnly:readOnly
+						}]
 					},{
 						xtype:"hidden",
 						name:"giftId"
 					},{
 						xtype:"hidden",
 						name:"giftCode"
+					},{
+						layout:"form",
+						height:50,
+						items:[{
+							xtype: 'fileuploadfield',
+							name:"giftImage",
+							buttonText:"请选择...",
+							anchor:"90%",
+							fieldLabel:"实物图片",
+							readOnly:readOnly
+						}]
 					}]
 				},{
 					layout:"form",
 					columnWidth:".3",
-					height:170,
-					rowspan:2,
+					//height:50,
+					//rowspan:2,
+					labelAlign:"top",
 					items:[{
-						xtype: 'textfield',
-						name:"stockNo1",
+						id:"currentGiftImage",
+						name:"currentGiftImage",
+						html:"<img></img>",
 						anchor:"90%",
-						fieldLabel:"库存数量"
+						fieldLabel:"当前礼品图片"
 					}]
-				}]
-			},{
-				layout:"column",
-				border:false,
-				labelSeparator:'：',
-				items:[{
-					layout:"form",
-					columnWidth:".7",
-					height:50,
-					items:[{
-						xtype: 'fileuploadfield',
-						name:"giftImage",
-						buttonText:"请选择...",
-						anchor:"90%",
-						fieldLabel:"实物图片",
-						readOnly:readOnly
-					}]
-				}]
-			},{
-				layout:"form",
-				items:[{
-					layout:"column",
-					border:false,
-					labelSeparator:'：',
-					items:[{
-						layout:"form",
-						columnWidth:".7",
-						height:50,
-						items:[{
-							xtype: 'textfield',
-							name:"stockNo2",
-							anchor:"90%",
-							fieldLabel:"库存数量"
-						}]
-					},{
-						layout:"form",
-						columnWidth:".3",
-						height:150,
-						items:[{
-							xtype: 'textarea',
-							name:"stockNo2",
-							anchor:"90%",
-							fieldLabel:"库存数量",
-							height:150
-						}]
-					}]
-				},{
-					layout:"column",
-					border:false,
-					labelSeparator:'：',
-					items:[{
-						layout:"form",
-						columnWidth:".7",
-						height:50,
-						items:[{
-							xtype: 'textfield',
-							name:"stockNo2",
-							anchor:"90%",
-							fieldLabel:"库存数量"
-						}]
-					}]
+					
 				}]
 			}]
 		});
