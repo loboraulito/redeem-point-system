@@ -321,3 +321,8 @@ http://www.jeasyui.com/index.php
 
 2011/07/18
 图片缩放插件：PopBox
+
+2011/07/22
+jQuery 图片放大插件
+http://addyosmani.com/blog/zoomer-gallery-a-jquery-plugin-for-displaying-images-with-flash-like-zooming-effects/
+http://www.dynamicdrive.com/dynamicindex4/featuredzoomer.htm
