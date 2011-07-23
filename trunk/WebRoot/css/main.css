@@ -340,3 +340,11 @@ a.nav5:hover {
 .cursor-pointer {
 	cursor: pointer;
 }
+
+.cursor-magminus {
+	cursor: url("magminus.cur"), pointer;
+}
+
+.cursor-magplus {
+	cursor: url("magplus.cur"), pointer;
+}
