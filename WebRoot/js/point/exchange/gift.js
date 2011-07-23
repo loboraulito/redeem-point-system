@@ -145,6 +145,7 @@ function giftManage(){
 	 * @param {Object} url
 	 */
 	this.addGift = function(url){
+		//alert($("#giftmanage_div").html());
 		var giftForm = getGiftForm(url, false, false);
 		var button = [{
 			text:"保存",
@@ -195,8 +196,43 @@ function giftManage(){
 		showGiftWindow("editGiftWindow", "修改礼品信息", 500, 400, giftForm, button);
 		giftForm.getForm().loadRecord(gridSelection[0]);
 		//giftForm.form.findField("currentGiftImage").html="<img>"+path+gridSelection[0].get("giftImage")+"</img>";
-		Ext.getCmp("currentGiftImage").body.update("当前礼品图片:<br><img src='"+path+gridSelection[0].get("giftImage")+"' style='width:"+Ext.getCmp('currentGiftImage').getSize().width+"'></img>");
+		Ext.getCmp("currentGiftImage").body.update("当前礼品图片:<br><img src='"+path+gridSelection[0].get("giftImage")+"' title='点击查看原图' alt='点击查看原图' onclick='showLargeImage(this)' class='cursor-magplus' style='width:"+Ext.getCmp('currentGiftImage').getSize().width+"'></img>");
+		//$("ul.thumb li").Zoomer({speedView:200,speedRemove:400,altAnim:true,speedTitle:400,debug:false});
 	}
+	/**
+	 * 展示大图
+	 * @param {Object} obj 图片对象
+	 */
+	this.showLargeImage = function(obj){
+		var img = document.createElement("img");
+		img.src = obj.src;
+		
+		var width = obj.width > img.width ? obj.width : img.width;
+		width = width > 400 ? width : 400;
+		width = width > 1000 ? 1000 : width;
+		var height = obj.height > img.height ? obj.height : img.height;
+		height = height > 300 ? height : 300;
+		height = height > 600 ? 600 : height;
+		img = null;
+		var html = "<img src='"+obj.src+"' style='width:"+width+"' class='cursor-magminus' onclick='closeWindow(\"showLargImageWindow\")' title='点击关闭窗口' alt='点击关闭窗口'></img>";
+		var items = [{
+			layout:"fit",
+			frame: true,
+			html:html
+		}];
+		showGiftWindow("showLargImageWindow","查看大图",width,height,items);
+	}
+	/**
+	 * 关闭指定窗口
+	 * @param {Object} windowId 窗口ID
+	 */
+	this.closeWindow = function(windowId){
+		var win = Ext.getCmp(windowId);
+		if(win){
+			win.close();
+		}
+	}
+	
 	/**
 	 * 公用窗口
 	 * @param {Object} id  唯一标识
@@ -215,6 +251,7 @@ function giftManage(){
 			items:items,
 			buttons:buttons,
 			modal:true,
+			//animateTarget:"giftmanage_div",//动画展示
 			layout:"fit",
 			resizable:false
 		});

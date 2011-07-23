@@ -87,7 +87,7 @@ $(document).ready(function(){
 		html += "</ul><br>";
 		return html;
 	}
-	$("#mainpagediv").css({position: "absolute", border: "1px solid #d5e1f2", left:"0",top:"20"}).height("98%");
+	$("#mainpagediv").css({position: "absolute", border: "1px solid #d5e1f2", left:"0",top:"20"}).height("97%");
 	$("#pagionbar").css({position: "absolute", border: "0px solid green", left:"0",bottom:"0"}).width("100%");
 	
 	$("#pagionbar").myPagination({
