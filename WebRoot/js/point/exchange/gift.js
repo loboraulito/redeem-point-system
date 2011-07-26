@@ -164,6 +164,16 @@ function giftManage(){
 			}
 		}];
 		showGiftWindow("addGiftWindow", "添加礼品信息", 500, 400, giftForm, button);
+		var imgsize = Ext.getCmp('currentGiftImage').getSize();
+		var s = {};
+		if(imgsize.width > imgsize.height){
+			s.property = "width";
+			s.width = imgsize.width;
+		}else{
+			s.property = "height";
+			s.width = imgsize.height;
+		}
+		Ext.getCmp("currentGiftImage").body.update("<img src='"+path+"/images/nopic.jpg' title='点击查看原图' alt='点击查看原图' onclick='showLargeImage(this)' class='cursor-magplus' style='"+s.property+":"+s.width+"'></img>");
 	}
 	/**
 	 * 编辑礼品信息
@@ -206,21 +216,31 @@ function giftManage(){
 	this.showLargeImage = function(obj){
 		var img = document.createElement("img");
 		img.src = obj.src;
-		
-		var width = obj.width > img.width ? obj.width : img.width;
-		width = width > 400 ? width : 400;
-		width = width > 1000 ? 1000 : width;
-		var height = obj.height > img.height ? obj.height : img.height;
-		height = height > 300 ? height : 300;
-		height = height > 600 ? 600 : height;
+		/*
+		var scale = obj.width/obj.height;
+		var w = obj.width > img.width ? obj.width : img.width;
+		w = w > 400 ? w : 400;
+		w = w > 1000 ? 1000 : w;
+		var h = obj.height > img.height ? obj.height : img.height;
+		h = h > 300 ? h : 300;
+		h = h > 600 ? 600 : h;
+		h = w / scale;
 		img = null;
-		var html = "<img src='"+obj.src+"' style='width:"+width+"' class='cursor-magminus' onclick='closeWindow(\"showLargImageWindow\")' title='点击关闭窗口' alt='点击关闭窗口'></img>";
+		if(h > w){
+			var temp = w;
+			w = h;
+			h = w;
+			temp = null;
+		}
+		*/
+		var html = "<img src='"+obj.src+"' class='cursor-magminus' onclick='closeWindow(\"showLargImageWindow\")' title='点击关闭窗口' alt='点击关闭窗口'></img>";
 		var items = [{
 			layout:"fit",
 			frame: true,
 			html:html
 		}];
-		showGiftWindow("showLargImageWindow","查看大图",width,height,items);
+		showGiftWindow("showLargImageWindow","查看大图",img.width+20, img.height+20 ,items);
+		img = null;
 	}
 	/**
 	 * 关闭指定窗口
