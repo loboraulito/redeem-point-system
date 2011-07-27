@@ -40,4 +40,14 @@ public class GiftDao extends HibernateDaoSupport implements IGiftDao {
             throw re;
         }
     }
+    
+    public GiftInfo findById(String id){
+        log.debug("saveOrUpdate GiftInfo");
+        try {
+            return (GiftInfo) getHibernateTemplate().get(GiftInfo.class, id);
+        } catch (RuntimeException re) {
+            log.error("saveOrUpdate GiftInfo failed", re);
+            throw re;
+        }
+    }
 }
