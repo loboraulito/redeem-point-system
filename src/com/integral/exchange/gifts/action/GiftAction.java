@@ -266,7 +266,13 @@ public class GiftAction extends BaseAction implements ServletRequestAware, Servl
         }
         return null;
     }
-    
+    /**
+     * 新增礼品信息
+     * <p>Discription:[方法功能中文描述]</p>
+     * @return
+     * @author:[代超]
+     * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
+     */
     public String addGift(){
         File[] files = getGiftImage();
         FileOutputStream fos = null;
@@ -284,27 +290,27 @@ public class GiftAction extends BaseAction implements ServletRequestAware, Servl
         
         try{
             out = super.getPrintWriter(request, response, "UTF-8", "text/html");
-            if(files == null){
-                throw new Exception("File not upload success!");
-            }
+            
             String imagePath = "";
-            for(int i=0; i< files.length; i++){
-                String imageName = getGiftImageFileName()[i];
-                String imageExt = ".jpg";
-                String uuid = Tools.getUUID();
-                if(imageName != null && !"".equals(imageName)){
-                    imageExt = imageName.substring(imageName.lastIndexOf("."));
+            if(files != null){
+                for(int i=0; i< files.length; i++){
+                    String imageName = getGiftImageFileName()[i];
+                    String imageExt = ".jpg";
+                    String uuid = Tools.getUUID();
+                    if(imageName != null && !"".equals(imageName)){
+                        imageExt = imageName.substring(imageName.lastIndexOf("."));
+                    }
+                    //以服务器的文件保存地址和原文件名建立上传文件输出流
+                    fos = new FileOutputStream(getSavePath() + "\\" + uuid+imageExt);
+                    fis = new FileInputStream(files[i]);
+                    byte[] buffer = new byte[1024];
+                    int len = 0;
+                    while ((len = fis.read(buffer)) > 0){
+                        fos.write(buffer , 0 , len);
+                    }
+                    
+                    imagePath = savePath + "/" + uuid+imageExt;
                 }
-                //以服务器的文件保存地址和原文件名建立上传文件输出流
-                fos = new FileOutputStream(getSavePath() + "\\" + uuid+imageExt);
-                fis = new FileInputStream(files[i]);
-                byte[] buffer = new byte[1024];
-                int len = 0;
-                while ((len = fis.read(buffer)) > 0){
-                    fos.write(buffer , 0 , len);
-                }
-                
-                imagePath = savePath + "/" + uuid+imageExt;
             }
             
             GiftInfo gift = new GiftInfo();
@@ -337,6 +343,96 @@ public class GiftAction extends BaseAction implements ServletRequestAware, Servl
                 e1.printStackTrace();
             }
         }
+        return null;
+    }
+    /**
+     * 修改礼品信息
+     * <p>Discription:[方法功能中文描述]</p>
+     * @return
+     * @author:[代超]
+     * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
+     */
+    public String editGift(){
+        File[] files = getGiftImage();
+        FileOutputStream fos = null;
+        FileInputStream fis = null;
+        PrintWriter out = null;
+        Map requestMap = RequestUtil.getRequestMap(request);
+        Map<String, Object> map = new HashMap<String, Object>();
+        
+        // 定义TransactionDefinition并设置好事务的隔离级别和传播方式。
+        DefaultTransactionDefinition definition = new DefaultTransactionDefinition();
+        // 代价最大、可靠性最高的隔离级别，所有的事务都是按顺序一个接一个地执行
+        definition.setIsolationLevel(TransactionDefinition.ISOLATION_SERIALIZABLE);
+        // 开始事务
+        TransactionStatus status = transactionManager.getTransaction(definition);
+        
+        try{
+            out = super.getPrintWriter(request, response, "UTF-8", "text/html");
+            
+            String imagePath = "";
+            if(files != null){
+                for(int i=0; i< files.length; i++){
+                    String imageName = getGiftImageFileName()[i];
+                    String imageExt = ".jpg";
+                    String uuid = Tools.getUUID();
+                    if(imageName != null && !"".equals(imageName)){
+                        imageExt = imageName.substring(imageName.lastIndexOf("."));
+                    }
+                    //以服务器的文件保存地址和原文件名建立上传文件输出流
+                    fos = new FileOutputStream(getSavePath() + "\\" + uuid+imageExt);
+                    fis = new FileInputStream(files[i]);
+                    byte[] buffer = new byte[1024];
+                    int len = 0;
+                    while ((len = fis.read(buffer)) > 0){
+                        fos.write(buffer , 0 , len);
+                    }
+                    
+                    imagePath = savePath + "/" + uuid+imageExt;
+                }
+            }
+            
+            GiftInfo gift = new GiftInfo();
+            BeanUtils.populate(gift, requestMap);
+            gift.setGiftImage(imagePath);
+            if(gift.getGiftId() == null || "".equals(gift.getGiftId())){
+                gift.setGiftId(null);
+            }
+            this.giftService.saveOrUpdate(gift);
+            map.put("success", true);
+            out.print(Json.toJson(map));
+        }catch(Exception e){
+            status.setRollbackOnly();
+            map.put("success", false);
+            out.print(Json.toJson(map));
+        }finally{
+            this.transactionManager.commit(status);
+            if(out!=null){
+                out.flush();
+                out.close();
+            }
+            try{
+                if(fos != null){
+                    fos.close();
+                }
+                if(fis != null){
+                    fis.close();
+                }
+            }catch(IOException e1){
+                e1.printStackTrace();
+            }
+        }
+        return null;
+    }
+    /**
+     * 删除礼品信息
+     * <p>Discription:[方法功能中文描述]</p>
+     * @return
+     * @author:[代超]
+     * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
+     */
+    public String deleteGift(){
+        
         return null;
     }
 }
