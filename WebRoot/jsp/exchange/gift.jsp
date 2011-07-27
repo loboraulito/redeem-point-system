@@ -27,6 +27,7 @@
 	popBoxShowRevertImage = false;
 </script>
 -->
+<script type="text/javascript" src="<%=path %>/js/util/imgReady.js"></script>
 <script type="text/javascript" src="<%=path %>/js/point/exchange/gift.js"></script>
 </head>
 <body>
