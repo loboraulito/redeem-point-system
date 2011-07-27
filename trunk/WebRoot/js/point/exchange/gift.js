@@ -206,12 +206,25 @@ function giftManage(){
 		showGiftWindow("editGiftWindow", "修改礼品信息", 500, 400, giftForm, button);
 		giftForm.getForm().loadRecord(gridSelection[0]);
 		
-		var img = document.createElement("img");
+		//var img = document.createElement("img");
+		var img = new Image();
 		img.src = path+gridSelection[0].get("giftImage");
-		if(img.width == 0 && img.height == 0){
-			img.src = path + "/images/nopic.jpg";
-		}
-		Ext.getCmp("currentGiftImage").body.update("当前礼品图片:<br><img src='"+img.src+"' title='点击查看原图' alt='点击查看原图' onclick='showLargeImage(this)' class='cursor-magplus' style='width:"+Ext.getCmp('currentGiftImage').getSize().width+"'></img>");
+		//进行图片预加载
+		imgReady(img.src,function(){
+			//尺寸就绪
+			if(this.width == 0 && this.height == 0){
+				this.src = path + "/images/nopic.jpg";
+			}
+		},function(){
+			//图片加载就绪
+			Ext.getCmp("currentGiftImage").body.update("当前礼品图片:<br><img src='"+this.src+"' title='点击查看原图' alt='点击查看原图' onclick='showLargeImage(this)' class='cursor-magplus' style='width:"+Ext.getCmp('currentGiftImage').getSize().width+"'></img>");
+		},function(){
+			//图片加载错误
+			this.src = path + "/images/nopic.jpg";
+			Ext.getCmp("currentGiftImage").body.update("当前礼品图片:<br><img src='"+this.src+"' title='点击查看原图' alt='点击查看原图' onclick='showLargeImage(this)' class='cursor-magplus' style='width:"+Ext.getCmp('currentGiftImage').getSize().width+"'></img>");
+		});
+		
+		//Ext.getCmp("currentGiftImage").body.update("当前礼品图片:<br><img src='"+img.src+"' title='点击查看原图' alt='点击查看原图' onclick='showLargeImage(this)' class='cursor-magplus' style='width:"+Ext.getCmp('currentGiftImage').getSize().width+"'></img>");
 		//$("ul.thumb li").Zoomer({speedView:200,speedRemove:400,altAnim:true,speedTitle:400,debug:false});
 		img = null;
 	}

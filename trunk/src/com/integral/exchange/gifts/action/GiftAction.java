@@ -391,8 +391,9 @@ public class GiftAction extends BaseAction implements ServletRequestAware, Servl
                     imagePath = savePath + "/" + uuid+imageExt;
                 }
             }
-            
+            //应该将该礼品之前的图片删掉，避免图片越来越多
             GiftInfo gift = new GiftInfo();
+            
             BeanUtils.populate(gift, requestMap);
             gift.setGiftImage(imagePath);
             if(gift.getGiftId() == null || "".equals(gift.getGiftId())){
