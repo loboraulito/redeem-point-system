@@ -94,4 +94,15 @@ public class GiftService implements IGiftService {
     public void saveOrUpdate(GiftInfo entity){
         this.giftDao.saveOrUpdate(entity);
     }
+    
+    /**
+     * <p>Discription:[根据礼品ID查询礼品信息]</p>
+     * @param id
+     * @return
+     * @author:[代超]
+     * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
+     */
+    public GiftInfo findById(String id){
+        return this.giftDao.findById(id);
+    }
 }
