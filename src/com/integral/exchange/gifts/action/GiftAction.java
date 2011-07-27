@@ -396,7 +396,11 @@ public class GiftAction extends BaseAction implements ServletRequestAware, Servl
             if(gift == null){
                 gift = new GiftInfo();
             }else{
-                
+                String giftImg = gift.getGiftImage();
+                File f = new File(savePath + "/" +giftImg);
+                if(f.exists()){
+                    f.delete();
+                }
             }
             BeanUtils.populate(gift, requestMap);
             gift.setGiftImage(imagePath);
