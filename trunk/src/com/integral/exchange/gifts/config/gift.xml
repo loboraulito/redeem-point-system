@@ -26,5 +26,18 @@
 			 <result name="success">/jsp/exchange/gift.jsp</result>
 			 <result name="input">/index.jsp</result>
 		</action>
+		<action name="giftManageEdit" class="com.integral.exchange.gifts.action.GiftAction" method="editGift">
+			 <interceptor-ref name="fileUpload">
+			 	<param name="allowedTypes">image/bmp,image/png,image/gif,image/jpeg,image/pjpeg</param>
+			 </interceptor-ref>
+			 <param name="savePath">/picture</param>
+			 <interceptor-ref name="defaultStack"></interceptor-ref><!-- 添加验证功能,出错的话会转向/index.jsp -->
+			 <result name="success">/jsp/exchange/gift.jsp</result>
+			 <result name="input">/index.jsp</result>
+		</action>
+		<action name="giftManageDelete" class="com.integral.exchange.gifts.action.GiftAction" method="deleteGift">
+			 <result name="success">/jsp/exchange/gift.jsp</result>
+			 <result name="input">/index.jsp</result>
+		</action>
 	</package>
 </struts>

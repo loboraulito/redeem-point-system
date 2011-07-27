@@ -173,7 +173,7 @@ function giftManage(){
 			s.property = "height";
 			s.width = imgsize.height;
 		}
-		Ext.getCmp("currentGiftImage").body.update("<img src='"+path+"/images/nopic.jpg' title='点击查看原图' alt='点击查看原图' onclick='showLargeImage(this)' class='cursor-magplus' style='"+s.property+":"+s.width+"'></img>");
+		Ext.getCmp("currentGiftImage").body.update("当前礼品图片:<br><img src='"+path+"/images/nopic.jpg' title='点击查看原图' alt='点击查看原图' onclick='showLargeImage(this)' class='cursor-magplus' style='"+s.property+":"+s.width+"'></img>");
 	}
 	/**
 	 * 编辑礼品信息
@@ -205,10 +205,24 @@ function giftManage(){
 		}];
 		showGiftWindow("editGiftWindow", "修改礼品信息", 500, 400, giftForm, button);
 		giftForm.getForm().loadRecord(gridSelection[0]);
-		//giftForm.form.findField("currentGiftImage").html="<img>"+path+gridSelection[0].get("giftImage")+"</img>";
-		Ext.getCmp("currentGiftImage").body.update("当前礼品图片:<br><img src='"+path+gridSelection[0].get("giftImage")+"' title='点击查看原图' alt='点击查看原图' onclick='showLargeImage(this)' class='cursor-magplus' style='width:"+Ext.getCmp('currentGiftImage').getSize().width+"'></img>");
+		
+		var img = document.createElement("img");
+		img.src = path+gridSelection[0].get("giftImage");
+		if(img.width == 0 && img.height == 0){
+			img.src = path + "/images/nopic.jpg";
+		}
+		Ext.getCmp("currentGiftImage").body.update("当前礼品图片:<br><img src='"+img.src+"' title='点击查看原图' alt='点击查看原图' onclick='showLargeImage(this)' class='cursor-magplus' style='width:"+Ext.getCmp('currentGiftImage').getSize().width+"'></img>");
 		//$("ul.thumb li").Zoomer({speedView:200,speedRemove:400,altAnim:true,speedTitle:400,debug:false});
+		img = null;
 	}
+	/**
+	 *  删除礼品信息
+	 * @param {Object} url
+	 */
+	this.deleteGift = function(url){
+		
+	}
+	
 	/**
 	 * 展示大图
 	 * @param {Object} obj 图片对象
@@ -233,13 +247,30 @@ function giftManage(){
 			temp = null;
 		}
 		*/
-		var html = "<img src='"+obj.src+"' class='cursor-magminus' onclick='closeWindow(\"showLargImageWindow\")' title='点击关闭窗口' alt='点击关闭窗口'></img>";
+		if(img.width == 0 && img.height == 0){
+			img.src = path + "/images/nopic.jpg";
+		}
+		var w = img.width, h=img.height;
+		if(img.width <200){
+			w = 200;
+		}
+		if(img.height <200){
+			h = 200;
+		}
+		if(img.width >1000){
+			w = 1000;
+		}
+		if(img.height >800){
+			h = 800;
+		}
+		
+		var html = "<img src='"+img.src+"' class='cursor-magminus' onclick='closeWindow(\"showLargImageWindow\")' title='点击关闭窗口' alt='点击关闭窗口'></img>";
 		var items = [{
 			layout:"fit",
 			frame: true,
 			html:html
 		}];
-		showGiftWindow("showLargImageWindow","查看大图",img.width+20, img.height+20 ,items);
+		showGiftWindow("showLargImageWindow","查看大图",w+30, h+40 ,items);
 		img = null;
 	}
 	/**
