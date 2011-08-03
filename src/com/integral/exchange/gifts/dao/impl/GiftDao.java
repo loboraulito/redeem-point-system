@@ -1,5 +1,6 @@
 package com.integral.exchange.gifts.dao.impl;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
@@ -47,6 +48,21 @@ public class GiftDao extends HibernateDaoSupport implements IGiftDao {
             return (GiftInfo) getHibernateTemplate().get(GiftInfo.class, id);
         } catch (RuntimeException re) {
             log.error("saveOrUpdate GiftInfo failed", re);
+            throw re;
+        }
+    }
+    /**
+     * <p>Discription:[批量删除礼品信息]</p>
+     * @param entities
+     * @author:[代超]
+     * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
+     */
+    public void deleteAll(Collection<GiftInfo> entities){
+        log.debug("deleteAll GiftInfo");
+        try {
+            getHibernateTemplate().deleteAll(entities);
+        } catch (RuntimeException re) {
+            log.error("deleteAll GiftInfo failed", re);
             throw re;
         }
     }
