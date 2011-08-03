@@ -1,5 +1,6 @@
 package com.integral.exchange.gifts.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.math.NumberUtils;
@@ -104,5 +105,26 @@ public class GiftService implements IGiftService {
      */
     public GiftInfo findById(String id){
         return this.giftDao.findById(id);
+    }
+    
+    /**
+     * <p>Discription:[批量删除礼品信息]</p>
+     * @param entities
+     * @author:[代超]
+     * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
+     */
+    public void deleteAllGifts(String[] entities){
+        List<GiftInfo> gifts = new ArrayList<GiftInfo>();
+        if(entities != null && entities.length > 0){
+            for(int i=0; i<entities.length; i++){
+                GiftInfo gift = new GiftInfo();
+                gift.setGiftId(entities[i]);
+                gifts.add(gift);
+            }
+        }
+        if(gifts.size()<1){
+            return;
+        }
+        this.giftDao.deleteAll(gifts);
     }
 }

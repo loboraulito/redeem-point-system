@@ -1,5 +1,6 @@
 package com.integral.exchange.gifts.dao;
 
+import java.util.Collection;
 import java.util.List;
 
 import com.integral.exchange.gifts.bean.GiftInfo;
@@ -32,4 +33,11 @@ public interface IGiftDao {
      * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
      */
     public GiftInfo findById(String id);
+    /**
+     * <p>Discription:[批量删除礼品信息]</p>
+     * @param entities
+     * @author:[代超]
+     * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
+     */
+    public void deleteAll(Collection<GiftInfo> entities);
 }

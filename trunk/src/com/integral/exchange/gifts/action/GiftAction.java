@@ -460,16 +460,24 @@ public class GiftAction extends BaseAction implements ServletRequestAware, Servl
         TransactionStatus status = transactionManager.getTransaction(definition);
         
         PrintWriter out = null;
+        Map<String,Object> resultMap = new HashMap<String,Object>();
         try{
             out = super.getPrintWriter(request, response);
-            
             if(giftIds == null || "".equals(giftIds.trim())){
-                
+                resultMap.put("success", false);
+                resultMap.put("msg", "您没有选择礼品信息！");
+            }else{
+                this.giftService.deleteAllGifts(giftIds.split(","));
+                resultMap.put("success", true);
+                resultMap.put("msg", "您选择的礼品信息已成功删除！");
             }
         }catch(Exception e){
             status.setRollbackOnly();
+            resultMap.put("success", false);
+            resultMap.put("msg", "删除礼品信息过程中出现异常！");
         }finally{
             this.transactionManager.commit(status);
+            out.print(Json.toJson(resultMap));
             if(out != null){
                 out.flush();
                 out.close();
