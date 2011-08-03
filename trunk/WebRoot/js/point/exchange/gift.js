@@ -234,6 +234,50 @@ function giftManage(){
 	 * @param {Object} url
 	 */
 	this.deleteGift = function(url){
+		var gridSelectionModel = giftGrid.getSelectionModel();
+		var gridSelection = gridSelectionModel.getSelections();
+		if(gridSelection.length < 1){
+			Ext.MessageBox.alert('提示','请至少选择一条礼品信息！');
+		    return false;
+		}
+		Ext.Msg.confirm("系统提示信息","确定要删除所选礼品信息吗？",function(btn){
+			if(btn == "yes" || btn == "ok"){
+				var giftArray = new Array();
+				var gifts = "";
+				for(var i=0; i<gridSelection.length; i++){
+					var giftId = gridSelection[i].get("giftId");
+					giftArray.push(giftId);
+				}
+				gifts = giftArray.join(",");
+				Ext.MessageBox.show({
+					msg:"正在删除所选礼品信息，请稍候...",
+					progressText:"正在删除所选礼品信息，请稍候...",
+					width:300,
+					wait:true,
+					waitConfig: {interval:200},
+					icon:Ext.Msg.INFO
+				});
+				Ext.Ajax.request({
+					params:{gifts:gifts},
+					timeout:60000,
+					url:url,
+					success:function(response,options){
+						Ext.MessageBox.hide();
+						var msg = Ext.util.JSON.decode(response.responseText);
+						if(msg && msg.success){
+							Ext.Msg.alert("提示信息","所选礼品信息删除成功！");
+							giftStore.reload();
+						}else if(msg && !msg.success){
+							Ext.Msg.alert("提示信息","所选礼品信息删除失败！");
+						}
+					},failure:function(response,options){
+						Ext.Msg.hide();
+						Ext.Msg.alert("提示信息","所选礼品信息删除失败！");
+						return;
+					}
+				});
+			}
+		});
 		
 	}
 	
