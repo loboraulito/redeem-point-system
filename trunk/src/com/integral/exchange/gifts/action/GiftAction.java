@@ -371,6 +371,7 @@ public class GiftAction extends BaseAction implements ServletRequestAware, Servl
             out = super.getPrintWriter(request, response, "UTF-8", "text/html");
             
             String imagePath = "";
+            GiftInfo gift = this.giftService.findById(String.valueOf(requestMap.get("giftId")));
             if(files != null){
                 for(int i=0; i< files.length; i++){
                     String imageName = getGiftImageFileName()[i];
@@ -392,15 +393,22 @@ public class GiftAction extends BaseAction implements ServletRequestAware, Servl
                 }
             }
             //应该将该礼品之前的图片删掉，避免图片越来越多
-            GiftInfo gift = this.giftService.findById(String.valueOf(requestMap.get("giftId")));
-            if(gift == null){
-                gift = new GiftInfo();
-            }else{
-                String giftImg = gift.getGiftImage();
-                File f = new File(savePath + "/" +giftImg);
-                if(f.exists()){
-                    f.delete();
+            //如果修改该礼品信息时，上传了新的图片，则应该删除旧图片，否则不删除。
+            if(files != null){
+                if(gift == null){
+                    gift = new GiftInfo();
+                }else{
+                    String giftImg = gift.getGiftImage();
+                    if(giftImg != null && !"".equals(giftImg.trim())){
+                        File f = new File(savePath + "/" +giftImg);
+                        if(f.exists()){
+                            f.delete();
+                        }
+                    }
                 }
+            }else{
+                //设置修改后的图片路径为修改前的图片路径
+                imagePath = gift.getGiftImage();
             }
             BeanUtils.populate(gift, requestMap);
             gift.setGiftImage(imagePath);
@@ -414,6 +422,7 @@ public class GiftAction extends BaseAction implements ServletRequestAware, Servl
             status.setRollbackOnly();
             map.put("success", false);
             out.print(Json.toJson(map));
+            e.printStackTrace();
         }finally{
             this.transactionManager.commit(status);
             if(out!=null){

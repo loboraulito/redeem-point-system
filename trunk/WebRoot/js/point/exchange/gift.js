@@ -205,7 +205,8 @@ function giftManage(){
 		}];
 		showGiftWindow("editGiftWindow", "修改礼品信息", 500, 400, giftForm, button);
 		giftForm.getForm().loadRecord(gridSelection[0]);
-		
+		//giftForm.form.findField("giftImage").setValue("");
+		Ext.getCmp("giftImage").setValue("");
 		//var img = document.createElement("img");
 		var img = new Image();
 		img.src = path+gridSelection[0].get("giftImage");
@@ -487,6 +488,7 @@ function giftManage(){
 						items:[{
 							xtype: 'fileuploadfield',
 							name:"giftImage",
+							id:"giftImage",
 							buttonText:"请选择...",
 							anchor:"90%",
 							fieldLabel:"实物图片",

@@ -312,8 +312,6 @@ jf.setQuoteName(true);
 更换了nutZ的最新版本，但是发现其中的中文是乱码，真是晕啊。
 jQuery分页插件
 http://linapex.blog.163.com/blog/static/1892375162011523101954885/
-//仙剑4
-ed2k://|file|%E4%BB%99%E5%8A%8D%E5%A5%87%E4%BF%A0%E5%82%B3.4.%E7%B9%81%E9%AB%94%E4%B8%AD%E6%96%87%E7%A1%AC%E7%A2%9F%E7%89%88.1.1.rar|2082279474|effde19f6e769fd6afbc43ae5e79c086|h=7vqg4x2f3l7mgekgfgqyjfrsxb7dlv5b|/
 
 2011/07/15
 jQuery Easy UI(类似ExtJS的各个组件)
@@ -328,3 +326,11 @@ http://addyosmani.com/blog/zoomer-gallery-a-jquery-plugin-for-displaying-images-
 http://www.dynamicdrive.com/dynamicindex4/featuredzoomer.htm
 
 http://www.111cn.net/js_a/75/b77e0732ed0bced05217062ccf136f9c.htm
+
+2011/08/03
+ssh进行整合，并且action交给spring来管理的话，则必须配置scope="prototype"，否则默认会采用单例模式，会有许多问题的。
+参考：http://www.iteye.com/topic/898425
+struts2+hibernate+spring配置文件:
+默认是scope="singleton",唯一的.
+scope="prototype"的作用：会在该类型的对象被请求时创建一个新的action对象。如果没有配置scope=prototype则添加的时候不会新建一个action，他任然会保留上次访问的过记录的信息。
+特别的是在上传文件的时候，如果采用默认的情况，则当再次访问同一个action的时候，系统会记录下来你最后一次上传文件的名字。这样会导致文件无法更新。

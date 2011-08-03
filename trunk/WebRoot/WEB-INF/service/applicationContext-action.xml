@@ -5,8 +5,9 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
                 http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
                 http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.1.xsd">
+	<!-- scope="prototype"的作用：会在该类型的对象被请求时创建一个新的action对象。如果没有配置scope=prototype则添加的时候不会新建一个action，他任然会保留上次访问的过记录的信息。 -->
 	<!-- 菜单管理 -->
-	<bean class="com.integral.system.menu.action.MenuAction" id="menuAction">
+	<bean class="com.integral.system.menu.action.MenuAction" id="menuAction" scope="prototype">
 		<property name="menuService" ref="menuService"></property>
 		<property name="buttonService" ref="buttonService"></property>
 		<property name="menuUtil" ref="menuUtil"></property>
@@ -14,7 +15,7 @@
 		<property name="resourceDetailsMonitor" ref="resourceDetailsMonitor"></property>
 	</bean>
 	<!-- 按钮管理 -->
-	<bean class="com.integral.system.menu.action.ButtonAction" id="buttonAction">
+	<bean class="com.integral.system.menu.action.ButtonAction" id="buttonAction" scope="prototype">
 		<property name="menuService" ref="menuService"></property>
 		<property name="buttonService" ref="buttonService"></property>
 		<property name="menuUtil" ref="menuUtil"></property>
@@ -22,11 +23,11 @@
 		<property name="resourceDetailsMonitor" ref="resourceDetailsMonitor"></property>
 	</bean>
 	<!-- 按钮权限管理 -->
-	<bean class="com.integral.system.right.action.RightAction" id="rightAction">
+	<bean class="com.integral.system.right.action.RightAction" id="rightAction" scope="prototype">
 		<property name="rightService" ref="rightService"></property>
 	</bean>
 	<!-- 用户管理 -->
-	<bean class="com.integral.system.user.action.UserAction">
+	<bean class="com.integral.system.user.action.UserAction" scope="prototype">
 		<property name="systemRoleName" value="系统注册用户"></property>
 		<property name="roleService" ref="roleService"></property>
 		<property name="userService" ref="userService"></property>
@@ -35,7 +36,7 @@
 		<property name="resourceDetailsMonitor" ref="resourceDetailsMonitor"></property>
 	</bean>
 	<!-- 角色管理 -->
-	<bean class="com.integral.system.role.action.RoleAction">
+	<bean class="com.integral.system.role.action.RoleAction" scope="prototype">
 		<property name="roleService" ref="roleService"></property>
 		<property name="roleMenuService" ref="roleMenuService"></property>
 		<property name="userRoleService" ref="userRoleService"></property>
@@ -44,7 +45,7 @@
 		<property name="resourceDetailsMonitor" ref="resourceDetailsMonitor"></property>
 	</bean>
 	<!-- 授权管理 -->
-	<bean class="com.integral.system.right.action.AuthorizeAction">
+	<bean class="com.integral.system.right.action.AuthorizeAction" scope="prototype">
 		<property name="authorizeService" ref="authorizeService"></property>
 		<property name="menuService" ref="menuService"></property>
 		<property name="menuUtil" ref="menuUtil"></property>
@@ -58,7 +59,7 @@
 		<property name="resourceDetailsMonitor" ref="resourceDetailsMonitor"></property>
 	</bean>
 	<!-- 礼品管理 -->
-	<bean class="com.integral.exchange.gifts.action.GiftAction">
+	<bean class="com.integral.exchange.gifts.action.GiftAction" scope="prototype">
 		<property name="giftService" ref="giftService"></property>
 		<property name="transactionManager" ref="transactionManager"></property>
 	</bean>
