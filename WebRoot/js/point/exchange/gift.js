@@ -353,7 +353,6 @@ function giftManage(){
 						anchor:"90%",
 						fieldLabel:"礼品名称",
 						maxLength:250,
-						readOnly:readOnly,
 						allowBlank:isNull
 					}]
 				},{
@@ -365,8 +364,7 @@ function giftManage(){
 						name:"giftModel",
 						anchor:"90%",
 						fieldLabel:"礼品型号",
-						maxLength:50,
-						readOnly:readOnly
+						maxLength:50
 					}]
 				}]
 			},{
@@ -382,8 +380,7 @@ function giftManage(){
 						name:"giftColor",
 						anchor:"90%",
 						fieldLabel:"礼品颜色",
-						maxLength:50,
-						readOnly:readOnly
+						maxLength:50
 					}]
 				},{
 					layout:"form",
@@ -394,8 +391,7 @@ function giftManage(){
 						name:"giftSize",
 						anchor:"90%",
 						fieldLabel:"礼品尺寸",
-						maxLength:50,
-						readOnly:readOnly
+						maxLength:50
 					}]
 				}]
 			},{
@@ -411,8 +407,7 @@ function giftManage(){
 						name:"giftUnit",
 						anchor:"90%",
 						fieldLabel:"计量单位",
-						maxLength:50,
-						readOnly:readOnly
+						maxLength:50
 					}]
 				},{
 					layout:"form",
@@ -423,8 +418,7 @@ function giftManage(){
 						name:"giftType",
 						anchor:"90%",
 						fieldLabel:"礼品类型",
-						maxLength:50,
-						readOnly:readOnly
+						maxLength:50
 					}]
 				}]
 			},{
@@ -441,7 +435,6 @@ function giftManage(){
 						anchor:"90%",
 						fieldLabel:"供应商",
 						maxLength:50,
-						readOnly:readOnly,
 						allowBlank:isNull
 					}]
 				},{
@@ -453,8 +446,7 @@ function giftManage(){
 						name:"stockNo",
 						anchor:"90%",
 						fieldLabel:"库存数量",
-						maxLength:50,
-						readOnly:readOnly
+						maxLength:50
 					}]
 				}]
 			},{
@@ -473,8 +465,7 @@ function giftManage(){
 							name:"giftComment",
 							anchor:"90%",
 							fieldLabel:"备注",
-							maxLength:500,
-							readOnly:readOnly
+							maxLength:500
 						}]
 					},{
 						xtype:"hidden",
