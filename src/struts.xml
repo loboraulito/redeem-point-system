@@ -8,6 +8,12 @@
 	<constant name="struts.i18n.encoding" value="UTF-8" />
 	<constant name="struts.objectFactory" value="spring" />
 	<constant name="struts.configuration.xml.reload" value="true"/>
+	<!-- 临时文件夹c:/tmp -->
+	<constant name="struts.multipart.saveDir" value="/tmp"></constant>
+	<!-- 文件上传最大长度 -->
+	<constant name="struts.multipart.maxSize" value="2097152"></constant>
+	<!-- 资源文件 -->
+	<constant name="struts.custom.i18n.resources" value="message_zh_CN"></constant>
 	
 	<!-- 用户管理 -->
 	<include file="com/integral/system/user/config/user.xml"></include>
