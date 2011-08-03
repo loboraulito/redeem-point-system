@@ -450,7 +450,31 @@ public class GiftAction extends BaseAction implements ServletRequestAware, Servl
      * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
      */
     public String deleteGift(){
+        String giftIds = request.getParameter("gifts");
         
+        // 定义TransactionDefinition并设置好事务的隔离级别和传播方式。
+        DefaultTransactionDefinition definition = new DefaultTransactionDefinition();
+        // 代价最大、可靠性最高的隔离级别，所有的事务都是按顺序一个接一个地执行
+        definition.setIsolationLevel(TransactionDefinition.ISOLATION_SERIALIZABLE);
+        // 开始事务
+        TransactionStatus status = transactionManager.getTransaction(definition);
+        
+        PrintWriter out = null;
+        try{
+            out = super.getPrintWriter(request, response);
+            
+            if(giftIds == null || "".equals(giftIds.trim())){
+                
+            }
+        }catch(Exception e){
+            status.setRollbackOnly();
+        }finally{
+            this.transactionManager.commit(status);
+            if(out != null){
+                out.flush();
+                out.close();
+            }
+        }
         return null;
     }
 }
