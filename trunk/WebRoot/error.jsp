@@ -6,8 +6,15 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <%@include file="/jsp/common/config.jsp" %>
 <title>Insert title here</title>
+<script type="text/javascript">
+var fileUploadErrorMsg = "<s:fielderror/>";
+if(fileUploadErrorMsg){
+	fileUploadErrorMsg = fileUploadErrorMsg.trim();
+}
+</script>
 </head>
+
 <body>
-<s:fielderror/>
+{"success":false,"msg":"<s:fielderror/>","error":"<s:actionerror/>"}
 </body>
 </html>
