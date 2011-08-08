@@ -1,20 +1,28 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@taglib prefix="s" uri="/struts-tags" %>
-<html>
+
+<%@page import="com.opensymphony.xwork2.util.ValueStack"%>
+<%@page import="java.util.Map"%>
+<%@page import="java.util.ArrayList"%><html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <%@include file="/jsp/common/config.jsp" %>
 <title>Insert title here</title>
-<script type="text/javascript">
-var fileUploadErrorMsg = "<s:fielderror/>";
-if(fileUploadErrorMsg){
-	fileUploadErrorMsg = fileUploadErrorMsg.trim();
-}
-</script>
+
 </head>
 
 <body>
-{"success":false,"msg":"<s:fielderror/>","error":"<s:actionerror/>"}
+<%
+String error = "";
+try{
+Object obj = request.getAttribute("struts.valueStack");
+ValueStack vs = (ValueStack) obj;
+Map o = (Map)vs.findValue("fieldErrors");
+ArrayList or = (ArrayList)o.get("giftImage");
+error = String.valueOf(or.get(0));
+}catch(Exception e){}
+%>
+{"success":false,"msg":"<%=error %>","error":"<%=error %>"}
 </body>
 </html>
