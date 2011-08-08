@@ -334,3 +334,31 @@ struts2+hibernate+spring配置文件:
 默认是scope="singleton",唯一的.
 scope="prototype"的作用：会在该类型的对象被请求时创建一个新的action对象。如果没有配置scope=prototype则添加的时候不会新建一个action，他任然会保留上次访问的过记录的信息。
 特别的是在上传文件的时候，如果采用默认的情况，则当再次访问同一个action的时候，系统会记录下来你最后一次上传文件的名字。这样会导致文件无法更新。
+
+
+2011/08/08
+搞定Struts2的文件上传，以及文件上传失败或者发生错误时的错误提示。
+Struts2有两个级别的错误提示：actionErrors, feildErrors. 获取方法：
+<code>
+String error = "";
+try{
+	Object obj = request.getAttribute("struts.valueStack");
+	ValueStack vs = (ValueStack) obj;
+	
+	ArrayList or1 = (ArrayList)vs.findValue("actionErrors");
+	if(or1!=null && or1.size()>0){
+		System.out.println("========================="+or1.get(0)+"==========================");
+	}
+	Map o = (Map)vs.findValue("fieldErrors");
+	if(o != null && o.size() > 0){
+		ArrayList or = (ArrayList)o.get("giftImage");
+		if(or != null && or.size() > 0){
+			error = String.valueOf(or.get(0));
+		}
+	}
+}catch(Exception e){
+    error = e.getMessage();
+	e.printStackTrace();
+}
+</code>
+可以在error.jsp上完成以上代码
