@@ -362,3 +362,8 @@ try{
 }
 </code>
 可以在error.jsp上完成以上代码
+
+actionErrors级别的错误是发生在struts.xml文件中
+feiltErrors级别错误是发生在各个struts子配置文件中,如：com/integral/exchange/gifts/config/gift.xml
+
+具体，请参考com/integral/exchange/gifts/config/gift.xml礼品管理中的增加/编辑礼品信息功能
