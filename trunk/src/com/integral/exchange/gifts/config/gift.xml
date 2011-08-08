@@ -20,6 +20,7 @@
 		<action name="giftManageAdd" class="com.integral.exchange.gifts.action.GiftAction" method="addGift">
 			 <interceptor-ref name="fileUpload">
 			 	<param name="allowedTypes">image/bmp,image/png,image/gif,image/jpeg,image/pjpeg</param>
+			 	<param name="maximumSize">2097152</param>
 			 </interceptor-ref>
 			 <param name="savePath">/picture</param>
 			 <interceptor-ref name="defaultStack"></interceptor-ref><!-- 添加验证功能,出错的话会转向/index.jsp -->
@@ -29,6 +30,7 @@
 		<action name="giftManageEdit" class="com.integral.exchange.gifts.action.GiftAction" method="editGift">
 			 <interceptor-ref name="fileUpload">
 			 	<param name="allowedTypes">image/bmp,image/png,image/gif,image/jpeg,image/pjpeg</param>
+			 	<param name="maximumSize">2097152</param>
 			 </interceptor-ref>
 			 <param name="savePath">/picture</param>
 			 <interceptor-ref name="defaultStack"></interceptor-ref><!-- 添加验证功能,出错的话会转向/index.jsp -->
