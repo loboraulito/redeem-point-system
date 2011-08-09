@@ -55,4 +55,16 @@
 			<ref bean="sessionFactory"/>
 		</property>
 	</bean>
+	<!-- 数据字典 -->
+	<bean class="com.integral.system.codelist.dao.impl.CodeListDao" id="CodeListDao">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory"/>
+		</property>
+	</bean>
+	<!-- 数据字典数据 -->
+	<bean class="com.integral.system.codelist.dao.impl.CodeListDataDao" id="CodeListDataDao">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory"/>
+		</property>
+	</bean>
 </beans>

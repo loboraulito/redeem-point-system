@@ -63,4 +63,10 @@
 		<property name="giftService" ref="giftService"></property>
 		<property name="transactionManager" ref="transactionManager"></property>
 	</bean>
+	<!-- 数据字典 -->
+	<bean class="com.integral.system.codelist.action.CodeListAction" scope="prototype">
+		<property name="codeListService" ref="codeListService"></property>
+		<property name="codeListDataService" ref="codeListDataService"></property>
+		<property name="transactionManager" ref="transactionManager"></property>
+	</bean>
 </beans>

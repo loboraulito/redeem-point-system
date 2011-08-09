@@ -236,5 +236,46 @@
 			</props>
 		</property>
 	</bean>
-	
+	<!-- 数据字典Service -->
+	<bean id="codeListService" parent="serviceProxy">
+		<property name="target">
+			<bean
+				class="com.integral.system.codelist.service.impl.CodeListServiceImpl"
+				abstract="false" lazy-init="default" autowire="default">
+				<property name="codeListDao" ref="CodeListDao"></property>
+				<property name="codeListDataDao" ref="CodeListDataDao"></property>
+				<property name="baseDao" ref="BaseDao"></property>
+			</bean>
+		</property>
+		<property name="transactionAttributes">
+			<props>
+				<prop key="add*">PROPAGATION_REQUIRED</prop>
+				<prop key="del*">PROPAGATION_REQUIRED</prop>
+				<prop key="edit*">PROPAGATION_REQUIRED</prop>
+				<prop key="upd*">PROPAGATION_REQUIRED</prop>
+				<prop key="sa*">PROPAGATION_REQUIRED</prop>
+			</props>
+		</property>
+	</bean>
+	<!-- 数据字典数据Service -->
+	<bean id="codeListDataService" parent="serviceProxy">
+		<property name="target">
+			<bean
+				class="com.integral.system.codelist.service.impl.CodeListDataServiceImpl"
+				abstract="false" lazy-init="default" autowire="default">
+				<property name="codeListDao" ref="CodeListDao"></property>
+				<property name="codeListDataDao" ref="CodeListDataDao"></property>
+				<property name="baseDao" ref="BaseDao"></property>
+			</bean>
+		</property>
+		<property name="transactionAttributes">
+			<props>
+				<prop key="add*">PROPAGATION_REQUIRED</prop>
+				<prop key="del*">PROPAGATION_REQUIRED</prop>
+				<prop key="edit*">PROPAGATION_REQUIRED</prop>
+				<prop key="upd*">PROPAGATION_REQUIRED</prop>
+				<prop key="sa*">PROPAGATION_REQUIRED</prop>
+			</props>
+		</property>
+	</bean>
 </beans>

@@ -91,6 +91,12 @@
 				<value>
 					com/integral/exchange/gifts/bean/xml/GiftInfo.hbm.xml
 				</value>
+				<value>
+					com/integral/system/codelist/bean/xml/CodeList.hbm.xml
+				</value>
+				<value>
+					com/integral/system/codelist/bean/xml/CodeListData.hbm.xml
+				</value>
 			</list>
 		</property>
 		<property name="hibernateProperties">
