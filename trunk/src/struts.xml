@@ -27,4 +27,6 @@
 	<include file="com/integral/system/right/config/right.xml"></include>
 	<!-- 礼品管理 -->
 	<include file="com/integral/exchange/gifts/config/gift.xml"></include>
+	<!-- 系统数据字典管理 -->
+	<include file="com/integral/system/codelist/config/codelist.xml"></include>
 </struts>
