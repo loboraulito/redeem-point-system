@@ -5,7 +5,7 @@
 <struts>
 	<package name="codelist" namespace="/codelist" extends="struts-default">
 		<!-- 切记：action name不能是一样的，否则会进不了Action -->
-		<action name="begin" class="com.integral.system.codelist.action.CodeListAction" method="begin">
+		<action name="codelist" class="com.integral.system.codelist.action.CodeListAction" method="begin">
 			 <result name="success">/jsp/system/menu/menu.jsp</result>
 			 <result name="input">/index.jsp</result>
 		</action>
