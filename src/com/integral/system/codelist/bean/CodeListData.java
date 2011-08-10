@@ -7,9 +7,12 @@ package com.integral.system.codelist.bean;
  */
 public class CodeListData {
     private String dataId;
+    private String dataKey;
     private String dataValue;
     private String codeId;
-    private String parentDataId;
+    private String codeName;
+    private String parentDataKey;
+    private String parentDataValue;
     private String remark;
     /**
      * <p>Discription:[方法功能中文描述]</p>
@@ -53,19 +56,62 @@ public class CodeListData {
     public void setCodeId(String codeId) {
         this.codeId = codeId;
     }
+    
     /**
      * <p>Discription:[方法功能中文描述]</p>
-     * @return String parentDataId.
+     * @return String codeName.
      */
-    public String getParentDataId() {
-        return parentDataId;
+    public String getCodeName() {
+        return codeName;
     }
     /**
      * <p>Discription:[方法功能中文描述]</p>
-     * @param parentDataId The parentDataId to set.
+     * @param codeName The codeName to set.
      */
-    public void setParentDataId(String parentDataId) {
-        this.parentDataId = parentDataId;
+    public void setCodeName(String codeName) {
+        this.codeName = codeName;
+    }
+    /**
+     * <p>Discription:[方法功能中文描述]</p>
+     * @return String dataKey.
+     */
+    public String getDataKey() {
+        return dataKey;
+    }
+    /**
+     * <p>Discription:[方法功能中文描述]</p>
+     * @param dataKey The dataKey to set.
+     */
+    public void setDataKey(String dataKey) {
+        this.dataKey = dataKey;
+    }
+    /**
+     * <p>Discription:[方法功能中文描述]</p>
+     * @return String parentDataKey.
+     */
+    public String getParentDataKey() {
+        return parentDataKey;
+    }
+    /**
+     * <p>Discription:[方法功能中文描述]</p>
+     * @param parentDataKey The parentDataKey to set.
+     */
+    public void setParentDataKey(String parentDataKey) {
+        this.parentDataKey = parentDataKey;
+    }
+    /**
+     * <p>Discription:[方法功能中文描述]</p>
+     * @return String parentDataValue.
+     */
+    public String getParentDataValue() {
+        return parentDataValue;
+    }
+    /**
+     * <p>Discription:[方法功能中文描述]</p>
+     * @param parentDataValue The parentDataValue to set.
+     */
+    public void setParentDataValue(String parentDataValue) {
+        this.parentDataValue = parentDataValue;
     }
     /**
      * <p>Discription:[方法功能中文描述]</p>

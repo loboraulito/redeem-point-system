@@ -87,5 +87,23 @@ public class CodeListAction extends BaseAction implements ServletRequestAware, S
     public String begin(){
         return SUCCESS;
     }
+    /**
+     * <p>Discription:[数据标准列表]</p>
+     * @return
+     * @author:[代超]
+     * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
+     */
+    public String codeList(){
+        return null;
+    }
+    /**
+     * <p>Discription:[数据标准值列表]</p>
+     * @return
+     * @author:[代超]
+     * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
+     */
+    public String codeDataList(){
+        return null;
+    }
 
 }
