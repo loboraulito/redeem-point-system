@@ -6,15 +6,15 @@
 	<package name="codelist" namespace="/codelist" extends="struts-default">
 		<!-- 切记：action name不能是一样的，否则会进不了Action -->
 		<action name="codelist" class="com.integral.system.codelist.action.CodeListAction" method="begin">
-			 <result name="success">/jsp/system/menu/menu.jsp</result>
+			 <result name="success">/jsp/system/codelist/codelist.jsp</result>
 			 <result name="input">/index.jsp</result>
 		</action>
 		<action name="codeDataList" class="com.integral.system.codelist.action.CodeListAction" method="codeDataList">
-			 <result name="success">/jsp/system/menu/menu.jsp</result>
+			 <result name="success">/jsp/system/codelist/codelist.jsp</result>
 			 <result name="input">/index.jsp</result>
 		</action>
 		<action name="codeList" class="com.integral.system.codelist.action.CodeListAction" method="codeList">
-			 <result name="success">/jsp/system/menu/menu.jsp</result>
+			 <result name="success">/jsp/system/codelist/codelist.jsp</result>
 			 <result name="input">/index.jsp</result>
 		</action>
 	</package>
