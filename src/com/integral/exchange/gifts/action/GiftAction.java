@@ -207,8 +207,8 @@ public class GiftAction extends BaseAction implements ServletRequestAware, Servl
         PrintWriter out = null;
         try {
             out = super.getPrintWriter(request, response);
-            JsonFormat jf = new JsonFormat();
-            jf.setQuoteName(true);
+            //true:不换行，忽略null
+            JsonFormat jf = new JsonFormat(true);
             //设置Unicode编码
             jf.setAutoUnicode(true);
             Map<String, Object> map = new HashMap<String, Object>();

@@ -123,8 +123,8 @@ function codeListManage(){
 		autoShow:true,		
 		store:codeListDataStore,
 		renderTo:"codelist_div",
-		cm:userCM,
-		sm:userSM,
+		cm:codeDataCM,
+		sm:codeSM,
 		viewConfig:{forceFit:true},//若父容器的layout为fit，那么强制本grid充满该父容器
 		split: true,
 		view:groupView,
@@ -137,7 +137,7 @@ function codeListManage(){
 			prevText:"上一页",
 			emptyMsg:"无相关记录"
 		}),
-		tbar:["-"]
+		tbar:[]
 	});
 	
 	/**
@@ -147,6 +147,7 @@ function codeListManage(){
 	/**
 	 * 执行权限按钮加载, 并且加载列表数据, 显示权限按钮
 	 * see buttonRight.js
+	 * loadButtonRight(buttonStore, mainDataStore, dataGrid, pageDiv, params)
 	 */
 	loadButtonRight(buttonRightStore, codeListDataStore, codeListDataGrid, "codelist_div");
 	
