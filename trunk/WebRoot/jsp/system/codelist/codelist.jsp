@@ -8,6 +8,6 @@
 <script type="text/javascript" src="<%=path%>/js/point/system/codelist.js"></script>
 </head>
 <body>
-<div id="codelist_div" style="width:100%;height100%"></div>
+<div id="codelist_div" style="width:100%; height:100%"></div>
 </body>
 </html>
