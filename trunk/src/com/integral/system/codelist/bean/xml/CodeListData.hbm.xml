@@ -11,11 +11,14 @@
         <property name="codeId" type="java.lang.String">
             <column name="codeid" />
         </property>
+        <property name="dataKey" type="java.lang.String">
+            <column name="datakey" />
+        </property>
         <property name="dataValue" type="java.lang.String">
             <column name="datavalue" />
         </property>
-        <property name="parentDataId" type="java.lang.String">
-            <column name="parentdataid" />
+        <property name="parentDataKey" type="java.lang.String">
+            <column name="parentdatakey" />
         </property>
         <property name="remark" type="java.lang.String">
             <column name="remark" />
