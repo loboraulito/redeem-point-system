@@ -100,7 +100,7 @@ function codeListManage(){
 		dataIndex:"dataValue",
 		width:150
 	},{
-		header:"数据标准父级编码",
+		header:"上级数据标准值",
 		dataIndex:"parentDataValue",
 		width:150
 	},{
