@@ -1,5 +1,6 @@
 package com.integral.system.codelist.service;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import com.integral.system.codelist.bean.CodeListData;
@@ -23,7 +24,8 @@ public interface ICodeListDataService {
      * @param limit
      * @return
      * @author:[代超]
+     * @throws SQLException 
      * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
      */
-    public List<CodeListData> getCodeListDataByPage(int start, int limit);
+    public List<CodeListData> getCodeListDataByPage(int start, int limit) throws SQLException;
 }

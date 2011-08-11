@@ -115,15 +115,16 @@ public class CodeListAction extends BaseAction implements ServletRequestAware, S
         int start = NumberUtils.toInt(request.getParameter("start"), 0);
         int limit = NumberUtils.toInt(request.getParameter("limit"), 50);
         long dataSize = this.codeListDataService.getCodeListDataSize();
-        List <CodeListData> list = this.codeListDataService.getCodeListDataByPage(start, limit);
+        List <CodeListData> list = null;
         Map<String, Object> resultMap = new HashMap<String, Object>();
         PrintWriter out = null;
         //true:不换行，忽略null
         JsonFormat jf = new JsonFormat(true);
         //设置Unicode编码
-        jf.setAutoUnicode(true);
+        //jf.setAutoUnicode(true);
         try{
             out = super.getPrintWriter(request, response);
+            list = this.codeListDataService.getCodeListDataByPage(start, limit);
             resultMap.put("success", true);
             resultMap.put("totalCount", dataSize);
             resultMap.put("codeListData", list);

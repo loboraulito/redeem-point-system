@@ -47,7 +47,8 @@ public class CodeListDataDao extends HibernateDaoSupport implements ICodeListDat
                     query.setFirstResult(start);
                     query.setMaxResults(limit);
                 }
-                return query.list();
+                List list = query.list();
+                return list;
             }
         });
     }

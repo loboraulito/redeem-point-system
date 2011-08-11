@@ -1,7 +1,10 @@
 package com.integral.common.dao.impl;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
@@ -9,11 +12,14 @@ import org.apache.commons.logging.LogFactory;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.impl.SessionFactoryImpl;
 import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.orm.hibernate3.HibernateCallback;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 import com.integral.common.dao.IBaseDao;
+import com.integral.util.HibernateUtils;
 
 public class BaseDao extends HibernateDaoSupport implements IBaseDao {
     private static final Log log = LogFactory.getLog(BaseDao.class);
@@ -103,5 +109,38 @@ public class BaseDao extends HibernateDaoSupport implements IBaseDao {
         }
         prepareStatement.execute();
         return 0;
+    }
+    
+    public List queryListByPageByJDBC(String sql, int start, int limit, Object[] params) throws SQLException{
+        log.info("excute by sql jdbc: " + sql);
+        SessionFactory sessionFactory = getSessionFactory();
+        SessionFactoryImpl s = (SessionFactoryImpl) sessionFactory;
+        Connection con = getSession().connection();
+        sql = HibernateUtils.getHibernateLimitString(s.getDialect(), sql, start, limit);
+        PreparedStatement prepareStatement = con.prepareStatement(sql);
+        int position = 0;
+        if(params != null){
+            for(int i=0;i<params.length;i++){
+                prepareStatement.setObject(i+1, params[i]);
+            }
+            position = params.length;
+        }
+        if(start > 0){
+            prepareStatement.setObject(position+1, start);
+            prepareStatement.setObject(position+2, limit);
+        }else{
+            prepareStatement.setObject(position+1, limit);
+        }
+        ResultSet rs = prepareStatement.executeQuery();
+        // example:
+        // while(rs.next())
+        // {
+        // Object object = new Object();
+        // rs.getString(1);
+        // rs.getString(2);
+        // ret.add(object);
+        log.debug(rs);
+        List result = new ArrayList();
+        return result;
     }
 }
