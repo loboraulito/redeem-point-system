@@ -58,10 +58,11 @@ function codeListManage(){
 	 */
 	var groupView = new Ext.grid.GroupingView({
 		forceFit:true,
-		showGroupName: false,
-		enableNoGroups:false, // REQUIRED!
-		hideGroupedColumn: false,
-		groupTextTpl: '{text} ({[values.rs.length]} {text})'
+		showGroupName: false,//是否在分组行上显示分组字段的名字
+		enableNoGroups:false, //是否允许用户关闭分组功能REQUIRED!
+		hideGroupedColumn: false,//是否隐藏分组列
+		enableGroupingMenu:false,//是否在表头菜单中进行分组控制
+		groupTextTpl: '{text} ({[values.rs.length]} {text})'//用于渲染分组信息的模板，默认为'{text}'
 	});
 	
 	/**
