@@ -3,7 +3,7 @@
 # Server version:               5.0.45-community-nt
 # Server OS:                    Win32
 # HeidiSQL version:             6.0.0.3603
-# Date/time:                    2011-08-11 10:31:15
+# Date/time:                    2011-08-11 17:55:48
 # --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -109,9 +109,9 @@ INSERT INTO `menubutton` (`button_id`, `button_name`, `button_text`, `menu_id`, 
 	('402880e430eb58470130eb62d0f70006', 'role_deleteRole', '删除角色', '402880e428befea20128bf029c1a0005', '/role/roleManageDelete.action?method=deleteRole', 'yes', 'table_delete', 'deleteRole'),
 	('402880e431b3e2c40131b3e59b960001', 'list_codelistdata', '数据标准值列表', '402880e430e992d60130e9cca8980003', '/codelist/codeDataList.action?method=codeDataList', 'no', 'none', ''),
 	('402880e431b3e2c40131b3e63d700002', 'list_codelist', '数据标准管理', '402880e430e992d60130e9cca8980003', '/codelist/codeList.action?method=codeList', 'yes', 'table_gear', 'listCodeList'),
-	('402880e431b3e2c40131b3ea37b7002b', 'add_codedatalist', '添加数据标准', '402880e430e992d60130e9cca8980003', '/codelist/codeDataManageAdd.action?method=codeDataManageAdd', 'yes', 'table_add', 'addCodeData'),
-	('402880e431b3e2c40131b3eaff23002c', 'edit_codedatalist', '修改数据标准', '402880e430e992d60130e9cca8980003', '/codelist/codeDataManageEdit.action?method=codeDataManageEdit', 'yes', 'table_edit', 'editCodeData'),
-	('402880e431b3e2c40131b3ebadc8002d', 'delete_codedatalist', '删除数据标准', '402880e430e992d60130e9cca8980003', '/codelist/codeDataManageDel.action?method=codeDataManageDelete', 'yes', 'table_delete', 'deleteCodeData'),
+	('402880e431b3e2c40131b3ea37b7002b', 'add_codedatalist', '增加数据标准值', '402880e430e992d60130e9cca8980003', '/codelist/codeDataManageAdd.action?method=codeDataManageAdd', 'yes', 'table_add', 'addCodeData'),
+	('402880e431b3e2c40131b3eaff23002c', 'edit_codedatalist', '修改数据标准值', '402880e430e992d60130e9cca8980003', '/codelist/codeDataManageEdit.action?method=codeDataManageEdit', 'yes', 'table_edit', 'editCodeData'),
+	('402880e431b3e2c40131b3ebadc8002d', 'delete_codedatalist', '删除数据标准值', '402880e430e992d60130e9cca8980003', '/codelist/codeDataManageDel.action?method=codeDataManageDelete', 'yes', 'table_delete', 'deleteCodeData'),
 	('402881e423cdce810123cdd2c2bc0004', 'authorize_user', '授权用户(勿删)', '402880e428befea20128bf04ae450021', '/right/authorizeUser.action?method=showAuthorizeUser', 'no', 'none', ''),
 	('402881e82505b3a5012505b666990004', 'authorize_menu', '授权树(勿删)', '402880e428befea20128bf04ae450021', '/right/authorizeMenu.action?method=showAuthorizeMenu', 'no', 'none', ''),
 	('4af49536275fac9401275faf59c30008', 'button_list', '按钮列表', '402881eb2452211b012452264ad70049', '/button/buttonManageList.action?method=buttonList', 'no', 'none', ''),
