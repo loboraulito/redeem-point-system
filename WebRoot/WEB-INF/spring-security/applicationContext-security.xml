@@ -27,7 +27,8 @@
 		<security:intercept-url pattern="/gift/giftManageList.action/**" filters="none"/>
 		<!-- 会话超时 -->
 		<security:intercept-url pattern="/timeout.jsp" filters="none"/>
-		
+		<!-- 某菜单页面ID -->
+		<security:intercept-url pattern="/menu/findMenuId.action/**" filters="none"/>
 		<!-- 
 		<security:intercept-url pattern="/menu/childModule.action/**" filters="none"/>
 		 -->

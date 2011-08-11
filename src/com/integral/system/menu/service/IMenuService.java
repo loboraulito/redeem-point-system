@@ -78,4 +78,13 @@ public interface IMenuService {
      * @update: 2011-6-25 代超[变更描述]
      */
     public void deleteAll(Collection menus);
+    /**
+     * <p>Discription:[使用菜单路径，查询菜单ID]</p>
+     * @param menuPath
+     * @return
+     * @author:[代超]
+     * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
+     */
+    public List findByMenuPath(String menuPath);
+    
 }
