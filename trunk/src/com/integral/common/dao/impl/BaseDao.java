@@ -3,6 +3,7 @@ package com.integral.common.dao.impl;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -111,36 +112,58 @@ public class BaseDao extends HibernateDaoSupport implements IBaseDao {
         return 0;
     }
     
-    public List queryListByPageByJDBC(String sql, int start, int limit, Object[] params) throws SQLException{
+    public List queryListByPageByJDBC(String sql, int start, int limit, Object[] params) {
         log.info("excute by sql jdbc: " + sql);
         SessionFactory sessionFactory = getSessionFactory();
         SessionFactoryImpl s = (SessionFactoryImpl) sessionFactory;
         Connection con = getSession().connection();
         sql = HibernateUtils.getHibernateLimitString(s.getDialect(), sql, start, limit);
-        PreparedStatement prepareStatement = con.prepareStatement(sql);
-        int position = 0;
-        if(params != null){
-            for(int i=0;i<params.length;i++){
-                prepareStatement.setObject(i+1, params[i]);
-            }
-            position = params.length;
-        }
-        if(start > 0){
-            prepareStatement.setObject(position+1, start);
-            prepareStatement.setObject(position+2, limit);
-        }else{
-            prepareStatement.setObject(position+1, limit);
-        }
-        ResultSet rs = prepareStatement.executeQuery();
-        // example:
-        // while(rs.next())
-        // {
-        // Object object = new Object();
-        // rs.getString(1);
-        // rs.getString(2);
-        // ret.add(object);
-        log.debug(rs);
         List result = new ArrayList();
+        PreparedStatement prepareStatement = null;
+        ResultSet rs = null;
+        try{
+            prepareStatement = con.prepareStatement(sql);
+            int position = 0;
+            if(params != null){
+                for(int i=0;i<params.length;i++){
+                    prepareStatement.setObject(i+1, params[i]);
+                }
+                position = params.length;
+            }
+            if(start > 0){
+                prepareStatement.setObject(position+1, start);
+                prepareStatement.setObject(position+2, limit);
+            }else{
+                prepareStatement.setObject(position+1, limit);
+            }
+            //获取数据集
+            rs = prepareStatement.executeQuery();
+            if(rs != null){
+                //获取数据列集
+                ResultSetMetaData rsmd = rs.getMetaData();
+                int columnCount = rsmd.getColumnCount();
+                while(rs.next()){
+                    Object []obj = new Object[columnCount];
+                    for(int i=0; i<columnCount;i++){
+                        //String columnName = rsmd.getColumnName(i+1);
+                        obj[i] = rs.getObject(i+1);
+                    }
+                    result.add(obj);
+                }
+            }
+        }catch(SQLException e){
+            log.error(e);
+            return null;
+        }finally{
+            try{
+                prepareStatement.close();
+                rs.close();
+                con.close();
+            }catch(Exception e){
+                log.error(e);
+                return null;
+            }
+        }
         return result;
     }
 }
