@@ -105,13 +105,6 @@ function indexPage(){
 		]
 	});
 	
-	viewport.on("show",function(){
-		alert(1);
-		createMainTabPanel("首页", "mainPagePanel", "/jsp/main.jsp", false);
-	});
-	
-	
-	
 	//loadMenuPanel();
 	var themeCombo = new Ext.form.ComboBox({
 		id:"xthemebox",

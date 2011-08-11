@@ -1,7 +1,7 @@
 /**
  * 数据字典
  */
-function codeListManage(){
+function codeListDataManage(){
 	/**
 	 * 数据字典
 	 */
@@ -77,7 +77,7 @@ function codeListManage(){
 		hidden:true,
 		hideable:false//不允许将隐藏的字段显示出来
 	},{
-		header:"数据字典名称",
+		header:"数据标准名称",
 		dataIndex:"codeName",
 		width:150
 	}]);
@@ -152,7 +152,72 @@ function codeListManage(){
 	 */
 	loadButtonRight(buttonRightStore, codeListDataStore, codeListDataGrid, "codelist_div");
 	
+	this.codeListManage = function(url){
+		var codeListGrid = new Ext.grid.GridPanel({
+			collapsible:true,//是否可以展开
+			animCollapse:true,//展开时是否有动画效果
+			autoScroll:true,
+			//width:Ext.get("codelist_div").getWidth(),
+			//height:Ext.get("codelist_div").getHeight()-20,
+			loadMask:true,//载入遮罩动画（默认）
+			frame:true,
+			autoShow:true,		
+			store:codeListStore,
+			//renderTo:"codelist_div",
+			cm:codeListCM,
+			sm:codeSM,
+			viewConfig:{forceFit:true},//若父容器的layout为fit，那么强制本grid充满该父容器
+			split: true,
+			bbar:new Ext.PagingToolbar({
+				pageSize:50,//每页显示数
+				store:codeListStore,
+				displayInfo:true,
+				displayMsg:"显示{0}-{1}条记录，共{2}条记录",
+				nextText:"下一页",
+				prevText:"上一页",
+				emptyMsg:"无相关记录"
+			}),
+			tbar:[{
+				text:"添加数据标准"
+			},"-"]
+		});
+		var buttons = [{
+			text:"关闭窗口",
+			handler:function(){
+				var w = Ext.getCmp("codeListManageWindow");
+				if(w){
+					w.close();
+				}
+			}
+		}];
+		showCodeListWindow("codeListManageWindow","数据标准管理",400,300,codeListGrid,buttons);
+		codeListStore.load({params:{start:0,limit:50}});
+	}
 	
+	/**
+	 * 公用窗口
+	 * @param {Object} id  唯一标识
+	 * @param {Object} title 窗口显示的名称
+	 * @param {Object} width 窗口宽度
+	 * @param {Object} height 窗口高度
+	 * @param {Object} items 窗口内容
+	 * @param {Object} buttons 窗口按钮
+	 */
+	function showCodeListWindow(id, title, width, height, items, buttons){
+		var codeListWindow = new Ext.Window({
+			id:id,
+			title:title,
+			width:width,
+			height:height,
+			items:items,
+			buttons:buttons,
+			modal:true,
+			//animateTarget:"giftmanage_div",//动画展示
+			layout:"fit",
+			resizable:false
+		});
+		codeListWindow.show();
+	}
 }
 
 /**
@@ -162,5 +227,5 @@ function codeListManage(){
 Ext.onReady(function(){
 	Ext.QuickTips.init();
 	Ext.form.Field.prototype.msgTarget = 'under';
-	codeListManage();
+	codeListDataManage();
 });

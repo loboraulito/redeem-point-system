@@ -76,14 +76,14 @@ public class RoleMenuService implements IRoleMenuService {
      */
     public List getRootMenuMap(String role){
         //查询资源（地址）的名称
-        String sql = "FROM MenuInfo as menu , RoleMenuInfo rolemenu WHERE menu.menuId =  rolemenu.menuId AND menu.parentMenuId is NULL AND rolemenu.roleId =  ? ";
+        String sql = "FROM MenuInfo as menu , RoleMenuInfo rolemenu WHERE menu.menuId =  rolemenu.menuId AND menu.parentMenuId is NULL AND rolemenu.roleId =  ? AND menu.isShow = '1' ";
         String param[] = new String[]{role};
         return this.roleMenuDao.queryByHQL(sql, param);
     }
     
     @Override
     public List getChildMenuMap(String role, String rootId) {
-        String sql = "FROM MenuInfo as menu , RoleMenuInfo rolemenu WHERE menu.menuId =  rolemenu.menuId AND menu.parentMenuId = ? AND rolemenu.roleId =  ? ";
+        String sql = "FROM MenuInfo as menu , RoleMenuInfo rolemenu WHERE menu.menuId =  rolemenu.menuId AND menu.parentMenuId = ? AND rolemenu.roleId =  ? AND menu.isShow = '1' ";
         String param[] = new String[]{rootId, role};
         return this.roleMenuDao.queryByHQL(sql, param);
     }

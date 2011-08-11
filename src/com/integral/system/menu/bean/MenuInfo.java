@@ -16,6 +16,8 @@ public class MenuInfo {
     private String parentMenuId;
     private String parentMenuName;
     private String isLeave;
+    private String isShow;
+    private String comment;
 
     /**
      * <p>Discription:[方法功能描述]</p>
@@ -171,4 +173,35 @@ public class MenuInfo {
         this.isLeave = isLeave;
     }
 
+    /**
+     * <p>Discription:[方法功能中文描述]</p>
+     * @return String isShow.
+     */
+    public String getIsShow() {
+        return isShow;
+    }
+
+    /**
+     * <p>Discription:[方法功能中文描述]</p>
+     * @param isShow The isShow to set.
+     */
+    public void setIsShow(String isShow) {
+        this.isShow = isShow;
+    }
+
+    /**
+     * <p>Discription:[方法功能中文描述]</p>
+     * @return String comment.
+     */
+    public String getComment() {
+        return comment;
+    }
+
+    /**
+     * <p>Discription:[方法功能中文描述]</p>
+     * @param comment The comment to set.
+     */
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
 }

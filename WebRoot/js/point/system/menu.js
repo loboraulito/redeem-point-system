@@ -12,7 +12,9 @@ function menuManage(){
 		{name:"menuLevel"},//菜单等级
 		{name:"parentMenuId"},//父级菜单
 		{name:"parentMenuName"},//父级菜单
-		{name:"isLeave"}//是否子节点
+		{name:"isLeave"},//是否子节点
+		{name:"isShow"},//是否显示
+		{name:"comment"}//备注
 	]);
 	var proxyUrl = path+"/menu/menuManage.action?method=menuList";
 	/**
@@ -72,6 +74,12 @@ function menuManage(){
 		header:"是否叶子菜单",
 		groupable: false,
 		dataIndex:"isLeave",
+		renderer:isYesOrNo,
+		width:50
+	},{
+		header:"是否显示",
+		groupable: false,
+		dataIndex:"isShow",
 		renderer:isYesOrNo,
 		width:50
 	}]);
@@ -376,6 +384,27 @@ function menuManage(){
 						valueField:"codeid",//将codeid设置为传递给后台的值
 						displayField:"codename",
 						hiddenName:"isLeave",//这个值就是传递给后台获取的值
+						mode: "local",
+						store:new Ext.data.SimpleStore({
+							fields:["codeid","codename"],
+							data:[["1","是"],["0","否"]]
+						}),
+						allowBlank:isNull
+					}]
+				},{
+					layout:"form",
+					columnWidth:.5,
+					height:50,
+					items:[{
+						xtype: 'combo',
+						name:"isShow",
+						anchor:"90%",
+						fieldLabel:"是否显示",
+						editable:false,//false：不可编辑
+						triggerAction:"all",//避免选定了一个值之后，再选的时候只显示刚刚选择的那个值
+						valueField:"codeid",//将codeid设置为传递给后台的值
+						displayField:"codename",
+						hiddenName:"isShow",//这个值就是传递给后台获取的值
 						mode: "local",
 						store:new Ext.data.SimpleStore({
 							fields:["codeid","codename"],
