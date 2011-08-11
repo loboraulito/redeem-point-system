@@ -73,7 +73,7 @@ public class MenuService implements IMenuService {
     }
     
     public List findMenuByPageWithParentName(int start, int limit){
-        String sql = "SELECT menu_info.menu_id, menu_info.menu_name, menu_info.page_path, menu_info.menu_level, menu_info.parent_menu, menu_info.is_leave, (select menu.menu_name menuname from menu_info menu where menu_info.parent_menu = menu.menu_id) parent_menu_name FROM menu_info order by parent_menu_name";
+        String sql = "SELECT menu_info.menu_id, menu_info.menu_name, menu_info.page_path, menu_info.menu_level, menu_info.parent_menu, menu_info.is_leave, (select menu.menu_name menuname from menu_info menu where menu_info.parent_menu = menu.menu_id) parent_menu_name, menu_info.is_show FROM menu_info order by parent_menu_name";
         List menus = this.baseDao.queryPageBySQL(sql, null, start, limit);
         List list = new ArrayList();
         if(menus!=null){
@@ -87,6 +87,7 @@ public class MenuService implements IMenuService {
                 menu.setParentMenuId(obj[4] == null?"":obj[4].toString());
                 menu.setIsLeave(obj[5] == null?"":obj[5].toString());
                 menu.setParentMenuName(obj[6] == null?"":obj[6].toString());
+                menu.setIsShow(obj[7] == null?"":obj[7].toString());
                 list.add(menu);
             }
         }

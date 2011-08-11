@@ -23,5 +23,11 @@
         <property name="isLeave" type="java.lang.String">
             <column name="is_leave" />
         </property>
+        <property name="isShow" type="java.lang.String">
+            <column name="is_show" />
+        </property>
+        <property name="comment" type="java.lang.String">
+            <column name="comment" />
+        </property>
     </class>
 </hibernate-mapping>
