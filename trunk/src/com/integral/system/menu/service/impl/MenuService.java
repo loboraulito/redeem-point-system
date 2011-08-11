@@ -143,4 +143,16 @@ public class MenuService implements IMenuService {
     public void deleteAll(Collection menus){
         this.menuDao.deleteAll(menus);
     }
+    
+    /**
+     * <p>Discription:[使用菜单路径，查询菜单ID]</p>
+     * @param menuPath
+     * @return
+     * @author:[代超]
+     * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
+     */
+    public List findByMenuPath(String menuPath){
+        String hql = "from MenuInfo model where model.pagePath = ?";
+        return this.baseDao.queryByHQL(hql, new Object[]{menuPath});
+    }
 }

@@ -54,8 +54,9 @@ function buttonRight(roleId, menuId, callbackFunction){
  * @param {} dataGrid 页面展示
  * @param {} pageDiv 页面div
  * @param {} params mainDataStore加载时的参数列表
+ * @paran {} currentMenu 页面ID, 默认为当前页面ID
  */
-function loadButtonRight(buttonStore, mainDataStore, dataGrid, pageDiv, params){
+function loadButtonRight(buttonStore, mainDataStore, dataGrid, pageDiv, params, currentMenu){
 	if(!buttonStore || !dataGrid || !pageDiv){
 		return;
 	}
@@ -66,8 +67,14 @@ function loadButtonRight(buttonStore, mainDataStore, dataGrid, pageDiv, params){
 	}else{
 		storeParams = params;
 	}
+	var crMenuId = "";
+	if(currentMenu && currentMenu != ""){
+		crMenuId = currentMenu;
+	}else{
+		crMenuId = currentMenuId;
+	}
 	buttonStore.load({
-		params:{roleId:userRole,menuId:currentMenuId},
+		params:{roleId:userRole,menuId:crMenuId},
 		callback:function(buttonRecords,buttonOptions,buttonSuccess){
 			//这里处理按钮的显示和隐藏
 			//alert(buttonRecords.length);

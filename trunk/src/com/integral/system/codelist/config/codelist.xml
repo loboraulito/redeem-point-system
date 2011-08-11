@@ -29,5 +29,17 @@
 			 <result name="success">/jsp/system/codelist/codelist.jsp</result>
 			 <result name="input">/index.jsp</result>
 		</action>
+		<action name="codeListManageAdd" class="com.integral.system.codelist.action.CodeListAction" method="codeListManageAdd">
+			 <result name="success">/jsp/system/codelist/codelist.jsp</result>
+			 <result name="input">/index.jsp</result>
+		</action>
+		<action name="codeListManageEdit" class="com.integral.system.codelist.action.CodeListAction" method="codeListManageEdit">
+			 <result name="success">/jsp/system/codelist/codelist.jsp</result>
+			 <result name="input">/index.jsp</result>
+		</action>
+		<action name="codeListManageDel" class="com.integral.system.codelist.action.CodeListAction" method="codeListManageDelete">
+			 <result name="success">/jsp/system/codelist/codelist.jsp</result>
+			 <result name="input">/index.jsp</result>
+		</action>
 	</package>
 </struts>

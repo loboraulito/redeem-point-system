@@ -43,5 +43,9 @@
 			 <result name="success">/jsp/system/menu/menu.jsp</result>
 			 <result name="input">/index.jsp</result>
 		</action>
+		<action name="findMenuId" class="com.integral.system.menu.action.MenuAction" method="findMenuId">
+			 <result name="success">/jsp/system/menu/menu.jsp</result>
+			 <result name="input">/index.jsp</result>
+		</action>
 	</package>
 </struts>

@@ -177,9 +177,7 @@ function codeListDataManage(){
 				prevText:"上一页",
 				emptyMsg:"无相关记录"
 			}),
-			tbar:[{
-				text:"添加数据标准"
-			},"-"]
+			tbar:["-"]
 		});
 		var buttons = [{
 			text:"关闭窗口",
@@ -191,7 +189,26 @@ function codeListDataManage(){
 			}
 		}];
 		showCodeListWindow("codeListManageWindow","数据标准管理",400,300,codeListGrid,buttons);
-		codeListStore.load({params:{start:0,limit:50}});
+		var codeListMenuId = "";
+		//查询数据标准列表管理页面的权限按钮
+		Ext.Ajax.request({
+			params:{menuPath:url},
+			timeout:60000,
+			url:path + "/menu/findMenuId.action?method=findMenuId",
+			success:function(response, options){
+				var msg = Ext.util.JSON.decode(response.responseText);
+				if(msg.success){
+					codeListMenuId = msg.menuId;
+					/**
+					 * 执行权限按钮
+					 */
+					loadButtonRight(buttonRightStore, codeListStore, codeListGrid, "codeListManageWindow", null, codeListMenuId);
+				}
+			},failure: function(response, options){
+				codeListMenuId = "";
+			}
+		});
+		//codeListStore.load({params:{start:0,limit:50}});
 	}
 	
 	/**

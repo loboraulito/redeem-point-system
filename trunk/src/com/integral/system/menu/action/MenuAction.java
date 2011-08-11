@@ -3,6 +3,7 @@ package com.integral.system.menu.action;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -419,6 +420,38 @@ ServletRequestAware, ServletResponseAware {
             //刷新系统内存
             resourceDetailsMonitor.refresh();
             if(out!=null){
+                out.flush();
+                out.close();
+            }
+        }
+        return null;
+    }
+    /**
+     * <p>Discription:[使用菜单路径查询菜单ID]</p>
+     * @return
+     * @author:[代超]
+     * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
+     */
+    public String findMenuId(){
+        String menuPath = request.getParameter("menuPath");
+        if(menuPath != null && menuPath.indexOf("/redeempoint") >= 0){
+            menuPath = menuPath.replace("/redeempoint", "");
+        }
+        PrintWriter out = null;
+        Map<String, Object> result = new HashMap<String, Object>();
+        try{
+            out = super.getPrintWriter(request, response);
+            List menus = this.menuService.findByMenuPath(menuPath);
+            if(menus != null && menus.size() > 0){
+                MenuInfo  menu = (MenuInfo) menus.get(0);
+                result.put("success", true);
+                result.put("menuId", menu.getMenuId());
+            }
+        }catch(Exception e){
+            result.put("success", false);
+        }finally{
+            if(out != null){
+                out.print(Json.toJson(result));
                 out.flush();
                 out.close();
             }
