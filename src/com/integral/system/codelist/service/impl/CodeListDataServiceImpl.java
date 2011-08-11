@@ -8,7 +8,6 @@ import org.apache.commons.lang.math.NumberUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import com.integral.common.dao.BaseHibernateJDBCDao;
 import com.integral.common.dao.IBaseDao;
 import com.integral.system.codelist.bean.CodeListData;
 import com.integral.system.codelist.dao.ICodeListDao;
