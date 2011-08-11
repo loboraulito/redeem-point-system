@@ -153,17 +153,29 @@ function codeListDataManage(){
 	loadButtonRight(buttonRightStore, codeListDataStore, codeListDataGrid, "codelist_div");
 	
 	this.codeListManage = function(url){
+		
+		var buttons = [{
+			text:"关闭窗口",
+			handler:function(){
+				var w = Ext.getCmp("codeListManageWindow");
+				if(w){
+					w.close();
+				}
+			}
+		}];
+		showCodeListWindow("codeListManageWindow","数据标准管理",400,300,null, "<div id='codeListGrid_div'></div>",buttons);
+		
 		var codeListGrid = new Ext.grid.GridPanel({
 			collapsible:true,//是否可以展开
 			animCollapse:true,//展开时是否有动画效果
 			autoScroll:true,
 			//width:Ext.get("codelist_div").getWidth(),
-			//height:Ext.get("codelist_div").getHeight()-20,
+			height:250,//Ext.get("codeListManageWindow").getHeight()-20,
 			loadMask:true,//载入遮罩动画（默认）
 			frame:true,
 			autoShow:true,		
 			store:codeListStore,
-			//renderTo:"codelist_div",
+			renderTo:"codeListGrid_div",
 			cm:codeListCM,
 			sm:codeSM,
 			viewConfig:{forceFit:true},//若父容器的layout为fit，那么强制本grid充满该父容器
@@ -177,18 +189,9 @@ function codeListDataManage(){
 				prevText:"上一页",
 				emptyMsg:"无相关记录"
 			}),
-			tbar:["-"]
+			tbar:[]
 		});
-		var buttons = [{
-			text:"关闭窗口",
-			handler:function(){
-				var w = Ext.getCmp("codeListManageWindow");
-				if(w){
-					w.close();
-				}
-			}
-		}];
-		showCodeListWindow("codeListManageWindow","数据标准管理",400,300,codeListGrid,buttons);
+		
 		var codeListMenuId = "";
 		//查询数据标准列表管理页面的权限按钮
 		Ext.Ajax.request({
@@ -220,13 +223,14 @@ function codeListDataManage(){
 	 * @param {Object} items 窗口内容
 	 * @param {Object} buttons 窗口按钮
 	 */
-	function showCodeListWindow(id, title, width, height, items, buttons){
+	function showCodeListWindow(id, title, width, height, items, html, buttons){
 		var codeListWindow = new Ext.Window({
 			id:id,
 			title:title,
 			width:width,
 			height:height,
 			items:items,
+			html:html,
 			buttons:buttons,
 			modal:true,
 			//animateTarget:"giftmanage_div",//动画展示
