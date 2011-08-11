@@ -1,13 +1,14 @@
 package com.integral.system.codelist.service.impl;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import com.integral.common.dao.BaseHibernateJDBCDao;
 import com.integral.common.dao.IBaseDao;
 import com.integral.system.codelist.bean.CodeListData;
 import com.integral.system.codelist.dao.ICodeListDao;
@@ -67,13 +68,25 @@ public class CodeListDataServiceImpl implements ICodeListDataService {
         this.baseDao = baseDao;
     }
     @Override
-    public List<CodeListData> getCodeListDataByPage(int start, int limit) {
+    public List<CodeListData> getCodeListDataByPage(int start, int limit) throws SQLException {
+        
         String sql = "SELECT child.dataid AS dataid, child.codeid AS codeid, codelist.codename AS codename, child.datakey AS datakey," +
         		" child.datavalue AS datavalue, child.parentdatakey AS parentdatakey, parent.datavalue AS parentvalue, child.remark AS remark " +
         		" FROM point_system_codelist_data AS child Left Join point_system_codelist_data AS parent ON child.parentdatakey = parent.datakey" +
         		" Inner Join point_system_codelist AS codelist on child.codeid = codelist.codeid ";
+        /*
+        sql = "SELECT child.dataid AS dataid, child.codeid AS codeid, codelist.codename AS codename," +
+        		" child.datakey AS datakey, child.datavalue AS datavalue, child.parentdatakey AS parentdatakey," +
+        		" parent.datavalue AS parentvalue,  child.remark AS remark, parent.datakey AS parentdatakey1" +
+        		" FROM ( SELECT * FROM point_system_codelist_data) AS child LEFT JOIN " +
+        		" ( SELECT datakey, datavalue FROM point_system_codelist_data) AS parent ON child.parentdatakey = parent.datakey" +
+        		" INNER JOIN point_system_codelist AS codelist ON child.codeid = codelist.codeid ";
+        BaseHibernateJDBCDao jdbcDao = new BaseHibernateJDBCDao();
+        */
         List list = this.codeListDataDao.findCodeListDataByPage(true, sql, start, limit, null);
         List<CodeListData> codeDataList = new ArrayList<CodeListData>();
+        log.info("find codeListdata by page : " + list);
+        list = this.baseDao.queryListByPageByJDBC(sql, start, limit, null);
         log.info("find codeListdata by page : " + list);
         if(list != null){
             for(int i=0, j = list.size(); i < j; i++){

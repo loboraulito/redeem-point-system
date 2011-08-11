@@ -46,7 +46,7 @@ public interface IBaseDao {
      */
     public List queryPageBySQL(String sql, Object[] params, int start, int limit);
     /**
-     * <p>Discription:[执行sql语句,用于insert/update/delete,需要自行组装sql语句]</p>
+     * <p>Discription:[调用jdbc执行sql语句,用于insert/update/delete,需要自行组装sql语句]</p>
      * @param sql
      * @return
      * @throws DataAccessResourceFailureException
@@ -57,4 +57,16 @@ public interface IBaseDao {
      * @update: 2011-7-3 代超[变更描述]
      */
     public int excuteSQL(String sql, Object[] params) throws DataAccessResourceFailureException, HibernateException, IllegalStateException, SQLException;
+    /**
+     * <p>Discription:[调用jdbc执行复杂sql的查询]</p>
+     * @param sql sql语句
+     * @param start 分页查询起始
+     * @param limit 分页查询终止
+     * @param params 查询的其他参数
+     * @return
+     * @throws SQLException
+     * @author:[代超]
+     * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
+     */
+    public List queryListByPageByJDBC(String sql, int start, int limit, Object[] params) throws SQLException;
 }

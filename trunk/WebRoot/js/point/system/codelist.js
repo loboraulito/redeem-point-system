@@ -49,7 +49,7 @@ function codeListManage(){
 	var codeListDataStore = new Ext.data.GroupingStore({
 		url:proxyDataUrl,
 		reader:codeListDataReader,
-		groupField:"codeId",
+		groupField:"codeName",
 		sortInfo:{field: 'dataId', direction: "ASC"}
 	});
 	
