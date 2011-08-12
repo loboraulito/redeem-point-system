@@ -367,3 +367,9 @@ actionErrors级别的错误是发生在struts.xml文件中
 feiltErrors级别错误是发生在各个struts子配置文件中,如：com/integral/exchange/gifts/config/gift.xml
 
 具体，请参考com/integral/exchange/gifts/config/gift.xml礼品管理中的增加/编辑礼品信息功能
+
+2011/08/11
+创建java doc API的方法：
+右键->export->java doc
+为避免乱码或者编码问题的，输入下面的参数即可：
+-encoding utf-8 -charset utf-8
