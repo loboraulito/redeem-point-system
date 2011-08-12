@@ -55,6 +55,7 @@ Ext.onReady(function(){
 		</tr>
 	</table>
 </div>
+<div id="loadMarskDiv" style="position:absolute; z-index: 9999; display:none; width:100%; height:100%;"></div>
 <script type="text/javascript">
 
 </script>

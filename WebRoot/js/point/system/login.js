@@ -86,12 +86,21 @@ function userLoginForm(username,password){
 
 //Submit login and handler response
 function fnLoginForm(theForm)
-{
+{	
+	document.getElementById("loadMarskDiv").style.display = "block"
+	var loadMask = new Ext.LoadMask("loadMarskDiv",{
+		msg:"正在登陆系统，请稍候...",
+		removeMask:true
+	});
+	loadMask.show();
 	//清除菜单信息
 	resetMenu();
 	if(theForm.form.isValid()){
 		theForm.getForm().submit({
+			timeout:60000,
 			success: function(form, action) {
+				document.getElementById("loadMarskDiv").style.display = "none"
+				loadMask.hide();
 				Ext.Msg.alert('系统提示', '您已成功登录系统!', function(btn, text) {
 					if (btn == 'ok') {
 						//window.location = path+"/index.jsp";
@@ -110,6 +119,8 @@ function fnLoginForm(theForm)
 				});
 			},
 			failure: function(form, action) {//action.result.errorMessage
+				document.getElementById("loadMarskDiv").style.display = "none"
+				loadMask.hide();
 				var msg = Ext.decode(action.response.responseText);
 				if(msg && msg.error){
 					Ext.Msg.alert('系统提示', "登录失败，可能是以下原因导致您登录失败："+msg.error);
