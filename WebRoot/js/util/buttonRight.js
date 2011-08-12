@@ -56,8 +56,8 @@ function buttonRight(roleId, menuId, callbackFunction){
  * @param {} params mainDataStore加载时的参数列表
  * @paran {} currentMenu 页面ID, 默认为当前页面ID
  */
-function loadButtonRight(buttonStore, mainDataStore, dataGrid, pageDiv, params, currentMenu){
-	if(!buttonStore || !dataGrid || !pageDiv){
+function loadButtonRight(buttonStore, mainDataStore, dataGrid, pageDiv, params, currentMenu, callbackFunction){
+	if(!buttonStore || !dataGrid){
 		return;
 	}
 	var storeParams = {};
@@ -78,10 +78,15 @@ function loadButtonRight(buttonStore, mainDataStore, dataGrid, pageDiv, params, 
 		callback:function(buttonRecords,buttonOptions,buttonSuccess){
 			//这里处理按钮的显示和隐藏
 			//alert(buttonRecords.length);
-			var tbar = dataGrid.getTopToolbar();
-			if(!tbar){
-				tbar = new Ext.Toolbar();
+			var gtbar = dataGrid.getTopToolbar();
+			var tbar = new Ext.Toolbar();;
+			if(gtbar){
+				dataGrid.tbar.update("");
+				tbar.render(dataGrid.tbar);
+			}else{
+				return;
 			}
+			
 			var hasButtonShow = false;
 			for(var i=0;i<buttonRecords.length;i++){
 				//是否显示
@@ -117,15 +122,21 @@ function loadButtonRight(buttonStore, mainDataStore, dataGrid, pageDiv, params, 
 				
 				tbar.addSeparator();
 			}
-			if(!hasButtonShow){
-				dataGrid.setHeight(Ext.get(pageDiv).getHeight());
-				dataGrid.render();
+			if(pageDiv){
+				if(!hasButtonShow){
+					dataGrid.setHeight(Ext.get(pageDiv).getHeight());
+					dataGrid.render();
+				}
 			}
+			
 			if(mainDataStore){
 				mainDataStore.load({
 					params:storeParams,
 					callback:function(records,options,success){
 						//alert(proxyUrl);
+						if(typeof callbackFunction == "function"){
+							callbackFunction(dataGrid,tbar);
+						}
 					}
 				});
 			}
