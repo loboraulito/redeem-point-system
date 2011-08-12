@@ -163,19 +163,18 @@ function codeListDataManage(){
 				}
 			}
 		}];
-		showCodeListWindow("codeListManageWindow","数据标准管理",400,300,null, "<div id='codeListGrid_div'></div>",buttons);
-		
+		//showCodeListWindow("codeListManageWindow","数据标准管理",400,300,null, "<div id='codeListGrid_div'></div>",buttons);
 		var codeListGrid = new Ext.grid.GridPanel({
 			collapsible:true,//是否可以展开
 			animCollapse:true,//展开时是否有动画效果
 			autoScroll:true,
 			//width:Ext.get("codelist_div").getWidth(),
-			height:250,//Ext.get("codeListManageWindow").getHeight()-20,
+			//height:250,//Ext.get("codeListManageWindow").getHeight()-20,
 			loadMask:true,//载入遮罩动画（默认）
 			frame:true,
 			autoShow:true,		
 			store:codeListStore,
-			renderTo:"codeListGrid_div",
+			//renderTo:"codeListGrid_div",
 			cm:codeListCM,
 			sm:codeSM,
 			viewConfig:{forceFit:true},//若父容器的layout为fit，那么强制本grid充满该父容器
@@ -184,13 +183,19 @@ function codeListDataManage(){
 				pageSize:50,//每页显示数
 				store:codeListStore,
 				displayInfo:true,
-				displayMsg:"显示{0}-{1}条记录，共{2}条记录",
+				displayMsg:"显示{0}-{1}条记录,共{2}条记录",
 				nextText:"下一页",
 				prevText:"上一页",
 				emptyMsg:"无相关记录"
 			}),
-			tbar:[]
+			tbar:[{
+				text:"正在加载中..."
+			}]
 		});
+		showCodeListWindow("codeListManageWindow","数据标准管理",410,300,codeListGrid,"",buttons);
+		
+		var loadMarsk = codeListGrid.loadMask;
+		loadMarsk.show();
 		
 		var codeListMenuId = "";
 		//查询数据标准列表管理页面的权限按钮
@@ -205,12 +210,18 @@ function codeListDataManage(){
 					/**
 					 * 执行权限按钮
 					 */
-					loadButtonRight(buttonRightStore, codeListStore, codeListGrid, "codeListManageWindow", null, codeListMenuId);
+					loadButtonRight(buttonRightStore, codeListStore, codeListGrid, null, null, codeListMenuId, function(codeListGrid,tbar){
+						codeListGrid.setHeight(codeListGrid.getSize().height - codeListGrid.tbar.getHeight() + codeListGrid.bbar.getHeight());
+						codeListGrid.render();
+						codeListGrid.doLayout();
+						loadMarsk.hide();
+					});
 				}
 			},failure: function(response, options){
 				codeListMenuId = "";
 			}
 		});
+		
 		//codeListStore.load({params:{start:0,limit:50}});
 	}
 	
@@ -230,7 +241,7 @@ function codeListDataManage(){
 			width:width,
 			height:height,
 			items:items,
-			html:html,
+			//html:html,
 			buttons:buttons,
 			modal:true,
 			//animateTarget:"giftmanage_div",//动画展示
