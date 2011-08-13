@@ -38,6 +38,8 @@
 		<!-- 菜单目录,左边的菜单部分  end -->
 		<!-- 下拉树型结构 -->
 		<security:intercept-url pattern="/menu/menuComboTree.action/**" filters="none"/>
+		<!-- 数据标准下拉树型结构 -->
+		<security:intercept-url pattern="/codelist/codeDataManageTree.action/**" filters="none"/>
 		<!-- 获取有权限访问的按钮 -->
 		<security:intercept-url pattern="/right/showButtons.action/**" filters="none"/>
 		<!-- 获取所有用户以及角色 -->

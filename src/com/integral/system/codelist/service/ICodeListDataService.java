@@ -1,6 +1,7 @@
 package com.integral.system.codelist.service;
 
 import java.sql.SQLException;
+import java.util.Collection;
 import java.util.List;
 
 import com.integral.system.codelist.bean.CodeListData;
@@ -28,4 +29,37 @@ public interface ICodeListDataService {
      * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
      */
     public List<CodeListData> getCodeListDataByPage(int start, int limit) throws SQLException;
+    
+    /**
+     * <p>Discription:[增加或修改数据标准值]</p>
+     * @param entity
+     * @author:[代超]
+     * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
+     */
+    public void saveOrUpdate(CodeListData entity);
+    /**
+     * <p>Discription:[批量删除数据标准值]</p>
+     * @param entities
+     * @author:[代超]
+     * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
+     */
+    public void deleteAll(Collection<CodeListData> entities);
+    /**
+     * <p>Discription:[通过数据标准删除数据标准值]</p>
+     * @param codeList
+     * @author:[代超]
+     * @throws Exception 
+     * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
+     */
+    public void deleteByCodeListId(String [] codeList) throws Exception;
+    /**
+     * <p>Discription:[查找数据标准值树形结构]</p>
+     * @param codeId
+     * @param parentDataKey
+     * @return
+     * @author:[代超]
+     * @throws SQLException 
+     * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
+     */
+    public List findCodeDataListTree(String codeId, String parentDataKey) throws SQLException;
 }

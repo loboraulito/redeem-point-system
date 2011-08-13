@@ -44,6 +44,16 @@ function codeListDataManage(){
 		reader:codeListReader
 	});
 	/**
+	 * 数据标准存储(复制品)
+	 */
+	var codeListStoreClon = new Ext.data.Store({
+		proxy:new Ext.data.HttpProxy({
+			url:proxyCodeUrl
+		}),
+		reader:codeListReader
+	});
+	
+	/**
 	 * 数据标准数据存储
 	 */
 	var codeListDataStore = new Ext.data.GroupingStore({
@@ -68,11 +78,12 @@ function codeListDataManage(){
 	/**
 	 * 数据展现形式 - 多选框
 	 */
-	var codeSM = new Ext.grid.CheckboxSelectionModel();
+	var codeDataSM = new Ext.grid.CheckboxSelectionModel();
+	var codeListSM = new Ext.grid.CheckboxSelectionModel();
 	/**
 	 * 数据字典展现形式
 	 */
-	var codeListCM = new Ext.grid.ColumnModel([new Ext.grid.RowNumberer(),codeSM,{
+	var codeListCM = new Ext.grid.ColumnModel([new Ext.grid.RowNumberer(),codeListSM,{
 		dataIndex:"codeId",
 		hidden:true,
 		hideable:false//不允许将隐藏的字段显示出来
@@ -84,7 +95,7 @@ function codeListDataManage(){
 	/**
 	 * 数据字典数据展现形式
 	 */
-	var codeDataCM = new Ext.grid.ColumnModel([new Ext.grid.RowNumberer(),codeSM,{
+	var codeDataCM = new Ext.grid.ColumnModel([new Ext.grid.RowNumberer(),codeDataSM,{
 		dataIndex:"dataId",
 		hidden:true,
 		hideable:false//不允许将隐藏的字段显示出来
@@ -125,7 +136,7 @@ function codeListDataManage(){
 		store:codeListDataStore,
 		renderTo:"codelist_div",
 		cm:codeDataCM,
-		sm:codeSM,
+		sm:codeDataSM,
 		viewConfig:{forceFit:true},//若父容器的layout为fit，那么强制本grid充满该父容器
 		split: true,
 		view:groupView,
@@ -152,6 +163,57 @@ function codeListDataManage(){
 	 */
 	loadButtonRight(buttonRightStore, codeListDataStore, codeListDataGrid, "codelist_div");
 	
+	///////////////////////////////////////////////////////////////////////////
+	//////////////////////////数据标准值管理////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////
+	/**
+	 * 增加数据标准值
+	 * @param {Object} url
+	 */
+	this.addCodeData = function(url){
+		var dataForm = getCodeDataForm(url, false, false);
+		var buttons = [{
+			text:"保存数据标准",
+			handler:function(){
+				
+			}
+		},{
+			text:"关闭窗口",
+			handler:function(){
+				var w = Ext.getCmp("addCodeDataWindow");
+				if(w){
+					w.close();
+				}
+			}
+		}];
+		codeListStoreClon.load({params:{start:0,limit:99999}});
+		showCodeListWindow("addCodeDataWindow","添加数据标准值",500,270,dataForm,"",buttons);
+	}
+	/**
+	 * 修改数据标准值
+	 * @param {Object} url
+	 */
+	this.editCodeData = function(url){
+		
+	}
+	/**
+	 * 删除数据标准值
+	 * @param {Object} url
+	 */
+	this.deleteCodeData = function(url){
+		
+	}
+	///////////////////////////////////////////////////////////////////////////
+	//////////////////////////数据标准值管理////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////
+	
+	///////////////////////////////////////////////////////////////////////////
+	//////////////////////////数据标准管理//////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////
+	/**
+	 * 数据标准管理窗口列表
+	 * @param {Object} url
+	 */
 	this.codeListManage = function(url){
 		
 		var buttons = [{
@@ -165,6 +227,7 @@ function codeListDataManage(){
 		}];
 		//showCodeListWindow("codeListManageWindow","数据标准管理",400,300,null, "<div id='codeListGrid_div'></div>",buttons);
 		var codeListGrid = new Ext.grid.GridPanel({
+			id:"codeListGrid",
 			collapsible:true,//是否可以展开
 			animCollapse:true,//展开时是否有动画效果
 			autoScroll:true,
@@ -176,7 +239,7 @@ function codeListDataManage(){
 			store:codeListStore,
 			//renderTo:"codeListGrid_div",
 			cm:codeListCM,
-			sm:codeSM,
+			sm:codeListSM,
 			viewConfig:{forceFit:true},//若父容器的layout为fit，那么强制本grid充满该父容器
 			split: true,
 			bbar:new Ext.PagingToolbar({
@@ -224,6 +287,215 @@ function codeListDataManage(){
 		
 		//codeListStore.load({params:{start:0,limit:50}});
 	}
+	/**
+	 * 添加数据标准
+	 * @param {Object} url
+	 */
+	this.addCodeList = function(url){
+		Ext.Msg.prompt("添加数据标准","请输入数据标准名称",function(btn, text){
+			if(btn == "ok" || btn == "yes"){
+				saveCodeList(url, null, text);
+			}
+		});
+	}
+	
+	/**
+	 * 修改数据标准
+	 * @param {Object} url
+	 */
+	this.editCodeList = function(url){
+		var codeListGrid = Ext.getCmp("codeListGrid");
+		if(codeListGrid){
+			var gridSelectionModel = codeListGrid.getSelectionModel();
+			var gridSelection = gridSelectionModel.getSelections();
+			if(gridSelection.length != 1){
+				Ext.MessageBox.alert('提示','请选择一条数据标准信息！');
+			    return false;
+			}
+			var codeList = gridSelection[0];
+			var codeId = codeList.get("codeId");
+			var codeName = codeList.get("codeName");
+			//prompt( String title, String msg, [Function fn], [Object scope], [Boolean/Number multiline], [String value] ) 
+			Ext.Msg.prompt("修改数据标准","请输入数据标准名称",function(btn, text){
+				if(btn == "ok" || btn == "yes"){
+					if(text == codeName){
+						Ext.Msg.alert("系统提示","您未修改数据标准名称！");
+						return;
+					}
+					saveCodeList(url, codeId, text);
+				}
+			},null,false,codeName);
+		}
+	}
+	
+	/**
+	 * 删除数据标准
+	 * @param {Object} url
+	 */
+	this.deleteCodeList = function(url){
+		Ext.Msg.confirm("系统提示","删除数据标准的同时将会删除对应的标准值。确定需要删除么，？",function(btns){
+			if(btns == "yes" || btns == "ok"){
+				var codeListGrid = Ext.getCmp("codeListGrid");
+				if (codeListGrid) {
+					var gridSelectionModel = codeListGrid.getSelectionModel();
+					var gridSelection = gridSelectionModel.getSelections();
+					if (gridSelection.length < 1) {
+						Ext.MessageBox.alert('提示', '请至少选择一条数据标准信息！');
+						return false;
+					}
+					var codeLists = new Array();
+					for(var i = 0; i < gridSelection.length; i++){
+						codeLists.push(gridSelection[i].get("codeId"));
+					}
+					codeLists.join(",");
+					saveCodeList(url, codeLists, null);
+				}
+			}
+		});
+	}
+	///////////////////////////////////////////////////////////////////////////
+	//////////////////////////数据标准管理//////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////
+	/**
+	 * 数据标准值表单
+	 * @param {Object} url 保存数据标准值路径
+	 * @param {Object} isNull 是否可为空, true - 是
+	 * @param {Object} readOnly 是否只读, true - 是
+	 */
+	function getCodeDataForm(url, isNull, readOnly){
+		var codeDataForm = new Ext.form.FormPanel({
+			url:url,
+			frame: true,
+			labelAlign: 'right',
+			labelWidth:90,
+			autoScroll:false,
+			waitMsgTarget:true,
+			viewConfig:{forceFit:true},
+			items:[{
+				layout:"column",
+				border:false,
+				labelSeparator:'：',
+				items:[{
+					layout:"form",
+					columnWidth:0.5,
+					height:50,
+					items:[{
+						xtype: 'textfield',
+						name:"dataKey",
+						anchor:"90%",
+						fieldLabel:"数据标准值代码",
+						maxLength:200,
+						readOnly:readOnly,
+						allowBlank:isNull
+					}]
+				},{
+					layout:"form",
+					columnWidth:0.5,
+					height:50,
+					items:[{
+						xtype: 'textfield',
+						name:"dataValue",
+						anchor:"90%",
+						fieldLabel:"数据标准值",
+						maxLength:200,
+						readOnly:readOnly,
+						allowBlank:isNull
+					}]
+				}]
+			},{
+				layout:"column",
+				border:false,
+				labelSeparator:'：',
+				items:[{
+					layout:"form",
+					columnWidth:0.5,
+					height:50,
+					items:[{
+						xtype: 'combo',
+						name:"codeId",
+						anchor:"90%",
+						fieldLabel:"所属数据标准",
+						editable:false,//false：不可编辑
+						triggerAction:"all",//避免选定了一个值之后，再选的时候只显示刚刚选择的那个值
+						valueField:"codeId",//将codeid设置为传递给后台的值
+						displayField:"codeName",
+						hiddenName:"codeId",//这个值就是传递给后台获取的值
+						mode: "local",
+						store:codeListStoreClon,
+						allowBlank:isNull,
+						listeners: {
+							'change': function(combo, record, index){
+								var tree = codeDataForm.form.findField("parentDataKey").tree;
+								var root = tree.root;
+								/*
+								var treeRoot = new Ext.tree.AsyncTreeNode({
+									id : combo.getValue(),
+									text : combo.getEl().dom.value,
+									singleClickExpand:true,
+									draggable:false
+								});
+								*/
+								root.text = combo.getEl().dom.value;
+								var loader = codeDataForm.form.findField("parentDataKey").tree.loader;
+								loader.baseParams.codeId = combo.getValue();
+								
+								root.reload(
+									function(){
+										tree.expandAll();
+									}
+								);
+							},
+							"select":function(combo, record, index){
+								codeDataForm.form.findField("parentDataKey").setValue("");
+							}
+						}
+					}]
+				},{
+					layout:"form",
+					columnWidth:0.5,
+					height:50,
+					items:[{
+						xtype: 'treeField',
+						name:"parentDataKey",
+						displayField:"parentDataValue",
+						valueField:"parentDataKey",
+						hiddenName:"parentDataKey",
+						dataUrl:path+"/codelist/codeDataManageTree.action?method=codeDataManageTree",
+						listHeight:180,
+						selectNodeModel:"exceptRoot",
+						treeRootConfig:{
+							id:" ",
+							draggable:false,
+							singleClickExpand:true,
+							text:"请选择..."
+						},
+						anchor:"90%",
+						fieldLabel:"上级数据标准值"
+					}]
+				}]
+			},{
+				layout:"column",
+				border:false,
+				labelSeparator:'：',
+				items:[{
+					layout:"form",
+					columnWidth:0.9,
+					height:70,
+					items:[{
+						xtype: 'textarea',
+						name:"remark",
+						anchor:"90%",
+						fieldLabel:"备注",
+						maxLength:200
+					},{
+						xtype:"hidden",
+						name:"dataId"
+					}]
+				}]
+			}]
+		});
+		return codeDataForm;
+	}
 	
 	/**
 	 * 公用窗口
@@ -249,6 +521,54 @@ function codeListDataManage(){
 			resizable:false
 		});
 		codeListWindow.show();
+	}
+	/**
+	 * 保存数据标准
+	 * @param {Object} url 提交的url
+	 * @param {Object} id 数据标准唯一ID
+	 * @param {Object} text 数据标准名称
+	 */
+	function saveCodeList(url, id, text){
+		Ext.MessageBox.show({
+		    msg: '正在提交您的请求, 请稍侯...',
+		    progressText: '正在提交您的请求',
+		    width:300,
+		    wait:true,
+		    waitConfig: {interval:200},
+		    icon:Ext.Msg.INFO
+		});
+		Ext.Ajax.request({
+			params:{codeId:id, codeName:text},
+			timeout:60000,
+			url:url,
+			success:function(response, options){
+				Ext.Msg.hide();
+				var msg = Ext.util.JSON.decode(response.responseText);
+				if(msg.success){
+					if(msg.msg){
+						Ext.Msg.alert("系统提示",msg.msg);
+					}else{
+						Ext.Msg.alert("系统提示","数据标准信息已成功保存！");
+					}
+					codeListStore.reload();
+					codeListDataStore.reload();
+				}else{
+					if(msg.msg){
+						Ext.Msg.alert("系统提示",msg.msg);
+					}else{
+						Ext.Msg.alert("系统提示","数据标准信息保存失败！");
+					}
+				}
+			},failure: function(response, options){
+				Ext.Msg.hide();
+				var msg = Ext.util.JSON.decode(response.responseText);
+				if(msg.msg){
+					Ext.Msg.alert("系统提示",msg.msg);
+				}else{
+					Ext.Msg.alert("系统提示","数据标准信息保存失败！");
+				}
+			}
+		});
 	}
 }
 

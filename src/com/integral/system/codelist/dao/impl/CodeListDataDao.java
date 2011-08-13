@@ -1,6 +1,7 @@
 package com.integral.system.codelist.dao.impl;
 
 import java.sql.SQLException;
+import java.util.Collection;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
@@ -11,6 +12,7 @@ import org.hibernate.Session;
 import org.springframework.orm.hibernate3.HibernateCallback;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
+import com.integral.system.codelist.bean.CodeListData;
 import com.integral.system.codelist.dao.ICodeListDataDao;
 
 /** 
@@ -51,5 +53,25 @@ public class CodeListDataDao extends HibernateDaoSupport implements ICodeListDat
                 return list;
             }
         });
+    }
+    
+    public void saveOrUpdate(CodeListData entity) {
+        log.debug("saveOrUpdate CodeListData");
+        try {
+            getHibernateTemplate().saveOrUpdate(entity);
+        } catch (RuntimeException re) {
+            log.error("saveOrUpdate CodeListData ", re);
+            throw re;
+        }
+    }
+    
+    public void deleteAll(Collection<CodeListData> entities) {
+        log.debug("deleteAll CodeListData");
+        try {
+            getHibernateTemplate().deleteAll(entities);
+        } catch (RuntimeException re) {
+            log.error("deleteAll CodeListData ", re);
+            throw re;
+        }
     }
 }

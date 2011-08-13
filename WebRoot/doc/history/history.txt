@@ -8,6 +8,9 @@
    3) SVN 1.6
    4) JDK 1.6(必须)
    5) Tomcat6.0(可选)
+   
+mysql 连接，显示中文方法
+mysql --default-character-set=gbk -uuser -ppassword
 
 
 开发历史/问题记录

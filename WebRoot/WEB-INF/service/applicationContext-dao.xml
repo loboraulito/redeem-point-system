@@ -30,7 +30,7 @@
 			<ref bean="sessionFactory"/>
 		</property>
 	</bean>
-	<bean class="com.integral.common.dao.impl.BaseDao" id="BaseDao">
+	<bean class="com.integral.common.dao.impl.BaseDao" id="BaseDao" scope="prototype">
 		<property name="sessionFactory">
 			<ref bean="sessionFactory"/>
 		</property>

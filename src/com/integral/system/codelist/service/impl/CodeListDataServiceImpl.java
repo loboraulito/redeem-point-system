@@ -2,17 +2,22 @@ package com.integral.system.codelist.service.impl;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
+import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.math.NumberUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.hibernate.HibernateException;
+import org.springframework.dao.DataAccessResourceFailureException;
 
 import com.integral.common.dao.IBaseDao;
 import com.integral.system.codelist.bean.CodeListData;
 import com.integral.system.codelist.dao.ICodeListDao;
 import com.integral.system.codelist.dao.ICodeListDataDao;
 import com.integral.system.codelist.service.ICodeListDataService;
+import com.integral.system.menu.bean.MenuTree;
 
 /** 
  * <p>Description: [描述该类概要功能介绍]</p>
@@ -113,5 +118,68 @@ public class CodeListDataServiceImpl implements ICodeListDataService {
             size = NumberUtils.toLong((String.valueOf(list.get(0))), 0L);
         }
         return size;
+    }
+    @Override
+    public void deleteAll(Collection<CodeListData> entities) {
+        this.codeListDataDao.deleteAll(entities);
+    }
+    @Override
+    public void saveOrUpdate(CodeListData entity) {
+        this.codeListDataDao.saveOrUpdate(entity);
+    }
+    @Override
+    public void deleteByCodeListId(String[] codeList) throws Exception {
+        if(codeList == null || codeList.length <1){
+            return;
+        }
+        StringBuffer sql = new StringBuffer("delete from point_system_codelist_data where codeid in ( ? ");
+        if(codeList.length > 1){
+            for(int i = 1; i< codeList.length; i++){
+                sql.append(" , ? ");
+            }
+        }
+        sql.append(" ) ");
+        this.baseDao.excuteSQL(sql.toString(), codeList);
+    }
+    @Override
+    public List findCodeDataListTree(String codeId, String parentDataKey) throws SQLException {
+        String sql = "SELECT parent.datakey, parent.datavalue,(SELECT IF(COUNT(child.dataid) > 0, 'false', 'true')" +
+        		" FROM point_system_codelist_data AS child WHERE child.parentdatakey = parent.datakey AND child.codeid=parent.codeid) AS isleft" +
+        		" FROM point_system_codelist_data AS parent WHERE parent.codeid= ? AND parent.parentdatakey  ";
+        String params[] = null;
+        if(parentDataKey == null || "".equals(parentDataKey.trim())){
+            sql += " IS NULL ";
+            params = new String[]{codeId};
+        }else{
+            sql += " = ? ";
+            params = new String[]{codeId, parentDataKey.trim()};
+        }
+        List list = this.baseDao.queryListByPageByJDBC(sql, 0, 999999999, params);
+        List result = new ArrayList();
+        if(list != null && list.size() >0){
+            for(int i=0,j=list.size();i<j;i++){
+                MenuTree tree = new MenuTree();
+                Object [] obj = (Object[]) list.get(i);
+                tree.setId(obj[0] == null ? "" : obj[0].toString());
+                tree.setText(obj[1] == null ? "" : obj[1].toString());
+                tree.setQtip(obj[1] == null ? "" : obj[1].toString());
+                tree.setSingleClickExpand(true);
+                tree.setHref(null);
+                tree.setTarget(false);
+                String isLeft = obj[2] == null ? "" : obj[2].toString();
+                boolean leaf = BooleanUtils.toBoolean(isLeft);
+                tree.setLeaf(leaf);
+                if(leaf){
+                    //子节点
+                    tree.setCls("file");
+                    tree.setExpandable(false);
+                }else{
+                    tree.setCls("folder");
+                    tree.setExpandable(true);
+                }
+                result.add(tree);
+            }
+        }
+        return result;
     }
 }
