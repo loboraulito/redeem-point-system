@@ -29,6 +29,10 @@
 			 <result name="success">/jsp/system/codelist/codelist.jsp</result>
 			 <result name="input">/index.jsp</result>
 		</action>
+		<action name="codeDataManageTree" class="com.integral.system.codelist.action.CodeListAction" method="codeDataManageTree">
+			 <result name="success">/jsp/system/codelist/codelist.jsp</result>
+			 <result name="input">/index.jsp</result>
+		</action>
 		<action name="codeListManageAdd" class="com.integral.system.codelist.action.CodeListAction" method="codeListManageAdd">
 			 <result name="success">/jsp/system/codelist/codelist.jsp</result>
 			 <result name="input">/index.jsp</result>

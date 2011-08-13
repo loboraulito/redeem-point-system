@@ -1,6 +1,7 @@
 package com.integral.system.codelist.action;
 
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,18 +9,23 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang.math.NumberUtils;
 import org.apache.struts2.interceptor.ServletRequestAware;
 import org.apache.struts2.interceptor.ServletResponseAware;
 import org.nutz.json.Json;
 import org.nutz.json.JsonFormat;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.transaction.TransactionDefinition;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 import com.integral.common.action.BaseAction;
 import com.integral.system.codelist.bean.CodeList;
 import com.integral.system.codelist.bean.CodeListData;
 import com.integral.system.codelist.service.ICodeListDataService;
 import com.integral.system.codelist.service.ICodeListService;
+import com.integral.util.RequestUtil;
 
 /** 
  * <p>Description: [描述该类概要功能介绍]</p>
@@ -132,6 +138,145 @@ public class CodeListAction extends BaseAction implements ServletRequestAware, S
         return null;
     }
     /**
+     * <p>Discription:[添加数据标准]</p>
+     * @return
+     * @author:[代超]
+     * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
+     */
+    public String codeListManageAdd(){
+        Map<String, Object> paramMap = RequestUtil.getRequestMap(request);
+        CodeList codeList = new CodeList();
+        // 定义TransactionDefinition并设置好事务的隔离级别和传播方式。
+        DefaultTransactionDefinition definition = new DefaultTransactionDefinition();
+        // 代价最大、可靠性最高的隔离级别，所有的事务都是按顺序一个接一个地执行
+        definition.setIsolationLevel(TransactionDefinition.ISOLATION_SERIALIZABLE);
+        // 开始事务
+        TransactionStatus status = transactionManager.getTransaction(definition);
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        JsonFormat jf = new JsonFormat(true);
+        jf.setAutoUnicode(true);
+        PrintWriter out = null;
+        try{
+            out = super.getPrintWriter(request, response);
+            List list = this.codeListService.findByName(paramMap.get("codeName"));
+            if(list != null && list.size()>0){
+                resultMap.put("success", false);
+                resultMap.put("msg", "系统中已存在名称为 “"+ paramMap.get("codeName") +"” 的数据标准，请更改名称！");
+            }else{
+                BeanUtils.populate(codeList, paramMap);
+                if(codeList.getCodeId() == null || "".equals(codeList.getCodeId())){
+                    codeList.setCodeId(null);
+                }
+                this.codeListService.saveOrUpdate(codeList);
+                resultMap.put("success", true);
+                resultMap.put("msg", "名称为 “"+ paramMap.get("codeName") +"” 的数据标准已成功保存！");
+            }
+        }catch(Exception e){
+            status.setRollbackOnly();
+            resultMap.put("success", false);
+            resultMap.put("msg", e.getMessage());
+        }finally{
+            transactionManager.commit(status);
+            if(out != null){
+                out.print(Json.toJson(resultMap, jf));
+                out.flush();
+                out.close();
+            }
+        }
+        return null;
+    }
+    
+    /**
+     * <p>Discription:[修改数据标准]</p>
+     * @return
+     * @author:[代超]
+     * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
+     */
+    public String codeListManageEdit(){
+        Map<String, Object> paramMap = RequestUtil.getRequestMap(request);
+        CodeList codeList = new CodeList();
+        // 定义TransactionDefinition并设置好事务的隔离级别和传播方式。
+        DefaultTransactionDefinition definition = new DefaultTransactionDefinition();
+        // 代价最大、可靠性最高的隔离级别，所有的事务都是按顺序一个接一个地执行
+        definition.setIsolationLevel(TransactionDefinition.ISOLATION_SERIALIZABLE);
+        // 开始事务
+        TransactionStatus status = transactionManager.getTransaction(definition);
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        JsonFormat jf = new JsonFormat(true);
+        jf.setAutoUnicode(true);
+        PrintWriter out = null;
+        try{
+            out = super.getPrintWriter(request, response);
+            BeanUtils.populate(codeList, paramMap);
+            if(codeList.getCodeId() == null || "".equals(codeList.getCodeId())){
+                codeList.setCodeId(null);
+            }
+            this.codeListService.saveOrUpdate(codeList);
+            resultMap.put("success", true);
+            resultMap.put("msg", "名称为 “"+ paramMap.get("codeName") +"” 的数据标准已成功保存！");
+        }catch(Exception e){
+            status.setRollbackOnly();
+            resultMap.put("success", false);
+            resultMap.put("msg", e.getMessage());
+        }finally{
+            transactionManager.commit(status);
+            if(out != null){
+                out.print(Json.toJson(resultMap, jf));
+                out.flush();
+                out.close();
+            }
+        }
+        return null;
+    }
+    /**
+     * <p>Discription:[删除数据标准]</p>
+     * @return
+     * @author:[代超]
+     * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
+     */
+    public String codeListManageDelete(){
+        String codeLists = request.getParameter("codeId");
+        // 定义TransactionDefinition并设置好事务的隔离级别和传播方式。
+        DefaultTransactionDefinition definition = new DefaultTransactionDefinition();
+        // 代价最大、可靠性最高的隔离级别，所有的事务都是按顺序一个接一个地执行
+        definition.setIsolationLevel(TransactionDefinition.ISOLATION_SERIALIZABLE);
+        // 开始事务
+        TransactionStatus status = transactionManager.getTransaction(definition);
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        JsonFormat jf = new JsonFormat(true);
+        jf.setAutoUnicode(true);
+        PrintWriter out = null;
+        try{
+            out = super.getPrintWriter(request, response);
+            List<CodeList> codes = new ArrayList<CodeList>();
+            if(codeLists != null && !"".equals(codeLists.trim())){
+                String [] codeList = codeLists.split(",");
+                for(int i=0; i<codeList.length; i++){
+                    CodeList code = new CodeList();
+                    code.setCodeId(codeList[i]);
+                    codes.add(code);
+                }
+                this.codeListDataService.deleteByCodeListId(codeList);
+            }
+            this.codeListService.deleteAll(codes);
+            resultMap.put("success", true);
+            resultMap.put("msg", "您所选数据标准已成功删除！");
+        }catch(Exception e){
+            status.setRollbackOnly();
+            resultMap.put("success", false);
+            resultMap.put("msg", e.getMessage());
+        }finally{
+            transactionManager.commit(status);
+            if(out != null){
+                out.print(Json.toJson(resultMap, jf));
+                out.flush();
+                out.close();
+            }
+        }
+        return null;
+    }
+    
+    /**
      * <p>Discription:[数据标准值列表]</p>
      * @return
      * @author:[代超]
@@ -165,5 +310,61 @@ public class CodeListAction extends BaseAction implements ServletRequestAware, S
         }
         return null;
     }
-
+    /**
+     * <p>Discription:[添加数据标准值]</p>
+     * @return
+     * @author:[代超]
+     * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
+     */
+    public String codeDataManageAdd(){
+        return null;
+    }
+    /**
+     * <p>Discription:[修改数据标准值]</p>
+     * @return
+     * @author:[代超]
+     * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
+     */
+    public String codeDataManageEdit(){
+        return null;
+    }
+    /**
+     * <p>Discription:[删除数据标准值]</p>
+     * @return
+     * @author:[代超]
+     * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
+     */
+    public String codeDataManageDelete(){
+        return null;
+    }
+    /**
+     * <p>Discription:[查询数据标准树形结构]</p>
+     * @return
+     * @author:[代超]
+     * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
+     */
+    public String codeDataManageTree(){
+        String codeId = request.getParameter("codeId");
+        String parentKey = request.getParameter("node");
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        PrintWriter out = null;
+        //true:不换行，忽略null
+        JsonFormat jf = new JsonFormat(true);
+        //设置Unicode编码
+        jf.setAutoUnicode(true);
+        try{
+            out = super.getPrintWriter(request, response);
+            List list = this.codeListDataService.findCodeDataListTree(codeId, parentKey);
+            LOG.info("+++++++++++++++++++++++++++++++++++++++" + Json.toJson(list,jf).replaceAll("\"checked\" :false,", ""));
+            out.print(Json.toJson(list,jf).replaceAll("\"checked\":false,", ""));
+        }catch(Exception e){
+            out.print("{success:false}");
+        }finally{
+            if(out != null){
+                out.flush();
+                out.close();
+            }
+        }
+        return null;
+    }
 }

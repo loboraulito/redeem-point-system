@@ -1,5 +1,6 @@
 package com.integral.system.codelist.service.impl;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.apache.commons.lang.math.NumberUtils;
@@ -74,5 +75,24 @@ public class CodeListServiceImpl implements ICodeListService {
             size = NumberUtils.toLong((String.valueOf(list.get(0))), 0L);
         }
         return size;
+    }
+    @Override
+    public void deleteAll(Collection<CodeList> entities) {
+        this.codeListDao.deleteAll(entities);
+    }
+    @Override
+    public void saveOrUpdate(CodeList entity) {
+        this.codeListDao.saveOrUpdate(entity);
+    }
+    
+    /**
+     * <p>Discription:[用数据标准名称查询]</p>
+     * @param name
+     * @return
+     * @author:[代超]
+     * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
+     */
+    public List findByName(Object name){
+        return this.codeListDao.findByName(name);
     }
 }

@@ -116,7 +116,8 @@ public class BaseDao extends HibernateDaoSupport implements IBaseDao {
         log.info("excute by sql jdbc: " + sql);
         SessionFactory sessionFactory = getSessionFactory();
         SessionFactoryImpl s = (SessionFactoryImpl) sessionFactory;
-        Connection con = getSession().connection();
+        Session session = getSession();//sessionFactory.getCurrentSession();
+        Connection con = session.connection();
         sql = HibernateUtils.getHibernateLimitString(s.getDialect(), sql, start, limit);
         List result = new ArrayList();
         PreparedStatement prepareStatement = null;
@@ -133,7 +134,7 @@ public class BaseDao extends HibernateDaoSupport implements IBaseDao {
             if(start > 0){
                 prepareStatement.setObject(position+1, start);
                 prepareStatement.setObject(position+2, limit);
-            }else{
+            }else if(limit > 0){
                 prepareStatement.setObject(position+1, limit);
             }
             //获取数据集
@@ -159,6 +160,9 @@ public class BaseDao extends HibernateDaoSupport implements IBaseDao {
                 prepareStatement.close();
                 rs.close();
                 con.close();
+                log.info("closing session....");
+                session.close();
+                log.info("closed session....");
             }catch(Exception e){
                 log.error(e);
                 return null;
