@@ -45,5 +45,18 @@
 			 <result name="success">/jsp/system/codelist/codelist.jsp</result>
 			 <result name="input">/index.jsp</result>
 		</action>
+		
+		<action name="exportCodeDataList" class="com.integral.system.codelist.action.CodeListAction" method="exportCodeDataList">
+			 <result name="success">/jsp/system/codelist/codelist.jsp</result>
+			 <result name="input">/index.jsp</result>
+		</action>
+		<action name="exportCodeDataDemo" class="com.integral.system.codelist.action.CodeListAction" method="exportCodeDataDemo">
+			 <result name="success">/jsp/system/codelist/codelist.jsp</result>
+			 <result name="input">/index.jsp</result>
+		</action>
+		<action name="importCodeDataList" class="com.integral.system.codelist.action.CodeListAction" method="importCodeDataList">
+			 <result name="success">/jsp/system/codelist/codelist.jsp</result>
+			 <result name="input">/index.jsp</result>
+		</action>
 	</package>
 </struts>
