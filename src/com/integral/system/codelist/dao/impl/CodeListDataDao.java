@@ -12,6 +12,7 @@ import org.hibernate.Session;
 import org.springframework.orm.hibernate3.HibernateCallback;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
+import com.integral.system.codelist.bean.CodeList;
 import com.integral.system.codelist.bean.CodeListData;
 import com.integral.system.codelist.dao.ICodeListDataDao;
 
@@ -22,6 +23,7 @@ import com.integral.system.codelist.dao.ICodeListDataDao;
  */
 public class CodeListDataDao extends HibernateDaoSupport implements ICodeListDataDao {
     private static final Log log = LogFactory.getLog(CodeListDataDao.class);
+    public static final String DATAKEY = "dataKey";
     protected void initDao() {
         //do nothing
     }
@@ -73,5 +75,34 @@ public class CodeListDataDao extends HibernateDaoSupport implements ICodeListDat
             log.error("deleteAll CodeListData ", re);
             throw re;
         }
+    }
+    
+    public List findByExample(CodeListData instance) {
+        log.debug("finding CodeListData instance by example");
+        try {
+            List results = getHibernateTemplate().findByExample(instance);
+            log.debug("find by example successful, result size: " + results.size());
+            return results;
+        }
+        catch (RuntimeException re) {
+            log.error("find by example failed", re);
+            throw re;
+        }
+    }
+
+    public List findByProperty(String propertyName, Object value) {
+        log.debug("finding CodeListData instance with property: " + propertyName + ", value: " + value);
+        try {
+            String queryString = "from CodeListData as model where model." + propertyName + "= ?";
+            return getHibernateTemplate().find(queryString, value);
+        }
+        catch (RuntimeException re) {
+            log.error("find by property name failed", re);
+            throw re;
+        }
+    }
+
+    public List findByDataKey(Object dataKey) {
+        return findByProperty(DATAKEY, dataKey);
     }
 }

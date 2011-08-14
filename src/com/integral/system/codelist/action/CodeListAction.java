@@ -317,6 +317,48 @@ public class CodeListAction extends BaseAction implements ServletRequestAware, S
      * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
      */
     public String codeDataManageAdd(){
+        Map<String, Object> paramMap = RequestUtil.getRequestMap(request);
+        CodeListData codeData = new CodeListData();
+        // 定义TransactionDefinition并设置好事务的隔离级别和传播方式。
+        DefaultTransactionDefinition definition = new DefaultTransactionDefinition();
+        // 代价最大、可靠性最高的隔离级别，所有的事务都是按顺序一个接一个地执行
+        definition.setIsolationLevel(TransactionDefinition.ISOLATION_SERIALIZABLE);
+        // 开始事务
+        TransactionStatus status = transactionManager.getTransaction(definition);
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        JsonFormat jf = new JsonFormat(true);
+        jf.setAutoUnicode(true);
+        PrintWriter out = null;
+        try{
+            out = super.getPrintWriter(request, response);
+            BeanUtils.populate(codeData, paramMap);
+            CodeListData c = new CodeListData();
+            c.setCodeId(paramMap.get("codeId") == null ? null : paramMap.get("codeId").toString());
+            c.setDataKey(paramMap.get("dataKey") == null ? null :paramMap.get("dataKey").toString());
+            List list = this.codeListDataService.findByExample(c);
+            if(list != null && list.size() >0){
+                resultMap.put("success", false);
+                resultMap.put("msg", "已存在代码为 “"+paramMap.get("dataKey")+"” 的数据标准值！");
+            }else{
+                if(codeData.getDataId() == null || "".equals(codeData.getDataId().trim())){
+                    codeData.setDataId(null);
+                }
+                this.codeListDataService.saveOrUpdate(codeData);
+                resultMap.put("success", true);
+                resultMap.put("msg", "数据标准值已成功保存！");
+            }
+        }catch(Exception e){
+            status.setRollbackOnly();
+            resultMap.put("success", false);
+            resultMap.put("msg", e.getMessage());
+        }finally{
+            this.transactionManager.commit(status);
+            if(out != null){
+                out.print(Json.toJson(resultMap, jf));
+                out.flush();
+                out.close();
+            }
+        }
         return null;
     }
     /**
@@ -326,6 +368,39 @@ public class CodeListAction extends BaseAction implements ServletRequestAware, S
      * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
      */
     public String codeDataManageEdit(){
+        Map<String, Object> paramMap = RequestUtil.getRequestMap(request);
+        CodeListData codeData = new CodeListData();
+        // 定义TransactionDefinition并设置好事务的隔离级别和传播方式。
+        DefaultTransactionDefinition definition = new DefaultTransactionDefinition();
+        // 代价最大、可靠性最高的隔离级别，所有的事务都是按顺序一个接一个地执行
+        definition.setIsolationLevel(TransactionDefinition.ISOLATION_SERIALIZABLE);
+        // 开始事务
+        TransactionStatus status = transactionManager.getTransaction(definition);
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        JsonFormat jf = new JsonFormat(true);
+        jf.setAutoUnicode(true);
+        PrintWriter out = null;
+        try{
+            out = super.getPrintWriter(request, response);
+            BeanUtils.populate(codeData, paramMap);
+            if(codeData.getDataId() == null || "".equals(codeData.getDataId().trim())){
+                codeData.setDataId(null);
+            }
+            this.codeListDataService.saveOrUpdate(codeData);
+            resultMap.put("success", true);
+            resultMap.put("msg", "数据标准值已成功保存！");
+        }catch(Exception e){
+            status.setRollbackOnly();
+            resultMap.put("success", false);
+            resultMap.put("msg", e.getMessage());
+        }finally{
+            this.transactionManager.commit(status);
+            if(out != null){
+                out.print(Json.toJson(resultMap, jf));
+                out.flush();
+                out.close();
+            }
+        }
         return null;
     }
     /**
@@ -335,6 +410,46 @@ public class CodeListAction extends BaseAction implements ServletRequestAware, S
      * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
      */
     public String codeDataManageDelete(){
+        String dataIds = request.getParameter("dataIds");
+        // 定义TransactionDefinition并设置好事务的隔离级别和传播方式。
+        DefaultTransactionDefinition definition = new DefaultTransactionDefinition();
+        // 代价最大、可靠性最高的隔离级别，所有的事务都是按顺序一个接一个地执行
+        definition.setIsolationLevel(TransactionDefinition.ISOLATION_SERIALIZABLE);
+        // 开始事务
+        TransactionStatus status = transactionManager.getTransaction(definition);
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        JsonFormat jf = new JsonFormat(true);
+        jf.setAutoUnicode(true);
+        PrintWriter out = null;
+        try{
+            out = super.getPrintWriter(request, response);
+            if(dataIds == null || "".equals(dataIds.trim())){
+                resultMap.put("success", false);
+                resultMap.put("msg", "您没有选择数据标准值！");
+            }else{
+                String dataId[] = dataIds.split(",");
+                List<CodeListData> list = new ArrayList<CodeListData>();
+                for(int i =0; i<dataId.length; i++){
+                    CodeListData data = new CodeListData();
+                    data.setDataId(dataId[i]);
+                    list.add(data);
+                }
+                this.codeListDataService.deleteAll(list);
+                resultMap.put("success", true);
+                resultMap.put("msg", "所选数据标准值已成功删除！");
+            }
+        }catch(Exception e){
+            status.setRollbackOnly();
+            resultMap.put("success", false);
+            resultMap.put("msg", "数据标准值删除过程中异常！<br>"+e.getMessage()+"");
+        }finally{
+            transactionManager.commit(status);
+            if(out != null){
+                out.print(Json.toJson(resultMap, jf));
+                out.flush();
+                out.close();
+            }
+        }
         return null;
     }
     /**
@@ -355,7 +470,6 @@ public class CodeListAction extends BaseAction implements ServletRequestAware, S
         try{
             out = super.getPrintWriter(request, response);
             List list = this.codeListDataService.findCodeDataListTree(codeId, parentKey);
-            LOG.info("+++++++++++++++++++++++++++++++++++++++" + Json.toJson(list,jf).replaceAll("\"checked\" :false,", ""));
             out.print(Json.toJson(list,jf).replaceAll("\"checked\":false,", ""));
         }catch(Exception e){
             out.print("{success:false}");

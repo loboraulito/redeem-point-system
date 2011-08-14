@@ -162,6 +162,10 @@ function codeListDataManage(){
 	 * loadButtonRight(buttonStore, mainDataStore, dataGrid, pageDiv, params)
 	 */
 	loadButtonRight(buttonRightStore, codeListDataStore, codeListDataGrid, "codelist_div");
+	/**
+	 * 初始化数据标准下拉框
+	 */
+	codeListStoreClon.load({params:{start:0,limit:99999}});
 	
 	///////////////////////////////////////////////////////////////////////////
 	//////////////////////////数据标准值管理////////////////////////////////////
@@ -175,7 +179,9 @@ function codeListDataManage(){
 		var buttons = [{
 			text:"保存数据标准",
 			handler:function(){
-				
+				if(dataForm.form.isValid()){
+					saveCodeData("addCodeDataWindow", dataForm);
+				}
 			}
 		},{
 			text:"关闭窗口",
@@ -186,7 +192,7 @@ function codeListDataManage(){
 				}
 			}
 		}];
-		codeListStoreClon.load({params:{start:0,limit:99999}});
+		//codeListStoreClon.load({params:{start:0,limit:99999}});
 		showCodeListWindow("addCodeDataWindow","添加数据标准值",500,270,dataForm,"",buttons);
 	}
 	/**
@@ -194,14 +200,68 @@ function codeListDataManage(){
 	 * @param {Object} url
 	 */
 	this.editCodeData = function(url){
+		var gridSelectionModel = codeListDataGrid.getSelectionModel();
+		var gridSelection = gridSelectionModel.getSelections();
+		if(gridSelection.length != 1){
+			Ext.MessageBox.alert('提示','请选择一条数据标准值信息！');
+		    return false;
+		}
+		var dataForm = getCodeDataForm(url, false, false);
+		var buttons = [{
+			text:"保存数据标准",
+			handler:function(){
+				if(dataForm.form.isValid()){
+					saveCodeData("editCodeDataWindow", dataForm);
+				}
+			}
+		},{
+			text:"关闭窗口",
+			handler:function(){
+				var w = Ext.getCmp("editCodeDataWindow");
+				if(w){
+					w.close();
+				}
+			}
+		}];
 		
+		showCodeListWindow("editCodeDataWindow","修改数据标准值",500,270,dataForm,"",buttons);
+		dataForm.getForm().loadRecord(gridSelection[0]);
+		
+		var node = {};
+		node.text = gridSelection[0].get("parentDataValue");
+		node.id = gridSelection[0].get("parentDataKey");
+		
+		dataForm.form.findField("parentDataKey").setValue(node);
+		var formTree = dataForm.form.findField("parentDataKey").tree;
+		var root = formTree.root;
+		var loader = formTree.loader;
+		loader.baseParams.codeId = gridSelection[0].get("codeId");
+		root.reload(
+			function(){
+				formTree.expandAll();
+			}
+		);
+		//dataForm.form.findField("parentDataKey").tree.expandAll();
 	}
 	/**
 	 * 删除数据标准值
 	 * @param {Object} url
 	 */
 	this.deleteCodeData = function(url){
-		
+		Ext.Msg.confirm("系统提示","确定需要删除所选数据标准值信息么？",function(btn){
+			var gridSelectionModel = codeListDataGrid.getSelectionModel();
+			var gridSelection = gridSelectionModel.getSelections();
+			if(gridSelection.length < 1){
+				Ext.MessageBox.alert('提示','请至少选择一条数据标准值信息！');
+			    return false;
+			}
+			var dataIdArray = new Array();
+			for(var i = 0; i < gridSelection.length; i++){
+				dataIdArray.push(gridSelection[i].get("dataId"));
+			}
+			var dataIds = dataIdArray.join(",");
+			deleteCodeDataList(url, dataIds);
+		});
 	}
 	///////////////////////////////////////////////////////////////////////////
 	//////////////////////////数据标准值管理////////////////////////////////////
@@ -436,6 +496,7 @@ function codeListDataManage(){
 								});
 								*/
 								root.text = combo.getEl().dom.value;
+								tree.root = root;
 								var loader = codeDataForm.form.findField("parentDataKey").tree.loader;
 								loader.baseParams.codeId = combo.getValue();
 								
@@ -552,6 +613,7 @@ function codeListDataManage(){
 					}
 					codeListStore.reload();
 					codeListDataStore.reload();
+					codeListStoreClon.reload();
 				}else{
 					if(msg.msg){
 						Ext.Msg.alert("系统提示",msg.msg);
@@ -566,6 +628,113 @@ function codeListDataManage(){
 					Ext.Msg.alert("系统提示",msg.msg);
 				}else{
 					Ext.Msg.alert("系统提示","数据标准信息保存失败！");
+				}
+			}
+		});
+	}
+	/**
+	 * 保存数据标准值
+	 * @param {Object} windowId
+	 * @param {Object} form
+	 */
+	function saveCodeData(windowId, form){
+		Ext.MessageBox.show({
+			msg:"正在保存数据标准值信息，请稍候...",
+			progressText:"正在保存数据标准值，请稍候...",
+			width:300,
+			wait:true,
+			waitConfig: {interval:200},
+			icon:Ext.Msg.INFO
+		});
+		form.getForm().submit({
+			success: function(form, action) {
+				Ext.Msg.hide();
+				var result = Ext.decode(action.response.responseText);
+				if(result && result.success){
+					var msg = "数据标准值信息保存成功！";
+					if(result.msg){
+						msg = result.msg;
+					}
+					Ext.Msg.alert('系统提示信息', msg, function(btn, text) {
+						if (btn == 'ok') {
+							codeListDataStore.reload();
+							Ext.getCmp(windowId).close();
+						}
+					});
+				}else if(!result.success){
+					var msg = "数据标准值信息保存失败！";
+					if(result.msg){
+						msg = result.msg;
+					}
+					Ext.Msg.alert('系统提示信息', msg);
+				}
+			},
+			failure: function(form, action) {//action.result.errorMessage
+				Ext.Msg.hide();
+				var result = Ext.decode(action.response.responseText);
+				if(result && result.success){
+					var msg = "数据标准值信息保存成功！";
+					if(result.msg){
+						msg = result.msg;
+					}
+					Ext.Msg.alert('系统提示信息', msg, function(btn, text) {
+						if (btn == 'ok') {
+							codeListDataStore.reload();
+							Ext.getCmp(windowId).close();
+						}
+					});
+				}else if(!result.success){
+					var msg = "数据标准值信息保存失败！";
+					if(result.msg){
+						msg = result.msg;
+					}
+					Ext.Msg.alert('系统提示信息', msg);
+				}
+			}
+		});
+	}
+	/**
+	 * 删除数据标准值信息
+	 * @param {Object} url
+	 * @param {Object} id 数据标准值ID
+	 */
+	function deleteCodeDataList(url, id){
+		Ext.MessageBox.show({
+		    msg: '正在提交您的请求, 请稍侯...',
+		    progressText: '正在提交您的请求',
+		    width:300,
+		    wait:true,
+		    waitConfig: {interval:200},
+		    icon:Ext.Msg.INFO
+		});
+		Ext.Ajax.request({
+			params:{dataIds:id},
+			timeout:60000,
+			url:url,
+			success:function(response, options){
+				Ext.Msg.hide();
+				var msg = Ext.util.JSON.decode(response.responseText);
+				if(msg.success){
+					if(msg.msg){
+						Ext.Msg.alert("系统提示",msg.msg);
+					}else{
+						Ext.Msg.alert("系统提示","数据标准信息已成功删除！");
+					}
+					codeListDataStore.reload();
+				}else{
+					if(msg.msg){
+						Ext.Msg.alert("系统提示",msg.msg);
+					}else{
+						Ext.Msg.alert("系统提示","数据标准信息删除失败！");
+					}
+				}
+			},failure: function(response, options){
+				Ext.Msg.hide();
+				var msg = Ext.util.JSON.decode(response.responseText);
+				if(msg.msg){
+					Ext.Msg.alert("系统提示",msg.msg);
+				}else{
+					Ext.Msg.alert("系统提示","数据标准信息删除失败！");
 				}
 			}
 		});

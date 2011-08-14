@@ -94,7 +94,7 @@ Ext.form.TreeField = Ext.extend(Ext.form.TriggerField,  {
 		id : ' ',
 		text : 'please select...',
 		draggable:false
-		},
+	},
     /**
      * @cfg {String/Object} autoCreate
      * A DomHelper element spec, or true for a default element spec (defaults to
