@@ -182,4 +182,16 @@ public class CodeListDataServiceImpl implements ICodeListDataService {
         }
         return result;
     }
+    @Override
+    public List findByDataKey(Object dataKey) {
+        return this.codeListDataDao.findByDataKey(dataKey);
+    }
+    @Override
+    public List findByExample(CodeListData instance) {
+        return this.codeListDataDao.findByExample(instance);
+    }
+    @Override
+    public List findByProperty(String propertyName, Object value) {
+        return this.codeListDataDao.findByProperty(propertyName, value);
+    }
 }
