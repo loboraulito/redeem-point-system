@@ -9,10 +9,14 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.beanutils.BeanMap;
 import org.apache.commons.lang.BooleanUtils;
+import org.apache.commons.lang.ObjectUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFFont;
@@ -204,7 +208,7 @@ public class OfficeOperationUtils<T> {
      *                支持数据类型有基本数据类型及String,Date,byte[](图片数据)
      * @param out 要写入的文件流, 可用于导出, 或者写入硬盘文件
      * @param map 要导出的字段。（格式：字段名 <-> 字段中文名）其中字段名应该是对应javaBean中的某属性。<br>
-     *            若该字段为公式的话，必须符合一定的格式：公式名称&计算起始单元格列&计算终止单元格列&计算单元格行&分隔符（,:）&操作符<br>
+     *            若该字段为公式的话，必须符合一定的格式：公式标识符formula公式名称&计算起始单元格列&计算终止单元格列&计算单元格行&分隔符（,:）&操作符<br>
      *            如：SUM&A&C&2&,&-   它返回的公司是：SUM(A3,-C3)。具体参照：
      *            <code>com.integral.util.office.ExcelFormula</code>
      * @param dateFormat 日期格式(可选)，默认：yyyy-MM-dd
@@ -213,9 +217,16 @@ public class OfficeOperationUtils<T> {
      */
     @SuppressWarnings("deprecation")
     public void writExcelFile(String sheetName, String [] header, Collection<T> dataSet, OutputStream out, Map map, String dateFormat){
+        if(dataSet == null || dataSet.size() <1){
+            return;
+        }
+        if(map == null || map.size()<1){
+            return;
+        }
         if(dateFormat==null || "".equals(dateFormat.trim())){
             dateFormat = "yyyy-MM-dd";
         }
+        sheetName = sheetName == null ? "" : sheetName;
         // 声明一个工作薄
         HSSFWorkbook workbook = new HSSFWorkbook();
         // 生成一个表格
@@ -230,12 +241,54 @@ public class OfficeOperationUtils<T> {
         HSSFPatriarch patriarch = sheet.createDrawingPatriarch();
         // 产生表格标题行
         HSSFRow row = sheet.createRow(0);
-        for (int i = 0; i < header.length; i++) {
-            HSSFCell cell = row.createCell(i);
-            cell.setCellStyle(headerStyle);
-            HSSFRichTextString text = new HSSFRichTextString(header[i]);
-            cell.setCellValue(text);
+        if(header != null){
+            for (int i = 0; i < header.length; i++) {
+                HSSFCell cell = row.createCell(i);
+                cell.setCellStyle(headerStyle);
+                HSSFRichTextString text = new HSSFRichTextString(header[i]);
+                cell.setCellValue(text);
+            }
         }
+        // 遍历数据集合，产生数据行
+        Iterator<T> it = dataSet.iterator();
+        for(int i=1; it.hasNext(); i++){
+            row = sheet.createRow(i);
+            T t = it.next();
+            BeanMap bm = new BeanMap(t);
+            for(Object propertyName : bm.keySet()){
+                //判断是否是需要导出的字段
+                bm.getType(propertyName.toString());
+                //http://www.discursive.com/books/cjcook/reference/beans-sect-wrap-map.html
+                String dataValue = ObjectUtils.toString(map.get(propertyName), "");
+                if(dataValue == null || "".equals(dataValue.trim())){
+                    //无需导出当前字段
+                    continue;
+                }
+                if(dataValue.toLowerCase().indexOf("formula") >0){
+                    //公式
+                }else{
+                    //普通值
+                    
+                }
+            }
+        }
+    }
+    
+    public void writeRow(Row row, Map keyValues){
+        
+    }
+    
+    public void writeCell(Cell cell, Object value){
+        
+    }
+    
+    public Object getBeanValue(T t){
+        BeanMap bm = new BeanMap(t);
+        for(Object propertyName : bm.keySet()){
+            System.out.println("Property: " + propertyName + " value : " + bm.get(propertyName));
+        }
+        System.out.println(bm);
+        return null;
     }
 
     /**
@@ -251,8 +304,9 @@ public class OfficeOperationUtils<T> {
         OfficeOperationUtils util = new OfficeOperationUtils();
         //File file = new File("src/账目信息导入模板.xls");
         File file = new File("src/账目信息导入模板.xlsx");
-        
+        Book b = new Book(1000000,"书名","作者",50.2f,"ISBN号码","出版社",null);
+        util.getBeanValue(b);
         System.out.print(util.readExcelFile(util.getWorkBook(file)));
     }
-
 }
+
