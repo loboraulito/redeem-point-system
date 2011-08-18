@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class Book{
     public Book(int bookId, String name, String author, float price,
-            String isbn, String pubName, byte[] preface, boolean bool, Date date) {
+            String isbn, String pubName, byte[] preface, boolean bool, Date date, String formula) {
 
         super();
         this.author = author;
@@ -16,6 +16,7 @@ public class Book{
         this.pubName = pubName;
         this.bool = bool;
         this.date = date;
+        this.formula = formula;
     }
     
     public Book(int bookId, String name, String author, float price,
@@ -43,6 +44,23 @@ public class Book{
     private byte[] preface;
     private boolean bool;
     private Date date;
+    private String formula;
+
+    /**
+     * <p>Discription:[方法功能中文描述]</p>
+     * @return String formula.
+     */
+    public String getFormula() {
+        return formula;
+    }
+
+    /**
+     * <p>Discription:[方法功能中文描述]</p>
+     * @param formula The formula to set.
+     */
+    public void setFormula(String formula) {
+        this.formula = formula;
+    }
 
     /**
      * <p>Discription:[方法功能中文描述]</p>
