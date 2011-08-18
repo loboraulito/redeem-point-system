@@ -3,8 +3,10 @@ package com.integral.util.office;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -15,8 +17,10 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import org.apache.commons.beanutils.BeanMap;
+import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
@@ -219,10 +223,11 @@ public class OfficeOperationUtils<T> {
      * @param dateFormat 日期格式(可选)，默认：yyyy-MM-dd
      * @author:[代超]
      * @throws IOException 
+     * @throws Exception 
      * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
      */
     @SuppressWarnings("deprecation")
-    public void writExcelFile(String sheetName, String [] header, Collection<T> dataSet, OutputStream out, Map map, String dateFormat) throws IOException{
+    public void writExcelFile(String sheetName, String [] header, Collection<T> dataSet, OutputStream out, Map map, String dateFormat) throws Exception{
         if(dataSet == null || dataSet.size() <1){
             return;
         }
@@ -244,11 +249,13 @@ public class OfficeOperationUtils<T> {
         
         // 产生表格标题行
         HSSFRow row = sheet.createRow(0);
-        if(header != null){
-            for (int i = 0; i < header.length; i++) {
+        
+        if(map != null){
+            Object[] obj = map.values().toArray();
+            for (int i = 0; i < obj.length; i++) {
                 HSSFCell cell = row.createCell(i);
                 cell.setCellStyle(headerStyle);
-                HSSFRichTextString text = new HSSFRichTextString(header[i]);
+                HSSFRichTextString text = new HSSFRichTextString(obj[i].toString());
                 cell.setCellValue(text);
             }
         }
@@ -257,8 +264,14 @@ public class OfficeOperationUtils<T> {
         for(int i=1; it.hasNext(); i++){
             row = sheet.createRow(i);
             T t = it.next();
-            BeanMap bm = new BeanMap(t);
-            writeRow(row, bm, map, dateFormat);
+            //BeanMap bm = new BeanMap(t);
+            Map b = PropertyUtils.describe(t);
+            
+            System.out.println(b);
+            Map c = new TreeMap();
+            c.putAll(b);
+            System.out.println(c);
+            writeRow(row, c, map, dateFormat, t);
         }
         workbook.write(out);
     }
@@ -269,9 +282,10 @@ public class OfficeOperationUtils<T> {
      * @param properties 哪些值需要写入行
      * @param dateFormat 日期格式，默认：yyyy-MM-dd
      * @author:[代超]
+     * @throws Exception 
      * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
      */
-    public void writeRow(Row row, BeanMap keyValues, Map properties,String dateFormat){
+    public void writeRow(Row row, Map keyValues, Map properties,String dateFormat, T t) throws Exception{
         if(keyValues == null || keyValues.size() <1 || row == null){
             return;
         }
@@ -280,8 +294,8 @@ public class OfficeOperationUtils<T> {
         }
         Iterator it = keyValues.entrySet().iterator();
         for(int i = 1; it.hasNext(); i++){
-            Object next = it.next();
-            String dataValue = ObjectUtils.toString(properties.get(next), "");
+            Map.Entry next = (Map.Entry)it.next();
+            String dataValue = ObjectUtils.toString(properties.get(next.getKey()), "");
             if(dataValue == null || "".equals(dataValue.trim())){
                 //无需导出当前字段
                 continue;
@@ -290,7 +304,8 @@ public class OfficeOperationUtils<T> {
                 //公式
             }else{
                 Cell cell = row.createCell(i);
-                writeCell(cell,keyValues.get(next),keyValues.getType(next.toString()).getSimpleName(),dateFormat);
+                Class c = PropertyUtils.getPropertyType(t, next.getKey().toString());
+                writeCell(cell,keyValues.get(next.getKey()), c.getSimpleName(),dateFormat);
             }
         }
     }
@@ -391,9 +406,35 @@ public class OfficeOperationUtils<T> {
         OfficeOperationUtils util = new OfficeOperationUtils();
         //File file = new File("src/账目信息导入模板.xls");
         File file = new File("src/账目信息导入模板.xlsx");
+        List list = new ArrayList();
         Book b = new Book(1000000,"书名","作者",50.2f,"ISBN号码","出版社",null, false, new Date());
-        util.getBeanValue(b);
-        System.out.print(util.readExcelFile(util.getWorkBook(file)));
+        list.add(b);
+        //Map map = new HashMap();
+        Map map = new TreeMap();
+        map.put("bookId", "书编号");
+        map.put("name", "书名");
+        map.put("author", "作者");
+        map.put("price", "定价");
+        map.put("isbn", "ISBN");
+        map.put("pubName", "出版社");
+        map.put("preface", "封面");
+        map.put("date", "出版日期");
+        
+        File outPutFile = new File("src/test.xls");
+        try{
+            if(!outPutFile.exists()){
+                outPutFile.createNewFile();
+            }
+            OutputStream out = new FileOutputStream(outPutFile);
+            String header[] = new String[]{"书编号","书名","作者","定价","ISBN","出版社","封面","出版日期"};
+            util.writExcelFile("测试用", header, list, out, map, null);
+            out.close();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        
+        //util.getBeanValue(b);
+        //System.out.print(util.readExcelFile(util.getWorkBook(file)));
     }
 }
 
