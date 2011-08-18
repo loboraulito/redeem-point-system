@@ -1,8 +1,10 @@
 package com.integral.util.office;
 
+import java.util.Date;
+
 public class Book{
     public Book(int bookId, String name, String author, float price,
-            String isbn, String pubName, byte[] preface) {
+            String isbn, String pubName, byte[] preface, boolean bool, Date date) {
 
         super();
         this.author = author;
@@ -12,6 +14,8 @@ public class Book{
         this.preface = preface;
         this.price = price;
         this.pubName = pubName;
+        this.bool = bool;
+        this.date = date;
     }
     
     public Book(int bookId, String name, String author, float price,
@@ -37,6 +41,40 @@ public class Book{
     private String isbn;
     private String pubName;
     private byte[] preface;
+    private boolean bool;
+    private Date date;
+
+    /**
+     * <p>Discription:[方法功能中文描述]</p>
+     * @return Date date.
+     */
+    public Date getDate() {
+        return date;
+    }
+
+    /**
+     * <p>Discription:[方法功能中文描述]</p>
+     * @param date The date to set.
+     */
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    /**
+     * <p>Discription:[方法功能中文描述]</p>
+     * @return boolean bool.
+     */
+    public boolean isBool() {
+        return bool;
+    }
+
+    /**
+     * <p>Discription:[方法功能中文描述]</p>
+     * @param bool The bool to set.
+     */
+    public void setBool(boolean bool) {
+        this.bool = bool;
+    }
 
     public int getBookId() {
         return bookId;
