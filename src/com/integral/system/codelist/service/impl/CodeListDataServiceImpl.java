@@ -30,6 +30,14 @@ public class CodeListDataServiceImpl implements ICodeListDataService {
     private ICodeListDataDao codeListDataDao;
     private IBaseDao baseDao;
     /**
+     * 查找所有数据标准，并且以codeid,dataid排序
+     */
+    private static String ALLCODELISTDATASQL = "SELECT child.dataid AS dataid, child.codeid AS codeid, codelist.codename AS codename, child.datakey AS datakey," +
+    " child.datavalue AS datavalue, child.parentdatakey AS parentdatakey, parent.datavalue AS parentvalue, child.remark AS remark " +
+    " FROM point_system_codelist_data AS child Left Join point_system_codelist_data AS parent ON child.parentdatakey = parent.datakey" +
+    " Inner Join point_system_codelist AS codelist on child.codeid = codelist.codeid ORDER BY child.codeid, child.dataid ";
+    
+    /**
      * <p>Discription:[方法功能中文描述]</p>
      * @return ICodeListDao codeListDao.
      */
@@ -74,10 +82,7 @@ public class CodeListDataServiceImpl implements ICodeListDataService {
     @Override
     public List<CodeListData> getCodeListDataByPage(int start, int limit) throws SQLException {
         
-        String sql = "SELECT child.dataid AS dataid, child.codeid AS codeid, codelist.codename AS codename, child.datakey AS datakey," +
-        		" child.datavalue AS datavalue, child.parentdatakey AS parentdatakey, parent.datavalue AS parentvalue, child.remark AS remark " +
-        		" FROM point_system_codelist_data AS child Left Join point_system_codelist_data AS parent ON child.parentdatakey = parent.datakey" +
-        		" Inner Join point_system_codelist AS codelist on child.codeid = codelist.codeid ";
+        String sql = ALLCODELISTDATASQL;
         /*
         sql = "SELECT child.dataid AS dataid, child.codeid AS codeid, codelist.codename AS codename," +
         		" child.datakey AS datakey, child.datavalue AS datavalue, child.parentdatakey AS parentdatakey," +
@@ -193,5 +198,9 @@ public class CodeListDataServiceImpl implements ICodeListDataService {
     @Override
     public List findByProperty(String propertyName, Object value) {
         return this.codeListDataDao.findByProperty(propertyName, value);
+    }
+    @Override
+    public List findAllOrderByDataCode() throws SQLException {
+        return this.getCodeListDataByPage(0, 999999999);
     }
 }

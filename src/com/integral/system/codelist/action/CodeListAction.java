@@ -1,10 +1,13 @@
 package com.integral.system.codelist.action;
 
+import java.io.IOException;
+import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -26,6 +29,7 @@ import com.integral.system.codelist.bean.CodeListData;
 import com.integral.system.codelist.service.ICodeListDataService;
 import com.integral.system.codelist.service.ICodeListService;
 import com.integral.util.RequestUtil;
+import com.integral.util.office.OfficeOperationUtils;
 
 /** 
  * <p>Description: [描述该类概要功能介绍]</p>
@@ -488,7 +492,50 @@ public class CodeListAction extends BaseAction implements ServletRequestAware, S
      * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
      */
     public String exportCodeDataList(){
-        
+        OutputStream os = null;
+        PrintWriter pw = null;
+        try{
+            response.setHeader("Content-Disposition",
+                    "attachment; fileName="
+                            + new String("数据标准值.xls".getBytes("gb2312"),
+                                    "ISO-8859-1"));
+            os = response.getOutputStream();
+            List list = this.codeListDataService.findAllOrderByDataCode();
+            OfficeOperationUtils<CodeListData> util = new OfficeOperationUtils<CodeListData>();
+            Map map = new TreeMap();
+            //map.put("dataId", "数据标准值唯一编码");
+            map.put("dataKey", "数据标准值编号");
+            map.put("dataValue", "数据标准值");
+            //map.put("codeId", "数据标准唯一编码");
+            map.put("codeName", "数据标准");
+            //map.put("parentDataKey", "上级数据标准值编号");
+            map.put("parentDataValue", "上级数据标准值");
+            map.put("remark", "备注");
+            util.writExcelFile("数据标准值", list, os, map, "yyyy-MM-dd");
+            os.close();
+        }catch(Exception e){
+            e.printStackTrace();
+            try {
+                pw = super.getPrintWriter(request, response, "UTF-8", "text/html; charset=utf-8");
+                String msg = "文件导出过程中出现异常，请检查！"+e.toString();
+                pw.write("<script>alert('"+msg+"')</script>");
+                pw.flush();
+                pw.close();
+            }
+            catch (IOException e1) {
+                e1.printStackTrace();
+            }
+        }finally{
+            if(os != null){
+                try {
+                    os.flush();
+                    os.close();
+                }
+                catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
         return null;
     }
     /**
