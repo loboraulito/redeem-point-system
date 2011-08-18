@@ -271,11 +271,9 @@ public class OfficeOperationUtils<T> {
             T t = it.next();
             //BeanMap bm = new BeanMap(t);
             Map b = PropertyUtils.describe(t);
-            
-            System.out.println(b);
             Map c = new TreeMap();
+            //排序
             c.putAll(b);
-            System.out.println(c);
             writeRow(row, c, map, dateFormat, t);
         }
         workbook.write(out);

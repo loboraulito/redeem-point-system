@@ -413,6 +413,28 @@ function codeListDataManage(){
 			}
 		});
 	}
+	/**
+	 * 导出数据标准值
+	 * @param {Object} url
+	 */
+	this.exportCodeDataList = function(url){
+		document.getElementById("export2excel").src = url;
+	}
+	/**
+	 * 导出数据标准值模板
+	 * @param {Object} url
+	 */
+	this.exportCodeDataDemo = function(url){
+		
+	}
+	/**
+	 * 导入数据标准
+	 * @param {Object} url
+	 */
+	this.importCodeDataList = function(url){
+		
+	}
+	
 	///////////////////////////////////////////////////////////////////////////
 	//////////////////////////数据标准管理//////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////
