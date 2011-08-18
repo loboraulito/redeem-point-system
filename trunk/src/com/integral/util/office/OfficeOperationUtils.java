@@ -5,9 +5,12 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.math.BigDecimal;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -17,8 +20,10 @@ import org.apache.commons.beanutils.BeanMap;
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.math.NumberUtils;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
+import org.apache.poi.hssf.usermodel.HSSFClientAnchor;
 import org.apache.poi.hssf.usermodel.HSSFFont;
 import org.apache.poi.hssf.usermodel.HSSFFormulaEvaluator;
 import org.apache.poi.hssf.usermodel.HSSFPatriarch;
@@ -213,10 +218,11 @@ public class OfficeOperationUtils<T> {
      *            <code>com.integral.util.office.ExcelFormula</code>
      * @param dateFormat 日期格式(可选)，默认：yyyy-MM-dd
      * @author:[代超]
+     * @throws IOException 
      * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
      */
     @SuppressWarnings("deprecation")
-    public void writExcelFile(String sheetName, String [] header, Collection<T> dataSet, OutputStream out, Map map, String dateFormat){
+    public void writExcelFile(String sheetName, String [] header, Collection<T> dataSet, OutputStream out, Map map, String dateFormat) throws IOException{
         if(dataSet == null || dataSet.size() <1){
             return;
         }
@@ -235,10 +241,7 @@ public class OfficeOperationUtils<T> {
         sheet.setDefaultColumnWidth(15);
         // 设置表格的样式
         CellStyle headerStyle = setRootSheetSysle(workbook);
-        CellStyle contentStyle = setContentSheetSysle(workbook);
         
-        // 声明一个画图的顶级管理器
-        HSSFPatriarch patriarch = sheet.createDrawingPatriarch();
         // 产生表格标题行
         HSSFRow row = sheet.createRow(0);
         if(header != null){
@@ -255,37 +258,121 @@ public class OfficeOperationUtils<T> {
             row = sheet.createRow(i);
             T t = it.next();
             BeanMap bm = new BeanMap(t);
-            for(Object propertyName : bm.keySet()){
-                //判断是否是需要导出的字段
-                bm.getType(propertyName.toString());
-                //http://www.discursive.com/books/cjcook/reference/beans-sect-wrap-map.html
-                String dataValue = ObjectUtils.toString(map.get(propertyName), "");
-                if(dataValue == null || "".equals(dataValue.trim())){
-                    //无需导出当前字段
-                    continue;
-                }
-                if(dataValue.toLowerCase().indexOf("formula") >0){
-                    //公式
-                }else{
-                    //普通值
-                    
-                }
+            writeRow(row, bm, map, dateFormat);
+        }
+        workbook.write(out);
+    }
+    /**
+     * <p>Discription:[写一行]</p>
+     * @param row 行
+     * @param keyValues 一个beanMap对象，包含着这一行中的所有数据
+     * @param properties 哪些值需要写入行
+     * @param dateFormat 日期格式，默认：yyyy-MM-dd
+     * @author:[代超]
+     * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
+     */
+    public void writeRow(Row row, BeanMap keyValues, Map properties,String dateFormat){
+        if(keyValues == null || keyValues.size() <1 || row == null){
+            return;
+        }
+        if(dateFormat == null || "".equals(dateFormat.trim())){
+            dateFormat = "yyyy-MM-dd";
+        }
+        Iterator it = keyValues.entrySet().iterator();
+        for(int i = 1; it.hasNext(); i++){
+            Object next = it.next();
+            String dataValue = ObjectUtils.toString(properties.get(next), "");
+            if(dataValue == null || "".equals(dataValue.trim())){
+                //无需导出当前字段
+                continue;
+            }
+            if(dataValue.toLowerCase().indexOf("formula") >0){
+                //公式
+            }else{
+                Cell cell = row.createCell(i);
+                writeCell(cell,keyValues.get(next),keyValues.getType(next.toString()).getSimpleName(),dateFormat);
             }
         }
     }
     
-    public void writeRow(Row row, Map keyValues){
-        
-    }
-    
-    public void writeCell(Cell cell, Object value){
-        
+    /**
+     * <p>Discription:[写一个单元格]</p>
+     * @param cell 单元格
+     * @param value 写入的值
+     * @param valueType 写入的值的类型
+     * @param dateFormat 日期格式，默认yyyy-MM-dd
+     * @author:[代超]
+     * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
+     */
+    public void writeCell(Cell cell, Object value, String valueType, String dateFormat){
+        if(cell == null || value == null){
+            return;
+        }
+        if(dateFormat == null || "".equals(dateFormat.trim())){
+            dateFormat = "yyyy-MM-dd";
+        }
+        //表格内容样式
+        CellStyle contentStyle = setContentSheetSysle(cell.getSheet().getWorkbook());
+        String cellValue = "";
+        if("String".equals(valueType)){
+            cellValue = value.toString();
+        }else if("int".equals(valueType)){
+            cellValue = String.valueOf(value);
+        }else if("float".equals(valueType)){
+            cellValue = String.valueOf(value);
+        }else if("double".equals(valueType)){
+            cellValue = String.valueOf(value);
+        }else if("Number".equals(valueType)){
+            cellValue = String.valueOf(value);
+        }else if("BigDecimal".equals(valueType)){
+            cellValue = String.valueOf(value);
+        }else if("byte[]".equals(valueType)){
+            // 有图片时，设置行高为60px;
+            cell.getRow().setHeightInPoints(60);
+            // 设置图片所在列宽度为80px,注意这里单位的一个换算
+            cell.getSheet().setColumnWidth(cell.getColumnIndex(), (short) (35.7 * 80));
+            // sheet.autoSizeColumn(i);
+            byte[] bsValue = (byte[]) value;
+            HSSFClientAnchor anchor = new HSSFClientAnchor(0, 0,
+                    1023, 255, (short) 6, cell.getRowIndex(), (short) 6, cell.getRowIndex());
+            anchor.setAnchorType(2);
+            // 声明一个画图的顶级管理器
+            cell.getSheet().createDrawingPatriarch().createPicture(anchor, cell.getSheet().getWorkbook().addPicture(
+                    bsValue, HSSFWorkbook.PICTURE_TYPE_JPEG));
+            return;
+        }else if("Date".equals(valueType)){
+            SimpleDateFormat sdf = new SimpleDateFormat(dateFormat);
+            cellValue = sdf.format(value);
+        }else if("boolean".equals(valueType)){
+            boolean bool = (Boolean) value;
+            if(bool){
+                cellValue = "是";
+            }else{
+                cellValue = "否";
+            }
+        }else if("Boolean".equals(valueType)){
+            boolean bool = (Boolean) value;
+            if(bool){
+                cellValue = "是";
+            }else{
+                cellValue = "否";
+            }
+        }else{
+            cellValue = String.valueOf(value);
+        }
+        cell.setCellStyle(contentStyle);
+        cell.setCellValue(cellValue);
+        return;
     }
     
     public Object getBeanValue(T t){
         BeanMap bm = new BeanMap(t);
         for(Object propertyName : bm.keySet()){
-            System.out.println("Property: " + propertyName + " value : " + bm.get(propertyName));
+            System.out.println("Property: " + propertyName + " value : " + bm.get(propertyName) + " property type = " + bm.getType(propertyName.toString()));
+            Class clazz = bm.getType(propertyName.toString());
+            
+            System.out.println(clazz.getName() + "   " + clazz.getSimpleName());
+            writeCell(null, bm.get(propertyName), clazz.getSimpleName(), "");
         }
         System.out.println(bm);
         return null;
@@ -304,7 +391,7 @@ public class OfficeOperationUtils<T> {
         OfficeOperationUtils util = new OfficeOperationUtils();
         //File file = new File("src/账目信息导入模板.xls");
         File file = new File("src/账目信息导入模板.xlsx");
-        Book b = new Book(1000000,"书名","作者",50.2f,"ISBN号码","出版社",null);
+        Book b = new Book(1000000,"书名","作者",50.2f,"ISBN号码","出版社",null, false, new Date());
         util.getBeanValue(b);
         System.out.print(util.readExcelFile(util.getWorkBook(file)));
     }
