@@ -1,5 +1,6 @@
 package com.integral.util.office;
 
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -212,7 +213,6 @@ public class OfficeOperationUtils<T> {
     /**
      * <p>Discription:[写入excel文件,可用于导出,修改excel文件.目前只产生xls文件,并不产生xlsx文件]</p>
      * @param sheetName 写入excel的sheet名称
-     * @param header 写入文件的第一行为header, 显示header的各个名称
      * @param dataSet 要写入文件的内容(一个集合). 集合中存放符合javaBean格式的对象。
      *                支持数据类型有基本数据类型及String,Date,byte[](图片数据)
      * @param out 要写入的文件流, 可用于导出, 或者写入硬盘文件
@@ -227,7 +227,7 @@ public class OfficeOperationUtils<T> {
      * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
      */
     @SuppressWarnings("deprecation")
-    public void writExcelFile(String sheetName, String [] header, Collection<T> dataSet, OutputStream out, Map map, String dateFormat) throws Exception{
+    public void writExcelFile(String sheetName, Collection<T> dataSet, OutputStream out, Map map, String dateFormat) throws Exception{
         if(dataSet == null || dataSet.size() <1){
             return;
         }
@@ -254,8 +254,13 @@ public class OfficeOperationUtils<T> {
             Object[] obj = map.values().toArray();
             for (int i = 0; i < obj.length; i++) {
                 HSSFCell cell = row.createCell(i);
+                String header = obj[i] == null ? "" : obj[i].toString();
                 cell.setCellStyle(headerStyle);
-                HSSFRichTextString text = new HSSFRichTextString(obj[i].toString());
+                if(obj[i] != null && obj[i].toString().indexOf("formula") > -1){
+                    //公式
+                    header = obj[i].toString().replace("formula","");
+                }
+                HSSFRichTextString text = new HSSFRichTextString(header);
                 cell.setCellValue(text);
             }
         }
@@ -286,6 +291,8 @@ public class OfficeOperationUtils<T> {
      * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
      */
     public void writeRow(Row row, Map keyValues, Map properties,String dateFormat, T t) throws Exception{
+        //表格内容样式
+        CellStyle contentStyle = setContentSheetSysle(row.getSheet().getWorkbook());
         if(keyValues == null || keyValues.size() <1 || row == null){
             return;
         }
@@ -293,19 +300,29 @@ public class OfficeOperationUtils<T> {
             dateFormat = "yyyy-MM-dd";
         }
         Iterator it = keyValues.entrySet().iterator();
-        for(int i = 1; it.hasNext(); i++){
+        for(int i = 0; it.hasNext(); i++){
             Map.Entry next = (Map.Entry)it.next();
             String dataValue = ObjectUtils.toString(properties.get(next.getKey()), "");
             if(dataValue == null || "".equals(dataValue.trim())){
                 //无需导出当前字段
+                i--;
                 continue;
             }
-            if(dataValue.toLowerCase().indexOf("formula") >0){
+            Object value = keyValues.get(next.getKey());
+            //值为空时仍然创建单元格并且赋予样式。
+            Cell cell = row.createCell(i);
+            cell.setCellStyle(contentStyle);
+            if(value == null){
+                //当值为空的时候，不必做其他操作了
+                continue;
+            }
+            if(dataValue.toLowerCase().indexOf("formula") > -1){
                 //公式
+                String formula = ExcelFormula.parseFormula(value.toString()).replaceAll("-1", String.valueOf(cell.getRowIndex()+1));
+                cell.setCellFormula(formula);
             }else{
-                Cell cell = row.createCell(i);
                 Class c = PropertyUtils.getPropertyType(t, next.getKey().toString());
-                writeCell(cell,keyValues.get(next.getKey()), c.getSimpleName(),dateFormat);
+                writeCell(cell,value, c.getSimpleName(),dateFormat);
             }
         }
     }
@@ -326,8 +343,6 @@ public class OfficeOperationUtils<T> {
         if(dateFormat == null || "".equals(dateFormat.trim())){
             dateFormat = "yyyy-MM-dd";
         }
-        //表格内容样式
-        CellStyle contentStyle = setContentSheetSysle(cell.getSheet().getWorkbook());
         String cellValue = "";
         if("String".equals(valueType)){
             cellValue = value.toString();
@@ -375,7 +390,6 @@ public class OfficeOperationUtils<T> {
         }else{
             cellValue = String.valueOf(value);
         }
-        cell.setCellStyle(contentStyle);
         cell.setCellValue(cellValue);
         return;
     }
@@ -407,8 +421,26 @@ public class OfficeOperationUtils<T> {
         //File file = new File("src/账目信息导入模板.xls");
         File file = new File("src/账目信息导入模板.xlsx");
         List list = new ArrayList();
-        Book b = new Book(1000000,"书名","作者",50.2f,"ISBN号码","出版社",null, false, new Date());
+        byte[] buf = null;
+        try {
+            BufferedInputStream bis = new BufferedInputStream(
+                    new FileInputStream("src/图片1.jpg"));
+            buf = new byte[bis.available()];
+            while ((bis.read(buf)) != -1) {
+                // 读取图片到缓冲池中
+            }
+        }
+        catch (FileNotFoundException e1) {
+            e1.printStackTrace();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+        
+        Book b = new Book(1000000,"","",50.2f,"","出版社", buf, false, null, "SUM&A&C&,&-&2");
+        Book b1 = new Book(1000000,"","",50.2f,"","出版社", buf, false, null, "SUM&A&C&,&-&a");
         list.add(b);
+        list.add(b1);
         //Map map = new HashMap();
         Map map = new TreeMap();
         map.put("bookId", "书编号");
@@ -419,6 +451,7 @@ public class OfficeOperationUtils<T> {
         map.put("pubName", "出版社");
         map.put("preface", "封面");
         map.put("date", "出版日期");
+        map.put("formula", "formula合计");
         
         File outPutFile = new File("src/test.xls");
         try{
@@ -426,8 +459,7 @@ public class OfficeOperationUtils<T> {
                 outPutFile.createNewFile();
             }
             OutputStream out = new FileOutputStream(outPutFile);
-            String header[] = new String[]{"书编号","书名","作者","定价","ISBN","出版社","封面","出版日期"};
-            util.writExcelFile("测试用", header, list, out, map, null);
+            util.writExcelFile("测试用", list, out, map, null);
             out.close();
         }catch(Exception e){
             e.printStackTrace();

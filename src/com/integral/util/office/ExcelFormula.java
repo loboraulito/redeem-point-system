@@ -1,5 +1,7 @@
 package com.integral.util.office;
 
+import org.apache.commons.lang.math.NumberUtils;
+
 /**
  * Excel公式解析类
  * 
@@ -109,7 +111,7 @@ public class ExcelFormula {
      * @param formula
      *            公式：SUM,AVERAGE等Excel通用公式
      * @param colIndex
-     *            起始单元格行：1
+     *            起始单元格行：1, 如果为-1,则由用户自行指定
      * @param comma
      *            分隔符：,:
      * @param operater
@@ -117,7 +119,7 @@ public class ExcelFormula {
      * @return
      */
     public static String parseFormula(String beginCell, String endCell,
-            String formula, int colIndex, String comma, String operater) {
+            String formula, String comma, String operater, int colIndex) {
         String formulas = "";
         StringBuffer sb = new StringBuffer();
         sb.append(formula);
@@ -137,7 +139,7 @@ public class ExcelFormula {
 
     /**
      * 需要对参数formulaString进行解析，以&符号分隔,最少需要4个&符号，少一个都不行
-     * 
+     * 如果为-1,则由用户自行指定
      * @author swpigris81@126.com Description:
      * @param formulaString
      *            要进行解析的公司表达式
@@ -159,14 +161,14 @@ public class ExcelFormula {
             String formula = fs[0];
             String beginCell = fs[1];
             String endCell = fs[2];
-            int colIndex = Integer.parseInt(fs[3]);
-            String comma = fs[4];
+            String comma = fs[3];
             String operater = "";
-            if (fs.length > 5) {
-                operater = fs[5];
+            if (fs.length > 4) {
+                operater = fs[4];
             }
-            return parseFormula(beginCell, endCell, formula, colIndex, comma,
-                    operater);
+            int colIndex = NumberUtils.toInt((fs[5]), -1);
+            return parseFormula(beginCell, endCell, formula, comma,
+                    operater, colIndex);
         } catch (Exception e) {
             throw e;
         }
@@ -178,13 +180,13 @@ public class ExcelFormula {
      */
     public static void main(String[] args) throws Exception {
         // SUM(A2,-C2)
-        System.out.println(parseFormula("A", "C", "SUM", 2, ",", "-"));
+        System.out.println(parseFormula("A", "C", "SUM", ",", "-", 2));
         // SUM(A3,-C3)
-        System.out.println(parseFormula("SUM&A&C&3&,&-"));
+        System.out.println(parseFormula("SUM&A&C&,&-&2"));
         // SUM(A3,C3)
-        System.out.println(parseFormula("SUM&A&C&3&,&"));
+        System.out.println(parseFormula("SUM&A&C&,&&3"));
         // SUM(A3,C3)
-        System.out.println(parseFormula("SUM&A&C&3&,"));
+        System.out.println(parseFormula("SUM&A&C&,&3"));
         // ""
         System.out.println(parseFormula("&1&"));
     }
