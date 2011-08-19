@@ -537,7 +537,6 @@ public class CodeListAction extends BaseAction implements ServletRequestAware, S
     public String codeDataManageTree(){
         String codeId = request.getParameter("codeId");
         String parentKey = request.getParameter("node");
-        Map<String, Object> resultMap = new HashMap<String, Object>();
         PrintWriter out = null;
         //true:不换行，忽略null
         JsonFormat jf = new JsonFormat(true);
