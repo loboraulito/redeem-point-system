@@ -29,7 +29,7 @@
 		</action>
 		<action name="giftManageEdit" class="com.integral.exchange.gifts.action.GiftAction" method="editGift">
 			 <interceptor-ref name="fileUpload">
-			 	<param name="allowedTypes">image/bmp,image/png,image/gif,image/jpeg,image/pjpeg</param>
+			 	<param name="allowedTypes">image/bmp,image/x-ms-bmp,image/png,image/gif,image/jpeg,image/pjpeg</param>
 			 	<param name="maximumSize">2097152</param>
 			 </interceptor-ref>
 			 <param name="savePath">/picture</param>

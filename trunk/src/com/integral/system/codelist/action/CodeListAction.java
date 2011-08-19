@@ -683,6 +683,21 @@ public class CodeListAction extends BaseAction implements ServletRequestAware, S
         OfficeOperationUtils<CodeListData> util = new OfficeOperationUtils<CodeListData>();
         Map map = util.readExcelFile(util.getWorkBook(codeDataList[0]));
         LOG.info(map + "");
+        Map<String, String> properties = new TreeMap<String, String>();
+        //map.put("dataId", "数据标准值唯一编码");
+        properties.put("dataKey", "数据标准值编号");
+        properties.put("dataValue", "数据标准值");
+        //map.put("codeId", "数据标准唯一编码");
+        properties.put("codeName", "数据标准分类");
+        //map.put("parentDataKey", "上级数据标准值编号");
+        properties.put("parentDataValue", "上级数据标准值");
+        properties.put("remark", "备注");
+        
+        for(Object o : map.entrySet()){
+            Map.Entry entry = (Map.Entry)o;
+            LOG.info(entry.getValue() + "");
+        }
+        
         return null;
     }
 }
