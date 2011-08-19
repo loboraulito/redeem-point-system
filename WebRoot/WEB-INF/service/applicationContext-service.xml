@@ -216,7 +216,7 @@
 		</property>
 	</bean>
 	
-	<!-- 授权管理Service -->
+	<!-- 礼品管理Service -->
 	<bean id="giftService" parent="serviceProxy">
 		<property name="target">
 			<bean
