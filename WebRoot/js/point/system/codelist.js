@@ -472,7 +472,7 @@ function codeListDataManage(){
 		var buttons = [{
 			text:"上传",
 			handler:function(){
-				if(isTrue){
+				if(isTrue || true){
 					saveImportCodeData("importCodeDataWindow", importForm);
 				}
 			}
