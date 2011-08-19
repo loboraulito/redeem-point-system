@@ -14,6 +14,23 @@ public class CodeListData {
     private String parentDataKey;
     private String parentDataValue;
     private String remark;
+    
+    public CodeListData(String dataId, String dataKey, String dataValue, String codeId, String codeName,
+            String parentDataKey, String parentDataValue, String remark) {
+        this.dataId = dataId;
+        this.dataKey = dataKey;
+        this.dataValue = dataValue;
+        this.codeId = codeId;
+        this.codeName = codeName;
+        this.parentDataKey = parentDataKey;
+        this.parentDataValue = parentDataValue;
+        this.remark = remark;
+    }
+    
+    public CodeListData() {
+        
+    }
+
     /**
      * <p>Discription:[方法功能中文描述]</p>
      * @return String dataId.
