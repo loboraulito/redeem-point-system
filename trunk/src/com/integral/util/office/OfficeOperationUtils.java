@@ -417,7 +417,12 @@ public class OfficeOperationUtils<T> {
     public static void main(String[] args) {
         OfficeOperationUtils util = new OfficeOperationUtils();
         //File file = new File("src/账目信息导入模板.xls");
-        File file = new File("src/账目信息导入模板.xlsx");
+        File file = new File("src/数据标准值.xls");
+        
+        /**
+         * 导出数据
+         */
+        /*
         List list = new ArrayList();
         byte[] buf = null;
         try {
@@ -462,9 +467,12 @@ public class OfficeOperationUtils<T> {
         }catch(Exception e){
             e.printStackTrace();
         }
-        
-        //util.getBeanValue(b);
-        //System.out.print(util.readExcelFile(util.getWorkBook(file)));
+        */
+        /**
+         * 导入数据
+         */
+        Map map = util.readExcelFile(util.getWorkBook(file));
+        System.out.print(map);
     }
 }
 

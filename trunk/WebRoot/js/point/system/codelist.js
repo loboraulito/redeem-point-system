@@ -425,14 +425,67 @@ function codeListDataManage(){
 	 * @param {Object} url
 	 */
 	this.exportCodeDataDemo = function(url){
-		
+		document.getElementById("export2excel").src = url;
 	}
 	/**
 	 * 导入数据标准
 	 * @param {Object} url
 	 */
 	this.importCodeDataList = function(url){
-		
+		var isTrue = false;
+		var importForm = new Ext.form.FormPanel({
+			url:url,
+			autoScroll:true,
+			labelAlign: 'right',
+			labelWidth:50,
+			frame:true,
+			waitMsgTarget:true,
+			fileUpload: true,
+			defaults: {
+	            msgTarget: 'side'
+	        },
+			items:[{
+				xtype: 'fileuploadfield',
+	            id: 'form-file',
+	            width:250,
+	            emptyText: '请选择数据标准信息文件',
+	            fieldLabel: '文件',
+	            name: 'codeDataList',
+	            allowBlank:false,
+	            buttonCfg: {
+	                text: '选择文件'
+	            },
+	            listeners:{
+	            	"fileselected":function(fb,v){
+	            		var extName = v.substr(v.lastIndexOf(".")+1);
+	            		if(extName!="xls" && extName != "xlsx"){
+	            			Ext.Msg.alert("提示信息","请您选择Excel文件！");
+	            			isTrue = false;
+	            			return;
+	            		}else{
+	            			isTrue = true;
+	            		}
+	            	}
+	            }
+			}]
+		});
+		var buttons = [{
+			text:"上传",
+			handler:function(){
+				if(isTrue){
+					saveImportCodeData("importCodeDataWindow", importForm);
+				}
+			}
+		},{
+			text:"关闭窗口",
+			handler:function(){
+				var w = Ext.getCmp("importCodeDataWindow");
+				if(w){
+					w.close();
+				}
+			}
+		}];
+		showCodeListWindow("importCodeDataWindow","导入数据标准",350, 110, importForm, "", buttons);
 	}
 	
 	///////////////////////////////////////////////////////////////////////////
@@ -606,6 +659,68 @@ function codeListDataManage(){
 		codeListWindow.show();
 	}
 	/**
+	 * 导入数据标准
+	 * @param {Object} windowId
+	 * @param {Object} form
+	 */
+	function saveImportCodeData(windowId, form){
+		Ext.MessageBox.show({
+		    msg: '正在导入数据标准, 请稍侯...',
+		    progressText: '正在上传数据标准',
+		    width:300,
+		    wait:true,
+		    waitConfig: {interval:200},
+		    icon:Ext.Msg.INFO
+		});
+		form.getForm().submit({
+			success: function(form, action) {
+				Ext.Msg.hide();
+				var result = Ext.decode(action.response.responseText);
+				if(result && result.success){
+					var msg = "数据标准值信息保存成功！";
+					if(result.msg){
+						msg = result.msg;
+					}
+					Ext.Msg.alert('系统提示信息', msg, function(btn, text) {
+						if (btn == 'ok') {
+							codeListDataStore.reload();
+							Ext.getCmp(windowId).close();
+						}
+					});
+				}else if(!result.success){
+					var msg = "数据标准值信息保存失败！";
+					if(result.msg){
+						msg = result.msg;
+					}
+					Ext.Msg.alert('系统提示信息', msg);
+				}
+			},
+			failure: function(form, action) {//action.result.errorMessage
+				Ext.Msg.hide();
+				var result = Ext.decode(action.response.responseText);
+				if(result && result.success){
+					var msg = "数据标准值信息保存成功！";
+					if(result.msg){
+						msg = result.msg;
+					}
+					Ext.Msg.alert('系统提示信息', msg, function(btn, text) {
+						if (btn == 'ok') {
+							codeListDataStore.reload();
+							Ext.getCmp(windowId).close();
+						}
+					});
+				}else if(!result.success){
+					var msg = "数据标准值信息保存失败！";
+					if(result.msg){
+						msg = result.msg;
+					}
+					Ext.Msg.alert('系统提示信息', msg);
+				}
+			}
+		});
+	}
+	
+	/**
 	 * 保存数据标准
 	 * @param {Object} url 提交的url
 	 * @param {Object} id 数据标准唯一ID
@@ -654,6 +769,7 @@ function codeListDataManage(){
 			}
 		});
 	}
+	
 	/**
 	 * 保存数据标准值
 	 * @param {Object} windowId
