@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -14,6 +15,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.collections.BidiMap;
+import org.apache.commons.collections.bidimap.TreeBidiMap;
 import org.apache.commons.lang.math.NumberUtils;
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.interceptor.ServletRequestAware;
@@ -681,23 +684,77 @@ public class CodeListAction extends BaseAction implements ServletRequestAware, S
         // 开始事务
         TransactionStatus status = transactionManager.getTransaction(definition);
         OfficeOperationUtils<CodeListData> util = new OfficeOperationUtils<CodeListData>();
+        //上传文件中的所有数据
         Map map = util.readExcelFile(util.getWorkBook(codeDataList[0]));
-        LOG.info(map + "");
-        Map<String, String> properties = new TreeMap<String, String>();
-        //map.put("dataId", "数据标准值唯一编码");
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        PrintWriter out = null;
+        //可以使key-value转换的map
+        BidiMap properties = new TreeBidiMap();
+        //properties.put("dataId", "数据标准值唯一编码");
         properties.put("dataKey", "数据标准值编号");
         properties.put("dataValue", "数据标准值");
-        //map.put("codeId", "数据标准唯一编码");
+        //properties.put("codeId", "数据标准唯一编码");
         properties.put("codeName", "数据标准分类");
-        //map.put("parentDataKey", "上级数据标准值编号");
+        //properties.put("parentDataKey", "上级数据标准值编号");
         properties.put("parentDataValue", "上级数据标准值");
         properties.put("remark", "备注");
-        
-        for(Object o : map.entrySet()){
-            Map.Entry entry = (Map.Entry)o;
-            LOG.info(entry.getValue() + "");
+        try{
+            out = super.getPrintWriter(request, response, "utf-8", "text/html; charset=utf-8");
+            //一个xls文件中的各个sheet页
+            List<CodeListData> importCodeData = new ArrayList<CodeListData>();
+            for(Object o : map.entrySet()){
+                Map.Entry entry = (Map.Entry)o;
+                //一个sheet页
+                List codeList = (List) entry.getValue();
+                if(codeList != null){
+                    //sheet页的第一行是标题行
+                    String [] header = (String[]) codeList.get(0);
+                    for(int i=1, j = codeList.size(); i<j; i++){
+                        Map codeData = new HashMap();
+                        //sheet页的其他行
+                        String [] datas = (String[]) codeList.get(i);
+                        if(datas != null){
+                            for(int m = 0; m<datas.length; m++){
+                                codeData.put(properties.getKey(header[m]), datas[m]);
+                            }
+                            CodeListData codeListData = new CodeListData();
+                            try {
+                                BeanUtils.populate(codeListData, codeData);
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                importCodeData.add(codeListData);
+                            }
+                            catch (IllegalAccessException e) {
+                                e.printStackTrace();
+                            }
+                            catch (InvocationTargetException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                }
+            }
+            LOG.info("" + importCodeData);
+            this.codeListDataService.saveOrUpdateAll(importCodeData);
+            resultMap.put("success", true);
+            resultMap.put("msg", "文件导入成功！");
+        }catch(Exception e){
+            status.setRollbackOnly();
+            resultMap.put("success", false);
+            resultMap.put("msg", "文件导入失败！");
+        }finally{
+            transactionManager.commit(status);
+            if(out != null){
+                out.print(Json.toJson(resultMap));
+                out.flush();
+                out.close();
+            }
         }
-        
         return null;
     }
 }

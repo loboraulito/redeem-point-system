@@ -418,7 +418,57 @@ function codeListDataManage(){
 	 * @param {Object} url
 	 */
 	this.exportCodeDataList = function(url){
-		document.getElementById("export2excel").src = url;
+		//提高给用户选择要导出哪些字段
+		var exportForm = new Ext.form.FormPanel({
+			url:url,
+			frame: true,
+			//labelAlign: 'right',
+			labelWidth:60,
+			autoScroll:false,
+			waitMsgTarget:true,
+			viewConfig:{forceFit:true},
+			items:[{
+				xtype:'fieldset',
+				title: '请选择要导出的字段',
+				autoHeight: true,
+				defaultType: 'checkbox',
+				items:[{
+					xtype:"checkboxgroup",
+					fieldLabel:"可选字段",
+					//columns: [120, 100],
+					//vertical: true,
+					columns: 2,
+					items:[
+						{boxLabel: '数据标准值唯一编码', name: 'dataId'},
+	                    {boxLabel: '数据标准值编号', name: 'dataKey', checked: true},
+	                    {boxLabel: '数据标准值', name: 'dataValue', checked: true},
+	                    {boxLabel: '数据标准分类编码', name: 'codeId'},
+	                    {boxLabel: '数据标准分类', name: 'codeName', checked: true},
+						{boxLabel: '上级数据标准值编号', name: 'parentDataKey'},
+						{boxLabel: '上级数据标准值', name: 'parentDataValue', checked: true},
+						{boxLabel: '备注', name: 'remark', checked: true}
+					]
+				}]
+			}]
+		});
+		var buttons = [{
+			text:"导出",
+			handler:function(){
+				exportForm.getForm().submit({
+					isUpload:true
+				});
+			}
+		},{
+			text:"关闭窗口",
+			handler:function(){
+				var w = Ext.getCmp("exportCodeDataWindow");
+				if(w){
+					w.close();
+				}
+			}
+		}];
+		showCodeListWindow("exportCodeDataWindow","导出数据标准",370, 230, exportForm, "", buttons);
+		//document.getElementById("export2excel").src = url;
 	}
 	/**
 	 * 导出数据标准值模板

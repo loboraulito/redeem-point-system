@@ -105,4 +105,14 @@ public class CodeListDataDao extends HibernateDaoSupport implements ICodeListDat
     public List findByDataKey(Object dataKey) {
         return findByProperty(DATAKEY, dataKey);
     }
+    @Override
+    public void saveOrUpdateAll(Collection<CodeListData> entities) {
+        log.debug("saveOrUpdate CodeListData");
+        try {
+            getHibernateTemplate().saveOrUpdateAll(entities);
+        } catch (RuntimeException re) {
+            log.error("saveOrUpdate CodeListData ", re);
+            throw re;
+        }
+    }
 }
