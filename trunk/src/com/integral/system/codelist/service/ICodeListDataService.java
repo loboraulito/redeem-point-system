@@ -37,6 +37,15 @@ public interface ICodeListDataService {
      * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
      */
     public void saveOrUpdate(CodeListData entity);
+    
+    /**
+     * <p>Discription:[增加或修改数据标准值]</p>
+     * @param entity
+     * @author:[代超]
+     * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
+     */
+    public void saveOrUpdateAll(Collection<CodeListData> entities);
+    
     /**
      * <p>Discription:[批量删除数据标准值]</p>
      * @param entities

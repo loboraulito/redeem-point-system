@@ -203,4 +203,14 @@ public class CodeListDataServiceImpl implements ICodeListDataService {
     public List findAllOrderByDataCode() throws SQLException {
         return this.getCodeListDataByPage(0, 999999999);
     }
+    
+    /**
+     * <p>Discription:[增加或修改数据标准值]</p>
+     * @param entity
+     * @author:[代超]
+     * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
+     */
+    public void saveOrUpdateAll(Collection<CodeListData> entities){
+        this.codeListDataDao.saveOrUpdateAll(entities);
+    }
 }
