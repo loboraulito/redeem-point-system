@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 public class RequestUtil {
     /**
      * 获取请求参数，将参数Map中只有一个元素的数组转成那个元素对应的值。
-     * 
+     * 去掉以method为名称的参数
      * @param request
      *            HttpServletRequest
      * @return 转换后的参数Map
@@ -31,6 +31,9 @@ public class RequestUtil {
         Iterator<String> it = keySet.iterator();
         while (it.hasNext()) {
             String key = it.next();
+            if("method".equals(key)){
+                continue;
+            }
             Object[] objs = srcMap.get(key);
             Object value = objs;
             if (objs.length == 1) {
