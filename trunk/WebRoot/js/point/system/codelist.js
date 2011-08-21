@@ -703,7 +703,7 @@ function codeListDataManage(){
 					columns: 2,
 					items:[
 						{boxLabel: '数据标准值唯一编码', name: 'dataId',inputValue :"数据标准值唯一编码"},
-	                    {boxLabel: '数据标准值编号', name: 'dataKey', inputValue :"数据标准值唯一编码", checked: true},
+	                    {boxLabel: '数据标准值编号', name: 'dataKey', inputValue :"数据标准值编号", checked: true},
 	                    {boxLabel: '数据标准值', name: 'dataValue', inputValue:"数据标准值",checked: true},
 	                    {boxLabel: '数据标准分类编码', name: 'codeId', inputValue:"数据标准分类编码"},
 	                    {boxLabel: '数据标准分类', name: 'codeName', inputValue:"数据标准分类", checked: true},

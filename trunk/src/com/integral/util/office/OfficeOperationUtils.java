@@ -65,9 +65,10 @@ public class OfficeOperationUtils<T> {
      * @param file excel文件
      * @return
      * @author:[代超]
+     * @throws IOException 
      * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
      */
-    public Workbook getWorkBook(File excelFile) {
+    public Workbook getWorkBook(File excelFile) throws IOException {
         Workbook wb = null;
         try {
             wb = new HSSFWorkbook(new POIFSFileSystem(new FileInputStream(excelFile)));
@@ -77,10 +78,10 @@ public class OfficeOperationUtils<T> {
                 wb = new XSSFWorkbook(new FileInputStream(excelFile));
             }
             catch (FileNotFoundException e1) {
-                e1.printStackTrace();
+                throw e1;
             }
             catch (IOException e1) {
-                e1.printStackTrace();
+                throw e1;
             }
         }
         return wb;
@@ -249,6 +250,8 @@ public class OfficeOperationUtils<T> {
         
         // 产生表格标题行
         HSSFRow row = sheet.createRow(0);
+        //将第一行冻结
+        sheet.createFreezePane(1, 1);
         
         if(map != null){
             Object[] obj = map.values().toArray();
@@ -412,9 +415,10 @@ public class OfficeOperationUtils<T> {
      * 
      * @param args
      * @author:[代超]
+     * @throws IOException 
      * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         OfficeOperationUtils util = new OfficeOperationUtils();
         //File file = new File("src/账目信息导入模板.xls");
         File file = new File("src/数据标准值.xls");
