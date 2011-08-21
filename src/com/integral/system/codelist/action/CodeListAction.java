@@ -566,6 +566,8 @@ public class CodeListAction extends BaseAction implements ServletRequestAware, S
      * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
      */
     public String exportCodeDataList(){
+        //要导出的字段
+        Map<String, Object> requestMap = RequestUtil.getRequestMap(request);
         OutputStream os = null;
         PrintWriter pw = null;
         try{
@@ -576,15 +578,9 @@ public class CodeListAction extends BaseAction implements ServletRequestAware, S
             os = response.getOutputStream();
             List list = this.codeListDataService.findAllOrderByDataCode();
             OfficeOperationUtils<CodeListData> util = new OfficeOperationUtils<CodeListData>();
-            Map map = new TreeMap();
-            //map.put("dataId", "数据标准值唯一编码");
-            map.put("dataKey", "数据标准值编号");
-            map.put("dataValue", "数据标准值");
-            //map.put("codeId", "数据标准唯一编码");
-            map.put("codeName", "数据标准分类");
-            //map.put("parentDataKey", "上级数据标准值编号");
-            map.put("parentDataValue", "上级数据标准值");
-            map.put("remark", "备注");
+            Map<String, Object> map = new TreeMap<String, Object>();
+            map.putAll(requestMap);
+            
             util.writExcelFile("数据标准值", list, os, map, "yyyy-MM-dd");
             os.close();
         }catch(Exception e){
@@ -619,6 +615,8 @@ public class CodeListAction extends BaseAction implements ServletRequestAware, S
      * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
      */
     public String exportCodeDataDemo(){
+        //要导出的字段
+        Map<String, Object> requestMap = RequestUtil.getRequestMap(request);
         OutputStream os = null;
         PrintWriter pw = null;
         try{
@@ -628,18 +626,11 @@ public class CodeListAction extends BaseAction implements ServletRequestAware, S
                                     "ISO-8859-1"));
             os = response.getOutputStream();
             CodeListData data = new CodeListData("1","10000","数据标准值","1","数据标准分类","","上级数据标准值","备注");
-            List list = new ArrayList();
+            List<CodeListData> list = new ArrayList<CodeListData>();
             list.add(data);
             OfficeOperationUtils<CodeListData> util = new OfficeOperationUtils<CodeListData>();
-            Map map = new TreeMap();
-            //map.put("dataId", "数据标准值唯一编码");
-            map.put("dataKey", "数据标准值编号");
-            map.put("dataValue", "数据标准值");
-            //map.put("codeId", "数据标准唯一编码");
-            map.put("codeName", "数据标准分类");
-            //map.put("parentDataKey", "上级数据标准值编号");
-            map.put("parentDataValue", "上级数据标准值");
-            map.put("remark", "备注");
+            Map<String, Object> map = new TreeMap<String, Object>();
+            map.putAll(requestMap);
             util.writExcelFile("数据标准模板", list, os, map, "yyyy-MM-dd");
             os.close();
         }catch(Exception e){

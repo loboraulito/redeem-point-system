@@ -419,44 +419,13 @@ function codeListDataManage(){
 	 */
 	this.exportCodeDataList = function(url){
 		//提高给用户选择要导出哪些字段
-		var exportForm = new Ext.form.FormPanel({
-			url:url,
-			frame: true,
-			//labelAlign: 'right',
-			labelWidth:60,
-			autoScroll:false,
-			waitMsgTarget:true,
-			viewConfig:{forceFit:true},
-			items:[{
-				xtype:'fieldset',
-				title: '请选择要导出的字段',
-				autoHeight: true,
-				defaultType: 'checkbox',
-				items:[{
-					xtype:"checkboxgroup",
-					fieldLabel:"可选字段",
-					//columns: [120, 100],
-					//vertical: true,
-					columns: 2,
-					items:[
-						{boxLabel: '数据标准值唯一编码', name: 'dataId'},
-	                    {boxLabel: '数据标准值编号', name: 'dataKey', checked: true},
-	                    {boxLabel: '数据标准值', name: 'dataValue', checked: true},
-	                    {boxLabel: '数据标准分类编码', name: 'codeId'},
-	                    {boxLabel: '数据标准分类', name: 'codeName', checked: true},
-						{boxLabel: '上级数据标准值编号', name: 'parentDataKey'},
-						{boxLabel: '上级数据标准值', name: 'parentDataValue', checked: true},
-						{boxLabel: '备注', name: 'remark', checked: true}
-					]
-				}]
-			}]
-		});
+		var exportForm = getExportForm(url);
 		var buttons = [{
 			text:"导出",
 			handler:function(){
 				exportForm.getForm().submit({
-					isUpload:true
 				});
+				//document.getElementById("exportProperty").value = (exportForm.getForm().getValues(true));
 			}
 		},{
 			text:"关闭窗口",
@@ -475,7 +444,26 @@ function codeListDataManage(){
 	 * @param {Object} url
 	 */
 	this.exportCodeDataDemo = function(url){
-		document.getElementById("export2excel").src = url;
+		//提高给用户选择要导出哪些字段
+		var exportForm = getExportForm(url);
+		var buttons = [{
+			text:"导出",
+			handler:function(){
+				exportForm.getForm().submit({
+				});
+				//document.getElementById("exportProperty").value = (exportForm.getForm().getValues(true));
+			}
+		},{
+			text:"关闭窗口",
+			handler:function(){
+				var w = Ext.getCmp("exportCodeDataDemoWindow");
+				if(w){
+					w.close();
+				}
+			}
+		}];
+		showCodeListWindow("exportCodeDataDemoWindow","导出数据标准模板",370, 230, exportForm, "", buttons);
+		//document.getElementById("export2excel").src = url;
 	}
 	/**
 	 * 导入数据标准
@@ -681,6 +669,52 @@ function codeListDataManage(){
 			}]
 		});
 		return codeDataForm;
+	}
+	/**
+	 * 获取导出字段的form表单
+	 * @param {Object} url
+	 */
+	function getExportForm(url){
+		//提供给用户选择要导出哪些字段
+		var exportForm = new Ext.form.FormPanel({
+			//url:url,
+			frame: true,
+			//labelAlign: 'right',
+			labelWidth:60,
+			autoScroll:false,
+			waitMsgTarget:true,
+			viewConfig:{forceFit:true},
+			//实现非Ajax提交表单
+			onSubmit:Ext.emptyFn,
+			submit:function(){
+				this.getEl().dom.action = url;
+				this.getEl().dom.submit();
+			},
+			items:[{
+				xtype:'fieldset',
+				title: '请选择要导出的字段',
+				autoHeight: true,
+				defaultType: 'checkbox',
+				items:[{
+					xtype:"checkboxgroup",
+					fieldLabel:"可选字段",
+					//columns: [120, 100],
+					//vertical: true,
+					columns: 2,
+					items:[
+						{boxLabel: '数据标准值唯一编码', name: 'dataId',inputValue :"数据标准值唯一编码"},
+	                    {boxLabel: '数据标准值编号', name: 'dataKey', inputValue :"数据标准值唯一编码", checked: true},
+	                    {boxLabel: '数据标准值', name: 'dataValue', inputValue:"数据标准值",checked: true},
+	                    {boxLabel: '数据标准分类编码', name: 'codeId', inputValue:"数据标准分类编码"},
+	                    {boxLabel: '数据标准分类', name: 'codeName', inputValue:"数据标准分类", checked: true},
+						{boxLabel: '上级数据标准值编号', name: 'parentDataKey', inputValue:"上级数据标准值编号"},
+						{boxLabel: '上级数据标准值', name: 'parentDataValue', inputValue:"上级数据标准值", checked: true},
+						{boxLabel: '备注', name: 'remark', inputValue:"备注", checked: true}
+					]
+				}]
+			}]
+		});
+		return exportForm;
 	}
 	
 	/**
