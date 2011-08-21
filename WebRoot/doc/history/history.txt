@@ -386,3 +386,28 @@ http://u.115.com/file/clfd5ybi
 SQL语句的优化，使用EXPLAIN语句能查询该查询语句的运行状态
 使用方法，将EXPLAIN放在sql语句之前即可。
 为codeListData表增加两个索引，为查询提速
+
+#EXPLAIN
+SELECT 
+child.dataid, 
+child.codeid, 
+(
+SELECT codelist.codename
+FROM point_system_codelist AS codelist
+WHERE child.codeid = codelist.codeid) codename,
+child.datakey, 
+child.datavalue, child.parentdatakey, 
+parent.datavalue AS parentvalue, child.remark
+FROM point_system_codelist_data AS parent
+JOIN
+point_system_codelist_data AS child ON child.parentdatakey = parent.datakey UNION ALL
+SELECT 
+child.dataid, child.codeid,
+(
+SELECT codelist.codename
+FROM point_system_codelist AS codelist
+WHERE child.codeid = codelist.codeid) codename,
+child.datakey,child.datavalue, child.parentdatakey, NULL AS parentvalue, child.remark
+FROM point_system_codelist_data child
+WHERE child.parentdatakey IS NULL
+ORDER BY codeid DESC, dataid DESC
