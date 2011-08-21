@@ -3,14 +3,13 @@ package com.integral.system.codelist.service.impl;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.math.NumberUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.hibernate.HibernateException;
-import org.springframework.dao.DataAccessResourceFailureException;
 
 import com.integral.common.dao.IBaseDao;
 import com.integral.system.codelist.bean.CodeListData;
@@ -31,11 +30,14 @@ public class CodeListDataServiceImpl implements ICodeListDataService {
     private IBaseDao baseDao;
     /**
      * 查找所有数据标准，并且以codeid,dataid排序
+     * 经过优化之后的sql语句，查询速度大大增加, 使用子查询利用表中的索引,更新表结构
      */
-    private static String ALLCODELISTDATASQL = "SELECT child.dataid AS dataid, child.codeid AS codeid, codelist.codename AS codename, child.datakey AS datakey," +
-    " child.datavalue AS datavalue, child.parentdatakey AS parentdatakey, parent.datavalue AS parentvalue, child.remark AS remark " +
-    " FROM point_system_codelist_data AS child Left Join point_system_codelist_data AS parent ON child.parentdatakey = parent.datakey" +
-    " Inner Join point_system_codelist AS codelist on child.codeid = codelist.codeid ORDER BY child.codeid, child.dataid ";
+    private static String ALLCODELISTDATASQL = "SELECT child.dataid, child.codeid, ( SELECT codelist.codename FROM point_system_codelist AS codelist" +
+    		" WHERE child.codeid = codelist.codeid) codename, child.datakey, child.datavalue, child.parentdatakey, parent.datavalue AS parentvalue, child.remark" +
+    		" FROM point_system_codelist_data AS parent JOIN point_system_codelist_data AS child ON child.parentdatakey = parent.datakey UNION" +
+    		" SELECT child.dataid, child.codeid, ( SELECT codelist.codename FROM point_system_codelist AS codelist WHERE child.codeid = codelist.codeid) codename," +
+    		" child.datakey,child.datavalue, child.parentdatakey, NULL AS parentvalue, child.remark FROM point_system_codelist_data child " +
+    		" WHERE child.parentdatakey IS NULL ORDER BY codeid, dataid ";
     
     /**
      * <p>Discription:[方法功能中文描述]</p>
@@ -92,11 +94,11 @@ public class CodeListDataServiceImpl implements ICodeListDataService {
         		" INNER JOIN point_system_codelist AS codelist ON child.codeid = codelist.codeid ";
         BaseHibernateJDBCDao jdbcDao = new BaseHibernateJDBCDao();
         */
-        List list = this.codeListDataDao.findCodeListDataByPage(true, sql, start, limit, null);
+        //List list = this.codeListDataDao.findCodeListDataByPage(true, sql, start, limit, null);
         List<CodeListData> codeDataList = new ArrayList<CodeListData>();
-        log.info("find codeListdata by page : " + list);
-        list = this.baseDao.queryListByPageByJDBC(sql, start, limit, null);
-        log.info("find codeListdata by page : " + list);
+        log.info( new Date() + "find codeListdata by page : ");
+        List list = this.baseDao.queryListByPageByJDBC(sql, start, limit, null);
+        log.info(new Date() + "find codeListdata by page : " + list);
         if(list != null){
             for(int i=0, j = list.size(); i < j; i++){
                 CodeListData codeData = new CodeListData();
@@ -212,5 +214,9 @@ public class CodeListDataServiceImpl implements ICodeListDataService {
      */
     public void saveOrUpdateAll(Collection<CodeListData> entities){
         this.codeListDataDao.saveOrUpdateAll(entities);
+    }
+    @Override
+    public List findByDataValue(Object dataValue) {
+        return this.codeListDataDao.findByDataValue(dataValue);
     }
 }

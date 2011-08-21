@@ -24,6 +24,7 @@ import com.integral.system.codelist.dao.ICodeListDataDao;
 public class CodeListDataDao extends HibernateDaoSupport implements ICodeListDataDao {
     private static final Log log = LogFactory.getLog(CodeListDataDao.class);
     public static final String DATAKEY = "dataKey";
+    public static final String DATAVALUE = "dataValue";
     protected void initDao() {
         //do nothing
     }
@@ -106,6 +107,10 @@ public class CodeListDataDao extends HibernateDaoSupport implements ICodeListDat
         return findByProperty(DATAKEY, dataKey);
     }
     @Override
+    public List findByDataValue(Object dataValue) {
+        return findByProperty(DATAVALUE, dataValue);
+    }
+    @Override
     public void saveOrUpdateAll(Collection<CodeListData> entities) {
         log.debug("saveOrUpdate CodeListData");
         try {
@@ -115,4 +120,5 @@ public class CodeListDataDao extends HibernateDaoSupport implements ICodeListDat
             throw re;
         }
     }
+
 }

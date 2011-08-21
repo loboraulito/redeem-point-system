@@ -1,6 +1,7 @@
 package com.integral.system.codelist.action;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
@@ -665,9 +666,7 @@ public class CodeListAction extends BaseAction implements ServletRequestAware, S
      * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
      */
     public String importCodeDataList(){
-        if(codeDataList == null){
-            return null;
-        }
+        
         // 定义TransactionDefinition并设置好事务的隔离级别和传播方式。
         DefaultTransactionDefinition definition = new DefaultTransactionDefinition();
         // 代价最大、可靠性最高的隔离级别，所有的事务都是按顺序一个接一个地执行
@@ -675,21 +674,31 @@ public class CodeListAction extends BaseAction implements ServletRequestAware, S
         // 开始事务
         TransactionStatus status = transactionManager.getTransaction(definition);
         OfficeOperationUtils<CodeListData> util = new OfficeOperationUtils<CodeListData>();
-        //上传文件中的所有数据
-        Map map = util.readExcelFile(util.getWorkBook(codeDataList[0]));
+        
         Map<String, Object> resultMap = new HashMap<String, Object>();
+        String resultMsg = "文件导入成功！";
+        //是否有重复数据,若有，则文件不导入到数据库中
+        boolean bool = false;
+        
         PrintWriter out = null;
         //可以使key-value转换的map
         BidiMap properties = new TreeBidiMap();
-        //properties.put("dataId", "数据标准值唯一编码");
+        properties.put("dataId", "数据标准值唯一编码");
         properties.put("dataKey", "数据标准值编号");
         properties.put("dataValue", "数据标准值");
-        //properties.put("codeId", "数据标准唯一编码");
+        properties.put("codeId", "数据标准分类编码");
         properties.put("codeName", "数据标准分类");
-        //properties.put("parentDataKey", "上级数据标准值编号");
+        properties.put("parentDataKey", "上级数据标准值编号");
         properties.put("parentDataValue", "上级数据标准值");
         properties.put("remark", "备注");
+        
         try{
+            if(codeDataList == null){
+                throw new FileNotFoundException();
+            }
+            //上传文件中的所有数据
+            Map map = util.readExcelFile(util.getWorkBook(codeDataList[0]));
+            
             out = super.getPrintWriter(request, response, "utf-8", "text/html; charset=utf-8");
             //一个xls文件中的各个sheet页
             List<CodeListData> importCodeData = new ArrayList<CodeListData>();
@@ -711,13 +720,36 @@ public class CodeListAction extends BaseAction implements ServletRequestAware, S
                             CodeListData codeListData = new CodeListData();
                             try {
                                 BeanUtils.populate(codeListData, codeData);
+                                CodeListData clone = new CodeListData();
+                                //codeName
+                                //查询对应的codeName的ID
+                                if(codeListData.getCodeName() != null && !"".equals(codeListData.getCodeName().trim())){
+                                    List codeNameList = this.codeListService.findByName(codeListData.getCodeName());
+                                    if(codeNameList != null && codeNameList.size()>0){
+                                        CodeList codeName = (CodeList) codeNameList.get(0);
+                                        codeListData.setCodeId(codeName.getCodeId());
+                                    }
+                                }
+                                //查询对应codeId的dataKey是否已经存在
+                                clone.setCodeId(codeListData.getCodeId());
+                                clone.setDataKey(codeListData.getDataKey());
+                                List cloneList = this.codeListDataService.findByExample(clone);
+                                if(cloneList != null && cloneList.size() >0){
+                                    //已经存在，不允许再导入
+                                    resultMsg = "您上传的文件中第  "+i+" 行数据已经存在数据库中，请检查！";
+                                    bool = true;
+                                    break;
+                                }
                                 
-                                
-                                
-                                
-                                
-                                
-                                
+                                //parentDataValue
+                                //查询对应dataValue的dataKey
+                                if(codeListData.getParentDataValue() != null && !"".equals(codeListData.getParentDataValue().trim())){
+                                    List dataList = this.codeListDataService.findByDataValue(codeListData.getParentDataValue());
+                                    if(dataList != null && dataList.size() >0){
+                                        CodeListData data = (CodeListData) dataList.get(0);
+                                        codeListData.setParentDataKey(data.getDataKey());
+                                    }
+                                }
                                 importCodeData.add(codeListData);
                             }
                             catch (IllegalAccessException e) {
@@ -731,9 +763,11 @@ public class CodeListAction extends BaseAction implements ServletRequestAware, S
                 }
             }
             LOG.info("" + importCodeData);
-            this.codeListDataService.saveOrUpdateAll(importCodeData);
+            if(!bool){
+                this.codeListDataService.saveOrUpdateAll(importCodeData);
+            }
             resultMap.put("success", true);
-            resultMap.put("msg", "文件导入成功！");
+            resultMap.put("msg", resultMsg);
         }catch(Exception e){
             status.setRollbackOnly();
             resultMap.put("success", false);

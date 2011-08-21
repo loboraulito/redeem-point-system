@@ -381,3 +381,8 @@ aut+d 模拟交易软件
 http://www.autd.cc/jiaoyi.html
 壁纸下载
 http://u.115.com/file/clfd5ybi
+
+2011/08/21
+SQL语句的优化，使用EXPLAIN语句能查询该查询语句的运行状态
+使用方法，将EXPLAIN放在sql语句之前即可。
+为codeListData表增加两个索引，为查询提速
