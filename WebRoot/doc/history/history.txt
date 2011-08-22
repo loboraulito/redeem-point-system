@@ -411,3 +411,10 @@ child.datakey,child.datavalue, child.parentdatakey, NULL AS parentvalue, child.r
 FROM point_system_codelist_data child
 WHERE child.parentdatakey IS NULL
 ORDER BY codeid DESC, dataid DESC
+
+
+2011/08/22
+免费域名--花生壳绑定tomcat 花生壳路由器的设置
+http://blog.csdn.net/qilei2010/article/details/6165459
+http://www.315332.cn/2010/0818/100.html
+http://blog.csdn.net/qilei2010/article/details/6172767
