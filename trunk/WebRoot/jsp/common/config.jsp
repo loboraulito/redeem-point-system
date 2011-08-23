@@ -22,6 +22,8 @@
 <script type="text/javascript" src="<%=path %>/js/ext-2.2.1/ext-all-debug.js"></script>
 <!-- 引用Ext JS 的语言文件 -->
 <script type="text/javascript" src="<%=path %>/js/ext-2.2.1/source/locale/ext-lang-zh_CN.js"></script>
+<!-- 引用json转换工具，替代Ext中的json的转换工具（因为Ext中的json转换是调用eval，这将会可能导致安全隐患） -->
+<script type="text/javascript" src="<%=path %>/js/util/json.js"></script>
 <script type="text/javascript" src="<%=path %>/js/util/utils.js"></script>
 <!-- 每个页面上的按钮权限管理 -->
 <script type="text/javascript" src="<%=path %>/js/util/buttonRight.js"></script>
@@ -74,7 +76,7 @@ Ext.onReady(function(){
 </SCRIPT>
 <%
 //TODO 用于判断用户Session是否超时，超时则要求用户重新登录。暂不实现此功能，应该劲量避免这种情况出现。
-if(session.isNew() && (securitySessionId == null || "null".equals(securitySessionId))){
+//if(session.isNew() && (securitySessionId == null || "null".equals(securitySessionId))){
 %>
 <!-- 
 <script type="text/javascript">
@@ -88,5 +90,5 @@ Ext.onReady(function(){
 </script>
  -->
 <%
-}
+//}
 %>
