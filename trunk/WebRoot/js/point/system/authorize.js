@@ -487,8 +487,9 @@ function authorize(){
 	 * @param {} roleId：角色ID
 	 */
 	function loadAuthorizeUser(roleId){
+		userStore.baseParams.roleId = roleId;
 		userStore.load({
-			params:{start:0,limit:50,roleId:roleId,flag:"authorize_user"},
+			params:{start:0,limit:50,flag:"authorize_user"},
 			callback:function(){
 				loadAuthorizeMenuTwo(roleId);
 			}
