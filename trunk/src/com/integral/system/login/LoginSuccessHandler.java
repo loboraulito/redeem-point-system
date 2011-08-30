@@ -114,8 +114,8 @@ public class LoginSuccessHandler extends BaseAction implements AuthenticationSuc
     public void onAuthenticationSuccess(HttpServletRequest request,
             HttpServletResponse response, Authentication authentication)
             throws IOException, ServletException {
+        String loginRoleName = request.getParameter("roleName");
         
-        PrintWriter out = super.getPrintWriter(request, response);
         //获取登录用户信息
         Object principal = authentication.getPrincipal();
         String userName = "";
@@ -139,9 +139,18 @@ public class LoginSuccessHandler extends BaseAction implements AuthenticationSuc
         }
         request.getSession().setAttribute("userName", userName);
         request.getSession().setAttribute("roleId", roleId);
-        out.print("{success:true,msg:'登录成功',userName:'"+userName+"',roleName:''}");
-        out.flush();
-        out.close();
+        /*
+        if(loginRoleName == null || "1".equals(loginRoleName.trim()) || "".equals(loginRoleName.trim())){
+            PrintWriter out = super.getPrintWriter(request, response);
+            //管理员
+            out.print("{success:true,msg:'登录成功',userName:'"+userName+"',roleName:''}");
+            out.flush();
+            out.close();
+        }else{
+            //客户
+            response.sendRedirect(request.getContextPath());
+        }*/
+        response.sendRedirect(request.getContextPath());
         return;
     }
     /**
