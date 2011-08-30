@@ -55,7 +55,7 @@
 		<security:form-login login-page="/login.jsp" default-target-url="/index.jsp"></security:form-login>
 		 -->
 		<!-- 配置退出成功之后转向的页面 -->
-		<security:logout invalidate-session="true" logout-success-url="/index.jsp" logout-url="/j_spring_security_logout"/>
+		<security:logout invalidate-session="true" logout-success-url="/login.jsp" logout-url="/j_spring_security_logout"/>
 		<!-- 配置Session同步 -->
 		<security:session-management invalid-session-url="/index.jsp">
 			<!-- 定义一个用户一次只能登录一次系统,如果希望第二次登录取代第一次登录，删掉error-if-maximum-exceeded设置 -->

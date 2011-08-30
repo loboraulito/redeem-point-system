@@ -150,7 +150,7 @@ public class LoginSuccessHandler extends BaseAction implements AuthenticationSuc
             //客户
             response.sendRedirect(request.getContextPath());
         }*/
-        response.sendRedirect(request.getContextPath());
+        response.sendRedirect(request.getContextPath()+"/index.jsp");
         return;
     }
     /**
