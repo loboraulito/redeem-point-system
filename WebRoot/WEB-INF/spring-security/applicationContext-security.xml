@@ -19,6 +19,7 @@
 		<security:intercept-url pattern="/picture/**" filters="none"/>
 		<security:intercept-url pattern="/jsp/common/config.jsp" filters="none"/>
 		<security:intercept-url pattern="/index.jsp" filters="none"/>
+		<security:intercept-url pattern="/login.jsp" filters="none"/>
 		<!-- 主页 -->
 		<security:intercept-url pattern="/jsp/main.jsp" filters="none"/>
 		<!-- 测试jQuery主页 -->
@@ -60,8 +61,9 @@
 			<!-- 定义一个用户一次只能登录一次系统,如果希望第二次登录取代第一次登录，删掉error-if-maximum-exceeded设置 -->
 			<security:concurrency-control max-sessions="1" />
 		</security:session-management>
-		<!-- 配置cookie登录 -->
-		<security:remember-me services-ref="rememberMeServices"/>
+		<!-- 配置remember me服务持久化到数据库  -->
+		<security:remember-me key="SsxYVJRxWmhrEQ3VuvaVWTF81eA5K6G5" services-ref="rememberMeServices"/>
+		
 		<!-- 增加logout的处理，要增加下面的filter的话，必须把auto-config="true"去掉，否则冲突报错 -->
 		<!-- <security:custom-filter ref="logoutFilter" position="LOGOUT_FILTER"/> -->
 		<!-- 实现自定义的filter，动态的从数据库中获取用户以及角色等信息 -->
@@ -155,13 +157,28 @@
 		<property name="accessDecisionManager" ref="myAccessDecisionManagerBean"></property>
 		<property name="securityMetadataSource" ref="securityMetadataSource"></property>
 	</bean>
-	
+	<!-- 
 	<bean id="rememberMeServices" class="org.springframework.security.web.authentication.rememberme.TokenBasedRememberMeServices">
 		<property name="userDetailsService" ref="userDetailsService"></property>
-		<property name="key" value="springsecurityCookies1"></property>
+		<property name="key" value="SsxYVJRxWmhrEQ3VuvaVWTF81eA5K6G5"></property>
 		<property name="alwaysRemember" value="true"></property>
 		<property name="tokenValiditySeconds" value="86400"></property>
 		<property name="parameter" value="_spring_security_remember_me"></property>
+	</bean>
+	 -->
+	
+	<bean id="rememberMeServices" class="org.springframework.security.web.authentication.rememberme.PersistentTokenBasedRememberMeServices">
+		<property name="tokenRepository" ref="jdbcTokenRepository"></property>
+		<property name="userDetailsService" ref="userDetailsService"></property>
+		<property name="key" value="SsxYVJRxWmhrEQ3VuvaVWTF81eA5K6G5"></property>
+		<property name="alwaysRemember" value="true"></property>
+		<property name="tokenValiditySeconds" value="86400"></property>
+		<property name="parameter" value="_spring_security_remember_me"></property>
+	</bean>
+	
+	<bean id="jdbcTokenRepository" class="org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl">
+		<property name="createTableOnStartup" value="false"></property>
+		<property name="dataSource" ref="dataSource"></property>
 	</bean>
 	
 	<bean id="mySystemFilter" class="com.integral.util.spring.security.filter.SystemFilter">
