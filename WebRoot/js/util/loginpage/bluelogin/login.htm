@@ -11,7 +11,7 @@
     <BODY id=userlogin_body>
         <DIV>
         </DIV>
-        <DIV id=user_login>
+        <FORM id=user_login>
             <DL>
                 <DD id=user_top>
                     <UL>
@@ -44,12 +44,14 @@
                                             <INPUT class=TxtPasswordCssClass id=TxtPassword type=password name=TxtPassword>
                                         </LI>
                                     </UL>
-									<UL>
+                                    <UL>
                                         <LI class=user_main_text>
-                                            <INPUT type="radio" name="loginUserRole" value="1">我是管理员</INPUT>
+                                            <INPUT type="radio" name="loginUserRole" value="1">我是管理员
+                                            </INPUT>
                                         </LI>
                                         <LI class=user_main_input>
-                                            <INPUT type="radio" name="loginUserRole" value="2">我是用户</INPUT>
+                                            <INPUT type="radio" name="loginUserRole" value="2">我是用户
+                                            </INPUT>
                                         </LI>
                                     </UL>
                                     <UL>
@@ -77,15 +79,16 @@
                                 </LI>
                             </UL>
                         </DD>
-                        </DL>
-                    </DIV>
-                    <SPAN id=ValrUserName style="DISPLAY: none; COLOR: red"></SPAN>
-                    <SPAN id=ValrPassword style="DISPLAY: none; COLOR: red"></SPAN>
-                    <SPAN id=ValrValidateCode style="DISPLAY: none; COLOR: red"></SPAN>
-                    <DIV id=ValidationSummary1 style="DISPLAY: none; COLOR: red">
-                    </DIV>
-                    <DIV>
-                    </DIV>
-                    </FORM>
-                </BODY>
-                </HTML>
+                    </DD>
+                </DD>
+            </DL>
+            <SPAN id=ValrUserName style="DISPLAY: none; COLOR: red"></SPAN>
+            <SPAN id=ValrPassword style="DISPLAY: none; COLOR: red"></SPAN>
+            <SPAN id=ValrValidateCode style="DISPLAY: none; COLOR: red"></SPAN>
+            <DIV id=ValidationSummary1 style="DISPLAY: none; COLOR: red">
+            </DIV>
+            <DIV>
+            </DIV>
+        </FORM>
+    </BODY>
+</HTML>
