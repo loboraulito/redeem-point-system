@@ -139,18 +139,23 @@ public class LoginSuccessHandler extends BaseAction implements AuthenticationSuc
         }
         request.getSession().setAttribute("userName", userName);
         request.getSession().setAttribute("roleId", roleId);
-        /*
+        request.getSession().setAttribute("loginRoleName", loginRoleName);
+        
         if(loginRoleName == null || "1".equals(loginRoleName.trim()) || "".equals(loginRoleName.trim())){
+            response.sendRedirect(request.getContextPath()+"/index.jsp");
+            /*
             PrintWriter out = super.getPrintWriter(request, response);
             //管理员
             out.print("{success:true,msg:'登录成功',userName:'"+userName+"',roleName:''}");
             out.flush();
             out.close();
+            */
         }else{
             //客户
-            response.sendRedirect(request.getContextPath());
-        }*/
-        response.sendRedirect(request.getContextPath()+"/index.jsp");
+            response.sendRedirect(request.getContextPath()+"/jsp/client/index.jsp");
+        }
+        //response.sendRedirect(request.getContextPath()+"/jsp/client/index.jsp");
+        //response.sendRedirect(request.getContextPath()+"/index.jsp");
         return;
     }
     /**
