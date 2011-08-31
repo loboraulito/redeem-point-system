@@ -141,8 +141,8 @@ pageEncoding="UTF-8" %>
 	<script type="text/javascript">
 		//function validateForm(){
 			var frmvalidator  = new Validator("user_login");
-			frmvalidator.addValidation("j_username","req","请输入用户1名！");
-			frmvalidator.addValidation("j_password","req","请输入密1码！");
+			frmvalidator.addValidation("j_username","req","请输入用户名！");
+			frmvalidator.addValidation("j_password","req","请输入密码！");
 		//}
 		//validateForm();
 		
