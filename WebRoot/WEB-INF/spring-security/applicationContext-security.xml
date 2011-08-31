@@ -18,6 +18,7 @@
 		<security:intercept-url pattern="/js/**" filters="none"/>
 		<security:intercept-url pattern="/picture/**" filters="none"/>
 		<security:intercept-url pattern="/jsp/common/config.jsp" filters="none"/>
+		<security:intercept-url pattern="/jsp/common/header.jsp" filters="none"/>
 		<security:intercept-url pattern="/index.jsp" filters="none"/>
 		<security:intercept-url pattern="/login.jsp" filters="none"/>
 		<!-- 主页 -->
