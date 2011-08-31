@@ -63,10 +63,13 @@ function indexPage(){
 			//html:"aaaa"
 		},{
 			title:"欢迎您    "+userName,
-			id:"userInfo",
+			id:"userInfo_panel",
 			layout:"border",
 			region:"west",
 			collapsible:true,
+			//titleCollapse:true,//仅点击"<<"箭头才能伸缩
+			collapsed:loginRoleName == "2" ? true : false,
+			animCollapse :true,//动画
 			//split:true,
 			margins:"0 0 0 5",
 			width:216,
@@ -83,7 +86,8 @@ function indexPage(){
 				callback:function(scope,success,responses){
 					Ext.getCmp("mainpagepanel").body.update("<div id='mainpage' style='height: 100%;width: 100%;overflow:hidden;'></div>");
 					//Ext.getCmp("mainpagepanel").body.dom.innerHTML = "<div id='mainpage' style='height: 100%;width: 100%;overflow:hidden;'></div>";
-					createMainTabPanel("首&nbsp;&nbsp;&nbsp;&nbsp;页", "mainPagePanel", "/jsp/client/index.jsp", false);
+					//createMainTabPanel("首&nbsp;&nbsp;&nbsp;&nbsp;页", "mainPagePanel", "/jsp/client/index.jsp", false);
+					createMainTabPanel("首&nbsp;&nbsp;&nbsp;&nbsp;页", "mainPagePanel", "/jsp/main.jsp", false);
 				}
 			}
 		},{
@@ -220,4 +224,10 @@ Ext.onReady(function(){
 	Ext.QuickTips.init();
 	indexPage();
 	showCalendar("showCalendar");
+	/*
+	if(loginRoleName == "2"){
+		var w = Ext.getCmp("userInfo_panel");
+		w.collapsed ? w.expand() : w.collapse();
+	}
+	*/
 });

@@ -4,25 +4,36 @@
 <html>
 <head>
 <%@include file="/jsp/common/config.jsp" %>
+<%
+Object loginRoleName = session.getAttribute("loginRoleName");
+%>
+<script type="text/javascript">
+var loginRoleName = "<%=loginRoleName%>";
+</script>
 <link rel="stylesheet" type="text/css" href="<%=path %>/js/util/calendar/simple/calendar/calendar.css">
 <script type="text/javascript" src="<%=path %>/js/util/calendar/simple/calendar/calendar.js"></script>
-<script type="text/javascript" src="<%=path %>/js/ext-2.2.1/source/ux/RemoteValidator.js"></script>
+
 <script type="text/javascript" src="<%=path %>/js/util/extTree.js"></script>
 <script type="text/javascript" src="<%=path %>/js/index.js"></script>
+<!--
+<script type="text/javascript" src="<%=path %>/js/ext-2.2.1/source/ux/RemoteValidator.js"></script>
 <script type="text/javascript" src="<%=path %>/js/point/system/login.js"></script>
 <script type="text/javascript" src="<%=path %>/js/point/system/register.js"></script>
+-->
 <script type="text/javascript" src="<%=path %>/js/ext-2.2.1/source/ux/TabCloseMenu.js"></script>
 <script type="text/javascript" src="<%=path %>/js/util/tabPanel.js"></script>
 <script type="text/javascript">
 var rootMenu;
 var menuId;
 </script>
+
 <script type="text/javascript">
 Ext.onReady(function(){
 	Ext.QuickTips.init();
 	Ext.form.Field.prototype.msgTarget = 'side';
 });
 </script>
+<!--
 <style type="text/css">
 #header {
     background: #7F99BE url(<%=path %>/images/layout-browser-hd-bg.gif) repeat-x center;
@@ -34,9 +45,11 @@ Ext.onReady(function(){
     padding: 5px 10px;
 }
 </style>
+-->
 <title>redeempoint system</title>
 </head>
 <body>
+<!--
 <div id="header">
 	<table width="100%">
 		<tr>
@@ -55,6 +68,8 @@ Ext.onReady(function(){
 		</tr>
 	</table>
 </div>
+-->
+<%@include file="/jsp/common/header.jsp" %>
 <div id="loadMarskDiv" style="position:absolute; z-index: 9999; display:none; width:100%; height:100%;"></div>
 <script type="text/javascript">
 

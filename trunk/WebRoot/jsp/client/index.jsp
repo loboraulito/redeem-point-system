@@ -4,7 +4,8 @@ pageEncoding="UTF-8" %>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <% String path = request.getContextPath(); %>
+        <% //String path = request.getContextPath(); %>
+		<%@include file="/jsp/common/config.jsp" %>
         <title>Insert title here</title>
     </head>
 	<link rel="stylesheet" type="text/css" href="<%=path%>/js/jQuery/ux/myPaginationV3.0/css/page.css">
@@ -43,6 +44,7 @@ pageEncoding="UTF-8" %>
 		ul.mainProductList li .listItem h4 a span { color:#f00; }
     </style>
 	<body>
+		<%@include file="/jsp/common/header.jsp" %>
 		<div id="loadimg" style="top:50%;left:40%;z-index:9999;position: absolute;width:40%;height:10%"><img src="<%=path%>/js/jQuery/ux/myPaginationV3.0/images/loading.gif"></img>正在加载中，请稍候...</div><!-- loading -->
 		<div id="maskDiv" style="top:0;left:0;z-index:9998;position:absolute;width:100%;height:100%;background-color:#c8c8c8;"></div><!-- 遮罩层 -->
 		<div id="giftCart" style="height:20px;z-index:1">礼品兑换车</div><!-- 礼品兑换车 -->
