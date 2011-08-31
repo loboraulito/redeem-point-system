@@ -10,6 +10,7 @@ pageEncoding="UTF-8" %>
         <link href="<%=path%>/js/util/loginpage/bluelogin/css/Default.css" type="text/css" rel="stylesheet" />
         <link href="<%=path%>/js/util/loginpage/bluelogin/css/User_Login.css" type="text/css" rel="stylesheet" />
         <link href="<%=path%>/js/util/loginpage/bluelogin/css/xtree.css" type="text/css" rel="stylesheet" />
+		<script type="text/javascript" language="JavaScript" src="<%=path%>/js/util/validate/validatorForForm_v4.js"></script>
     </head>
     <body id="userlogin_body">
         <!--
@@ -50,7 +51,7 @@ pageEncoding="UTF-8" %>
         </table>
         </form>
         -->
-        <FORM id="user_login" action="<%=path%>/j_spring_security_check" method="post" onsubmit="return checkUser()">
+        <FORM id="user_login" action="<%=path%>/j_spring_security_check" method="post">
             <DL>
                 <DD id=user_top>
                     <UL>
@@ -112,7 +113,7 @@ pageEncoding="UTF-8" %>
                                 </DIV>
                             </LI>
                             <LI class=user_main_r>
-                                <INPUT class=IbtnEnterCssClass id=IbtnEnter style="BORDER-TOP-WIDTH: 0px; BORDER-LEFT-WIDTH: 0px; BORDER-BOTTOM-WIDTH: 0px; BORDER-RIGHT-WIDTH: 0px" onclick="javascript:userLogin()" type="image" src="<%=path%>/js/util/loginpage/bluelogin/Images/user_botton.gif" name=IbtnEnter>
+                                <INPUT class=IbtnEnterCssClass id=IbtnEnter style="BORDER-TOP-WIDTH: 0px; BORDER-LEFT-WIDTH: 0px; BORDER-BOTTOM-WIDTH: 0px; BORDER-RIGHT-WIDTH: 0px" type="image" src="<%=path%>/js/util/loginpage/bluelogin/Images/user_botton.gif" name=IbtnEnter>
                             </LI>
                         </UL>
                         <DD id=user_bottom>
@@ -138,6 +139,13 @@ pageEncoding="UTF-8" %>
         </FORM>
     </body>
 	<script type="text/javascript">
+		//function validateForm(){
+			var frmvalidator  = new Validator("user_login");
+			frmvalidator.addValidation("j_username","req","请输入用户1名！");
+			frmvalidator.addValidation("j_password","req","请输入密1码！");
+		//}
+		//validateForm();
+		
 		function checkUser(){
 			var j_user = document.getElementById("j_username");
 			var j_psw = document.getElementById("j_password");
@@ -153,11 +161,15 @@ pageEncoding="UTF-8" %>
 			}
 			return true;
 		}
-		function userLogin(){
+		function userLoginForm(){
 			//this.form.submit(); //直接提交表单 
 			//this.form.onsubmit(); //调用form的onsubmit方法 
 			//this.form.fireEvent('onsubmit'); //同上, 
-			document.getElementById("user_login").onsubmit();
+			//if(document.getElementById("user_login").onsubmit()){
+				//document.getElementById("user_login").submit();
+			//}
+			//alert(1);
 		}
+		
 	</script>
 </html>
