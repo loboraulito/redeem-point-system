@@ -435,3 +435,9 @@ http://bbs.dyhjw.com/index.php
 2011/08/30
 登录界面
 http://soso.nipic.com/show/02/af/0c/550d92c8327a42708f07019758_0______1.html
+
+2011/08/31
+学习到一个图片控件
+<input type="image" src="xxx.gif"  >
+这样子实际是会显示图片，当点击他的时候，将会导致form表单的自动提交，与type=submit一样。
+不要再注册onclick事件了，避免出现多次提交
