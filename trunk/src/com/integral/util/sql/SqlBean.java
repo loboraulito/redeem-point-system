@@ -18,6 +18,7 @@ public class SqlBean {
     
     public SqlBean() throws Exception {
         reader = PropertiesReader.getInstance();
+        sql = reader.getProperty("sql");
     }
     /**
      * <p>Discription:[获取数据库连接对象]</p>
@@ -34,7 +35,6 @@ public class SqlBean {
         String url = reader.getProperty("url");
         String userName = reader.getProperty("user");
         String password = reader.getProperty("password");
-        sql = reader.getProperty("sql");
         Connection conn = null;
         try{
             //加载驱动

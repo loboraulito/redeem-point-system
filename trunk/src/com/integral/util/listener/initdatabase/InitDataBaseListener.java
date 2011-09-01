@@ -19,17 +19,25 @@ public class InitDataBaseListener implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent event) {
         System.out.println("+++++++++++++++++++++++++++Listener start up++++++++++++++++++++++++++++++++");
-        try {            
+        SqlBean sqlBean = null;
+        try {
+            //初始化读取数据库配置文件
+            sqlBean = new SqlBean();
             List<Map<Object,Object>> list = SqlBean.excuteQuery("", "redeempoint");
             if(list != null && list.size()>0){
+                sqlBean = null;
                 return;
             }else{
                 initDataBase(event);
+                sqlBean = null;
             }
         }
         catch (Exception e) {
+            e.printStackTrace();
             initDataBase(event);
+            sqlBean = null;
         }
+        sqlBean = null;
         System.out.println("+++++++++++++++++++++++++++Listener done++++++++++++++++++++++++++++++++");
     }
     /**
