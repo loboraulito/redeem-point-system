@@ -19,9 +19,8 @@ public class InitDataBaseListener implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent event) {
         System.out.println("+++++++++++++++++++++++++++Listener start up++++++++++++++++++++++++++++++++");
-        try {
-            String sql = "select * from information_schema.SCHEMATA where SCHEMA_NAME= ? ";
-            List<Map<Object,Object>> list = SqlBean.excuteQuery(sql, "redeempoint");
+        try {            
+            List<Map<Object,Object>> list = SqlBean.excuteQuery("", "redeempoint");
             if(list != null && list.size()>0){
                 return;
             }else{
