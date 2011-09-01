@@ -1,9 +1,9 @@
 # --------------------------------------------------------
 # Host:                         127.0.0.1
-# Server version:               5.0.22-community-nt
+# Server version:               5.0.45-community-nt
 # Server OS:                    Win32
 # HeidiSQL version:             6.0.0.3918
-# Date/time:                    2011-08-21 16:31:47
+# Date/time:                    2011-09-01 09:30:41
 # --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -64,10 +64,12 @@ CREATE TABLE IF NOT EXISTS `gift_info` (
   PRIMARY KEY  (`gift_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AVG_ROW_LENGTH=16384 COMMENT='礼品的基本信息';
 
-# Dumping data for table redeempoint.gift_info: ~1 rows (approximately)
+# Dumping data for table redeempoint.gift_info: ~3 rows (approximately)
 /*!40000 ALTER TABLE `gift_info` DISABLE KEYS */;
 INSERT INTO `gift_info` (`gift_id`, `gift_code`, `gift_name`, `gift_model`, `gift_comment`, `gift_color`, `gift_size`, `gift_unit`, `gift_type`, `gift_image`, `supplier_id`, `stock_no`) VALUES
-	('402880e431a48b160131a48c23ef0001', '', '111', '', '', '', '', '', '', '/picture/d2399cd3-01f0-4d7e-98bf-57046ee8cedc.gif', '1', '');
+	('402880e431a48b160131a48c23ef0001', '', '111', '', '', '', '', '', '', '/picture/d2399cd3-01f0-4d7e-98bf-57046ee8cedc.gif', '1', ''),
+	('8ac388c431f5f2c20131f5f42a840001', '', '111', '', '', '1', '', '1', '', '/picture/5e5a1709-cb4a-4840-9dd2-1fb751ba1012.xls', '1', ''),
+	('8ac388c431f5f2c20131f5f53cda0002', '', '123', '', '', '132', '', '123', '', '/picture/357a8737-58b8-4d14-be70-97ae2a18a6b2.xls', '1', '');
 /*!40000 ALTER TABLE `gift_info` ENABLE KEYS */;
 
 
@@ -176,6 +178,23 @@ INSERT INTO `menu_info` (`menu_id`, `menu_name`, `page_path`, `menu_level`, `par
 	('8ac388eb311df21701311df3d9190001', '供应商礼品管理', '/gift/giftManage.action?method=begin', '', '8ac388eb314562a601314564ea0f0001', '1', '1', NULL),
 	('8ac388eb314562a601314564ea0f0001', '供应商后台管理', '/main.action', '', NULL, '0', '1', NULL);
 /*!40000 ALTER TABLE `menu_info` ENABLE KEYS */;
+
+
+# Dumping structure for table redeempoint.persistent_logins
+DROP TABLE IF EXISTS `persistent_logins`;
+CREATE TABLE IF NOT EXISTS `persistent_logins` (
+  `username` varchar(64) NOT NULL,
+  `series` varchar(64) NOT NULL,
+  `token` varchar(64) NOT NULL,
+  `last_used` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
+  PRIMARY KEY  (`series`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+# Dumping data for table redeempoint.persistent_logins: ~1 rows (approximately)
+/*!40000 ALTER TABLE `persistent_logins` DISABLE KEYS */;
+INSERT INTO `persistent_logins` (`username`, `series`, `token`, `last_used`) VALUES
+	('swpigris81', 'ucFS/0IrdBWevw/R4sRurw==', 'vHna6kr7DzULdP0i130Olg==', '2011-08-31 15:42:10');
+/*!40000 ALTER TABLE `persistent_logins` ENABLE KEYS */;
 
 
 # Dumping structure for table redeempoint.point_system_codelist
