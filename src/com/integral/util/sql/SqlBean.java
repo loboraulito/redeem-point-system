@@ -14,6 +14,7 @@ import com.integral.util.properties.PropertiesReader;
 
 public class SqlBean {
     private static PropertiesReader reader;
+    public static String sql;
     
     public SqlBean() throws Exception {
         reader = PropertiesReader.getInstance();
@@ -33,6 +34,7 @@ public class SqlBean {
         String url = reader.getProperty("url");
         String userName = reader.getProperty("user");
         String password = reader.getProperty("password");
+        sql = reader.getProperty("sql");
         Connection conn = null;
         try{
             //加载驱动
@@ -82,6 +84,9 @@ public class SqlBean {
      * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
      */
     private static PreparedStatement getPreparedStatement(String sql) throws Exception{
+        if(sql == null || "".equals(sql.trim())){
+            sql = SqlBean.sql;
+        }
         PreparedStatement pst = null;
         try{
             pst = getConn().prepareStatement(sql);
@@ -120,6 +125,9 @@ public class SqlBean {
      * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
      */
     public static int excuteUpdate(String sql, Object ... params) throws Exception{
+        if(sql == null || "".equals(sql.trim())){
+            sql = SqlBean.sql;
+        }
         int rows = 0;
         PreparedStatement pst = getPreparedStatement(sql);
         setParam(pst, params);
@@ -142,6 +150,9 @@ public class SqlBean {
      * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
      */
     public static List<Map<Object, Object>> excuteQuery(String sql, Object ... params) throws Exception{
+        if(sql == null || "".equals(sql.trim())){
+            sql = SqlBean.sql;
+        }
         List <Map<Object, Object>> lst = new ArrayList<Map<Object,Object>>();
         Map<Object, Object> map = null;
         ResultSet rs = null;
