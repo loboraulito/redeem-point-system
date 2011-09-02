@@ -441,3 +441,11 @@ http://soso.nipic.com/show/02/af/0c/550d92c8327a42708f07019758_0______1.html
 <input type="image" src="xxx.gif"  >
 这样子实际是会显示图片，当点击他的时候，将会导致form表单的自动提交，与type=submit一样。
 不要再注册onclick事件了，避免出现多次提交
+
+2011/09/02
+动态域名解析
+http://www.ubone.cn/wiki/pages/viewpage.action?pageId=30474244
+http://www.7wei.com/
+https://www.dnsexit.com
+http://www.wingdns.com/download.php
+http://www.xici.net/d9880296.htm
