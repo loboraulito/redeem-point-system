@@ -6,6 +6,8 @@ import java.util.Map;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
+import com.integral.util.DES;
+import com.integral.util.properties.PropertiesReader;
 import com.integral.util.sql.AntSqlExecute;
 import com.integral.util.sql.SqlBean;
 
@@ -34,7 +36,13 @@ public class InitDataBaseListener implements ServletContextListener {
         }
         catch (Exception e) {
             e.printStackTrace();
-            initDataBase(event);
+            try {
+                initDataBase(event);
+            }
+            catch (Exception e1) {
+                e1.printStackTrace();
+                System.out.println("+++++++++++++++++++++++++++Error++++++++++++++++++++++++++++++++");
+            }
             sqlBean = null;
         }
         sqlBean = null;
@@ -44,10 +52,30 @@ public class InitDataBaseListener implements ServletContextListener {
      * <p>Discription:[初始化数据库]</p>
      * @param event
      * @author:[代超]
+     * @throws Exception 
      * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
      */
-    private void initDataBase(ServletContextEvent event){
-        AntSqlExecute sqlExecute = new AntSqlExecute("localhost","information_schema","3306","812877","","swpigris81");
+    private void initDataBase(ServletContextEvent event) throws Exception{
+        PropertiesReader reader = PropertiesReader.getInstance();
+        DES des = new DES();
+        String userName = reader.getProperty("user");
+        try{
+            byte[] stringToByte = des.stringToByte(userName);
+            byte[] decryptorByte = des.createDecryptor(stringToByte);
+            userName = new String(decryptorByte);
+        }catch(Exception e){
+            userName = reader.getProperty("user");
+        }
+        
+        String password = reader.getProperty("password");
+        try{
+            byte[] stringToByte = des.stringToByte(password);
+            byte[] decryptorByte = des.createDecryptor(stringToByte);
+            password = new String(decryptorByte);
+        }catch(Exception e){
+            password = reader.getProperty("password");
+        }
+        AntSqlExecute sqlExecute = new AntSqlExecute("localhost","information_schema","3306",password,"",userName);
         String realPath = event.getServletContext().getRealPath("/");
         String sqlPath = realPath + "doc/redeempoint.sql";
         sqlExecute.executeSql(sqlPath, "", "");
