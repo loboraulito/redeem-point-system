@@ -25,8 +25,11 @@
 		<property name="jdbcUrl"
 			value="jdbc:mysql://localhost:3306/redeempoint?useUnicode=true&amp;characterEncoding=UTF-8">
 		</property>
-		<property name="user" value="swpigris81"></property>
-		<property name="password" value="812877"></property>
+		<!-- 
+		<property name="user" value=""></property>
+		<property name="password" value=""></property>
+		 -->
+		<property name="properties" ref="dataSourceProperties"></property>
 		<!-- 连接池中保留的最小连接数. -->
 		<property name="minPoolSize" value="5"></property>
 		<!-- 连接池中保留的最大连接数。Default: 15  -->
@@ -60,6 +63,15 @@
 		-->
 		<property name="testConnectionOnCheckout" value="false"></property>
 	</bean>
+	<bean id="dataSourceProperties" class="com.integral.util.security.PropertiesEncryptFactoryBean">
+		<property name="properties">
+			<props>
+				<prop key="user">FSpZoipCml0kfuP5dmkK9A==</prop>
+				<prop key="password">NqyeJz0ck2I=</prop>
+			</props>
+		</property>
+	</bean>
+	
 	<bean id="sessionFactory"
 		class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
 		<property name="dataSource">
