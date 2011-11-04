@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.integral.util.DES;
 import com.integral.util.properties.PropertiesReader;
 
 public class SqlBean {
@@ -31,10 +32,28 @@ public class SqlBean {
         if(reader == null){
             reader = PropertiesReader.getInstance();
         }
+        DES des = new DES();
+        
         String className = reader.getProperty("driverName");
         String url = reader.getProperty("url");
+        
         String userName = reader.getProperty("user");
+        try{
+            byte[] stringToByte = des.stringToByte(userName);
+            byte[] decryptorByte = des.createDecryptor(stringToByte);
+            userName = new String(decryptorByte);
+        }catch(Exception e){
+            userName = reader.getProperty("user");
+        }
+        
         String password = reader.getProperty("password");
+        try{
+            byte[] stringToByte = des.stringToByte(password);
+            byte[] decryptorByte = des.createDecryptor(stringToByte);
+            password = new String(decryptorByte);
+        }catch(Exception e){
+            password = reader.getProperty("password");
+        }
         Connection conn = null;
         try{
             //加载驱动

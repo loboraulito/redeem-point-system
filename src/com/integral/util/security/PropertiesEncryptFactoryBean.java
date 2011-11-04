@@ -64,7 +64,7 @@ public class PropertiesEncryptFactoryBean implements FactoryBean {
         if(originalPassword != null){
             String newPsw = "";
             try{
-                byte[] stringToByte = des.stringToByte(originalUsername);
+                byte[] stringToByte = des.stringToByte(originalPassword);
                 byte[] decryptorByte = des.createDecryptor(stringToByte);
                 newPsw = new String(decryptorByte);
             }catch(Exception e){
@@ -74,6 +74,4 @@ public class PropertiesEncryptFactoryBean implements FactoryBean {
             this.properties.put("password", newPsw);
         }
     }
-
-
 }
