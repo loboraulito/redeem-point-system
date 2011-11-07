@@ -449,3 +449,27 @@ https://www.dnsexit.com
 http://www.wingdns.com/download.php
 http://www.xici.net/d9880296.htm
 redeempoint.linkpc.net
+
+2011-11-03
+修改了EXT系统的SystemMemberDAO.java
+public List findMemberByCondition(final String sql, final Object[] params, final int start, final int limit) {
+    return getHibernateTemplate().executeFind(new HibernateCallback() {
+        public Object doInHibernate(Session session) throws HibernateException, SQLException {
+            Query query = session.createQuery(sql);
+            // 为参数赋值
+            if (params != null) {
+                for (int i = 0; i < params.length; i++) {
+                    query.setParameter(i, params[i]);
+                }
+            }
+            if (start > -1 && limit > -1) {
+                query.setFirstResult(start);
+                query.setMaxResults(limit);
+            }
+            return query.list();
+        }
+    });
+}
+修改siteMsgManage.js
+allUserStore.load({params:{start:0,limit:99999999}});
+//pageSize:10,
