@@ -473,3 +473,12 @@ public List findMemberByCondition(final String sql, final Object[] params, final
 修改siteMsgManage.js
 allUserStore.load({params:{start:0,limit:99999999}});
 //pageSize:10,
+
+
+
+2011-11-14
+家庭成员（族谱）信息管理。
+家庭账目管理
+费用申请
+http://wenku.baidu.com/view/bbd1df240722192e4536f6cf.html?from=related
+http://www.doc88.com/p-702991451667.html
