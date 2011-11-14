@@ -483,3 +483,5 @@ allUserStore.load({params:{start:0,limit:99999999}});
 http://wenku.baidu.com/view/bbd1df240722192e4536f6cf.html?from=related
 http://www.doc88.com/p-702991451667.html
 http://www.bksuns.com/html/FeiYongManageSystem.html
+jbpm5.1介绍
+http://www.cnblogs.com/skyme/archive/2011/11/06/2233192.html
