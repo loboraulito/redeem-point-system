@@ -485,3 +485,9 @@ http://www.doc88.com/p-702991451667.html
 http://www.bksuns.com/html/FeiYongManageSystem.html
 jbpm5.1介绍
 http://www.cnblogs.com/skyme/archive/2011/11/06/2233192.html
+
+
+2011-11-23
+http://download.eclipse.org/graphiti/updates/0.8.1
+emf：
+http://codehoop.com/bpmn2
