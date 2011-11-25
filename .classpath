@@ -87,6 +87,46 @@
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/poi-scratchpad-3.7-20101029.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/xmlbeans-2.4.0.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/ant.jar"/>
-	<classpathentry kind="con" path="JBPM/jbpm"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/jbpm/jbpm-bam-5.1.0.Final.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/jbpm/jbpm-bpmn2-5.1.0.Final.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/jbpm/jbpm-flow-5.1.0.Final.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/jbpm/jbpm-flow-builder-5.1.0.Final.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/jbpm/jbpm-human-task-5.1.0.Final.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/jbpm/jbpm-persistence-jpa-5.1.0.Final.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/jbpm/jbpm-workitems-5.1.0.Final.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/jbpm/lib/activation-1.1.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/jbpm/lib/btm-1.3.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/jbpm/lib/commons-cli-2.0-20090320.212845-2.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/jbpm/lib/commons-compress-1.0.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/jbpm/lib/commons-exec-1.0.1.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/jbpm/lib/commons-finder-1.0-20080905.033643-1.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/jbpm/lib/commons-net-2.0.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/jbpm/lib/commons-pool-1.4.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/jbpm/lib/drools-compiler-5.2.0.Final.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/jbpm/lib/drools-core-5.2.0.Final.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/jbpm/lib/drools-persistence-jpa-5.2.0.Final.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/jbpm/lib/ecj-3.5.1.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/jbpm/lib/el-api-1.0.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/jbpm/lib/hibernate-entitymanager-3.4.0.GA.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/jbpm/lib/hornetq-core-2.0.0.GA.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/jbpm/lib/hornetq-transports-2.0.0.GA.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/jbpm/lib/jboss-el-1.0_02.CR2.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/jbpm/lib/jboss-seam-2.1.0.GA.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/jbpm/lib/jdom-1.0.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/jbpm/lib/jms-1.1.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/jbpm/lib/knowledge-api-5.2.0.Final.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/jbpm/lib/mail-1.4.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/jbpm/lib/mina-core-2.0.0-RC1.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/jbpm/lib/mvel2-2.1.Beta3.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/jbpm/lib/persistence-api-1.0.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/jbpm/lib/rome-0.9.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/jbpm/lib/slf4j-nop-1.5.8.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/jbpm/lib/smack-3.0.4.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/jbpm/lib/stringtemplate-3.2.1.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/jbpm/lib/xml-apis-1.0.b2.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/jbpm/lib/xpp3_min-1.1.4c.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/jbpm/lib/xstream-1.3.1.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/jbpm/lib/antlr-runtime-3.3.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/jbpm/lib/hibernate-core-3.3.0.SP1.jar"/>
 	<classpathentry kind="output" path="WebRoot/WEB-INF/classes"/>
 </classpath>
