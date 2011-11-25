@@ -1,6 +1,7 @@
-#Tue Nov 15 23:31:32 CST 2011
+#Fri Nov 25 10:36:14 CST 2011
 eclipse.preferences.version=1
 encoding//WebRoot/css/main.css=UTF-8
+encoding//src/jndi.properties=UTF-8
 encoding//src/log4j.properties=UTF-8
 encoding//src/message_zh_CN.properties=UTF-8
 encoding/<project>=UTF-8
