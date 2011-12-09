@@ -472,6 +472,12 @@ public class CodeListAction extends BaseAction implements ServletRequestAware, S
             if(codeData.getDataId() == null || "".equals(codeData.getDataId().trim())){
                 codeData.setDataId(null);
             }
+            if(codeData.getParentDataKey() == null || "".equals(codeData.getParentDataKey().trim())){
+                codeData.setParentDataKey(null);
+            }
+            if(codeData.getParentDataValue() == null || "".equals(codeData.getParentDataValue().trim())){
+                codeData.setParentDataValue(null);
+            }
             this.codeListDataService.saveOrUpdate(codeData);
             resultMap.put("success", true);
             resultMap.put("msg", "数据标准值已成功保存！");
