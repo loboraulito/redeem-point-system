@@ -197,15 +197,15 @@ http://www.huomo.cn/developer/article-4222.html
 //更改行高
 http://www.iteye.com/topic/165218
 
-2010/07/01
+2011/07/01
 今天是我的账目信息上线一周年纪念日哟！
 只有通过解析当前tab的iframe页面的id来获取当前页面的url的ID了。
 
-2010/07/02
+2011/07/02
 新加入了首页不管是否登录都能看到。
 对权限更加严格化，无权限的页面即便是刷新也将会返回首页。
 
-2010/07/03
+2011/07/03
 Hibernate 提供的JDBC的sql执行方法2种：
 session.createSQLQuery(nativeSql).executeUpdate();
 session.getConnection().createStatement().execute(sql); 
@@ -214,7 +214,7 @@ session.getConnection().createStatement().execute(sql);
 密码{用户名}
 admin{admin}
 
-2010/07/09
+2011/07/09
 完成权限部分的所有模块。
 
 普通用户模块
@@ -491,3 +491,17 @@ http://www.cnblogs.com/skyme/archive/2011/11/06/2233192.html
 http://download.eclipse.org/graphiti/updates/0.8.1
 emf：
 http://codehoop.com/bpmn2
+
+
+2011-12-12
+http://topic.csdn.net/t/20040113/13/2659851.html
+家庭成员信息管理
+设计提示
+家庭成员基本信息用线性表表示，程序结束后存储在磁盘上，程序开始是从磁盘读出。
+家庭成员之间的关系，用树形结构（家族树）表示。
+家族树在程序结束后存储在磁盘上，程序开始是从磁盘读出。
+树在内存中的存储结构：邻接表或孩子兄弟链，带父指示器。
+家庭成员基本信息设置数字编号，用于唯一地标识记录。
+树结点用家庭成员的编号标识。通过编号，建立家庭成员的基本信息与树结点的联系。
+树在磁盘文件中的存储结构：存储串行化结果，如“根-叶序列”。
+所谓“根-叶序列”，是指，从树根到每个叶子结点的路径。路径的排列次序表示兄弟的次序。例如，下列树的“根-叶序列”为：
