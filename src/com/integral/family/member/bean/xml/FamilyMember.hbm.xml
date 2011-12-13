@@ -1,0 +1,69 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                                   "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Dec 13, 2011 1:16:43 PM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+ <class catalog="redeempoint"
+  name="com.integral.family.member.bean.FamilyMember" table="family_member">
+  <id name="familyMemberId" type="string">
+   <column length="50" name="family_member_id"/>
+   <generator class="uuid.hex"/>
+  </id>
+  <property generated="never" lazy="false" name="familyId" type="string">
+   <column length="50" name="family_id">
+    <comment>家庭编号</comment>
+   </column>
+  </property>
+  <property generated="never" lazy="false" name="familyMemberName" type="string">
+   <column length="50" name="family_member_name">
+    <comment>成员姓名</comment>
+   </column>
+  </property>
+  <property generated="never" lazy="false" name="systemMemberId" type="string">
+   <column length="50" name="system_member_id">
+    <comment>对应系统用户ID</comment>
+   </column>
+  </property>
+  <property generated="never" lazy="false" name="familyMemberCard" type="string">
+   <column length="50" name="family_member_card">
+    <comment>成员身份证</comment>
+   </column>
+  </property>
+  <property generated="never" lazy="false" name="familyMemberBirthdate" type="date">
+   <column length="10" name="family_member_birthdate">
+    <comment>生日</comment>
+   </column>
+  </property>
+  <property generated="never" lazy="false" name="familyMemberBirthplace" type="string">
+   <column length="500" name="family_member_birthplace">
+    <comment>出生地</comment>
+   </column>
+  </property>
+  <property generated="never" lazy="false" name="familyMemberSex" type="string">
+   <column length="5" name="family_member_sex">
+    <comment>性别</comment>
+   </column>
+  </property>
+  <property generated="never" lazy="false" name="familyMemberHeight" type="string">
+   <column length="5" name="family_member_height">
+    <comment>身高(cm)</comment>
+   </column>
+  </property>
+  <property generated="never" lazy="false"
+   name="familyMemberEducational" type="string">
+   <column length="5" name="family_member_educational">
+    <comment>学历</comment>
+   </column>
+  </property>
+  <property generated="never" lazy="false" name="familyMemberProfession" type="string">
+   <column length="5" name="family_member_profession">
+    <comment>职称</comment>
+   </column>
+  </property>
+  <property generated="never" lazy="false" name="familyMemberDeaddate" type="date">
+   <column length="10" name="family_member_deaddate">
+    <comment>死亡日期</comment>
+   </column>
+  </property>
+ </class>
+</hibernate-mapping>
