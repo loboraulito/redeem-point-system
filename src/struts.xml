@@ -30,9 +30,15 @@
 	<!-- 系统数据字典管理 -->
 	<include file="com/integral/system/codelist/config/codelist.xml"></include>
 	<!-- 家庭管理 -->
+	<!--
 	<include file="com/integral/family/manage/config/family_manage.xml"></include>
+	-->
 	<!-- 家庭成员管理 -->
+	<!--
 	<include file="com/integral/family/member/config/family_member.xml"></include>
+	-->
 	<!-- 家庭关系管理 -->
+	<!--
 	<include file="com/integral/family/relationship/config/family_relation.xml"></include>
+	-->
 </struts>
