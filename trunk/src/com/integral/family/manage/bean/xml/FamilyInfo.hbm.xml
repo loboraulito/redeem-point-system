@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                                   "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Dec 13, 2011 1:16:43 PM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+ <class catalog="redeempoint"
+  name="com.integral.family.manage.bean.FamilyInfo" table="family_info">
+  <id name="familyId" type="string">
+   <column length="50" name="family_id"/>
+   <generator class="uuid.hex"/>
+  </id>
+  <property generated="never" lazy="false" name="familyName" type="string">
+   <column length="200" name="family_name">
+    <comment>家庭名称</comment>
+   </column>
+  </property>
+  <property generated="never" lazy="false" name="familyCreateDate" type="date">
+   <column length="19" name="family_create_date">
+    <comment>家庭创建日期</comment>
+   </column>
+  </property>
+  <property generated="never" lazy="false" name="familyHouseHolder" type="string">
+   <column length="50" name="family_house_holder">
+    <comment>家庭户主</comment>
+   </column>
+  </property>
+  <property generated="never" lazy="false" name="familyAddress" type="string">
+   <column length="500" name="family_address">
+    <comment>家庭地址</comment>
+   </column>
+  </property>
+  <property generated="never" lazy="false" name="familyTel" type="string">
+   <column length="50" name="family_tel">
+    <comment>家庭联系方式</comment>
+   </column>
+  </property>
+ </class>
+</hibernate-mapping>
