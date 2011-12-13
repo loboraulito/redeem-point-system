@@ -42,12 +42,11 @@
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/javaee.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/javassist-3.9.0.GA.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/jcip-annotations-1.0.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/jcl-over-slf4j-1.6.1.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/jstl-1.2.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/jta-1.1.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/junit-4.6.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/log4j.jar"/>
-	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/logback-classic-0.9.28.jar"/>
-	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/logback-core-0.9.28.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/mysql-connector-java-5.1.7-bin.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/nutz-1.b.37-jdk6.jar" sourcepath="D:/slefstudy/nutz-1.b.37/nutz-1.b.37-sources.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/ognl-2.7.3.jar"/>
@@ -65,7 +64,7 @@
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/org.springframework.transaction-3.0.5.RELEASE.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/org.springframework.web-3.0.5.RELEASE.jar" sourcepath="D:/slefstudy/Spring/spring-framework-3.0.5.RELEASE/src/org.springframework.web-sources-3.0.5.RELEASE.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/org.springframework.webmvc-3.0.5.RELEASE.jar"/>
-	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/slf4j-log4j12.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/slf4j-api-1.6.1.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/spring-security-acl-3.0.5.RELEASE.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/spring-security-aspects-3.0.5.RELEASE.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/spring-security-cas-client-3.0.5.RELEASE.jar"/>
@@ -85,8 +84,13 @@
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/poi-scratchpad-3.7-20101029.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/xmlbeans-2.4.0.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/ant.jar"/>
-	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/jbpm/lib/antlr-runtime-3.3.jar"/>
-	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/slf4j-api-1.5.8.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/jbpm/jbpm-bam-5.1.0.Final.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/jbpm/jbpm-bpmn2-5.1.0.Final.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/jbpm/jbpm-flow-5.1.0.Final.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/jbpm/jbpm-flow-builder-5.1.0.Final.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/jbpm/jbpm-human-task-5.1.0.Final.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/jbpm/jbpm-persistence-jpa-5.1.0.Final.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/jbpm/jbpm-workitems-5.1.0.Final.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/jbpm/lib/activation-1.1.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/jbpm/lib/btm-1.3.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/jbpm/lib/commons-cli-2.0-20090320.212845-2.jar"/>
@@ -100,7 +104,6 @@
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/jbpm/lib/drools-persistence-jpa-5.2.0.Final.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/jbpm/lib/ecj-3.5.1.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/jbpm/lib/el-api-1.0.jar"/>
-	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/jbpm/lib/hibernate-core-3.3.0.SP1.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/jbpm/lib/hibernate-entitymanager-3.4.0.GA.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/jbpm/lib/hornetq-core-2.0.0.GA.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/jbpm/lib/hornetq-transports-2.0.0.GA.jar"/>
@@ -114,18 +117,13 @@
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/jbpm/lib/mvel2-2.1.Beta3.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/jbpm/lib/persistence-api-1.0.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/jbpm/lib/rome-0.9.jar"/>
-	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/jbpm/lib/slf4j-nop-1.5.8.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/jbpm/lib/smack-3.0.4.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/jbpm/lib/stringtemplate-3.2.1.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/jbpm/lib/xml-apis-1.0.b2.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/jbpm/lib/xpp3_min-1.1.4c.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/jbpm/lib/xstream-1.3.1.jar"/>
-	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/jbpm/jbpm-bam-5.1.0.Final.jar"/>
-	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/jbpm/jbpm-bpmn2-5.1.0.Final.jar"/>
-	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/jbpm/jbpm-flow-5.1.0.Final.jar"/>
-	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/jbpm/jbpm-flow-builder-5.1.0.Final.jar"/>
-	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/jbpm/jbpm-human-task-5.1.0.Final.jar"/>
-	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/jbpm/jbpm-persistence-jpa-5.1.0.Final.jar"/>
-	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/jbpm/jbpm-workitems-5.1.0.Final.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/jbpm/lib/antlr-runtime-3.3.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/jbpm/lib/hibernate-core-3.3.0.SP1.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/slf4j-log4j12-1.6.1.jar"/>
 	<classpathentry kind="output" path="WebRoot/WEB-INF/classes"/>
 </classpath>
