@@ -1,0 +1,555 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US"><head profile="http://gmpg.org/xfn/11">
+<link rel="stylesheet" href="javascript-form-validation.phtml_files/a.css" type="text/css" media="screen">
+<script type="text/javascript" src="javascript-form-validation.phtml_files/a.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>JavaScript Form Validation : quick and easy!</title>
+<meta name="robots" content="noodp, noydir">
+<meta name="description" content="Add validations quickly to your form using this simple, easy to use, free form validation script.">
+<meta name="keywords" content="javascript form validation, email validation">
+<!--[if lte IE 8]><link rel="stylesheet" href="http://www.javascript-coder.com/wp-content/themes/thesis_17/lib/css/ie.css?072110-175430" type="text/css" media="screen, projection" /><![endif]-->
+<link rel="canonical" href="http://www.javascript-coder.com/html-form/javascript-form-validation.phtml">
+<link rel="alternate" type="application/rss+xml" title="Javascript-Coder.com RSS Feed" href="http://www.javascript-coder.com/feed">
+<link rel="pingback" href="http://www.javascript-coder.com/xmlrpc.php">
+<link rel="shortcut icon" type="image/ico" href="http://www.javascript-coder.com/favicon.ico">
+<link rel="alternate" type="application/rss+xml" title="Javascript-Coder.com » JavaScript Form Validation : quick and easy! Comments Feed" href="http://www.javascript-coder.com/html-form/javascript-form-validation.phtml/feed">
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://www.javascript-coder.com/xmlrpc.php?rsd">
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.javascript-coder.com/wp-includes/wlwmanifest.xml">
+<link rel="prev" title="Using the window.close method" href="http://www.javascript-coder.com/window-popup/javascript-window-close.phtml">
+<link rel="next" title="JavaScript Form Validation Script: More features" href="http://www.javascript-coder.com/html-form/form-validation.phtml">
+<link rel="shortlink" href="http://www.javascript-coder.com/?p=392">
+<style type="text/css">#subscribe-widget-div { text-align: left; margin-top:5px; }</style>
+<link type="text/css" rel="stylesheet" href="javascript-form-validation.phtml_files/widget.css"><style type="text/css">#twtr-widget-1 .twtr-popular { display: inline-block; }</style><style type="text/css">#twtr-widget-1 .twtr-avatar, #twtr-widget-1 .twtr-user { display: none; } #twtr-widget-1 .twtr-tweet-text { margin-left: 0; }</style><style type="text/css">#twtr-widget-1 em { display: block; }</style><link href="javascript-form-validation.phtml_files/shCore.css" type="text/css" rel="stylesheet"><link href="javascript-form-validation.phtml_files/shThemeEclipse.css" type="text/css" rel="stylesheet"><style type="text/css">#twtr-widget-1 .twtr-doc,                      #twtr-widget-1 .twtr-hd a,                      #twtr-widget-1 h3,                      #twtr-widget-1 h4,                      #twtr-widget-1 .twtr-popular {            background-color: #FFFFFF !important;            color: #111111 !important;          }          #twtr-widget-1 .twtr-popular {            color: #333333 !important;            background-color: rgba(255,255,255, .3) !important;          }          #twtr-widget-1 .twtr-tweet a {            color: #2361A1 !important;          }          #twtr-widget-1 .twtr-bd, #twtr-widget-1 .twtr-timeline i a,           #twtr-widget-1 .twtr-bd p {            color: #333333 !important;          }          #twtr-widget-1 .twtr-new-results,           #twtr-widget-1 .twtr-results-inner,           #twtr-widget-1 .twtr-timeline {            background: #FFFFFF !important;          }</style><style type="text/css">.highslide img {cursor: url(/wp-content/plugins/highslide-4-wordpress-reloaded/graphics/zoomin.cur), pointer !important;}.highslide-viewport-size {position: fixed; width: 100%; height: 100%; left: 0; top: 0}</style></head>
+<body class="custom">
+<div id="container">
+<div id="page">
+	<div id="header">
+		<p id="logo"><a href="http://www.javascript-coder.com/">Javascript-Coder.com</a></p>
+		<p id="tagline">Javascript tutorials and articles</p>
+	</div>
+<ul class="menu">
+<li class="tab tab-home"><a href="http://www.javascript-coder.com/">Home</a></li>
+<li class="tab tab-1"><a href="http://www.javascript-coder.com/about" title="About JavaScript-Coder.com">About</a></li>
+</ul>
+	<div id="content_box">
+		<div id="content" class="hfeed">
+<div id="yoastbreadcrumb">You are here: <a href="http://www.javascript-coder.com/">Home</a> » <a href="http://www.javascript-coder.com/all-posts">All Posts</a> » <a href="http://www.javascript-coder.com/category/html-form">HTML Forms</a> » <strong>JavaScript Form Validation : quick and easy!</strong></div>			<div class="post-392 post type-post hentry category-html-form tag-download tag-javascript-form-validation tag-reference tag-validation post_box top" id="post-392">
+				<div class="headline_area">
+					<h1 class="entry-title">JavaScript Form Validation : quick and easy!</h1>
+					<p class="headline_meta">in <span><a href="http://www.javascript-coder.com/category/html-form" title="View all posts in HTML Forms" rel="category tag">HTML Forms</a></span></p>
+				</div>
+				<div class="format_text entry-content">
+<p>Using client side JavaScript is an efficient way to validate the user
+ input in web forms. When there are many fields in the form, the 
+JavaScript validation becomes too complex.</p>
+<p>The JavaScript class presented here makes the form validations many times easier.<br>
+<span id="more-392"></span></p>
+<h3>Contents</h3>
+<ol>
+<li><a href="#download">Download the JavaScript form validation script</a></li>
+<li><a href="#using">Using the form validation script</a></li>
+<li><a href="#custom">Adding a custom validation</a></li>
+<li><a href="#descriptors">Table of Validation Descriptors</a></li>
+<li><a href="http://www.javascript-coder.com/html-form/form-validation.phtml#errordisplay">Showing the form validation errors next to the element</a></li>
+<li><a href="http://www.javascript-coder.com/html-form/form-validation.phtml#conditional">‘Conditional’ form validations</a></li>
+<li><a href="http://www.javascript-coder.com/html-form/forms-validation.phtml">Form validation without coding!</a></li>
+</ol>
+<h2 id="download">How to add JavaScript Form Validation quickly</h2>
+<p>First, <a href="http://www.javascript-coder.com/files/form-validation/javascript_form.zip">download the JavaScript form validation script here</a>.<br>
+The zip file contains the javascript file, examples. </p>
+<p>The script has a catalog of almost all the common validation types built-in.</p>
+<p>The idea is to create a set of “validation descriptors” associated 
+with each element in a form. The “validation descriptor” is nothing but a
+ string specifying the type of validation to be performed.</p>
+<p>Each field in the form can have zero one or more validations. For 
+example, you can have an input field that should not be empty, should be
+ less than 25 chars and should be alpha-numeric.</p>
+<p>In other words, in order to validate a field, you just associate a 
+set of validation descriptors for each input field in the form. </p>
+<p class="myadv1">
+<strong>Just Choose Validations!</strong><br>
+<a href="http://www.simfatic.com/forms/benefits.php"><img src="javascript-form-validation.phtml_files/simfatic-validation.png" alt="" class="aligncenter size-full wp-image-395" height="157" width="429"></a> <a href="http://www.simfatic.com/forms/benefits.php">Simfatic Forms</a> is a feature-rich <strong>web form maker</strong>.<br>
+You just have to choose the validations. <a href="http://www.simfatic.com/forms/benefits.php">More info &amp; downloads</a>
+</p>
+<h2 id="using">Using the form validation script</h2>
+<ol>
+<li>Include gen_validatorv4.js in your html file just before closing the HEAD tag</li>
+<div>
+<div class="syntaxhighlighter nogutter  " id="highlighter_660378"><div class="lines"><div class="line alt1"><table><tbody><tr><td class="content"><code class="plain">&lt;</code><code class="keyword">script</code> <code class="color1">src</code><code class="plain">=</code><code class="string">"gen_validatorv4.js"</code> <code class="color1">type</code><code class="plain">=</code><code class="string">"text/javascript"</code><code class="plain">&gt;&lt;/</code><code class="keyword">script</code><code class="plain">&gt;</code></td></tr></tbody></table></div><div class="line alt2"><table><tbody><tr><td class="content"><code class="plain">&lt;/</code><code class="keyword">head</code><code class="plain">&gt;</code></td></tr></tbody></table></div></div></div>
+</div>
+<li>Just after defining your form, create a Validator() object passing the name of the form</li>
+<div>
+<div class="syntaxhighlighter nogutter  " id="highlighter_567272"><div class="lines"><div class="line alt1"><table><tbody><tr><td class="content"><code class="plain">&lt;</code><code class="keyword">form</code> <code class="color1">id</code><code class="plain">=</code><code class="string">'myform'</code> <code class="color1">action</code><code class="plain">=</code><code class="string">""</code><code class="plain">&gt;</code></td></tr></tbody></table></div><div class="line alt2"><table><tbody><tr><td class="content"><code class="spaces">&nbsp;</code><code class="comments">&lt;!----Your input fields go here --&gt;</code></td></tr></tbody></table></div><div class="line alt1"><table><tbody><tr><td class="content"><code class="spaces">&nbsp;</code><code class="plain">&lt;/</code><code class="keyword">form</code><code class="plain">&gt;</code></td></tr></tbody></table></div><div class="line alt2"><table><tbody><tr><td class="content"><code class="plain">&lt;</code><code class="keyword">script</code> <code class="color1">type</code><code class="plain">=</code><code class="string">"text/javascript"</code><code class="plain">&gt;</code></td></tr></tbody></table></div><div class="line alt1"><table><tbody><tr><td class="content"><code class="spaces">&nbsp;</code><code class="plain">var frmvalidator&nbsp; = new Validator("myform");</code></td></tr></tbody></table></div><div class="line alt2"><table><tbody><tr><td class="content"><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="plain">//where myform is the name/id of your form</code></td></tr></tbody></table></div></div></div>
+</div>
+<li>Now, add the validations required</li>
+<div>
+<div class="syntaxhighlighter nogutter  " id="highlighter_83722"><div class="lines"><div class="line alt1"><table><tbody><tr><td class="content"><code class="plain">frmvalidator.addValidation(</code><code class="string">"FirstName"</code><code class="plain">,</code><code class="string">"req"</code><code class="plain">,</code><code class="string">"Please enter your First Name"</code><code class="plain">);</code></td></tr></tbody></table></div></div></div>
+</div>
+<p>The format of the addValidation() function is:</p>
+<div>
+<div class="syntaxhighlighter nogutter  " id="highlighter_338816"><div class="lines"><div class="line alt1"><table><tbody><tr><td class="content"><code class="plain">frmvalidator.addValidation(Field Name, Validation Descriptor, Error String);</code></td></tr></tbody></table></div></div></div>
+</div>
+<p>See below for the <a href="#descriptors">complete list of validation descriptors</a>. The third parameter ( Error string ) is optional.<br>
+You can add any number of validations to a field.</p>
+<div>
+<div class="syntaxhighlighter nogutter  " id="highlighter_473299"><div class="lines"><div class="line alt1"><table><tbody><tr><td class="content"><code class="plain">frmvalidator.addValidation(</code><code class="string">"FirstName"</code><code class="plain">,</code><code class="string">"req"</code><code class="plain">,</code><code class="string">"Please enter your First Name"</code><code class="plain">);</code></td></tr></tbody></table></div><div class="line alt2"><table><tbody><tr><td class="content"><code class="plain">frmvalidator.addValidation(</code><code class="string">"FirstName"</code><code class="plain">,</code><code class="string">"maxlen=40"</code><code class="plain">,</code></td></tr></tbody></table></div><div class="line alt1"><table><tbody><tr><td class="content"><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="string">"Max length for FirstName is 40"</code><code class="plain">);</code></td></tr></tbody></table></div></div></div>
+</div>
+</ol>
+<h2>Example</h2>
+<p>Here is a complete example:</p>
+<div>
+<div class="syntaxhighlighter nogutter  " id="highlighter_55132"><div class="lines"><div class="line alt1"><table><tbody><tr><td class="content"><code class="plain">&lt;</code><code class="keyword">form</code> <code class="color1">action</code><code class="plain">=</code><code class="string">""</code> <code class="color1">id</code><code class="plain">=</code><code class="string">"myform"</code> <code class="plain">&gt;</code></td></tr></tbody></table></div><div class="line alt2"><table><tbody><tr><td class="content"><code class="plain">&lt;</code><code class="keyword">p</code><code class="plain">&gt;</code></td></tr></tbody></table></div><div class="line alt1"><table><tbody><tr><td class="content"><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="plain">&lt;</code><code class="keyword">label</code> <code class="color1">for</code><code class="plain">=</code><code class="string">'FirstName'</code><code class="plain">&gt;First Name:&lt;/</code><code class="keyword">label</code><code class="plain">&gt;</code></td></tr></tbody></table></div><div class="line alt2"><table><tbody><tr><td class="content"><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="plain">&lt;</code><code class="keyword">input</code> <code class="color1">type</code><code class="plain">=</code><code class="string">"text"</code> <code class="color1">id</code><code class="plain">=</code><code class="string">"FirstName"</code> <code class="color1">name</code><code class="plain">=</code><code class="string">"FirstName"</code> <code class="plain">/&gt;</code></td></tr></tbody></table></div><div class="line alt1"><table><tbody><tr><td class="content"><code class="plain">&lt;/</code><code class="keyword">p</code><code class="plain">&gt;</code></td></tr></tbody></table></div><div class="line alt2"><table><tbody><tr><td class="content"><code class="plain">&lt;</code><code class="keyword">p</code><code class="plain">&gt;</code></td></tr></tbody></table></div><div class="line alt1"><table><tbody><tr><td class="content"><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="plain">&lt;</code><code class="keyword">label</code> <code class="color1">for</code><code class="plain">=</code><code class="string">'LastName'</code><code class="plain">&gt;Last Name:&lt;/</code><code class="keyword">label</code><code class="plain">&gt;</code></td></tr></tbody></table></div><div class="line alt2"><table><tbody><tr><td class="content"><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="plain">&lt;</code><code class="keyword">input</code> <code class="color1">type</code><code class="plain">=</code><code class="string">"text"</code> <code class="color1">id</code><code class="plain">=</code><code class="string">"LastName"</code> <code class="color1">name</code><code class="plain">=</code><code class="string">"LastName"</code> <code class="plain">/&gt;</code></td></tr></tbody></table></div><div class="line alt1"><table><tbody><tr><td class="content"><code class="plain">&lt;/</code><code class="keyword">p</code><code class="plain">&gt;</code></td></tr></tbody></table></div><div class="line alt2"><table><tbody><tr><td class="content"><code class="plain">&lt;</code><code class="keyword">p</code><code class="plain">&gt;</code></td></tr></tbody></table></div><div class="line alt1"><table><tbody><tr><td class="content"><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="plain">&lt;</code><code class="keyword">label</code> <code class="color1">for</code><code class="plain">=</code><code class="string">'EMail'</code><code class="plain">&gt;EMail:&lt;/</code><code class="keyword">label</code><code class="plain">&gt;</code></td></tr></tbody></table></div><div class="line alt2"><table><tbody><tr><td class="content"><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="plain">&lt;</code><code class="keyword">input</code> <code class="color1">type</code><code class="plain">=</code><code class="string">"text"</code> <code class="color1">id</code><code class="plain">=</code><code class="string">"EMail"</code> <code class="color1">name</code><code class="plain">=</code><code class="string">"EMail"</code> <code class="plain">/&gt;</code></td></tr></tbody></table></div><div class="line alt1"><table><tbody><tr><td class="content"><code class="plain">&lt;/</code><code class="keyword">p</code><code class="plain">&gt;</code></td></tr></tbody></table></div><div class="line alt2"><table><tbody><tr><td class="content"><code class="plain">&lt;</code><code class="keyword">p</code><code class="plain">&gt;</code></td></tr></tbody></table></div><div class="line alt1"><table><tbody><tr><td class="content"><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="plain">&lt;</code><code class="keyword">label</code> <code class="color1">for</code><code class="plain">=</code><code class="string">'Phone'</code><code class="plain">&gt;Phone:&lt;/</code><code class="keyword">label</code><code class="plain">&gt;</code></td></tr></tbody></table></div><div class="line alt2"><table><tbody><tr><td class="content"><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="plain">&lt;</code><code class="keyword">input</code> <code class="color1">type</code><code class="plain">=</code><code class="string">"text"</code> <code class="color1">id</code><code class="plain">=</code><code class="string">"Phone"</code> <code class="color1">name</code><code class="plain">=</code><code class="string">"Phone"</code> <code class="plain">/&gt;</code></td></tr></tbody></table></div><div class="line alt1"><table><tbody><tr><td class="content"><code class="plain">&lt;/</code><code class="keyword">p</code><code class="plain">&gt;</code></td></tr></tbody></table></div><div class="line alt2"><table><tbody><tr><td class="content"><code class="plain">&lt;</code><code class="keyword">p</code><code class="plain">&gt;</code></td></tr></tbody></table></div><div class="line alt1"><table><tbody><tr><td class="content"><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="plain">&lt;</code><code class="keyword">label</code> <code class="color1">for</code><code class="plain">=</code><code class="string">'Address'</code><code class="plain">&gt;Address:&lt;/</code><code class="keyword">label</code><code class="plain">&gt;</code></td></tr></tbody></table></div><div class="line alt2"><table><tbody><tr><td class="content"><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="plain">&lt;</code><code class="keyword">textarea</code> <code class="color1">cols</code><code class="plain">=</code><code class="string">"20"</code> <code class="color1">rows</code><code class="plain">=</code><code class="string">"5"</code> <code class="color1">id</code><code class="plain">=</code><code class="string">"Address"</code> <code class="color1">name</code><code class="plain">=</code><code class="string">"Address"</code><code class="plain">&gt;&lt;/</code><code class="keyword">textarea</code><code class="plain">&gt;</code></td></tr></tbody></table></div><div class="line alt1"><table><tbody><tr><td class="content"><code class="plain">&lt;/</code><code class="keyword">p</code><code class="plain">&gt;</code></td></tr></tbody></table></div><div class="line alt2"><table><tbody><tr><td class="content"><code class="plain">&lt;</code><code class="keyword">p</code><code class="plain">&gt;</code></td></tr></tbody></table></div><div class="line alt1"><table><tbody><tr><td class="content"><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="plain">&lt;</code><code class="keyword">label</code> <code class="color1">for</code><code class="plain">=</code><code class="string">'Country'</code><code class="plain">&gt;Country:&lt;/</code><code class="keyword">label</code><code class="plain">&gt;</code></td></tr></tbody></table></div><div class="line alt2"><table><tbody><tr><td class="content"><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="plain">&lt;</code><code class="keyword">select</code> <code class="color1">id</code><code class="plain">=</code><code class="string">"Country"</code>&nbsp; <code class="color1">name</code><code class="plain">=</code><code class="string">"Country"</code><code class="plain">&gt;</code></td></tr></tbody></table></div><div class="line alt1"><table><tbody><tr><td class="content"><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="plain">&lt;</code><code class="keyword">option</code> <code class="color1">value</code><code class="plain">=</code><code class="string">"000"</code> <code class="color1">selected</code><code class="plain">=</code><code class="string">"selected"</code><code class="plain">&gt;[choose yours]&lt;/</code><code class="keyword">option</code><code class="plain">&gt;</code></td></tr></tbody></table></div><div class="line alt2"><table><tbody><tr><td class="content"><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="plain">&lt;</code><code class="keyword">option</code> <code class="color1">value</code><code class="plain">=</code><code class="string">"008"</code><code class="plain">&gt;Albania&lt;/</code><code class="keyword">option</code><code class="plain">&gt;</code></td></tr></tbody></table></div><div class="line alt1"><table><tbody><tr><td class="content"><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="plain">&lt;</code><code class="keyword">option</code> <code class="color1">value</code><code class="plain">=</code><code class="string">"012"</code><code class="plain">&gt;Algeria&lt;/</code><code class="keyword">option</code><code class="plain">&gt;</code></td></tr></tbody></table></div><div class="line alt2"><table><tbody><tr><td class="content"><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="plain">&lt;</code><code class="keyword">option</code> <code class="color1">value</code><code class="plain">=</code><code class="string">"016"</code><code class="plain">&gt;American Samoa&lt;/</code><code class="keyword">option</code><code class="plain">&gt;</code></td></tr></tbody></table></div><div class="line alt1"><table><tbody><tr><td class="content"><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="plain">&lt;</code><code class="keyword">option</code> <code class="color1">value</code><code class="plain">=</code><code class="string">"020"</code><code class="plain">&gt;Andorra&lt;/</code><code class="keyword">option</code><code class="plain">&gt;</code></td></tr></tbody></table></div><div class="line alt2"><table><tbody><tr><td class="content"><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="plain">&lt;</code><code class="keyword">option</code> <code class="color1">value</code><code class="plain">=</code><code class="string">"024"</code><code class="plain">&gt;Angola&lt;/</code><code class="keyword">option</code><code class="plain">&gt;</code></td></tr></tbody></table></div><div class="line alt1"><table><tbody><tr><td class="content"><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="plain">&lt;</code><code class="keyword">option</code> <code class="color1">value</code><code class="plain">=</code><code class="string">"660"</code><code class="plain">&gt;Anguilla&lt;/</code><code class="keyword">option</code><code class="plain">&gt;</code></td></tr></tbody></table></div><div class="line alt2"><table><tbody><tr><td class="content"><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="plain">&lt;</code><code class="keyword">option</code> <code class="color1">value</code><code class="plain">=</code><code class="string">"010"</code><code class="plain">&gt;Antarctica&lt;/</code><code class="keyword">option</code><code class="plain">&gt;</code></td></tr></tbody></table></div><div class="line alt1"><table><tbody><tr><td class="content"><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="plain">&lt;</code><code class="keyword">option</code> <code class="color1">value</code><code class="plain">=</code><code class="string">"028"</code><code class="plain">&gt;Antigua And Barbuda&lt;/</code><code class="keyword">option</code><code class="plain">&gt;</code></td></tr></tbody></table></div><div class="line alt2"><table><tbody><tr><td class="content"><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="plain">&lt;</code><code class="keyword">option</code> <code class="color1">value</code><code class="plain">=</code><code class="string">"032"</code><code class="plain">&gt;Argentina&lt;/</code><code class="keyword">option</code><code class="plain">&gt;</code></td></tr></tbody></table></div><div class="line alt1"><table><tbody><tr><td class="content"><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="plain">&lt;</code><code class="keyword">option</code> <code class="color1">value</code><code class="plain">=</code><code class="string">"051"</code><code class="plain">&gt;Armenia&lt;/</code><code class="keyword">option</code><code class="plain">&gt;</code></td></tr></tbody></table></div><div class="line alt2"><table><tbody><tr><td class="content"><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="plain">&lt;</code><code class="keyword">option</code> <code class="color1">value</code><code class="plain">=</code><code class="string">"533"</code><code class="plain">&gt;Aruba&lt;/</code><code class="keyword">option</code><code class="plain">&gt;</code></td></tr></tbody></table></div><div class="line alt1"><table><tbody><tr><td class="content"><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="plain">&lt;/</code><code class="keyword">select</code><code class="plain">&gt;</code></td></tr></tbody></table></div><div class="line alt2"><table><tbody><tr><td class="content"><code class="plain">&lt;/</code><code class="keyword">p</code><code class="plain">&gt;</code></td></tr></tbody></table></div><div class="line alt1"><table><tbody><tr><td class="content"><code class="plain">&lt;</code><code class="keyword">p</code><code class="plain">&gt;</code></td></tr></tbody></table></div><div class="line alt2"><table><tbody><tr><td class="content"><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="plain">&lt;</code><code class="keyword">input</code> <code class="color1">type</code><code class="plain">=</code><code class="string">"submit"</code> <code class="color1">name</code><code class="plain">=</code><code class="string">"submit"</code> <code class="color1">value</code><code class="plain">=</code><code class="string">"Submit"</code><code class="plain">&gt;</code></td></tr></tbody></table></div><div class="line alt1"><table><tbody><tr><td class="content"><code class="plain">&lt;/</code><code class="keyword">p</code><code class="plain">&gt;</code></td></tr></tbody></table></div><div class="line alt2"><table><tbody><tr><td class="content"><code class="plain">&lt;/</code><code class="keyword">form</code><code class="plain">&gt;</code></td></tr></tbody></table></div></div></div>
+<div class="syntaxhighlighter nogutter  " id="highlighter_593576"><div class="lines"><div class="line alt1"><table><tbody><tr><td class="content"><code class="plain">&lt;script&nbsp; type=</code><code class="string">"text/javascript"</code><code class="plain">&gt;</code></td></tr></tbody></table></div><div class="line alt2"><table><tbody><tr><td class="content"><code class="spaces">&nbsp;</code><code class="keyword">var</code> <code class="plain">frmvalidator = </code><code class="keyword">new</code> <code class="plain">Validator(</code><code class="string">"myform"</code><code class="plain">);</code></td></tr></tbody></table></div><div class="line alt1"><table><tbody><tr><td class="content"><code class="spaces">&nbsp;</code><code class="plain">frmvalidator.addValidation(</code><code class="string">"FirstName"</code><code class="plain">,</code><code class="string">"req"</code><code class="plain">,</code><code class="string">"Please enter your First Name"</code><code class="plain">);</code></td></tr></tbody></table></div><div class="line alt2"><table><tbody><tr><td class="content"><code class="spaces">&nbsp;</code><code class="plain">frmvalidator.addValidation(</code><code class="string">"FirstName"</code><code class="plain">,</code><code class="string">"maxlen=20"</code><code class="plain">,</code></td></tr></tbody></table></div><div class="line alt1"><table><tbody><tr><td class="content"><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="string">"Max length for FirstName is 20"</code><code class="plain">);</code></td></tr></tbody></table></div><div class="line alt2"><table><tbody><tr><td class="content"><code class="spaces">&nbsp;</code><code class="plain">frmvalidator.addValidation(</code><code class="string">"LastName"</code><code class="plain">,</code><code class="string">"req"</code><code class="plain">);</code></td></tr></tbody></table></div><div class="line alt1"><table><tbody><tr><td class="content"><code class="spaces">&nbsp;</code><code class="plain">frmvalidator.addValidation(</code><code class="string">"LastName"</code><code class="plain">,</code><code class="string">"maxlen=20"</code><code class="plain">);</code></td></tr></tbody></table></div><div class="line alt2"><table><tbody><tr><td class="content"><code class="spaces">&nbsp;</code><code class="plain">frmvalidator.addValidation(</code><code class="string">"Email"</code><code class="plain">,</code><code class="string">"maxlen=50"</code><code class="plain">);</code></td></tr></tbody></table></div><div class="line alt1"><table><tbody><tr><td class="content"><code class="spaces">&nbsp;</code><code class="plain">frmvalidator.addValidation(</code><code class="string">"Email"</code><code class="plain">,</code><code class="string">"req"</code><code class="plain">);</code></td></tr></tbody></table></div><div class="line alt2"><table><tbody><tr><td class="content"><code class="spaces">&nbsp;</code><code class="plain">frmvalidator.addValidation(</code><code class="string">"Email"</code><code class="plain">,</code><code class="string">"email"</code><code class="plain">);</code></td></tr></tbody></table></div><div class="line alt1"><table><tbody><tr><td class="content"><code class="spaces">&nbsp;</code><code class="plain">frmvalidator.addValidation(</code><code class="string">"Phone"</code><code class="plain">,</code><code class="string">"maxlen=50"</code><code class="plain">);</code></td></tr></tbody></table></div><div class="line alt2"><table><tbody><tr><td class="content"><code class="spaces">&nbsp;</code><code class="plain">frmvalidator.addValidation(</code><code class="string">"Phone"</code><code class="plain">,</code><code class="string">"numeric"</code><code class="plain">);</code></td></tr></tbody></table></div><div class="line alt1"><table><tbody><tr><td class="content"><code class="spaces">&nbsp;</code><code class="plain">frmvalidator.addValidation(</code><code class="string">"Address"</code><code class="plain">,</code><code class="string">"maxlen=50"</code><code class="plain">);</code></td></tr></tbody></table></div><div class="line alt2"><table><tbody><tr><td class="content"><code class="spaces">&nbsp;</code><code class="plain">frmvalidator.addValidation(</code><code class="string">"Country"</code><code class="plain">,</code><code class="string">"dontselect=000"</code><code class="plain">);</code></td></tr></tbody></table></div></div></div>
+<div class="syntaxhighlighter nogutter  " id="highlighter_293770"><div class="lines"><div class="line alt1"><table><tbody><tr><td class="content"><code class="plain">&lt;/</code><code class="keyword">script</code><code class="plain">&gt;</code></td></tr></tbody></table></div></div></div>
+</div>
+<h2>Some Additional Notes</h2>
+<ul>
+<li>The form validators should be created only after defining the HTML form (only after the &lt;/form&gt; tag. ) </li>
+<li>Your form should have a distinguished name. If there are more than 
+one form in the same page, you can add validators for each of them. The 
+names of the forms and the validators should not clash.</li>
+<li>You can’t use the javascript onsubmit event of the form if it you 
+are using this validator script. It is because the validator script 
+automatically overrides the onsubmit event. If you want to add a custom 
+validation, see the section below</li>
+</ul>
+<h2 id="custom">Adding a custom validation</h2>
+<p>If you want to add a custom validation, which is not provided by the validation descriptors, you can do so. Here are the steps: </p>
+<ol>
+<li>Create a javascript function which returns true or false depending on the validation</li>
+<div>
+<div class="syntaxhighlighter nogutter  " id="highlighter_667158"><div class="lines"><div class="line alt1"><table><tbody><tr><td class="content"><code class="keyword">function</code> <code class="plain">DoCustomValidation()</code></td></tr></tbody></table></div><div class="line alt2"><table><tbody><tr><td class="content"><code class="plain">{</code></td></tr></tbody></table></div><div class="line alt1"><table><tbody><tr><td class="content"><code class="spaces">&nbsp;&nbsp;</code><code class="keyword">var</code> <code class="plain">frm = document.forms[</code><code class="string">"myform"</code><code class="plain">];</code></td></tr></tbody></table></div><div class="line alt2"><table><tbody><tr><td class="content"><code class="spaces">&nbsp;&nbsp;</code><code class="keyword">if</code><code class="plain">(frm.pwd1.value != frm.pwd2.value)</code></td></tr></tbody></table></div><div class="line alt1"><table><tbody><tr><td class="content"><code class="spaces">&nbsp;&nbsp;</code><code class="plain">{</code></td></tr></tbody></table></div><div class="line alt2"><table><tbody><tr><td class="content"><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="plain">sfm_show_error_msg(</code><code class="string">'The Password and verified password does not match!'</code><code class="plain">,frm.pwd1);</code></td></tr></tbody></table></div><div class="line alt1"><table><tbody><tr><td class="content"><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="keyword">return</code> <code class="keyword">false</code><code class="plain">;</code></td></tr></tbody></table></div><div class="line alt2"><table><tbody><tr><td class="content"><code class="spaces">&nbsp;&nbsp;</code><code class="plain">}</code></td></tr></tbody></table></div><div class="line alt1"><table><tbody><tr><td class="content"><code class="spaces">&nbsp;&nbsp;</code><code class="keyword">else</code></td></tr></tbody></table></div><div class="line alt2"><table><tbody><tr><td class="content"><code class="spaces">&nbsp;&nbsp;</code><code class="plain">{</code></td></tr></tbody></table></div><div class="line alt1"><table><tbody><tr><td class="content"><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="keyword">return</code> <code class="keyword">true</code><code class="plain">;</code></td></tr></tbody></table></div><div class="line alt2"><table><tbody><tr><td class="content"><code class="spaces">&nbsp;&nbsp;</code><code class="plain">}</code></td></tr></tbody></table></div><div class="line alt1"><table><tbody><tr><td class="content"><code class="plain">}</code></td></tr></tbody></table></div></div></div>
+</div>
+<p>sfm_show_error_msg() function displays the error message in your 
+chosen style. The first parameter is the error message and the second 
+parameter is the input object. </p>
+<li>Associate the validation function with the validator object.</li>
+<div>
+<div class="syntaxhighlighter nogutter  " id="highlighter_425544"><div class="lines"><div class="line alt1"><table><tbody><tr><td class="content"><code class="plain">frmvalidator.setAddnlValidationFunction(</code><code class="string">"DoCustomValidation"</code><code class="plain">);</code></td></tr></tbody></table></div></div></div>
+</div>
+<p>The custom validation function will be called automatically after other validations.</p>
+<p>If you want to do more than one custom validations, you can do all those validations in the same function. </p>
+<div>
+<div class="syntaxhighlighter nogutter  " id="highlighter_372125"><div class="lines"><div class="line alt1"><table><tbody><tr><td class="content"><code class="keyword">function</code> <code class="plain">DoCustomValidation()</code></td></tr></tbody></table></div><div class="line alt2"><table><tbody><tr><td class="content"><code class="plain">{</code></td></tr></tbody></table></div><div class="line alt1"><table><tbody><tr><td class="content"><code class="spaces">&nbsp;&nbsp;</code><code class="keyword">var</code> <code class="plain">frm = document.forms[</code><code class="string">"myform"</code><code class="plain">];</code></td></tr></tbody></table></div><div class="line alt2"><table><tbody><tr><td class="content"><code class="spaces">&nbsp;&nbsp;</code><code class="keyword">if</code><code class="plain">(</code><code class="keyword">false</code> <code class="plain">== DoMyValidationOne())</code></td></tr></tbody></table></div><div class="line alt1"><table><tbody><tr><td class="content"><code class="spaces">&nbsp;&nbsp;</code><code class="plain">{</code></td></tr></tbody></table></div><div class="line alt2"><table><tbody><tr><td class="content"><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="plain">sfm_show_error_msg(</code><code class="string">'Validation One Failed!'</code><code class="plain">);</code></td></tr></tbody></table></div><div class="line alt1"><table><tbody><tr><td class="content"><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="keyword">return</code> <code class="keyword">false</code><code class="plain">;</code></td></tr></tbody></table></div><div class="line alt2"><table><tbody><tr><td class="content"><code class="spaces">&nbsp;&nbsp;</code><code class="plain">}</code></td></tr></tbody></table></div><div class="line alt1"><table><tbody><tr><td class="content"><code class="spaces">&nbsp;&nbsp;</code><code class="keyword">else</code></td></tr></tbody></table></div><div class="line alt2"><table><tbody><tr><td class="content"><code class="spaces">&nbsp;&nbsp;</code><code class="keyword">if</code><code class="plain">(</code><code class="keyword">false</code> <code class="plain">== DoMyValidationTwo())</code></td></tr></tbody></table></div><div class="line alt1"><table><tbody><tr><td class="content"><code class="spaces">&nbsp;&nbsp;</code><code class="plain">{</code></td></tr></tbody></table></div><div class="line alt2"><table><tbody><tr><td class="content"><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="plain">sfm_show_error_msg(</code><code class="string">'Validation Two Failed!'</code><code class="plain">);</code></td></tr></tbody></table></div><div class="line alt1"><table><tbody><tr><td class="content"><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="keyword">return</code> <code class="keyword">false</code><code class="plain">;</code></td></tr></tbody></table></div><div class="line alt2"><table><tbody><tr><td class="content"><code class="spaces">&nbsp;&nbsp;</code><code class="plain">}</code></td></tr></tbody></table></div><div class="line alt1"><table><tbody><tr><td class="content"><code class="spaces">&nbsp;&nbsp;</code><code class="keyword">else</code></td></tr></tbody></table></div><div class="line alt2"><table><tbody><tr><td class="content"><code class="spaces">&nbsp;&nbsp;</code><code class="plain">{</code></td></tr></tbody></table></div><div class="line alt1"><table><tbody><tr><td class="content"><code class="spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="keyword">return</code> <code class="keyword">true</code><code class="plain">;</code></td></tr></tbody></table></div><div class="line alt2"><table><tbody><tr><td class="content"><code class="spaces">&nbsp;&nbsp;</code><code class="plain">}</code></td></tr></tbody></table></div><div class="line alt1"><table><tbody><tr><td class="content"><code class="plain">}</code></td></tr></tbody></table></div></div></div>
+</div>
+<p>where DoMyValidationOne() and DoMyValidationTwo() are custom functions for validation.</p>
+<h2>Clear All Validations</h2>
+<p>In some dynamically programmed pages, it may be required to change 
+the validations in the form at run time. For such cases, a function is 
+included which clears all validations in the validator object.</p>
+<div>
+<div class="syntaxhighlighter nogutter  " id="highlighter_881263"><div class="lines"><div class="line alt1"><table><tbody><tr><td class="content"><code class="plain">frmvalidator.clearAllValidations();</code></td></tr></tbody></table></div></div></div>
+</div>
+<p>This function call clears all validations you set.</p>
+<h2>Set focus on validation failure</h2>
+<p>By default, if there is a validation error, the focus is set on the 
+input element having the error. You can disable this behavior by 
+calling:</p>
+<div>
+<div class="syntaxhighlighter nogutter  " id="highlighter_26444"><div class="lines"><div class="line alt1"><table><tbody><tr><td class="content"><code class="plain">frmvalidator.EnableFocusOnError(</code><code class="keyword">false</code><code class="plain">);</code></td></tr></tbody></table></div></div></div>
+</div>
+<h2 id="descriptors">Table of Validation Descriptors</h2>
+<table class="datatable" cellspacing="0">
+<thead>
+<tr>
+<td>Validation Descriptor</td>
+<td>Usage</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+	required or<br>
+	req
+	</td>
+<td>
+	The field should not be empty. <p></p>
+<p>Note that this validation if for fields like Textbox and multi-line 
+text box. For ‘selections’ like drop down and radio group, use an 
+appropriate validation like ‘dontselect’ or ‘selone_radio’.
+	</p></td>
+</tr>
+<tr>
+<td>
+	maxlen=??? or<br>
+	maxlength=???
+	</td>
+<td>Limits the length of the input.<br>
+For example, if the maximum size permitted is 25, give the validation descriptor as “maxlen=25″
+	</td>
+</tr>
+<tr>
+<td>
+	minlen=??? or<br>
+	minlength=???
+	</td>
+<td>Checks the length of the entered string to the required minimum.<br>
+Example “minlen=5″
+	</td>
+</tr>
+<tr>
+<td>
+	alphanumeric or<br>
+	alnum
+	</td>
+<td>The input can contain alphabetic or numeric characters only.<br>
+(Note that space or punctuation also are not allowed since those characters are not alpha numeric)
+	</td>
+</tr>
+<tr>
+<td>
+	alphanumeric_space<br>
+	alnum_s
+	</td>
+<td>
+	Allows only alphabetic, numeric and space characters
+	</td>
+</tr>
+<tr>
+<td>num<br>
+	numeric
+	</td>
+<td>Allow numbers only
+	</td>
+</tr>
+<tr>
+<td>alpha<br>
+	alphabetic
+	</td>
+<td>Allow only alphabetic characters. </td>
+</tr>
+<tr>
+<td>
+        alpha_s<br>
+	alphabetic_space
+	</td>
+<td>Allows alphabetic and space characters</td>
+</tr>
+<tr>
+<td>email
+	</td>
+<td>Validates the field to be a proper email address.<br>
+ (Note, However that the validation can’t check whether the email address exists or not)
+	</td>
+</tr>
+<tr>
+<td>lt=???<br>
+	lessthan=???
+	</td>
+<td>
+	Verify the data to be less than the value passed. Valid only for numeric fields.<br>
+	Example: if the value should be less than 1000 give validation description as “lt=1000″
+	</td>
+</tr>
+<tr>
+<td>gt=???<br>
+	greaterthan=???	</td>
+<td>
+       Verify the data to be greater than the value passed. Valid only for numeric fields.<br>
+	Example: if the value should be greater than 10 give validation description as “gt=10″
+	</td>
+</tr>
+<tr>
+<td>regexp=???
+	</td>
+<td>Match the input with a regular expression.<br>
+Example: “regexp=^[A-Za-z]{1,20}$” allow up to 20 alphabetic characters.
+	</td>
+</tr>
+<tr>
+<td>dontselect=??
+	</td>
+<td>This validation descriptor is valid only for drop down lists. The 
+drop down select list boxes usually will have one item saying ‘Select 
+One’ (and that item will be selected by default). The user should select
+ an option other than this ‘Select One’ item.<br>
+If the <strong>value</strong> of this default option is ’000′, the validation description should be “dontselect=000″<p></p>
+<p><img src="javascript-form-validation.phtml_files/drop-down-with-default.png" alt="Dropdown box with default selected" class="alignnone size-full wp-image-427" height="48" width="252"></p>
+<p><img src="javascript-form-validation.phtml_files/drop-down-source.png" alt="Drop down list source" class="alignnone size-full wp-image-429" height="46" width="404">
+	</p></td>
+</tr>
+<tr>
+<td>dontselectchk=??
+	</td>
+<td>This validation descriptor is only for check boxes. The user should 
+not select the given check box. Provide the value of the check box 
+instead of ??<br>
+	For example, dontselectchk=on
+	</td>
+</tr>
+<tr>
+<td>shouldselchk=??
+	</td>
+<td>This validation descriptor is only for check boxes. The user should 
+select the given check box. Provide the value of the check box instead 
+of ??<br>
+	For example, shouldselchk=on
+	</td>
+</tr>
+<tr>
+<td>selone_radio
+	</td>
+<td>
+	One of the radio buttons should be selected.<br>
+Example:<p></p>
+<div class="syntaxhighlighter nogutter  " id="highlighter_326073"><div class="lines"><div class="line alt1"><table><tbody><tr><td class="content"><code class="plain">chktestValidator.addValidation(</code><code class="string">"Options"</code><code class="plain">,</code><code class="string">"selone"</code><code class="plain">);</code></td></tr></tbody></table></div></div></div>
+</td>
+</tr>
+<tr>
+<td colspan="2"><strong>Compare two input elements</strong></td>
+</tr>
+<tr>
+<td>eqelmnt=???
+	</td>
+<td>Compare two input elements. For example: password and confirm password. Replace ??? with the name of the other input element.<br>
+Example: <p></p>
+<div class="syntaxhighlighter nogutter  " id="highlighter_647934"><div class="lines"><div class="line alt1"><table><tbody><tr><td class="content"><code class="plain">frmvalidator.addValidation(</code><code class="string">"confpassword"</code><code class="plain">,</code><code class="string">"eqelmnt=password"</code><code class="plain">,</code></td></tr></tbody></table></div><div class="line alt2"><table><tbody><tr><td class="content"><code class="spaces">&nbsp;</code><code class="string">"The confirmed password is not same as password"</code><code class="plain">);</code></td></tr></tbody></table></div></div></div>
+</td>
+</tr>
+<tr>
+<td>neelmnt=???
+	</td>
+<td>The value should not be equal to the other input element<br>
+Example: <p></p>
+<div class="syntaxhighlighter nogutter  " id="highlighter_16831"><div class="lines"><div class="line alt1"><table><tbody><tr><td class="content"><code class="plain">frmvalidator.addValidation(</code><code class="string">"password"</code><code class="plain">,</code><code class="string">"neelmnt=username"</code><code class="plain">,</code></td></tr></tbody></table></div><div class="line alt2"><table><tbody><tr><td class="content"><code class="string">"The password should not be same as username"</code><code class="plain">);</code></td></tr></tbody></table></div></div></div>
+</td>
+</tr>
+<tr>
+<td>ltelmnt=???
+	</td>
+<td>The input should be less than the other input. Give the name of the other input instead of ???
+	</td>
+</tr>
+<tr>
+<td>leelmnt=???
+	</td>
+<td>The input should be less than <strong>or equal to</strong> the other input. Give the name of the other input instead of ???
+	</td>
+</tr>
+<tr>
+<td>gtelmnt=???
+	</td>
+<td>The input should be greater than the other input. Give the name of the other input instead of ???
+	</td>
+</tr>
+<tr>
+<td>geelmnt=???
+	</td>
+<td>The input should be greater than <strong>or equal to</strong> the other input. Give the name of the other input instead of ???
+	</td>
+</tr>
+</tbody></table>
+<p>
+Go to the <a href="http://www.javascript-coder.com/html-form/form-validation.phtml">second part of this post</a> to learn about the advanced features of this validation script.</p>
+<div class="sociable">
+<div class="sociable_tagline">
+<strong>Enjoyed the post? Tell the world!</strong>
+</div>
+<ul>
+	<li class="sociablefirst"><a rel="nofollow" href="mailto:?subject=JavaScript%20Form%20Validation%20%3A%20quick%20and%20easy%21&amp;body=http%3A%2F%2Fwww.javascript-coder.com%2Fhtml-form%2Fjavascript-form-validation.phtml" title="email"><img src="javascript-form-validation.phtml_files/services-sprite.gif" title="email" alt="email" style="width: 16px; height: 16px; background: url(&quot;http://www.javascript-coder.com/wp-content/plugins/sociable/images/services-sprite.png&quot;) no-repeat scroll -325px -1px transparent;" class="sociable-hovers"></a></li>
+	<li><a rel="nofollow" href="http://twitter.com/home?status=JavaScript%20Form%20Validation%20%3A%20quick%20and%20easy%21%20-%20http%3A%2F%2Fwww.javascript-coder.com%2Fhtml-form%2Fjavascript-form-validation.phtml" title="Twitter"><img src="javascript-form-validation.phtml_files/services-sprite.gif" title="Twitter" alt="Twitter" style="width: 16px; height: 16px; background: url(&quot;http://www.javascript-coder.com/wp-content/plugins/sociable/images/services-sprite.png&quot;) no-repeat scroll -343px -55px transparent;" class="sociable-hovers"></a></li>
+	<li><a rel="nofollow" href="http://digg.com/submit?phase=2&amp;url=http%3A%2F%2Fwww.javascript-coder.com%2Fhtml-form%2Fjavascript-form-validation.phtml&amp;title=JavaScript%20Form%20Validation%20%3A%20quick%20and%20easy%21&amp;bodytext=Using%20client%20side%20JavaScript%20is%20an%20efficient%20way%20to%20validate%20the%20user%20input%20in%20web%20forms.%20When%20there%20are%20many%20fields%20in%20the%20form%2C%20the%20JavaScript%20validation%20becomes%20too%20complex.%0D%0A%0D%0AThe%20JavaScript%20class%20presented%20here%20makes%20the%20form%20validations%20many%20ti" title="Digg"><img src="javascript-form-validation.phtml_files/services-sprite.gif" title="Digg" alt="Digg" style="width: 16px; height: 16px; background: url(&quot;http://www.javascript-coder.com/wp-content/plugins/sociable/images/services-sprite.png&quot;) no-repeat scroll -235px -1px transparent;" class="sociable-hovers"></a></li>
+	<li><a rel="nofollow" href="http://www.dzone.com/links/add.html?url=http%3A%2F%2Fwww.javascript-coder.com%2Fhtml-form%2Fjavascript-form-validation.phtml&amp;title=JavaScript%20Form%20Validation%20%3A%20quick%20and%20easy%21" title="DZone"><img src="javascript-form-validation.phtml_files/services-sprite.gif" title="DZone" alt="DZone" style="width: 16px; height: 16px; background: url(&quot;http://www.javascript-coder.com/wp-content/plugins/sociable/images/services-sprite.png&quot;) no-repeat scroll -289px -1px transparent;" class="sociable-hovers"></a></li>
+	<li><a rel="nofollow" href="http://sphinn.com/index.php?c=post&amp;m=submit&amp;link=http%3A%2F%2Fwww.javascript-coder.com%2Fhtml-form%2Fjavascript-form-validation.phtml" title="Sphinn"><img src="javascript-form-validation.phtml_files/services-sprite.gif" title="Sphinn" alt="Sphinn" style="width: 16px; height: 16px; background: url(&quot;http://www.javascript-coder.com/wp-content/plugins/sociable/images/services-sprite.png&quot;) no-repeat scroll -199px -55px transparent;" class="sociable-hovers"></a></li>
+	<li><a rel="nofollow" href="http://delicious.com/post?url=http%3A%2F%2Fwww.javascript-coder.com%2Fhtml-form%2Fjavascript-form-validation.phtml&amp;title=JavaScript%20Form%20Validation%20%3A%20quick%20and%20easy%21&amp;notes=Using%20client%20side%20JavaScript%20is%20an%20efficient%20way%20to%20validate%20the%20user%20input%20in%20web%20forms.%20When%20there%20are%20many%20fields%20in%20the%20form%2C%20the%20JavaScript%20validation%20becomes%20too%20complex.%0D%0A%0D%0AThe%20JavaScript%20class%20presented%20here%20makes%20the%20form%20validations%20many%20ti" title="del.icio.us"><img src="javascript-form-validation.phtml_files/services-sprite.gif" title="del.icio.us" alt="del.icio.us" style="width: 16px; height: 16px; background: url(&quot;http://www.javascript-coder.com/wp-content/plugins/sociable/images/services-sprite.png&quot;) no-repeat scroll -199px -1px transparent;" class="sociable-hovers"></a></li>
+	<li><a rel="nofollow" href="http://www.facebook.com/share.php?u=http%3A%2F%2Fwww.javascript-coder.com%2Fhtml-form%2Fjavascript-form-validation.phtml&amp;t=JavaScript%20Form%20Validation%20%3A%20quick%20and%20easy%21" title="Facebook"><img src="javascript-form-validation.phtml_files/services-sprite.gif" title="Facebook" alt="Facebook" style="width: 16px; height: 16px; background: url(&quot;http://www.javascript-coder.com/wp-content/plugins/sociable/images/services-sprite.png&quot;) no-repeat scroll -343px -1px transparent;" class="sociable-hovers"></a></li>
+	<li><a rel="nofollow" href="http://www.mixx.com/submit?page_url=http%3A%2F%2Fwww.javascript-coder.com%2Fhtml-form%2Fjavascript-form-validation.phtml&amp;title=JavaScript%20Form%20Validation%20%3A%20quick%20and%20easy%21" title="Mixx"><img src="javascript-form-validation.phtml_files/services-sprite.gif" title="Mixx" alt="Mixx" style="width: 16px; height: 16px; background: url(&quot;http://www.javascript-coder.com/wp-content/plugins/sociable/images/services-sprite.png&quot;) no-repeat scroll -91px -37px transparent;" class="sociable-hovers"></a></li>
+	<li><a rel="nofollow" href="http://www.google.com/bookmarks/mark?op=edit&amp;bkmk=http%3A%2F%2Fwww.javascript-coder.com%2Fhtml-form%2Fjavascript-form-validation.phtml&amp;title=JavaScript%20Form%20Validation%20%3A%20quick%20and%20easy%21&amp;annotation=Using%20client%20side%20JavaScript%20is%20an%20efficient%20way%20to%20validate%20the%20user%20input%20in%20web%20forms.%20When%20there%20are%20many%20fields%20in%20the%20form%2C%20the%20JavaScript%20validation%20becomes%20too%20complex.%0D%0A%0D%0AThe%20JavaScript%20class%20presented%20here%20makes%20the%20form%20validations%20many%20ti" title="Google Bookmarks"><img src="javascript-form-validation.phtml_files/services-sprite.gif" title="Google Bookmarks" alt="Google Bookmarks" style="width: 16px; height: 16px; background: url(&quot;http://www.javascript-coder.com/wp-content/plugins/sociable/images/services-sprite.png&quot;) no-repeat scroll -91px -19px transparent;" class="sociable-hovers"></a></li>
+	<li><a rel="nofollow" href="javascript:AddToFavorites();" title="Add to favorites"><img src="javascript-form-validation.phtml_files/services-sprite.gif" title="Add to favorites" alt="Add to favorites" style="width: 16px; height: 16px; background: url(&quot;http://www.javascript-coder.com/wp-content/plugins/sociable/images/services-sprite.png&quot;) no-repeat scroll -181px -73px transparent;" class="sociable-hovers"></a></li>
+	<li><a rel="nofollow" href="http://reddit.com/submit?url=http%3A%2F%2Fwww.javascript-coder.com%2Fhtml-form%2Fjavascript-form-validation.phtml&amp;title=JavaScript%20Form%20Validation%20%3A%20quick%20and%20easy%21" title="Reddit"><img src="javascript-form-validation.phtml_files/services-sprite.gif" title="Reddit" alt="Reddit" style="width: 16px; height: 16px; background: url(&quot;http://www.javascript-coder.com/wp-content/plugins/sociable/images/services-sprite.png&quot;) no-repeat scroll -55px -55px transparent;" class="sociable-hovers"></a></li>
+	<li><a rel="nofollow" href="http://www.stumbleupon.com/submit?url=http%3A%2F%2Fwww.javascript-coder.com%2Fhtml-form%2Fjavascript-form-validation.phtml&amp;title=JavaScript%20Form%20Validation%20%3A%20quick%20and%20easy%21" title="StumbleUpon"><img src="javascript-form-validation.phtml_files/services-sprite.gif" title="StumbleUpon" alt="StumbleUpon" style="width: 16px; height: 16px; background: url(&quot;http://www.javascript-coder.com/wp-content/plugins/sociable/images/services-sprite.png&quot;) no-repeat scroll -217px -55px transparent;" class="sociable-hovers"></a></li>
+	<li class="sociablelast"><a rel="nofollow" href="http://technorati.com/faves?add=http%3A%2F%2Fwww.javascript-coder.com%2Fhtml-form%2Fjavascript-form-validation.phtml" title="Technorati"><img src="javascript-form-validation.phtml_files/services-sprite.gif" title="Technorati" alt="Technorati" style="width: 16px; height: 16px; background: url(&quot;http://www.javascript-coder.com/wp-content/plugins/sociable/images/services-sprite.png&quot;) no-repeat scroll -271px -55px transparent;" class="sociable-hovers"></a></li>
+</ul>
+</div>
+<p>Related posts:</p><ol><li><a href="http://www.javascript-coder.com/html-form/form-validation.phtml" rel="bookmark" title="Permanent Link: JavaScript Form Validation Script: More features">JavaScript Form Validation Script: More features</a></li>
+<li><a href="http://www.javascript-coder.com/html-form/forms-validation.phtml" rel="bookmark" title="Permanent Link: Simfatic Forms Validation: save your time coding">Simfatic Forms Validation: save your time coding</a></li>
+<li><a href="http://www.javascript-coder.com/html-form/form-design-software.phtml" rel="bookmark" title="Permanent Link: A Form Design Software that is Quick, Easy and Simple.">A Form Design Software that is Quick, Easy and Simple.</a></li>
+<li><a href="http://www.javascript-coder.com/html-form/html-form-tutorial-p3.phtml" rel="bookmark" title="Permanent Link: HTML Form Tutorial Part III : Still More Input Elements">HTML Form Tutorial Part III : Still More Input Elements</a></li>
+</ol>					<p class="post_tags">Tagged as:
+						<a href="http://www.javascript-coder.com/tag/download" rel="tag nofollow">download</a>,
+						<a href="http://www.javascript-coder.com/tag/javascript-form-validation" rel="tag nofollow">javascript form validation</a>,
+						<a href="http://www.javascript-coder.com/tag/reference" rel="tag nofollow">reference</a>,
+						<a href="http://www.javascript-coder.com/tag/validation" rel="tag nofollow">validation</a>
+					</p>
+				</ol></div>
+			</div>
+			<div id="comments">
+				<div id="comments_intro" class="comments_intro">
+					<p><span class="bracket">{</span> <span>245</span> comments <span class="bracket">}</span></p>
+				</div>
+				<div id="comment_nav_1" class="prev_next">
+					<p class="previous"><a href="http://www.javascript-coder.com/html-form/javascript-form-validation.phtml/comment-page-8#comments">← Previous Comments</a></p>
+				</div>
+				<dl id="comment_list">
+					<dt class="comment even thread-even depth-1" id="comment-8915">
+<span class="avatar"><img alt="" src="javascript-form-validation.phtml_files/a689675f2f2c4e003def0f962bd8b678.png" class="avatar avatar-44 photo" height="44" width="44"></span>
+<span class="comment_author">bks</span>
+<span class="comment_time"><a href="#comment-8915" title="Permalink to this comment" rel="nofollow">August 23, 2011 at 7:05 am</a></span>
+					</dt>
+					<dd class="comment even thread-even depth-1">
+<div class="format_text" id="comment-body-8915">
+<p>i have solved it look like submit button should have name=”submit” and id=”submit”<br>
+other then that will not submitting value;</p>
+<p class="reply"></p>
+</div>
+					</dd>
+					<dt class="comment odd alt thread-odd thread-alt depth-1" id="comment-8913">
+<span class="avatar"><img alt="" src="javascript-form-validation.phtml_files/a689675f2f2c4e003def0f962bd8b678.png" class="avatar avatar-44 photo" height="44" width="44"></span>
+<span class="comment_author">bks</span>
+<span class="comment_time"><a href="#comment-8913" title="Permalink to this comment" rel="nofollow">August 23, 2011 at 6:49 am</a></span>
+					</dt>
+					<dd class="comment odd alt thread-odd thread-alt depth-1">
+<div class="format_text" id="comment-body-8913">
+<p>i am using this validator in php form, Problem passing all validation but values are not “post”</p>
+<p>do any one have idea??</p>
+<p class="reply"></p>
+</div>
+					</dd>
+					<dt class="comment even thread-even depth-1 parent" id="comment-8894">
+<span class="avatar"><a href="http://www.kentitltd.co.uk/" rel="nofollow"><img alt="" src="javascript-form-validation.phtml_files/0a04e797992ecb196c9f127ad7107b05.png" class="avatar avatar-44 photo" height="44" width="44"></a></span>
+<span class="comment_author"><a href="http://www.kentitltd.co.uk/" rel="external nofollow" class="url">Jim</a></span>
+<span class="comment_time"><a href="#comment-8894" title="Permalink to this comment" rel="nofollow">August 22, 2011 at 4:56 pm</a></span>
+					</dt>
+					<dd class="comment even thread-even depth-1 parent">
+<div class="format_text" id="comment-body-8894">
+<p>Almost working perfectly. Cannot for the life of me radio buttons to 
+validate. No error but no validation when a radio button has to be 
+selected.  Any ideas? BTW the demo for radio buttons doesn’t work for me
+ either.</p>
+<p class="reply"></p>
+</div>
+					<dl class="children">
+					<dt class="comment odd alt depth-2" id="comment-8895">
+<span class="avatar"><img alt="" src="javascript-form-validation.phtml_files/0a04e797992ecb196c9f127ad7107b05.png" class="avatar avatar-44 photo" height="44" width="44"></span>
+<span class="comment_author">Jim</span>
+<span class="comment_time"><a href="#comment-8895" title="Permalink to this comment" rel="nofollow">August 22, 2011 at 5:04 pm</a></span>
+					</dt>
+					<dd class="comment odd alt depth-2">
+<div class="format_text" id="comment-body-8895">
+<p>Don’t worry, worked it out. Had to use frmvalidator instead of chktestValidator!</p>
+<p class="reply"></p>
+</div>
+					</dd>
+					</dl>
+					</dd>
+					<dt class="comment even thread-odd thread-alt depth-1" id="comment-8787">
+<span class="avatar"><img alt="" src="javascript-form-validation.phtml_files/1a29328bde319a17185bc094e5dd4257.png" class="avatar avatar-44 photo" height="44" width="44"></span>
+<span class="comment_author">Evan</span>
+<span class="comment_time"><a href="#comment-8787" title="Permalink to this comment" rel="nofollow">August 19, 2011 at 9:33 pm</a></span>
+					</dt>
+					<dd class="comment even thread-odd thread-alt depth-1">
+<div class="format_text" id="comment-body-8787">
+<p>I’ve tried your validator and it seems to try and validate when the 
+page loads and the input fields are empty. I get an error from the 
+frmvalidator.addValidation() for any fields that do not have default 
+values. Am I doing something incorrectly?</p>
+<p class="reply"></p>
+</div>
+					</dd>
+				</dl>
+				<div id="comment_nav_2" class="prev_next">
+					<p class="previous"><a href="http://www.javascript-coder.com/html-form/javascript-form-validation.phtml/comment-page-8#comments">← Previous Comments</a></p>
+				</div>
+			</div>
+					<div class="prev_next post_nav">
+						<p class="previous">Previous post: <a href="http://www.javascript-coder.com/window-popup/javascript-window-close.phtml" rel="prev">Using the window.close method</a></p>
+						<p>Next post: <a href="http://www.javascript-coder.com/html-form/form-validation.phtml" rel="next">JavaScript Form Validation Script: More features</a></p>
+					</div>
+		</div>
+		<div id="sidebars">
+			<div id="sidebar_1" class="sidebar">
+				<ul class="sidebar_list">
+<li class="widget " id="sw-subscribe-widget-3"><div id="subscribe-widget-div"><a title="" target="_blank" rel="nofallow" href="http://www.javascript-coder.com/feed"><img src="javascript-form-validation.phtml_files/postsfeed.png" style="margin-right: 5px; margin-left: 5px;" alt="" border="0" height="60" width="58"></a><a title="" target="_blank" rel="nofallow" href="http://twitter.com/javascriptcoder"><img src="javascript-form-validation.phtml_files/twitter.png" style="margin-right: 5px; margin-left: 5px;" alt="" border="0" height="60" width="60"></a><a title="" target="_blank" rel="nofallow" href="http://feedburner.google.com/fb/a/mailverify?uri=javascriptcoder&amp;loc=en_US"><img src="javascript-form-validation.phtml_files/feedburner.png" style="margin-right: 5px; margin-left: 5px;" alt="" border="0" height="60" width="56"></a></div></li><li class="widget widget_categories" id="categories-3"><h3>Categories</h3>		<ul>
+	<li class="cat-item cat-item-3"><a href="http://www.javascript-coder.com/category/html-form" title="View all posts filed under HTML Forms">HTML Forms</a>
+</li>
+	<li class="cat-item cat-item-9"><a href="http://www.javascript-coder.com/category/button" title="View all posts filed under JavaScript Button">JavaScript Button</a>
+</li>
+	<li class="cat-item cat-item-8"><a href="http://www.javascript-coder.com/category/javascript-form" title="View all posts filed under Javascript Form Handling">Javascript Form Handling</a>
+</li>
+	<li class="cat-item cat-item-10"><a href="http://www.javascript-coder.com/category/window-popup" title="View all posts filed under JavaScript Popup Windows">JavaScript Popup Windows</a>
+</li>
+	<li class="cat-item cat-item-65"><a href="http://www.javascript-coder.com/category/jquery" title="View all posts filed under jQuery">jQuery</a>
+</li>
+		</ul>
+</li><li class="widget widget_text" id="text-3"><h3>Simfatic Forms</h3>			<div class="textwidget"><a href="http://www.simfatic.com/forms/benefits.php"><img class="advimg" src="javascript-form-validation.phtml_files/make-form-without-coding.png" alt="How to make a form without coding? Click here for a demo." border="0" height="300" width="200"></a></div>
+		</li><li class="widget widget_nrc" id="related-links-by-category"><h3>HTML Forms</h3><ul><li class="cat-item" id="related-cat-post-10"><a href="http://www.javascript-coder.com/html-form/html-form-tutorial-p1.phtml" title="HTML Form Tutorial">HTML Form Tutorial</a></li><li class="cat-item" id="related-cat-post-78"><a href="http://www.javascript-coder.com/html-form/html-form-tutorial-p3.phtml" title="HTML Form Tutorial Part III : Still More Input Elements">HTML Form Tutorial Part III : Still More Input Elements</a></li><li class="cat-item" id="related-cat-post-53"><a href="http://www.javascript-coder.com/html-form/html-form-tutorial-p2.phtml" title="HTML Form Tutorial Part II : More Input Elements">HTML Form Tutorial Part II : More Input Elements</a></li><li class="cat-item" id="related-cat-post-87"><a href="http://www.javascript-coder.com/html-form/html-form-tutorial-p4.phtml" title="HTML Form Tutorial Part IV: Server Side Form Processing">HTML Form Tutorial Part IV: Server Side Form Processing</a></li><li class="cat-item" id="related-cat-post-147"><a href="http://www.javascript-coder.com/html-form/form-design-software.phtml" title="A Form Design Software that is Quick, Easy and Simple.">A Form Design Software that is Quick, Easy and Simple.</a></li><li class="cat-item" id="related-cat-post-376"><a href="http://www.javascript-coder.com/html-form/how-to-make-a-form-quickly.phtml" title="How to make a web form and get it online quickly">How to make a web form and get it online quickly</a></li><li class="cat-item" id="related-cat-post-473"><a href="http://www.javascript-coder.com/html-form/forms-validation.phtml" title="Simfatic Forms Validation: save your time coding">Simfatic Forms Validation: save your time coding</a></li><li class="cat-item" id="related-cat-post-443"><a href="http://www.javascript-coder.com/html-form/form-validation.phtml" title="JavaScript Form Validation Script: More features">JavaScript Form Validation Script: More features</a></li><li class="cat-item" id="related-cat-post-335"><a href="http://www.javascript-coder.com/html-form/html-form-action.phtml" title="How to switch the 'action' field in an HTML form dynamically">How to switch the 'action' field in an HTML form dynamically</a></li><li class="cat-item" style="text-align:right"><a href="http://www.javascript-coder.com/category/html-form" title="HTML Forms">More &gt;&gt; &nbsp; </a></li></ul></li><li class="widget widget_wp_twitter_goodies_profile" id="wp_twitter_goodies_profile_widgets"><h3>Tweets</h3><script src="javascript-form-validation.phtml_files/widget.js"></script><script>new TWTR.Widget({  version: 2,  type: 'profile',  rpp: 30,  interval: 5000,  width: 200,  height: 300,  theme: {    shell: {      background: '#FFFFFF',      color: '#111111'    },    tweets: {      background: '#FFFFFF',      color: '#333333',      links: '#2361A1'    }  },  features: {    scrollbar: false,    loop: true,    live: true,    hashtags: true,    timestamp: true,    avatars: false,    behavior: 'default'  }}).render().setUser('javascriptcoder').start();</script><div class="twtr-widget twtr-widget-profile" id="twtr-widget-1"><div class="twtr-doc" style="width: 200px;">            <div class="twtr-hd"><a target="_blank" href="http://twitter.com/" class="twtr-profile-img-anchor"><img alt="profile" class="twtr-profile-img" src="javascript-form-validation.phtml_files/default.gif"></a>                      <h3></h3>                      <h4></h4>             </div>            <div class="twtr-bd">              <div class="twtr-timeline" style="height: 300px;">                <div class="twtr-tweets">                  <div class="twtr-reference-tweet"></div>                  <!-- tweets show here -->                </div>              </div>            </div>            <div class="twtr-ft">              <div><a target="_blank" href="http://twitter.com/"><img alt="" src="javascript-form-validation.phtml_files/widget-logo.png"></a>                <span><a target="_blank" class="twtr-join-conv" style="color: rgb(17, 17, 17);" href="http://twitter.com/javascriptcoder">Join the conversation</a></span>              </div>            </div>          </div></div></li>				</ul>
+			</div>
+		</div>
+	</div>
+	<div id="footer">
+    <p>Copyright © 2003-2011 <a href="http://www.javascript-coder.com/">Javascript-Coder.com</a>.</p><br>
+<!-- HighSlide4Wordpress Footer JS Includes -->
+<script type="text/javascript">
+hs.graphicsDir = '/wp-content/plugins/highslide-4-wordpress-reloaded/graphics/';
+hs.showCredits = false;
+hs.fadeInOut = false;
+hs.align = 'center';
+hs.padToMinWidth = true;
+hs.wrapperClassName = 'borderless';
+</script>
+<script type="text/javascript" src="javascript-form-validation.phtml_files/shCore.js"></script>
+<script type="text/javascript" src="javascript-form-validation.phtml_files/shBrushXml.js"></script>
+<script type="text/javascript" src="javascript-form-validation.phtml_files/shBrushJScript.js"></script>
+<script type="text/javascript">
+	(function(){
+		var corecss = document.createElement('link');
+		var themecss = document.createElement('link');
+		var corecssurl = "http://www.javascript-coder.com/wp-content/plugins/syntaxhighlighter/syntaxhighlighter/styles/shCore.css?ver=2.1.364b";
+		if ( corecss.setAttribute ) {
+				corecss.setAttribute( "rel", "stylesheet" );
+				corecss.setAttribute( "type", "text/css" );
+				corecss.setAttribute( "href", corecssurl );
+		} else {
+				corecss.rel = "stylesheet";
+				corecss.href = corecssurl;
+		}
+		document.getElementsByTagName("head")[0].appendChild(corecss);
+		var themecssurl = "http://www.javascript-coder.com/wp-content/plugins/syntaxhighlighter/syntaxhighlighter/styles/shThemeEclipse.css?ver=2.1.364b";
+		if ( themecss.setAttribute ) {
+				themecss.setAttribute( "rel", "stylesheet" );
+				themecss.setAttribute( "type", "text/css" );
+				themecss.setAttribute( "href", themecssurl );
+		} else {
+				themecss.rel = "stylesheet";
+				themecss.href = themecssurl;
+		}
+		document.getElementsByTagName("head")[0].appendChild(themecss);
+	})();
+	SyntaxHighlighter.config.clipboardSwf = 'http://www.javascript-coder.com/wp-content/plugins/syntaxhighlighter/syntaxhighlighter/scripts/clipboard.swf';
+	SyntaxHighlighter.config.strings.expandSource = 'show source';
+	SyntaxHighlighter.config.strings.viewSource = 'view source';
+	SyntaxHighlighter.config.strings.copyToClipboard = 'copy to clipboard';
+	SyntaxHighlighter.config.strings.copyToClipboardConfirmation = 'The code is in your clipboard now';
+	SyntaxHighlighter.config.strings.print = 'print';
+	SyntaxHighlighter.config.strings.help = '?';
+	SyntaxHighlighter.config.strings.alert = 'SyntaxHighlighter\n\n';
+	SyntaxHighlighter.config.strings.noBrush = 'Can\'t find brush for: ';
+	SyntaxHighlighter.config.strings.brushNotHtmlScript = 'Brush wasn\'t configured for html-script option: ';
+	SyntaxHighlighter.defaults['auto-links'] = false;
+	SyntaxHighlighter.defaults['gutter'] = false;
+	SyntaxHighlighter.defaults['toolbar'] = false;
+	SyntaxHighlighter.all();
+</script>
+	</div>
+</div>
+</div>
+<!--[if lte IE 8]>
+<div id="ie_clear"></div>
+<![endif]-->
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script><script src="javascript-form-validation.phtml_files/ga.js" type="text/javascript"></script>
+<script type="text/javascript">
+var pageTracker = _gat._getTracker("UA-4502881-2");
+pageTracker._initData();
+pageTracker._trackPageview();
+</script>
+
+
+
+
+<div style="padding: 0pt; border: medium none; margin: 0pt; position: absolute; left: 0pt; top: 0pt; width: 100%; z-index: 1001; direction: ltr;" class="highslide-container"><a style="position: absolute; top: -9999px; opacity: 0.75; z-index: 1;" href="javascript:;" title="Click to cancel" class="highslide-loading">Loading...</a><div style="display: none;"></div><div style="padding: 0pt; border: medium none; margin: 0pt; visibility: hidden;" class="highslide-viewport highslide-viewport-size"></div><table style="padding: 0pt; border: medium none; margin: 0pt; visibility: hidden; position: absolute; border-collapse: collapse; width: 0pt;" cellspacing="0"><tbody style="padding: 0pt; border: medium none; margin: 0pt;"><tr style="padding: 0pt; border: medium none; margin: 0pt; height: auto;"><td style="padding: 0pt; border: medium none; margin: 0pt; line-height: 0; font-size: 0pt; background: url(&quot;http://www.javascript-coder.com/wp-content/plugins/highslide-4-wordpress-reloaded/graphics/outlines/drop-shadow.png&quot;) repeat scroll 0px 0px transparent; height: 20px; width: 20px;"></td><td style="padding: 0pt; border: medium none; margin: 0pt; line-height: 0; font-size: 0pt; background: url(&quot;http://www.javascript-coder.com/wp-content/plugins/highslide-4-wordpress-reloaded/graphics/outlines/drop-shadow.png&quot;) repeat scroll 0px -40px transparent; height: 20px; width: 20px;"></td><td style="padding: 0pt; border: medium none; margin: 0pt; line-height: 0; font-size: 0pt; background: url(&quot;http://www.javascript-coder.com/wp-content/plugins/highslide-4-wordpress-reloaded/graphics/outlines/drop-shadow.png&quot;) repeat scroll -20px 0px transparent; height: 20px; width: 20px;"></td></tr><tr style="padding: 0pt; border: medium none; margin: 0pt; height: auto;"><td style="padding: 0pt; border: medium none; margin: 0pt; line-height: 0; font-size: 0pt; background: url(&quot;http://www.javascript-coder.com/wp-content/plugins/highslide-4-wordpress-reloaded/graphics/outlines/drop-shadow.png&quot;) repeat scroll 0px -80px transparent; height: 20px; width: 20px;"></td><td class="drop-shadow highslide-outline" style="padding: 0pt; border: medium none; margin: 0pt; position: relative;"></td><td style="padding: 0pt; border: medium none; margin: 0pt; line-height: 0; font-size: 0pt; background: url(&quot;http://www.javascript-coder.com/wp-content/plugins/highslide-4-wordpress-reloaded/graphics/outlines/drop-shadow.png&quot;) repeat scroll -20px -80px transparent; height: 20px; width: 20px;"></td></tr><tr style="padding: 0pt; border: medium none; margin: 0pt; height: auto;"><td style="padding: 0pt; border: medium none; margin: 0pt; line-height: 0; font-size: 0pt; background: url(&quot;http://www.javascript-coder.com/wp-content/plugins/highslide-4-wordpress-reloaded/graphics/outlines/drop-shadow.png&quot;) repeat scroll 0px -20px transparent; height: 20px; width: 20px;"></td><td style="padding: 0pt; border: medium none; margin: 0pt; line-height: 0; font-size: 0pt; background: url(&quot;http://www.javascript-coder.com/wp-content/plugins/highslide-4-wordpress-reloaded/graphics/outlines/drop-shadow.png&quot;) repeat scroll 0px -60px transparent; height: 20px; width: 20px;"></td><td style="padding: 0pt; border: medium none; margin: 0pt; line-height: 0; font-size: 0pt; background: url(&quot;http://www.javascript-coder.com/wp-content/plugins/highslide-4-wordpress-reloaded/graphics/outlines/drop-shadow.png&quot;) repeat scroll -20px -20px transparent; height: 20px; width: 20px;"></td></tr></tbody></table></div></body></html>
+<!-- Dynamic page generated in 0.422 seconds. -->
+<!-- Cached page generated by WP-Super-Cache on 2011-08-23 09:55:15 -->
+<!-- Compression = gzip -->

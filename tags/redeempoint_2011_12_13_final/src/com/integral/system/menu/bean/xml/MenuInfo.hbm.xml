@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated May 18, 2011 4:57:55 PM by Hibernate Tools 3.3.0.GA -->
+<hibernate-mapping>
+    <class name="com.integral.system.menu.bean.MenuInfo" table="menu_info" dynamic-insert="true" dynamic-update="true">
+        <id name="menuId" type="java.lang.String">
+            <column name="menu_id" />
+            <generator class="uuid.hex" />
+        </id>
+        <property name="menuName" type="java.lang.String">
+            <column name="menu_name" />
+        </property>
+        <property name="pagePath" type="java.lang.String">
+            <column name="page_path" />
+        </property>
+        <property name="menuLevel" type="java.lang.String">
+            <column name="menu_level" />
+        </property>
+        <property name="parentMenuId" type="java.lang.String">
+            <column name="parent_menu" />
+        </property>
+        <property name="isLeave" type="java.lang.String">
+            <column name="is_leave" />
+        </property>
+        <property name="isShow" type="java.lang.String">
+            <column name="is_show" />
+        </property>
+        <property name="comment" type="java.lang.String">
+            <column name="comment" />
+        </property>
+    </class>
+</hibernate-mapping>
