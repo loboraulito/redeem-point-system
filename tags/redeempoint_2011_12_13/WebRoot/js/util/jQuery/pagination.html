@@ -1,0 +1,133 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="../../../css/jQuery/pagination.css"/>
+<style>
+body,div {
+	font-size:13px;
+	font-family:Verdana;
+}
+
+.pgContainer {
+	background-color:#F9F9F9;
+	padding:10px;
+	line-height:20px;
+}
+
+#pagetest5 .pgContainer {
+	color:#93A5B3;
+	background:url(desk.jpg);
+}
+
+hr {
+	margin:10px 0 10px 0;
+	border:0;
+	border-top:1px dashed #CCCCCC;
+	height:0;
+}
+
+h3 {
+	margin:5px 0;
+	font-size:14px;
+}
+</style>
+<script language="javascript" src="../../jQuery/jquery-1.6.2.min.js"></script>
+<script language="javascript" src="../../jQuery/jquery.cookie-min.js"></script>
+<script language="javascript" src="../../jQuery/pagination.js"></script>
+<script language="javascript">
+<!--
+
+$(document).ready(
+	function(){
+		//demo1带参数
+		var param = {
+			"money":encodeURI($("#money").val())
+		};
+		$("#pagetest").pagination({totalRecord:96,proxyUrl:'data.jsp',groupSize:4,barPosition:'bottom',ajaxParam:param});
+		
+		//demo2带初始数据
+		var initData = [
+			"1 多国华人华侨举行反“藏独”游行 视频 专题 <br/>",
+			"2 组图：西藏警方悬赏通缉打砸抢烧疑犯 <br/>",
+			"3 我国改革开放30年成为博鳌论坛热议焦点 专题 <br/>",
+			"4 奥运圣火抵达阿曼马斯喀特 华人护圣火 视频 <br/>",
+			"5 请参与全球华人反分裂护圣火签名活动 <br/>",
+			"6 刘兆玄将任台“行政院长” 江丙坤任海基会董事长<br/>",
+			"7 国家粮食局长撰文解读粮油安全 广东成第一缺粮省<br/>",
+			"8 湖北当阳女市长撞死男童续 交警部门被指不作为 <br/>",
+			"9 香港金像奖揭晓 《投名状》揽八项大奖 视频集 <br/>",
+			"10 江西鄱阳高速路员工报警被民警击毙(组图) <br/>",
+			"11 清华大学教授秦晖建议深圳率先兴建贫民区 <br/>",
+			"12 视频：实拍南京女大学生裹床单在食堂打饭 <br/>",
+			"13 博客：培养1个飞行员多少钱 黄健翔：足球记者敢说真话 <br/>",
+			"14 17时成龙李连杰聊《功夫之王》 MLTR乐队聊奥运歌曲 <br/>",
+			"15 乐库全新改版 全方位视听体验 宇多田光 许飞 张惠妹 <br/>",
+			"16 多国华人华侨举行反“藏独”游行 视频 专题 <br/>",
+			"17 组图：西藏警方悬赏通缉打砸抢烧疑犯 <br/>",
+			"18 我国改革开放30年成为博鳌论坛热议焦点 专题 <br/>",
+			"19 奥运圣火抵达阿曼马斯喀特 华人护圣火 视频 <br/>",
+			"20 请参与全球华人反分裂护圣火签名活动 <br/>",
+			"21 刘兆玄将任台“行政院长” 江丙坤任海基会董事长<br/>",
+			"22 国家粮食局长撰文解读粮油安全 广东成第一缺粮省<br/>",
+			"23 湖北当阳女市长撞死男童续 交警部门被指不作为 <br/>",
+			"24 香港金像奖揭晓 《投名状》揽八项大奖 视频集 <br/>",
+			"25 江西鄱阳高速路员工报警被民警击毙(组图) <br/>",
+			"26 清华大学教授秦晖建议深圳率先兴建贫民区 <br/>",
+			"27 视频：实拍南京女大学生裹床单在食堂打饭 <br/>",
+			"28 博客：培养1个飞行员多少钱 黄健翔：足球记者敢说真话 <br/>",
+			"29 17时成龙李连杰聊《功夫之王》 MLTR乐队聊奥运歌曲 <br/>",
+			"30 乐库全新改版 全方位视听体验 宇多田光 许飞 张惠妹 <br/>",
+			"31 宇多田光 许飞 张惠妹乐库全新改版 <br/>",
+			"32 全方位视听体验 乐库全新改版 全方位视听体验 宇多田光 许飞 张惠妹 <br/>",
+			"33 多国华人华侨举行反“藏独”游行 视频 专题 <br/>",
+			"34 组图：西藏警方悬赏通缉打砸抢烧疑犯 <br/>",
+			"35 我国改革开放30年成为博鳌论坛热议焦点 专题 <br/>",
+			"36 奥运圣火抵达阿曼马斯喀特 华人护圣火 视频 <br/>",
+			"37 请参与全球华人反分裂护圣火签名活动 <br/>",
+			"38 刘兆玄将任台“行政院长” 江丙坤任海基会董事长<br/>",
+			"39 国家粮食局长撰文解读粮油安全 广东成第一缺粮省<br/>",
+			"40 湖北当阳女市长撞死男童续 交警部门被指不作为 <br/>"
+		];
+		$("#pagetest2").pagination({totalRecord:96,dataStore:initData,groupSize:5,proxyUrl:'data.jsp',perPage:8,barPosition:'top'});
+		
+		//上下工具栏
+		$("#pagetest3").pagination({totalRecord:96,proxyUrl:'data.jsp',groupSize:3,perPage:20,barPosition:'top&bottom'});
+		
+		//纯静态
+		$("#pagetest4").pagination({totalRecord:40,dataStore:initData,groupSize:3});
+		
+		//带背景
+		$("#pagetest5").pagination({totalRecord:96,proxyUrl:'data.jsp',groupSize:4,perPage:25,barPosition:'bottom'});
+		//$("#pagetest6").pagination({totalRecord:54});
+	}
+)
+//-->
+</script>
+</head>
+<body>
+<input type="text" id="money" value="测试参数"/>
+<div style="width:750px;">
+	<h3>Demo1（底部显示工具条）:</h3>
+	<div id="pagetest" style="border:1px solid #DADADA;"></div>
+	<hr/>
+	<h3>Demo2（头部显示工具条，带初始化数据）:</h3>
+	<div id="pagetest2" style="border:1px solid #DADADA;border-top:0;"></div>
+	<hr/>
+	<h3>Demo3（头部底部显示工具条）:</h3>
+	<div id="pagetest3" style="border:1px solid #DADADA;border-top:0;"></div>
+	<hr/>
+	<h3>Demo4（纯静态分页）:</h3>	
+	<div id="pagetest4" style="border:1px solid #DADADA;"></div>
+	<hr/>
+	<h3>Demo5（带背景）:</h3>	
+	<div id="pagetest5"></div>
+	
+	<div id="pagetest6"></div>
+</div>
+<table>
+	<tr>
+		<td></td>
+</table>
+</body>
+</html>
