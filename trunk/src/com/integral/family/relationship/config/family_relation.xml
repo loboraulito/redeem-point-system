@@ -3,7 +3,7 @@
       "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
       "http://struts.apache.org/dtds/struts-2.0.dtd">
 <struts>
-	<package name="family" namespace="/family_relation" extends="struts-default">
+	<package name="family_relation" namespace="/family_relation" extends="struts-default">
 		<!-- 切记：action name不能是一样的，否则会进不了Action -->
 		<action name="giftManage" class="com.integral.exchange.gifts.action.GiftAction" method="begin">
 			 <result name="success">/jsp/exchange/gift.jsp</result>
