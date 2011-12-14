@@ -1,9 +1,10 @@
-#Tue Nov 15 23:43:14 CST 2011
+#Wed Dec 14 12:30:11 CST 2011
 DELEGATES_PREFERENCE=delegateValidatorList
 USER_BUILD_PREFERENCE=enabledBuildValidatorList
 USER_MANUAL_PREFERENCE=enabledManualValidatorList
-USER_PREFERENCE=overrideGlobalPreferencesfalse
+USER_PREFERENCE=overrideGlobalPreferencestruedisableAllValidationfalseversion1.2.302.v201107140600
 eclipse.preferences.version=1
-override=false
+override=true
 suspend=false
+vals/org.eclipse.php.core.org.eclipse.php.core.PHPTaskValidator/global=FF01
 vf.version=3
