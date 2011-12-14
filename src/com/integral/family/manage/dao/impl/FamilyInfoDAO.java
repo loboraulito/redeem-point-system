@@ -28,7 +28,7 @@ public class FamilyInfoDAO implements IFamilyInfoDAO {
 
     protected SessionFactory getSessionFactory() {
         try {
-            return (SessionFactory) new InitialContext().lookup("SessionFactory");
+            return (SessionFactory) new InitialContext().lookup("sessionFactory");
         }
         catch (Exception e) {
             log.error("Could not locate SessionFactory in JNDI", e);
