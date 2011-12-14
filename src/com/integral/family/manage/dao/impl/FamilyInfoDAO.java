@@ -3,7 +3,9 @@ package com.integral.family.manage.dao.impl;
 // Generated Dec 13, 2011 1:16:43 PM by Hibernate Tools 3.4.0.CR1
 
 import java.util.List;
+
 import javax.naming.InitialContext;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.LockMode;
@@ -11,13 +13,14 @@ import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Example;
 
 import com.integral.family.manage.bean.FamilyInfo;
+import com.integral.family.manage.dao.IFamilyInfoDAO;
 
 /**
  * Home object for domain model class FamilyInfo.
  * @see com.integral.family.manage.bean.FamilyInfo
  * @author Hibernate Tools
  */
-public class FamilyInfoDAO {
+public class FamilyInfoDAO implements IFamilyInfoDAO {
 
     private static final Log log = LogFactory.getLog(FamilyInfoDAO.class);
 
