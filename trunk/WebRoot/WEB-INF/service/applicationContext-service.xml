@@ -278,4 +278,67 @@
 			</props>
 		</property>
 	</bean>
+	
+	<!-- 家庭管理Service -->
+	<bean id="familyManageService" parent="serviceProxy">
+		<property name="target">
+			<bean
+				class="com.integral.family.manage.service.impl.FamilyInfoServiceImpl"
+				abstract="false" lazy-init="default" autowire="default">
+				<property name="baseDao" ref="BaseDao"></property>
+				<property name="familyInfoDao" ref="FamilyInfoDAO"></property>
+			</bean>
+		</property>
+		<property name="transactionAttributes">
+			<props>
+				<prop key="add*">PROPAGATION_REQUIRED</prop>
+				<prop key="del*">PROPAGATION_REQUIRED</prop>
+				<prop key="edit*">PROPAGATION_REQUIRED</prop>
+				<prop key="upd*">PROPAGATION_REQUIRED</prop>
+				<prop key="sa*">PROPAGATION_REQUIRED</prop>
+			</props>
+		</property>
+	</bean>
+	
+	<!-- 家庭成员管理Service -->
+	<bean id="familyMemberService" parent="serviceProxy">
+		<property name="target">
+			<bean
+				class="com.integral.family.member.service.impl.FamilyMemberServiceImpl"
+				abstract="false" lazy-init="default" autowire="default">
+				<property name="baseDao" ref="BaseDao"></property>
+				<property name="familyMemberDao" ref="FamilyMemberDAO"></property>
+			</bean>
+		</property>
+		<property name="transactionAttributes">
+			<props>
+				<prop key="add*">PROPAGATION_REQUIRED</prop>
+				<prop key="del*">PROPAGATION_REQUIRED</prop>
+				<prop key="edit*">PROPAGATION_REQUIRED</prop>
+				<prop key="upd*">PROPAGATION_REQUIRED</prop>
+				<prop key="sa*">PROPAGATION_REQUIRED</prop>
+			</props>
+		</property>
+	</bean>
+	
+	<!-- 家庭关系管理Service -->
+	<bean id="familyRelationService" parent="serviceProxy">
+		<property name="target">
+			<bean
+				class="com.integral.family.relationship.service.impl.FamilyRelationServiceImpl"
+				abstract="false" lazy-init="default" autowire="default">
+				<property name="baseDao" ref="BaseDao"></property>
+				<property name="familyRelationDao" ref="FamilyRelationDAO"></property>
+			</bean>
+		</property>
+		<property name="transactionAttributes">
+			<props>
+				<prop key="add*">PROPAGATION_REQUIRED</prop>
+				<prop key="del*">PROPAGATION_REQUIRED</prop>
+				<prop key="edit*">PROPAGATION_REQUIRED</prop>
+				<prop key="upd*">PROPAGATION_REQUIRED</prop>
+				<prop key="sa*">PROPAGATION_REQUIRED</prop>
+			</props>
+		</property>
+	</bean>
 </beans>
