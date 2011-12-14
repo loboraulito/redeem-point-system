@@ -67,4 +67,22 @@
 			<ref bean="sessionFactory"/>
 		</property>
 	</bean>
+	<!-- 家庭管理 -->
+	<bean class="com.integral.family.manage.dao.impl.FamilyInfoDAO" id="FamilyInfoDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory"/>
+		</property>
+	</bean>
+	<!-- 家庭成员管理 -->
+	<bean class="com.integral.family.member.dao.impl.FamilyMemberDAO" id="FamilyMemberDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory"/>
+		</property>
+	</bean>
+	<!-- 家庭关系管理 -->
+	<bean class="com.integral.family.relationship.dao.impl.FamilyRelationDAO" id="FamilyRelationDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory"/>
+		</property>
+	</bean>
 </beans>

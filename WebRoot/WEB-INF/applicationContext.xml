@@ -109,6 +109,15 @@
 				<value>
 					com/integral/system/codelist/bean/xml/CodeListData.hbm.xml
 				</value>
+				<value>
+					com/integral/family/manage/bean/xml/FamilyInfo.hbm.xml
+				</value>
+				<value>
+					com/integral/family/member/bean/xml/FamilyMember.hbm.xml
+				</value>
+				<value>
+					com/integral/family/relationship/bean/xml/FamilyRelation.hbm.xml
+				</value>
 			</list>
 		</property>
 		<property name="hibernateProperties">
