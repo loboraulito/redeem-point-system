@@ -10,7 +10,7 @@ ${pojo.getPackageDeclaration()}
 <#if ejb3>
 @${pojo.importType("javax.ejb.Stateless")}
 </#if>
-public class ${declarationName}Home {
+public class ${declarationName}Home extends ${pojo.importType("org.springframework.orm.hibernate3.support.HibernateDaoSupport")} {
 
     private static final ${pojo.importType("org.apache.commons.logging.Log")} log = ${pojo.importType("org.apache.commons.logging.LogFactory")}.getLog(${pojo.getDeclarationName()}Home.class);
 
@@ -69,58 +69,55 @@ public class ${declarationName}Home {
     }
 </#if>
 <#else>    
-    private final ${pojo.importType("org.hibernate.SessionFactory")} sessionFactory = getSessionFactory();
-    
-    protected ${pojo.importType("org.hibernate.SessionFactory")} getSessionFactory() {
+	protected void initDao() {
+        //do nothing
+    }    
+        
+    public void saveOrUpdate(${declarationName} instance) {
+        log.debug("saving or updating dirty ${declarationName} instance");
         try {
-            return (${pojo.importType("org.hibernate.SessionFactory")}) new ${pojo.importType("javax.naming.InitialContext")}().lookup("${sessionFactoryName}");
-        }
-        catch (Exception e) {
-            log.error("Could not locate SessionFactory in JNDI", e);
-            throw new IllegalStateException("Could not locate SessionFactory in JNDI");
-        }
-    }
-    
-    public void persist(${declarationName} transientInstance) {
-        log.debug("persisting ${declarationName} instance");
-        try {
-            sessionFactory.getCurrentSession().persist(transientInstance);
-            log.debug("persist successful");
-        }
-        catch (RuntimeException re) {
-            log.error("persist failed", re);
-            throw re;
-        }
-    }
-    
-    public void attachDirty(${declarationName} instance) {
-        log.debug("attaching dirty ${declarationName} instance");
-        try {
-            sessionFactory.getCurrentSession().saveOrUpdate(instance);
-            log.debug("attach successful");
+            getHibernateTemplate().saveOrUpdate(instance);
+            log.debug("save or update successful");
         }
         catch (RuntimeException re) {
             log.error("attach failed", re);
             throw re;
         }
     }
-    
-    public void attachClean(${declarationName} instance) {
-        log.debug("attaching clean ${declarationName} instance");
+<#if jdk5>
+	public void saveOrUpdateAll(${pojo.importType("java.util.List")}<${declarationName}> persistentInstances) {
+<#else>
+	public void saveOrUpdateAll(${pojo.importType("java.util.List")} persistentInstances) {
+</#if>
+        log.debug("saveOrUpdateAll role");
         try {
-            sessionFactory.getCurrentSession().lock(instance, ${pojo.importType("org.hibernate.LockMode")}.NONE);
-            log.debug("attach successful");
-        }
-        catch (RuntimeException re) {
-            log.error("attach failed", re);
+        	getHibernateTemplate().saveOrUpdateAll(persistentInstances);
+        } catch (RuntimeException re) {
+            log.error("saveOrUpdateAll failed", re);
             throw re;
         }
     }
+    
     
     public void delete(${declarationName} persistentInstance) {
         log.debug("deleting ${declarationName} instance");
         try {
-            sessionFactory.getCurrentSession().delete(persistentInstance);
+            getHibernateTemplate().delete(persistentInstance);
+            log.debug("delete successful");
+        }
+        catch (RuntimeException re) {
+            log.error("delete failed", re);
+            throw re;
+        }
+    }
+<#if jdk5>
+	public void deleteAll(${pojo.importType("java.util.List")}<${declarationName}> persistentInstances) {
+<#else>
+	public void deleteAll(${pojo.importType("java.util.List")} persistentInstances) {
+</#if>
+        log.debug("deleting ${declarationName} instance");
+        try {
+            getHibernateTemplate().deleteAll(persistentInstances);
             log.debug("delete successful");
         }
         catch (RuntimeException re) {
@@ -132,8 +129,7 @@ public class ${declarationName}Home {
     public ${declarationName} merge(${declarationName} detachedInstance) {
         log.debug("merging ${declarationName} instance");
         try {
-            ${declarationName} result = (${declarationName}) sessionFactory.getCurrentSession()
-                    .merge(detachedInstance);
+            ${declarationName} result = (${declarationName}) getHibernateTemplate().merge(detachedInstance);
             log.debug("merge successful");
             return result;
         }
@@ -143,16 +139,32 @@ public class ${declarationName}Home {
         }
     }
     
+<#if jdk5>
+	@SuppressWarnings("unchecked")
+	public ${pojo.importType("java.util.List")}<${declarationName}> findByProperty(String propertyName, Object value) {
+<#else>
+	public ${pojo.importType("java.util.List")} findByProperty(String propertyName, Object value) {
+</#if>
+    	log.debug("finding ${declarationName} instance with property: " + propertyName + ", value: " + value);
+        try {
+        	String queryString = "from ${declarationName} as model where model." + propertyName + "= ?";
+            return getHibernateTemplate().find(queryString, value);
+        }
+        catch (RuntimeException re) {
+            log.error("merge failed", re);
+            throw re;
+        }
+    }
+    
+    
 <#if clazz.identifierProperty?has_content>
     public ${declarationName} findById( ${c2j.getJavaTypeName(clazz.identifierProperty, jdk5)} id) {
         log.debug("getting ${declarationName} instance with id: " + id);
         try {
-            ${declarationName} instance = (${declarationName}) sessionFactory.getCurrentSession()
-                    .get("${clazz.entityName}", id);
+            ${declarationName} instance = (${declarationName}) getHibernateTemplate().get("${clazz.entityName}", id);
             if (instance==null) {
                 log.debug("get successful, no instance found");
-            }
-            else {
+            } else {
                 log.debug("get successful, instance found");
             }
             return instance;
@@ -197,6 +209,7 @@ public class ${declarationName}Home {
     }
 </#if>    
 <#if jdk5>
+	@SuppressWarnings("unchecked")
     public ${pojo.importType("java.util.List")}<${declarationName}> findByExample(${declarationName} instance) {
 <#else>
     public ${pojo.importType("java.util.List")} findByExample(${declarationName} instance) {
@@ -204,17 +217,10 @@ public class ${declarationName}Home {
         log.debug("finding ${declarationName} instance by example");
         try {
 <#if jdk5>
-            ${pojo.importType("java.util.List")}<${declarationName}> results = (List<${declarationName}>) sessionFactory.getCurrentSession()
+            ${pojo.importType("java.util.List")}<${declarationName}> results = getHibernateTemplate().findByExample(instance);
 <#else>
-            ${pojo.importType("java.util.List")} results = sessionFactory.getCurrentSession()
+            ${pojo.importType("java.util.List")} results = getHibernateTemplate().findByExample(instance);
 </#if>
-                    .createCriteria("${clazz.entityName}")
-<#if jdk5>
-                    .add( ${pojo.staticImport("org.hibernate.criterion.Example", "create")}(instance) )
-<#else>
-                    .add(${pojo.importType("org.hibernate.criterion.Example")}.create(instance))
-</#if>
-            .list();
             log.debug("find by example successful, result size: " + results.size());
             return results;
         }
@@ -222,7 +228,55 @@ public class ${declarationName}Home {
             log.error("find by example failed", re);
             throw re;
         }
-    } 
+    }
+
+<#if jdk5>
+	@SuppressWarnings("unchecked")
+	public ${pojo.importType("java.util.List")}<${declarationName}> findByParams(final String sql, final boolean isHql,final int start, final int limit, final ${pojo.importType("java.util.Map")}<String, Object> params) {
+<#else>
+	public ${pojo.importType("java.util.List")} findByParams(final String sql, final boolean isHql,final int start, final int limit, final ${pojo.importType("java.util.Map")}<String, Object> params) {
+</#if>
+    	log.debug("finding by ${declarationName} instance by params : " + params);
+    	<#if jdk5>
+    	return getHibernateTemplate().executeFind(new ${pojo.importType("org.springframework.orm.hibernate3.HibernateCallback")}<Object>(){
+    	<#else>
+    	return getHibernateTemplate().executeFind(new ${pojo.importType("org.springframework.orm.hibernate3.HibernateCallback")}(){
+    	</#if>
+    		public Object doInHibernate(${pojo.importType("org.hibernate.Session")} session)
+    			throws ${pojo.importType("org.hibernate.HibernateException")}, ${pojo.importType("java.sql.SQLException")}{
+    			${pojo.importType("org.hibernate.Query")} query = null;
+    			if("".equals(sql) || sql == null){
+    				query = session.createQuery("from ${declarationName}");
+    			}else{
+    				if(isHql){
+    					query = session.createQuery(sql);
+    				}else{
+    					query = session.createSQLQuery(sql);
+    				}
+    			}
+    			if(start > -1){
+    				query.setFirstResult(start);
+    			}
+    			if(limit > -1){
+    				query.setMaxResults(limit);
+    			}
+    			if(params != null){
+	    			<#if jdk5>
+	    			for(String key : params.keySet()){
+	            		query.setParameter(key, params.get(key));
+	        		}
+	    			<#else>
+	    			for (${pojo.importType("java.util.Iterator")} i = params.iterator(); i.hasNext(); ) {
+					    String key = i.next();
+					    query.setParameter(key, params.get(key));
+					}
+	    			</#if>
+    			}
+	            return query.list();
+    		}
+    	});
+    }
+    
 <#foreach queryName in cfg.namedQueries.keySet()>
 <#if queryName.startsWith(clazz.entityName + ".")>
 <#assign methname = c2j.unqualify(queryName)>
