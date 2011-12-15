@@ -5,6 +5,7 @@ package com.integral.family.member.dao.impl;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.HibernateException;
@@ -14,13 +15,14 @@ import org.springframework.orm.hibernate3.HibernateCallback;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 import com.integral.family.member.bean.FamilyMember;
+import com.integral.family.member.dao.IFamilyMemberDAO;
 
 /**
  * Home object for domain model class FamilyMember.
  * @see com.integral.family.member.bean.FamilyMember
  * @author Hibernate Tools
  */
-public class FamilyMemberDAO extends HibernateDaoSupport {
+public class FamilyMemberDAO extends HibernateDaoSupport implements IFamilyMemberDAO {
 
     private static final Log log = LogFactory.getLog(FamilyMemberDAO.class);
 

@@ -5,6 +5,7 @@ package com.integral.family.relationship.dao.impl;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.HibernateException;
@@ -14,13 +15,14 @@ import org.springframework.orm.hibernate3.HibernateCallback;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 import com.integral.family.relationship.bean.FamilyRelation;
+import com.integral.family.relationship.dao.IFamilyRelationDAO;
 
 /**
  * Home object for domain model class FamilyRelation.
  * @see com.integral.family.relationship.bean.FamilyRelation
  * @author Hibernate Tools
  */
-public class FamilyRelationDAO extends HibernateDaoSupport {
+public class FamilyRelationDAO extends HibernateDaoSupport implements IFamilyRelationDAO {
 
     private static final Log log = LogFactory.getLog(FamilyRelationDAO.class);
 
