@@ -1,17 +1,23 @@
 package com.integral.family.member.action;
 
+import java.io.PrintWriter;
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.struts2.interceptor.ServletRequestAware;
 import org.apache.struts2.interceptor.ServletResponseAware;
+import org.nutz.json.Json;
+import org.nutz.json.JsonFormat;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 
 import com.integral.common.action.BaseAction;
 import com.integral.family.member.service.IFamilyMemberService;
 
 /** 
- * <p>Description: [描述该类概要功能介绍]</p>
+ * <p>Description: [家庭成员管理]</p>
  * @author  <a href="mailto: swpigris81@126.com">代超</a>
  * @version $Revision$ 
  */
@@ -75,6 +81,40 @@ public class FamilyMemberAction extends BaseAction implements ServletRequestAwar
     @Override
     public void setServletRequest(HttpServletRequest request) {
         this.request = request;
+    }
+    
+    public String begin(){
+        return SUCCESS;
+    }
+    /**
+     * <p>Discription:[查询本人所在直属家庭的家庭成员列表]</p>
+     * @return
+     * @author:[代超]
+     * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
+     */
+    public String familyMemberList(){
+        String userId = request.getParameter("userId");
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        JsonFormat jf = new JsonFormat(true);
+        jf.setAutoUnicode(true);
+        PrintWriter out = null;
+        if(userId == null || "".equals(userId)){
+            resultMap.put("success", false);
+            resultMap.put("msg", "用户ID为空，不能查询您所在家庭成员信息！");
+        }
+        try{
+            out = super.getPrintWriter(request, response);
+            
+        }catch(Exception e){
+            LOG.error(e.getMessage());
+        }finally{
+            if(out != null){
+                out.print(Json.toJson(resultMap, jf));
+                out.flush();
+                out.close();
+            }
+        }
+        return null;
     }
 
 }
