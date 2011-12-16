@@ -41,6 +41,18 @@ public class FamilyInfoDAO extends HibernateDaoSupport implements IFamilyInfoDAO
             throw re;
         }
     }
+    
+    public void save(FamilyInfo instance) {
+        log.debug("saving dirty FamilyInfo instance");
+        try {
+            getHibernateTemplate().save(instance);
+            log.debug("save successful");
+        }
+        catch (RuntimeException re) {
+            log.error("save failed", re);
+            throw re;
+        }
+    }
 
     public void saveOrUpdateAll(List<FamilyInfo> persistentInstances) {
         log.debug("saveOrUpdateAll role");

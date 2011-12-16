@@ -41,6 +41,18 @@ public class FamilyMemberDAO extends HibernateDaoSupport implements IFamilyMembe
             throw re;
         }
     }
+    
+    public void save(FamilyMember instance) {
+        log.debug("saving dirty FamilyMember instance");
+        try {
+            getHibernateTemplate().save(instance);
+            log.debug("save successful");
+        }
+        catch (RuntimeException re) {
+            log.error("save failed", re);
+            throw re;
+        }
+    }
 
     public void saveOrUpdateAll(List<FamilyMember> persistentInstances) {
         log.debug("saveOrUpdateAll role");
