@@ -41,6 +41,18 @@ public class FamilyRelationDAO extends HibernateDaoSupport implements IFamilyRel
             throw re;
         }
     }
+    
+    public void save(FamilyRelation instance) {
+        log.debug("saving dirty FamilyRelation instance");
+        try {
+            getHibernateTemplate().save(instance);
+            log.debug("save successful");
+        }
+        catch (RuntimeException re) {
+            log.error("save failed", re);
+            throw re;
+        }
+    }
 
     public void saveOrUpdateAll(List<FamilyRelation> persistentInstances) {
         log.debug("saveOrUpdateAll role");
