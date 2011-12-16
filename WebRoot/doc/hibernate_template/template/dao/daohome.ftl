@@ -80,10 +80,23 @@ public class ${declarationName}Home extends ${pojo.importType("org.springframewo
             log.debug("save or update successful");
         }
         catch (RuntimeException re) {
-            log.error("attach failed", re);
+            log.error("save or update failed", re);
             throw re;
         }
     }
+    
+    public void save(${declarationName} instance) {
+        log.debug("saving dirty ${declarationName} instance");
+        try {
+            getHibernateTemplate().save(instance);
+            log.debug("save successful");
+        }
+        catch (RuntimeException re) {
+            log.error("save failed", re);
+            throw re;
+        }
+    }
+    
 <#if jdk5>
 	public void saveOrUpdateAll(${pojo.importType("java.util.List")}<${declarationName}> persistentInstances) {
 <#else>
