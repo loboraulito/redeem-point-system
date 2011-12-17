@@ -96,7 +96,7 @@ function menuManage(){
 		frame:true,
 		autoShow:true,		
 		store:menuStore,
-		renderTo:menu_div,
+		renderTo:"menu_div",
 		cm:menuCM,
 		sm:menuSM,
 		viewConfig:{forceFit:true},//若父容器的layout为fit，那么强制本grid充满该父容器
