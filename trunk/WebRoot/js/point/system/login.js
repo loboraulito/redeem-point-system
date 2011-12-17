@@ -65,6 +65,10 @@ function userLoginForm(username,password){
 			fieldLabel: '记住我',
 			name: '_spring_security_remember_me',
 			checked: false
+		},{
+			xtype:"hidden",
+			name:"loginType",
+			value:"ext"
 		}],
 		buttons: [{
 			id: 'lf.btn.login',
@@ -99,7 +103,7 @@ function fnLoginForm(theForm)
 		theForm.getForm().submit({
 			timeout:60000,
 			success: function(form, action) {
-				document.getElementById("loadMarskDiv").style.display = "none"
+				document.getElementById("loadMarskDiv").style.display = "none";
 				loadMask.hide();
 				Ext.Msg.alert('系统提示', '您已成功登录系统!', function(btn, text) {
 					if (btn == 'ok') {
@@ -119,11 +123,15 @@ function fnLoginForm(theForm)
 				});
 			},
 			failure: function(form, action) {//action.result.errorMessage
-				document.getElementById("loadMarskDiv").style.display = "none"
+				document.getElementById("loadMarskDiv").style.display = "none";
 				loadMask.hide();
 				var msg = Ext.decode(action.response.responseText);
 				if(msg && msg.error){
-					Ext.Msg.alert('系统提示', "登录失败，可能是以下原因导致您登录失败："+msg.error);
+					Ext.Msg.alert('系统提示', "登录失败，可能是以下原因导致您登录失败："+msg.error, function(btn){
+						if(btn == "yes" || btn == "ok"){
+							window.location = path+"/j_spring_security_logout";
+						}
+					});
 				}else{
 					Ext.Msg.alert('系统提示', "登录失败！");
 				}
