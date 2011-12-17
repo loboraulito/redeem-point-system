@@ -505,3 +505,34 @@ http://topic.csdn.net/t/20040113/13/2659851.html
 树结点用家庭成员的编号标识。通过编号，建立家庭成员的基本信息与树结点的联系。
 树在磁盘文件中的存储结构：存储串行化结果，如“根-叶序列”。
 所谓“根-叶序列”，是指，从树根到每个叶子结点的路径。路径的排列次序表示兄弟的次序。例如，下列树的“根-叶序列”为：
+
+
+2012-12-17
+Ext.store如何提示查询失败时候的错误信息？
+var memberListReader = new Ext.data.JsonReader({
+	totalProperty : "totalCount",
+	root : "memberList",
+	successProperty:"success"  //重要
+},[
+	{name:"familyMemberId"},
+	{name:"familyId"},
+	...
+]);
+
+var memberListStore = new Ext.data.Store({
+	proxy:new Ext.data.HttpProxy({
+		url:path+"/family_member/familyMemberList.action?method=familyMemberList"
+	}),
+	reader:memberListReader,
+	listeners:{  //重要
+		loadexception:function(dataProxy, type, action, options, response, arg) { 
+			var o = Ext.util.JSON.decode(action.responseText);
+			if(!o.success){
+				Ext.Msg.alert('错误提示',o.msg);
+			}
+		}
+	}
+});
+
+后端产生异常时，发送json串
+"{success: false, msg:'"+msg+"'}"
