@@ -1,14 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
-    String path = request.getContextPath();
+    String headerPath = request.getContextPath();
 %>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <style type="text/css">
 #header {
-    background: #7F99BE url(<%=path %>/images/layout-browser-hd-bg.gif) repeat-x center;
+    background: #7F99BE url(<%=headerPath %>/images/layout-browser-hd-bg.gif) repeat-x center;
 }
 #header h1 {
     font-size: 16px;
@@ -17,9 +17,9 @@
     padding: 5px 10px;
 }
 </style>
-<script type="text/javascript" src="<%=path %>/js/ext-2.2.1/source/ux/RemoteValidator.js"></script>
-<script type="text/javascript" src="<%=path %>/js/point/system/login.js"></script>
-<script type="text/javascript" src="<%=path %>/js/point/system/register.js"></script>
+<script type="text/javascript" src="<%=headerPath %>/js/ext-2.2.1/source/ux/RemoteValidator.js"></script>
+<script type="text/javascript" src="<%=headerPath %>/js/point/system/login.js"></script>
+<script type="text/javascript" src="<%=headerPath %>/js/point/system/register.js"></script>
 </head>
 <body>
 <div id="header">
