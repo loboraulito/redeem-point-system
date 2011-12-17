@@ -114,7 +114,7 @@ function buttonManage(){
 		frame:true,
 		autoShow:true,		
 		store:buttonStore,
-		renderTo:button_div,
+		renderTo:"button_div",
 		cm:buttonCM,
 		sm:buttonSM,
 		viewConfig:{
