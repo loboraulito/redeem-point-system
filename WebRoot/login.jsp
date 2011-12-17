@@ -12,6 +12,7 @@ pageEncoding="UTF-8" %>
         <link href="<%=path%>/js/util/loginpage/bluelogin/css/xtree.css" type="text/css" rel="stylesheet" />
 		<script type="text/javascript" language="JavaScript" src="<%=path%>/js/util/validate/validatorForForm_v4.js"></script>
     </head>
+    
     <body id="userlogin_body">
         <!--
         <form action="<%=path%>/j_spring_security_check" method="post">
@@ -172,4 +173,19 @@ pageEncoding="UTF-8" %>
 		}
 		
 	</script>
+	<%
+    Object msg = session.getAttribute("loginFailMsg");
+    if(msg == null || "".equals(msg.toString().trim())){
+    %>
+	<%
+    }else{
+	%>
+	<script type="text/javascript">
+		Ext.Msg.alert("系统提示","<%=msg%>");
+	</script>
+	<%
+	session.removeAttribute("loginFailMsg");
+	%>
+	<%} %>
+	
 </html>
