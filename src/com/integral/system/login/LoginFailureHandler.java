@@ -34,12 +34,19 @@ public class LoginFailureHandler extends BaseAction implements AuthenticationFai
     public void onAuthenticationFailure(HttpServletRequest request,
             HttpServletResponse response, AuthenticationException exception)
             throws IOException, ServletException {
-        PrintWriter out = super.getPrintWriter(request, response);
-        String msg = exception.getMessage();
-        
-        out.print("{success:false,msg:'登录失败',error:'"+exception.getMessage()+"'}");
-        out.flush();
-        out.close();
+        String loginType = request.getParameter("loginType");
+        if("ext".equals(loginType)){
+            PrintWriter out = super.getPrintWriter(request, response);
+            String msg = exception.getMessage();
+            
+            out.print("{success:false,msg:'登录失败',error:'"+exception.getMessage()+"'}");
+            out.flush();
+            out.close();
+        }else{
+            request.getSession().setAttribute("loginFailMsg", "用户名或密码错误，请重新输入！");
+            //request.setAttribute("loginFailMsg", "用户名或密码错误！");
+            response.sendRedirect(request.getContextPath()+"/login.jsp");
+        }
     }
 
 }

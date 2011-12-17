@@ -50,12 +50,12 @@
   </property>
   <property generated="never" lazy="false"
    name="familyMemberEducational" type="string">
-   <column length="5" name="family_member_educational">
+   <column length="50" name="family_member_educational">
     <comment>学历</comment>
    </column>
   </property>
   <property generated="never" lazy="false" name="familyMemberProfession" type="string">
-   <column length="5" name="family_member_profession">
+   <column length="50" name="family_member_profession">
     <comment>职称</comment>
    </column>
   </property>

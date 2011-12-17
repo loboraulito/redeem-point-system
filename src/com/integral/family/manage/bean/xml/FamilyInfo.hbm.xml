@@ -29,7 +29,7 @@
    </column>
   </property>
   <property generated="never" lazy="false" name="familyTel" type="string">
-   <column length="50" name="family_tel">
+   <column length="500" name="family_tel">
     <comment>家庭联系方式</comment>
    </column>
   </property>
