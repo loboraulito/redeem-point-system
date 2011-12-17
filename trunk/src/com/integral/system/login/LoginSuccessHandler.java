@@ -114,6 +114,7 @@ public class LoginSuccessHandler extends BaseAction implements AuthenticationSuc
     public void onAuthenticationSuccess(HttpServletRequest request,
             HttpServletResponse response, Authentication authentication)
             throws IOException, ServletException {
+        String loginType = request.getParameter("loginType");
         String loginRoleName = request.getParameter("roleName");
         
         //获取登录用户信息
@@ -142,17 +143,26 @@ public class LoginSuccessHandler extends BaseAction implements AuthenticationSuc
         request.getSession().setAttribute("loginRoleName", loginRoleName);
         
         if(loginRoleName == null || "1".equals(loginRoleName.trim()) || "".equals(loginRoleName.trim())){
-            response.sendRedirect(request.getContextPath()+"/index.jsp");
-            /*
-            PrintWriter out = super.getPrintWriter(request, response);
-            //管理员
-            out.print("{success:true,msg:'登录成功',userName:'"+userName+"',roleName:''}");
-            out.flush();
-            out.close();
-            */
+            if("ext".equals(loginType)){
+                PrintWriter out = super.getPrintWriter(request, response);
+                //管理员
+                out.print("{success:true,msg:'登录成功',userName:'"+userName+"',roleName:''}");
+                out.flush();
+                out.close();
+            }else{
+                response.sendRedirect(request.getContextPath()+"/index.jsp");
+            }
         }else{
-            //客户
-            response.sendRedirect(request.getContextPath()+"/jsp/client/index.jsp");
+            if("ext".equals(loginType)){
+                PrintWriter out = super.getPrintWriter(request, response);
+                //客户
+                out.print("{success:true,msg:'登录成功',userName:'"+userName+"',roleName:''}");
+                out.flush();
+                out.close();
+            }else{
+                //客户
+                response.sendRedirect(request.getContextPath()+"/jsp/client/index.jsp");
+            }
         }
         //response.sendRedirect(request.getContextPath()+"/jsp/client/index.jsp");
         //response.sendRedirect(request.getContextPath()+"/index.jsp");
