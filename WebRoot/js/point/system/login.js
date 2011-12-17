@@ -114,7 +114,7 @@ function fnLoginForm(theForm)
 						//显示根节点的菜单
 						//showRootMenu(rootMenu,msg.menuSize);
 						loadMenuPanel(msg.userName);
-						Ext.getCmp("userInfo").setTitle("欢迎您   "+msg.userName);
+						Ext.getCmp("userInfo_panel").setTitle("欢迎您   "+msg.userName);
 						var loginWindow = Ext.getCmp("loginWindow");
 						if(loginWindow){
 							loginWindow.close();
