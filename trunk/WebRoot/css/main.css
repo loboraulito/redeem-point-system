@@ -348,3 +348,8 @@ a.nav5:hover {
 .cursor-magplus {
 	cursor: url("magplus.cur"), pointer;
 }
+
+html,body{
+	margin:0px;
+	height:100%;
+}
