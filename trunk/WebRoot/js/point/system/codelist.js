@@ -120,8 +120,6 @@ function codeListDataManage(){
 		dataIndex:"remark",
 		width:150
 	}]);
-	alert(Ext.get("codelist_div").getWidth());
-	alert(Ext.get("codelist_div").getHeight());
 	/**
 	 * 数据字典数据列表
 	 */
