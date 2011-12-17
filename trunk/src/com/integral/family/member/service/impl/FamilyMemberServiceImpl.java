@@ -1,6 +1,11 @@
 package com.integral.family.member.service.impl;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import com.integral.common.dao.impl.BaseDao;
+import com.integral.family.member.bean.FamilyMember;
 import com.integral.family.member.dao.IFamilyMemberDAO;
 import com.integral.family.member.service.IFamilyMemberService;
 
@@ -44,5 +49,23 @@ public class FamilyMemberServiceImpl implements IFamilyMemberService {
      */
     public void setFamilyMemberDao(IFamilyMemberDAO familyMemberDao) {
         this.familyMemberDao = familyMemberDao;
+    }
+    
+    /**
+     * <p>Discription:[通过系统用户ID查询他所在家庭的成员]</p>
+     * @param systemUserId
+     * @return
+     * @author:[代超]
+     * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
+     */
+    public List<FamilyMember> findSelfFamilyMemberList(String systemUserId, int start, int limit){
+        String sql = "SELECT fm.familyMemberId, fm.family_id, fm.family_member_name, fm.system_member_id," +
+        		" fm.family_member_card, fm.family_member_birthdate, fm.family_member_birthplace, fm.family_member_sex," +
+        		" fm.family_member_height, fm.family_member_educational, fm.family_member_profession, fm.family_member_deaddate" +
+        		" FROM family_member AS fm WHERE fm.family_id IN ( SELECT fr.family_id AS fid FROM family_member fr " +
+        		" WHERE fr.system_member_id = :systemUserId )";
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("systemUserId", systemUserId);
+        return this.familyMemberDao.findByParams(sql, false, start, limit, params);
     }
 }

@@ -2,6 +2,7 @@ package com.integral.family.member.action;
 
 import java.io.PrintWriter;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -104,7 +105,8 @@ public class FamilyMemberAction extends BaseAction implements ServletRequestAwar
         }
         try{
             out = super.getPrintWriter(request, response);
-            
+            List list = this.familyMemberService.findSelfFamilyMemberList(userId, 0, 50);
+            resultMap.put("success", true);
         }catch(Exception e){
             LOG.error(e.getMessage());
         }finally{

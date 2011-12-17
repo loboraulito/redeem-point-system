@@ -149,6 +149,17 @@ public class FamilyMemberDAO extends HibernateDaoSupport implements IFamilyMembe
     }
 
     @SuppressWarnings("unchecked")
+    /**
+     * <p>Discription:[参考http://ttitfly.iteye.com/blog/159342]</p>
+     * @param sql
+     * @param isHql
+     * @param start
+     * @param limit
+     * @param params自定义索引名(参数名):username,:password.通过setString,setParameter设置参数
+     * @return
+     * @author:[代超]
+     * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
+     */
     public List<FamilyMember> findByParams(final String sql, final boolean isHql, final int start, final int limit,
             final Map<String, Object> params) {
         log.debug("finding by FamilyMember instance by params : " + params);
