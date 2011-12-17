@@ -92,7 +92,7 @@ function userManage(){
 		frame:true,
 		autoShow:true,		
 		store:userStore,
-		renderTo:user_div,
+		renderTo:"user_div",
 		cm:userCM,
 		sm:userSM,
 		viewConfig:{forceFit:true},//若父容器的layout为fit，那么强制本grid充满该父容器
