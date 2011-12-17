@@ -59,7 +59,7 @@ function roleManage(){
 		frame:true,
 		autoShow:true,		
 		store:roleStore,
-		renderTo:role_div,
+		renderTo:"role_div",
 		cm:roleCM,
 		sm:roleSM,
 		viewConfig:{forceFit:true},//若父容器的layout为fit，那么强制本grid充满该父容器
