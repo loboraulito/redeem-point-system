@@ -7,7 +7,8 @@ function family(){
 	 */
 	var memberListReader = new Ext.data.JsonReader({
 		totalProperty : "totalCount",
-		root : "memberList"
+		root : "memberList",
+		successProperty:"success"
 	},[
 		{name:"familyMemberId"},//家庭成员ID
 		{name:"familyId"},//家庭ID
@@ -30,7 +31,15 @@ function family(){
 		proxy:new Ext.data.HttpProxy({
 			url:path+"/family_member/familyMemberList.action?method=familyMemberList"
 		}),
-		reader:memberListReader
+		reader:memberListReader,
+		listeners:{
+			loadexception:function(dataProxy, type, action, options, response, arg) { 
+				var o = Ext.util.JSON.decode(action.responseText);
+				if(!o.success){
+					Ext.Msg.alert('错误提示',o.msg);
+				}
+			}
+		}
 	});
 	
 	var memberListSM = new Ext.grid.CheckboxSelectionModel();
@@ -105,7 +114,6 @@ function family(){
 		sm:memberListSM,
 		viewConfig:{forceFit:true},//若父容器的layout为fit，那么强制本grid充满该父容器
 		split: true,
-		view:groupView,
 		bbar:new Ext.PagingToolbar({
 			pageSize:50,//每页显示数
 			store:memberListStore,
@@ -117,7 +125,10 @@ function family(){
 		}),
 		tbar:[]
 	});
-	
+	var loadParam = {};
+	loadParam.start = 0;
+	loadParam.limit = 50;
+	loadParam.userId = userName;
 	/**
 	 * 按钮存储器，尚未执行查询
 	 */
@@ -127,7 +138,7 @@ function family(){
 	 * see buttonRight.js
 	 * loadButtonRight(buttonStore, mainDataStore, dataGrid, pageDiv, params)
 	 */
-	loadButtonRight(buttonRightStore, memberListStore, memberListDataGrid, "family_div");
+	loadButtonRight(buttonRightStore, memberListStore, memberListDataGrid, "family_div", loadParam);
 	
 }
 Ext.onReady(function(){
