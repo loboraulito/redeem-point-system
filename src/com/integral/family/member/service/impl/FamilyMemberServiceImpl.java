@@ -59,13 +59,22 @@ public class FamilyMemberServiceImpl implements IFamilyMemberService {
      * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
      */
     public List<FamilyMember> findSelfFamilyMemberList(String systemUserId, int start, int limit){
+        /*
         String sql = "SELECT fm.familyMemberId, fm.family_id, fm.family_member_name, fm.system_member_id," +
         		" fm.family_member_card, fm.family_member_birthdate, fm.family_member_birthplace, fm.family_member_sex," +
         		" fm.family_member_height, fm.family_member_educational, fm.family_member_profession, fm.family_member_deaddate" +
         		" FROM family_member AS fm WHERE fm.family_id IN ( SELECT fr.family_id AS fid FROM family_member fr " +
         		" WHERE fr.system_member_id = :systemUserId )";
+        */
+        String hql = "FROM FamilyMember AS fm where fm.familyId IN (SELECT fr.familyId FROM FamilyMember AS fr WHERE fr.systemMemberId = :systemUserId)";
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("systemUserId", systemUserId);
-        return this.familyMemberDao.findByParams(sql, false, start, limit, params);
+        return this.familyMemberDao.findByParams(hql, true, start, limit, params);
+    }
+    public int findSelfFamilyMemberListCount(String systemUserId){
+        String hql = "FROM FamilyMember AS fm where fm.familyId IN (SELECT fr.familyId FROM FamilyMember AS fr WHERE fr.systemMemberId = :systemUserId)";
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("systemUserId", systemUserId);
+        return this.familyMemberDao.findCountByParams(hql, true, -1, -1, params);
     }
 }

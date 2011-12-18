@@ -181,5 +181,35 @@ public class FamilyInfoDAO extends HibernateDaoSupport implements IFamilyInfoDAO
             }
         });
     }
+    
+    public int findCountByParams(String sql, boolean isHql, int start, int limit, Map<String, Object> params) {
+        log.info("finding count by sql : " + sql);
+        Session session = getHibernateTemplate().getSessionFactory().openSession();
+
+        Query query = null;
+        if ("".equals(sql) || sql == null) {
+            query = session.createQuery("from FamilyInfo");
+        }
+        else {
+            if (isHql) {
+                query = session.createQuery(sql);
+            }
+            else {
+                query = session.createSQLQuery(sql);
+            }
+        }
+        if (start > -1) {
+            query.setFirstResult(start);
+        }
+        if (limit > -1) {
+            query.setMaxResults(limit);
+        }
+        if (params != null) {
+            for (String key : params.keySet()) {
+                query.setParameter(key, params.get(key));
+            }
+        }
+        return query.list().size();
+    }
 
 }

@@ -162,7 +162,7 @@ public class FamilyMemberDAO extends HibernateDaoSupport implements IFamilyMembe
      */
     public List<FamilyMember> findByParams(final String sql, final boolean isHql, final int start, final int limit,
             final Map<String, Object> params) {
-        log.debug("finding by FamilyMember instance by params : " + params);
+        log.info("finding FamilyMember by sql : " + sql);
         return getHibernateTemplate().executeFind(new HibernateCallback<Object>() {
             public Object doInHibernate(Session session) throws HibernateException, SQLException {
                 Query query = null;
@@ -191,6 +191,37 @@ public class FamilyMemberDAO extends HibernateDaoSupport implements IFamilyMembe
                 return query.list();
             }
         });
+    }
+    
+    public int findCountByParams(String sql, boolean isHql, int start, int limit, Map<String, Object> params) {
+        log.info("finding count by sql : " + sql);
+        Session session = getHibernateTemplate().getSessionFactory().openSession();
+
+        Query query = null;
+        if ("".equals(sql) || sql == null) {
+            query = session.createQuery("from FamilyMember");
+        }
+        else {
+            if (isHql) {
+                query = session.createQuery(sql);
+            }
+            else {
+                query = session.createSQLQuery(sql);
+            }
+        }
+        if (start > -1) {
+            query.setFirstResult(start);
+        }
+        if (limit > -1) {
+            query.setMaxResults(limit);
+        }
+        if (params != null) {
+            for (String key : params.keySet()) {
+                query.setParameter(key, params.get(key));
+            }
+        }
+        //return ((Integer) query.uniqueResult()).intValue();
+        return query.list().size();
     }
 
 }
