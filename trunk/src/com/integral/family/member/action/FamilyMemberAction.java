@@ -15,6 +15,7 @@ import org.nutz.json.JsonFormat;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 
 import com.integral.common.action.BaseAction;
+import com.integral.family.member.bean.FamilyMember;
 import com.integral.family.member.service.IFamilyMemberService;
 
 /** 
@@ -105,8 +106,11 @@ public class FamilyMemberAction extends BaseAction implements ServletRequestAwar
         }
         try{
             out = super.getPrintWriter(request, response);
-            List list = this.familyMemberService.findSelfFamilyMemberList(userId, 0, 50);
+            List<FamilyMember> list = this.familyMemberService.findSelfFamilyMemberList(userId, 0, 50);
+            int listSize = this.familyMemberService.findSelfFamilyMemberListCount(userId);
             resultMap.put("success", true);
+            resultMap.put("memberList", list);
+            resultMap.put("totalCount", listSize);
         }catch(Exception e){
             LOG.error(e.getMessage());
         }finally{

@@ -18,4 +18,12 @@ public interface IFamilyMemberService {
      * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
      */
     public List<FamilyMember> findSelfFamilyMemberList(String systemUserId, int start, int limit);
+    /**
+     * <p>Discription:[查询用户所在家庭成员数量]</p>
+     * @param systemUserId
+     * @return
+     * @author:[代超]
+     * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
+     */
+    public int findSelfFamilyMemberListCount(String systemUserId);
 }
