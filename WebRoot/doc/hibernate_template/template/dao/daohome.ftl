@@ -18,10 +18,10 @@ public class ${declarationName}Home extends ${pojo.importType("org.springframewo
     @${pojo.importType("javax.persistence.PersistenceContext")} private ${pojo.importType("javax.persistence.EntityManager")} entityManager;
     
     public void persist(${declarationName} transientInstance) {
-        log.debug("persisting ${declarationName} instance");
+        log.info("persisting ${declarationName} instance");
         try {
             entityManager.persist(transientInstance);
-            log.debug("persist successful");
+            log.info("persist successful");
         }
         catch (RuntimeException re) {
             log.error("persist failed", re);
@@ -30,10 +30,10 @@ public class ${declarationName}Home extends ${pojo.importType("org.springframewo
     }
     
     public void remove(${declarationName} persistentInstance) {
-        log.debug("removing ${declarationName} instance");
+        log.info("removing ${declarationName} instance");
         try {
             entityManager.remove(persistentInstance);
-            log.debug("remove successful");
+            log.info("remove successful");
         }
         catch (RuntimeException re) {
             log.error("remove failed", re);
@@ -42,10 +42,10 @@ public class ${declarationName}Home extends ${pojo.importType("org.springframewo
     }
     
     public ${declarationName} merge(${declarationName} detachedInstance) {
-        log.debug("merging ${declarationName} instance");
+        log.info("merging ${declarationName} instance");
         try {
             ${declarationName} result = entityManager.merge(detachedInstance);
-            log.debug("merge successful");
+            log.info("merge successful");
             return result;
         }
         catch (RuntimeException re) {
@@ -56,10 +56,10 @@ public class ${declarationName}Home extends ${pojo.importType("org.springframewo
     
 <#if clazz.identifierProperty?has_content>    
     public ${declarationName} findById( ${pojo.getJavaTypeName(clazz.identifierProperty, jdk5)} id) {
-        log.debug("getting ${declarationName} instance with id: " + id);
+        log.info("getting ${declarationName} instance with id: " + id);
         try {
             ${declarationName} instance = entityManager.find(${pojo.getDeclarationName()}.class, id);
-            log.debug("get successful");
+            log.info("get successful");
             return instance;
         }
         catch (RuntimeException re) {
@@ -74,10 +74,10 @@ public class ${declarationName}Home extends ${pojo.importType("org.springframewo
     }    
         
     public void saveOrUpdate(${declarationName} instance) {
-        log.debug("saving or updating dirty ${declarationName} instance");
+        log.info("saving or updating dirty ${declarationName} instance");
         try {
             getHibernateTemplate().saveOrUpdate(instance);
-            log.debug("save or update successful");
+            log.info("save or update successful");
         }
         catch (RuntimeException re) {
             log.error("save or update failed", re);
@@ -86,10 +86,10 @@ public class ${declarationName}Home extends ${pojo.importType("org.springframewo
     }
     
     public void save(${declarationName} instance) {
-        log.debug("saving dirty ${declarationName} instance");
+        log.info("saving dirty ${declarationName} instance");
         try {
             getHibernateTemplate().save(instance);
-            log.debug("save successful");
+            log.info("save successful");
         }
         catch (RuntimeException re) {
             log.error("save failed", re);
@@ -102,7 +102,7 @@ public class ${declarationName}Home extends ${pojo.importType("org.springframewo
 <#else>
 	public void saveOrUpdateAll(${pojo.importType("java.util.List")} persistentInstances) {
 </#if>
-        log.debug("saveOrUpdateAll role");
+        log.info("saveOrUpdateAll role");
         try {
         	getHibernateTemplate().saveOrUpdateAll(persistentInstances);
         } catch (RuntimeException re) {
@@ -113,10 +113,10 @@ public class ${declarationName}Home extends ${pojo.importType("org.springframewo
     
     
     public void delete(${declarationName} persistentInstance) {
-        log.debug("deleting ${declarationName} instance");
+        log.info("deleting ${declarationName} instance");
         try {
             getHibernateTemplate().delete(persistentInstance);
-            log.debug("delete successful");
+            log.info("delete successful");
         }
         catch (RuntimeException re) {
             log.error("delete failed", re);
@@ -128,10 +128,10 @@ public class ${declarationName}Home extends ${pojo.importType("org.springframewo
 <#else>
 	public void deleteAll(${pojo.importType("java.util.List")} persistentInstances) {
 </#if>
-        log.debug("deleting ${declarationName} instance");
+        log.info("deleting ${declarationName} instance");
         try {
             getHibernateTemplate().deleteAll(persistentInstances);
-            log.debug("delete successful");
+            log.info("delete successful");
         }
         catch (RuntimeException re) {
             log.error("delete failed", re);
@@ -140,10 +140,10 @@ public class ${declarationName}Home extends ${pojo.importType("org.springframewo
     }
     
     public ${declarationName} merge(${declarationName} detachedInstance) {
-        log.debug("merging ${declarationName} instance");
+        log.info("merging ${declarationName} instance");
         try {
             ${declarationName} result = (${declarationName}) getHibernateTemplate().merge(detachedInstance);
-            log.debug("merge successful");
+            log.info("merge successful");
             return result;
         }
         catch (RuntimeException re) {
@@ -158,7 +158,7 @@ public class ${declarationName}Home extends ${pojo.importType("org.springframewo
 <#else>
 	public ${pojo.importType("java.util.List")} findByProperty(String propertyName, Object value) {
 </#if>
-    	log.debug("finding ${declarationName} instance with property: " + propertyName + ", value: " + value);
+    	log.info("finding ${declarationName} instance with property: " + propertyName + ", value: " + value);
         try {
         	String queryString = "from ${declarationName} as model where model." + propertyName + "= ?";
             return getHibernateTemplate().find(queryString, value);
@@ -172,13 +172,13 @@ public class ${declarationName}Home extends ${pojo.importType("org.springframewo
     
 <#if clazz.identifierProperty?has_content>
     public ${declarationName} findById( ${c2j.getJavaTypeName(clazz.identifierProperty, jdk5)} id) {
-        log.debug("getting ${declarationName} instance with id: " + id);
+        log.info("getting ${declarationName} instance with id: " + id);
         try {
             ${declarationName} instance = (${declarationName}) getHibernateTemplate().get("${clazz.entityName}", id);
             if (instance==null) {
-                log.debug("get successful, no instance found");
+                log.info("get successful, no instance found");
             } else {
-                log.debug("get successful, instance found");
+                log.info("get successful, instance found");
             }
             return instance;
         }
@@ -191,7 +191,7 @@ public class ${declarationName}Home extends ${pojo.importType("org.springframewo
     
 <#if clazz.hasNaturalId()>
     public ${declarationName} findByNaturalId(${c2j.asNaturalIdParameterList(clazz)}) {
-        log.debug("getting ${declarationName} instance by natural id");
+        log.info("getting ${declarationName} instance by natural id");
         try {
             ${declarationName} instance = (${declarationName}) sessionFactory.getCurrentSession()
                     .createCriteria("${clazz.entityName}")
@@ -208,10 +208,10 @@ public class ${declarationName}Home extends ${pojo.importType("org.springframewo
                         )
                     .uniqueResult();
             if (instance==null) {
-                log.debug("get successful, no instance found");
+                log.info("get successful, no instance found");
             }
             else {
-                log.debug("get successful, instance found");
+                log.info("get successful, instance found");
             }
             return instance;
         }
@@ -227,14 +227,14 @@ public class ${declarationName}Home extends ${pojo.importType("org.springframewo
 <#else>
     public ${pojo.importType("java.util.List")} findByExample(${declarationName} instance) {
 </#if>
-        log.debug("finding ${declarationName} instance by example");
+        log.info("finding ${declarationName} instance by example");
         try {
 <#if jdk5>
             ${pojo.importType("java.util.List")}<${declarationName}> results = getHibernateTemplate().findByExample(instance);
 <#else>
             ${pojo.importType("java.util.List")} results = getHibernateTemplate().findByExample(instance);
 </#if>
-            log.debug("find by example successful, result size: " + results.size());
+            log.info("find by example successful, result size: " + results.size());
             return results;
         }
         catch (RuntimeException re) {
@@ -249,7 +249,7 @@ public class ${declarationName}Home extends ${pojo.importType("org.springframewo
 <#else>
 	public ${pojo.importType("java.util.List")} findByParams(final String sql, final boolean isHql,final int start, final int limit, final ${pojo.importType("java.util.Map")}<String, Object> params) {
 </#if>
-    	log.debug("finding by ${declarationName} instance by params : " + params);
+    	log.info("finding by ${declarationName} instance by sql : " + sql);
     	<#if jdk5>
     	return getHibernateTemplate().executeFind(new ${pojo.importType("org.springframework.orm.hibernate3.HibernateCallback")}<Object>(){
     	<#else>
@@ -288,6 +288,45 @@ public class ${declarationName}Home extends ${pojo.importType("org.springframewo
 	            return query.list();
     		}
     	});
+    }
+    
+<#if jdk5>
+	public int findCountByParams(String sql, boolean isHql,int start, int limit, ${pojo.importType("java.util.Map")}<String, Object> params) {
+<#else>
+	public int findByParams(String sql, boolean isHql,int start, int limit, ${pojo.importType("java.util.Map")}<String, Object> params) {
+</#if>
+    	log.info("finding count by sql : " + sql);
+    	${pojo.importType("org.hibernate.Session")} session = getHibernateTemplate().getSessionFactory().openSession();
+    	
+    	${pojo.importType("org.hibernate.Query")} query = null;
+		if("".equals(sql) || sql == null){
+			query = session.createQuery("from ${declarationName}");
+		}else{
+			if(isHql){
+				query = session.createQuery(sql);
+			}else{
+				query = session.createSQLQuery(sql);
+			}
+		}
+		if(start > -1){
+			query.setFirstResult(start);
+		}
+		if(limit > -1){
+			query.setMaxResults(limit);
+		}
+		if(params != null){
+			<#if jdk5>
+			for(String key : params.keySet()){
+        		query.setParameter(key, params.get(key));
+    		}
+			<#else>
+			for (${pojo.importType("java.util.Iterator")} i = params.iterator(); i.hasNext(); ) {
+			    String key = i.next();
+			    query.setParameter(key, params.get(key));
+			}
+			</#if>
+		}
+        return query.list().size();
     }
     
 <#foreach queryName in cfg.namedQueries.keySet()>
