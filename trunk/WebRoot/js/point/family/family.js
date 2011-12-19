@@ -39,8 +39,8 @@ function family(){
 					Ext.Msg.alert('错误提示',o.msg, function(btn){
 						if(btn == "yes" || btn == "ok"){
 							if(o.msg1){
-								//Ext.MessageBox.buttonText.yes = '按钮一';  
-    							//Ext.MessageBox.buttonText.no = '按钮二'; 
+								//Ext.MessageBox.buttonText.yes = '按钮一';
+    							//Ext.MessageBox.buttonText.no = '按钮二';
 							    Ext.MessageBox.buttonText={
 							        yes: "申请加入家庭",
 									no: "创建家庭",
@@ -66,7 +66,7 @@ function family(){
 		if(btn == "yes"){
 			
 		}else if(btn == "no"){
-			
+			window.location = path + "/family_manage/familyManage.action?method=begin";
 		}else{
 			
 		}
