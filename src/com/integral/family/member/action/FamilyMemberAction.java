@@ -108,9 +108,14 @@ public class FamilyMemberAction extends BaseAction implements ServletRequestAwar
             out = super.getPrintWriter(request, response);
             List<FamilyMember> list = this.familyMemberService.findSelfFamilyMemberList(userId, 0, 50);
             int listSize = this.familyMemberService.findSelfFamilyMemberListCount(userId);
-            resultMap.put("success", true);
-            resultMap.put("memberList", list);
-            resultMap.put("totalCount", listSize);
+            if(listSize < 1){
+                resultMap.put("success", false);
+                resultMap.put("msg", "您当前未加入任何家庭，无法获取家庭成员信息！");
+            }else{
+                resultMap.put("success", true);
+                resultMap.put("memberList", list);
+                resultMap.put("totalCount", listSize);
+            }
         }catch(Exception e){
             LOG.error(e.getMessage());
         }finally{
