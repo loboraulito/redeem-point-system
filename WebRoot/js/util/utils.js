@@ -95,7 +95,12 @@ function goToTabPanel(tabHref){
 			if(msg && msg.success){
 				var title = msg.menuText;
 				var tabId = msg.menuId;
-				createMainTabPanel(title, tabId, tabHref, true);
+				var tabUrl = msg.menuUrl;
+				if(!tabUrl){
+					createMainTabPanel(title, tabId, tabHref, true);
+				}else{
+					createMainTabPanel(title, tabId, tabUrl, true);
+				}
 			}else if(msg && !msg.success){
 				Ext.Msg.alert("提示信息","URL信息无效，请检查数据库是否存在该信息！");
 			}
