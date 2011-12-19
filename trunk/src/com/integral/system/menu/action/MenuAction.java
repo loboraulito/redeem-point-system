@@ -15,6 +15,7 @@ import org.apache.commons.lang.math.NumberUtils;
 import org.apache.struts2.interceptor.ServletRequestAware;
 import org.apache.struts2.interceptor.ServletResponseAware;
 import org.nutz.json.Json;
+import org.nutz.json.JsonFormat;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.TransactionStatus;
@@ -439,6 +440,8 @@ ServletRequestAware, ServletResponseAware {
         }
         PrintWriter out = null;
         Map<String, Object> result = new HashMap<String, Object>();
+        JsonFormat jf = new JsonFormat(true);
+        jf.setAutoUnicode(true);
         try{
             out = super.getPrintWriter(request, response);
             List menus = this.menuService.findByMenuPath(menuPath);
@@ -446,12 +449,13 @@ ServletRequestAware, ServletResponseAware {
                 MenuInfo  menu = (MenuInfo) menus.get(0);
                 result.put("success", true);
                 result.put("menuId", menu.getMenuId());
+                result.put("menuText", menu.getMenuName());
             }
         }catch(Exception e){
             result.put("success", false);
         }finally{
             if(out != null){
-                out.print(Json.toJson(result));
+                out.print(Json.toJson(result, jf));
                 out.flush();
                 out.close();
             }
