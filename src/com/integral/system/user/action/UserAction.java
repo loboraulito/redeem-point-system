@@ -37,7 +37,9 @@ public class UserAction extends BaseAction implements ServletRequestAware, Servl
     private IUserService userService;
     private IUserRoleService userRoleService;
     private IRoleService roleService;
-    
+    /**
+     * 系统配置的默认用户注册成功之后的角色
+     */
     private String systemRoleName;
     
     /** 事务处理 */
