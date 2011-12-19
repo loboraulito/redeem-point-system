@@ -450,6 +450,7 @@ ServletRequestAware, ServletResponseAware {
                 result.put("success", true);
                 result.put("menuId", menu.getMenuId());
                 result.put("menuText", menu.getMenuName());
+                result.put("menuUrl", menu.getPagePath());
             }
         }catch(Exception e){
             result.put("success", false);

@@ -171,6 +171,20 @@ function family(){
 	 */
 	loadButtonRight(buttonRightStore, memberListStore, memberListDataGrid, "family_div", loadParam);
 	
+	/**
+	 * 创建家庭
+	 * @param {} url
+	 */
+	this.createFamily = function(url){
+		parent.goToTabPanel(url);
+	};
+	/**
+	 * 申请加入家庭
+	 * @param {} url
+	 */
+	this.familyApply = function(url){
+		
+	};
 }
 Ext.onReady(function(){
 	Ext.QuickTips.init();
