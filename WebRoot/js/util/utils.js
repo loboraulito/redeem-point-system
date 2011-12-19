@@ -81,3 +81,27 @@ function createMainTabPanel(title, tabId, tabHref, closable) {
 		}
 	}
 }
+/**
+ * 跳转到指定url的tab页面
+ * @param {} tabHref 要跳转页面的相对url(不接path变量)
+ */
+function goToTabPanel(tabHref){
+	Ext.Ajax.request({
+		params:{menuPath:tabHref},
+		timeout:60000,
+		url:path + "/menu/findMenuId.action?method=findMenuId",
+		success:function(response,options){
+			var msg = Ext.util.JSON.decode(response.responseText);
+			if(msg && msg.success){
+				var title = msg.menuText;
+				var tabId = msg.menuId;
+				createMainTabPanel(title, tabId, tabHref, true);
+			}else if(msg && !msg.success){
+				Ext.Msg.alert("提示信息","URL信息无效，请检查数据库是否存在该信息！");
+			}
+		},failure:function(response,options){
+			Ext.Msg.alert("提示信息","系统错误，请联系系统管理员！");
+			return;
+		}
+	});
+}
