@@ -509,9 +509,17 @@ public class AuthorizeAction extends BaseAction implements ServletRequestAware, 
                 if(user !=null){
                     if(user.length<2){
                         //当前选中的用户赞未分配角色
-                        UserRole userRole = new UserRole();
+                        //查询该用户是否已经存在在数据库
+                        UserRole userRole = null;
+                        
+                        List existRole = this.userRoleService.findRoleByUserID(user[0]);
+                        if(existRole != null && existRole.size() > 0){
+                            userRole = (UserRole) existRole.get(0);
+                        }else{
+                            userRole = new UserRole();
+                            userRole.setUserId(user[0]);
+                        }
                         userRole.setRoleId(destRoleId);
-                        userRole.setUserId(user[0]);
                         newUser.add(userRole);
                     }else{
                         //当前用户已有角色

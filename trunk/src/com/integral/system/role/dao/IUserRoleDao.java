@@ -11,6 +11,15 @@ import com.integral.system.role.bean.UserRole;
  * @createDate May 18, 2011
  */
 public interface IUserRoleDao {
+    /**
+     * <p>Discription:[根据用户ID查询用户角色]</p>
+     * @param userId
+     * @return
+     * @author:[代超]
+     * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
+     */
+    public List findRoleByUserID(String userId);
+    
     public List findRoleByUserIdName(String userId);
     
     /**

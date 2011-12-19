@@ -168,4 +168,15 @@ public class UserRoleService implements IUserRoleService {
     public void saveOrUpdate(UserRole userRole){
         this.userRoleDao.saveOrUpdate(userRole);
     }
+    
+    /**
+     * <p>Discription:[根据用户ID查询用户角色]</p>
+     * @param userId
+     * @return
+     * @author:[代超]
+     * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
+     */
+    public List findRoleByUserID(String userId){
+        return this.userRoleDao.findRoleByUserID(userId);
+    }
 }

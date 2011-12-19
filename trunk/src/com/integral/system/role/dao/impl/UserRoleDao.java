@@ -33,6 +33,17 @@ public class UserRoleDao extends HibernateDaoSupport implements IUserRoleDao {
         }
     }
     
+    public List findRoleByUserID(String userId){
+        log.debug("finding role");
+        try {
+            String queryString = "from UserRole as model where model.userId=?";
+            return getHibernateTemplate().find(queryString,userId);
+        } catch (RuntimeException re) {
+            log.error("find role failed", re);
+            throw re;
+        }
+    }
+    
     /**
      * 新增用户角色信息
      * @param entities
