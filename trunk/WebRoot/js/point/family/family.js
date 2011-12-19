@@ -66,7 +66,8 @@ function family(){
 		if(btn == "yes"){
 			
 		}else if(btn == "no"){
-			window.location = path + "/family_manage/familyManage.action?method=begin";
+			//window.location = path + "/family_manage/familyManage.action?method=begin";
+			parent.goToTabPanel("/family_manage/familyManage.action?method=begin");
 		}else{
 			
 		}
