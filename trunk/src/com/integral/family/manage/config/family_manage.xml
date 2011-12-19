@@ -5,12 +5,12 @@
 <struts>
 	<package name="family_manage" namespace="/family_manage" extends="struts-default">
 		<!-- 切记：action name不能是一样的，否则会进不了Action -->
-		<action name="familyManage" class="com.integral.exchange.gifts.action.GiftAction" method="begin">
-			 <result name="success">/jsp/family/family.jsp</result>
+		<action name="familyManage" class="com.integral.family.manage.action.FamilyManamgeAction" method="begin">
+			 <result name="success">/jsp/family/family_manage.jsp</result>
 			 <result name="input">/index.jsp</result>
 		</action>
-		<action name="familyList" class="com.integral.exchange.gifts.action.GiftAction" method="familyList">
-			 <result name="success">/jsp/family/family.jsp</result>
+		<action name="familyList" class="com.integral.family.manage.action.FamilyManamgeAction" method="familyList">
+			 <result name="success">/jsp/family/family_manage.jsp</result>
 			 <result name="input">/index.jsp</result>
 		</action>
 	</package>
