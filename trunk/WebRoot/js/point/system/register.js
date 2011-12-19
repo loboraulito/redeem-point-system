@@ -265,7 +265,7 @@ function systemRegister(){
 		//清除菜单信息
 		resetMenu();
 		Ext.Ajax.request({
-			params:{j_username:username,j_password:password},
+			params:{j_username:username,j_password:password,loginType:"ext"},
 			timeout:60000,
 			method:"post",
 			url:path+"/j_spring_security_check",
@@ -274,7 +274,7 @@ function systemRegister(){
 				rootMenu = msg.rootMenu;
 				userName = msg.userName;
 				loadMenuPanel(msg.userName);
-				Ext.getCmp("userInfo").setTitle("欢迎您   "+msg.userName);
+				Ext.getCmp("userInfo_panel").setTitle("欢迎您   "+msg.userName);
 			},failure:function(response,options){
 				Ext.Msg.alert("提示信息","用户登录过程中出现异常！");
 				return;
