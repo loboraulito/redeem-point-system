@@ -3,7 +3,7 @@
 # Server version:               5.0.22-community-nt
 # Server OS:                    Win32
 # HeidiSQL version:             6.0.0.3918
-# Date/time:                    2011-12-20 06:47:09
+# Date/time:                    2011-12-20 23:17:59
 # --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -50,17 +50,21 @@ INSERT INTO `employee_info` (`operater_id`, `operater_code`, `operater_name`, `p
 # Dumping structure for table redeempoint.family_info
 DROP TABLE IF EXISTS `family_info`;
 CREATE TABLE IF NOT EXISTS `family_info` (
-  `familyId` varchar(50) NOT NULL,
+  `family_id` varchar(50) NOT NULL,
   `family_name` varchar(200) default NULL COMMENT '家庭名称',
   `family_create_date` date default NULL COMMENT '家庭创建日期',
   `family_house_holder` varchar(50) default NULL COMMENT '家庭户主',
   `family_address` varchar(500) default NULL COMMENT '家庭地址',
   `family_tel` varchar(500) default NULL COMMENT '家庭联系方式',
-  PRIMARY KEY  (`familyId`)
+  PRIMARY KEY  (`family_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-# Dumping data for table redeempoint.family_info: ~0 rows (approximately)
+# Dumping data for table redeempoint.family_info: ~3 rows (approximately)
 /*!40000 ALTER TABLE `family_info` DISABLE KEYS */;
+INSERT INTO `family_info` (`family_id`, `family_name`, `family_create_date`, `family_house_holder`, `family_address`, `family_tel`) VALUES
+	('1', '测试1', '2011-12-20', 'abcd', NULL, NULL),
+	('2', '测试2', '2011-12-20', 'abcde', NULL, NULL),
+	('3', '测试3', '2011-12-19', 'abcdef', NULL, NULL);
 /*!40000 ALTER TABLE `family_info` ENABLE KEYS */;
 
 
@@ -261,15 +265,18 @@ CREATE TABLE IF NOT EXISTS `persistent_logins` (
   PRIMARY KEY  (`series`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-# Dumping data for table redeempoint.persistent_logins: ~8 rows (approximately)
+# Dumping data for table redeempoint.persistent_logins: ~10 rows (approximately)
 /*!40000 ALTER TABLE `persistent_logins` DISABLE KEYS */;
 INSERT INTO `persistent_logins` (`username`, `series`, `token`, `last_used`) VALUES
 	('admin', 'ABh9ELpdEfZJLAJq1mjVRw==', 'Qb0YAkH4X7Zh9zAIdxCn8g==', '2011-12-20 06:32:22'),
+	('admin', 'AwtgZIQuc73qWhf858Epuw==', '8twG2gPeVIfvgLc1ejOVjQ==', '2011-12-20 22:44:39'),
+	('admin', 'B+4mlCjII9HkBZ8WbgGSbw==', 'cN4V/jGsTPlx7gk52YIA1w==', '2011-12-20 23:16:50'),
 	('test7', 'CeNdmlqXVyRYvZwKcmUV7w==', '2OBecJqdheuz3twVOxSsnA==', '2011-12-19 22:40:07'),
 	('test', 'G2FVauqxspI+kKZdf33Q9A==', 'IzNMi/Wzgm4niwQ74RWQCQ==', '2011-12-19 22:32:56'),
 	('admin', 'i6tXUy63OIy7hifmUsrWtg==', '+WXgwwnFe2SkbCq698wG2w==', '2011-12-20 06:36:59'),
 	('test5', 'oSbmTPwPzTHWhOqdvx9tmQ==', 'NNW4cnPzcZ+sn7UmpTCABA==', '2011-12-19 22:35:42'),
 	('test', 'Q4U70XT7icCjga71waR/Cg==', 'R+GL0zfonv3EjIKBA+BMlA==', '2011-12-19 22:30:13'),
+	('swpigris81', 'R4N4P7uwLddivPsVnPK0Zg==', 'cmyEhOx9qtuJ3VMxf8SmyA==', '2011-12-20 23:14:53'),
 	('test4', 'RSXcsp+hCeYaezaQ14m+AA==', 'WWCpPc7FRMZi4m9C+0GpBw==', '2011-12-19 22:34:12'),
 	('test2', 'w4jhOS+iW4lyvcQkMZcKMg==', '5rRdtvt8pmP92f0vF3+udw==', '2011-12-19 22:33:19');
 /*!40000 ALTER TABLE `persistent_logins` ENABLE KEYS */;
@@ -311,7 +318,7 @@ CREATE TABLE IF NOT EXISTS `point_system_codelist_data` (
   KEY `Index 4` (`dataid`,`codeid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AVG_ROW_LENGTH=3276 COMMENT='系统数据标准数据表';
 
-# Dumping data for table redeempoint.point_system_codelist_data: ~3,872 rows (approximately)
+# Dumping data for table redeempoint.point_system_codelist_data: ~3,670 rows (approximately)
 /*!40000 ALTER TABLE `point_system_codelist_data` DISABLE KEYS */;
 INSERT INTO `point_system_codelist_data` (`dataid`, `codeid`, `datakey`, `datavalue`, `parentdatakey`, `remark`) VALUES
 	('4af4953627d6f4ff0127d6fbe877000c', '4af4953627d6f4ff0127d6fbc935000a', '1', '男', NULL, '不要删除'),
