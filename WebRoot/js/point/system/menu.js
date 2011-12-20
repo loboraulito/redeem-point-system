@@ -267,7 +267,7 @@ function menuManage(){
 						Ext.Msg.alert("系统提示信息","不能选择当前菜单为上级菜单！");
 						return false;
 					}
-					saveMenu("editMenuWindow", form)
+					saveMenu("editMenuWindow", form);
 				}
 			}
 		},{
@@ -283,11 +283,12 @@ function menuManage(){
 		
 		form.getForm().loadRecord(gridSelection[0]);
 		var node = {};
-		node.text = gridSelection[0].get("parentMenuName");
+		node.text = gridSelection[0].get("parentMenuName") || "会员积分兑换系统";
 		node.id = gridSelection[0].get("parentMenuId");
+		
 		form.form.findField("parentMenuId").setValue(node);
 		form.form.findField("parentMenuId").tree.expandAll();
-	}
+	};
 	
 	/**
 	 * 菜单窗口, 用于新增，修改
