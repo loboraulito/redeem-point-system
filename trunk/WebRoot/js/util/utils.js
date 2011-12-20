@@ -32,7 +32,7 @@ function changeXtheme() {
  */
 String.prototype.replaceAll = function(s1, s2) {
 	return this.replace(new RegExp(s1, "gm"), s2);
-}
+};
 /**
  * JS trim
  * 
@@ -40,7 +40,7 @@ String.prototype.replaceAll = function(s1, s2) {
  */
 String.prototype.trim = function() {
 	return this.replace(/(^\s*)|(\s*$)/g, "");
-}
+};
 /**
  * 获取当前页面的菜单ID
  * 
@@ -86,6 +86,7 @@ function createMainTabPanel(title, tabId, tabHref, closable) {
  * @param {} tabHref 要跳转页面的相对url(不接path变量)
  */
 function goToTabPanel(tabHref){
+	Ext.Msg.alert("系统提示","页面跳转中，请稍候...");
 	Ext.Ajax.request({
 		params:{menuPath:tabHref},
 		timeout:60000,
@@ -93,6 +94,7 @@ function goToTabPanel(tabHref){
 		success:function(response,options){
 			var msg = Ext.util.JSON.decode(response.responseText);
 			if(msg && msg.success){
+				Ext.Msg.hide();
 				var title = msg.menuText;
 				var tabId = msg.menuId;
 				var tabUrl = msg.menuUrl;
@@ -102,9 +104,11 @@ function goToTabPanel(tabHref){
 					createMainTabPanel(title, tabId, tabUrl, true);
 				}
 			}else if(msg && !msg.success){
+				Ext.Msg.hide();
 				Ext.Msg.alert("提示信息","URL信息无效，请检查数据库是否存在该信息！");
 			}
 		},failure:function(response,options){
+			Ext.Msg.hide();
 			Ext.Msg.alert("提示信息","系统错误，请联系系统管理员！");
 			return;
 		}
