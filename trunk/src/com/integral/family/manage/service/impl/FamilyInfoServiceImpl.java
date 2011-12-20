@@ -1,6 +1,11 @@
 package com.integral.family.manage.service.impl;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import com.integral.common.dao.impl.BaseDao;
+import com.integral.family.manage.bean.FamilyInfo;
 import com.integral.family.manage.dao.IFamilyInfoDAO;
 import com.integral.family.manage.service.IFamilyInfoService;
 /**
@@ -38,5 +43,22 @@ public class FamilyInfoServiceImpl implements IFamilyInfoService {
      */
     public void setFamilyInfoDao(IFamilyInfoDAO familyInfoDao) {
         this.familyInfoDao = familyInfoDao;
+    }
+    
+    public List<FamilyInfo> findFamilyListByUserId(String userId, int start, int limit){
+        String hql = "FROM FamilyInfo model WHERE model.familyId IN (" +
+        		" SELECT familyId FROM FamilyMember WHERE systemMemberId = :systemMemberId)";
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("systemMemberId", userId);
+        
+        return this.familyInfoDao.findByParams(hql, true, start, limit, params);
+    }
+    
+    public int findFamilyListSizeByUserId(String userId){
+        String hql = "FROM FamilyInfo model WHERE model.familyId IN (" +
+                " SELECT familyId FROM FamilyMember WHERE systemMemberId = :systemMemberId)";
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("systemMemberId", userId);
+        return this.familyInfoDao.findCountByParams(hql, true, -1, -1, params);
     }
 }
