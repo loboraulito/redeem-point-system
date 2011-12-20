@@ -8,6 +8,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.math.NumberUtils;
 import org.apache.struts2.interceptor.ServletRequestAware;
 import org.apache.struts2.interceptor.ServletResponseAware;
 import org.nutz.json.Json;
@@ -95,6 +96,8 @@ public class FamilyMemberAction extends BaseAction implements ServletRequestAwar
      * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
      */
     public String familyMemberList(){
+        int start = NumberUtils.toInt(request.getParameter("start"), 0);
+        int limit = NumberUtils.toInt(request.getParameter("limit"), 50);
         String userId = request.getParameter("userId");
         Map<String, Object> resultMap = new HashMap<String, Object>();
         JsonFormat jf = new JsonFormat(true);
@@ -106,7 +109,7 @@ public class FamilyMemberAction extends BaseAction implements ServletRequestAwar
         }
         try{
             out = super.getPrintWriter(request, response);
-            List<FamilyMember> list = this.familyMemberService.findSelfFamilyMemberList(userId, 0, 50);
+            List<FamilyMember> list = this.familyMemberService.findSelfFamilyMemberList(userId, start, limit);
             int listSize = this.familyMemberService.findSelfFamilyMemberListCount(userId);
             if(listSize < 1){
                 resultMap.put("success", false);
