@@ -1,6 +1,7 @@
 package com.integral.family.manage.action;
 
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -104,18 +105,29 @@ public class FamilyManamgeAction extends BaseAction implements ServletRequestAwa
         int start = NumberUtils.toInt(request.getParameter("start"), 0);
         int limit = NumberUtils.toInt(request.getParameter("limit"), 50);
         String userId = request.getParameter("userId");
+        String viewAll = request.getParameter("viewAll");
         Map<String, Object> resultMap = new HashMap<String, Object>();
         JsonFormat jf = new JsonFormat(true);
         jf.setAutoUnicode(true);
         PrintWriter out = null;
-        if(userId == null || "".equals(userId)){
-            resultMap.put("success", false);
-            resultMap.put("msg", "用户ID为空，不能查询您所在家庭信息！");
+        if(viewAll == null || "".equals(viewAll)){
+            if(userId == null || "".equals(userId)){
+                resultMap.put("success", false);
+                resultMap.put("msg", "用户ID为空，不能查询您所在家庭信息！");
+            }
         }
         try{
             out = super.getPrintWriter(request, response);
-            List<FamilyInfo> list = this.familyManageService.findFamilyListByUserId(userId, start, limit);
-            int listSize = this.familyManageService.findFamilyListSizeByUserId(userId);
+            List<FamilyInfo> list = null;
+            int listSize = 0;
+            if(viewAll != null && "yes".equals(viewAll)){
+                list = this.familyManageService.findAllFamilyList(start, limit);
+                listSize = this.familyManageService.findAllFamilyListSize();
+            }else{
+                list = this.familyManageService.findFamilyListByUserId(userId, start, limit);
+                listSize = this.familyManageService.findFamilyListSizeByUserId(userId);
+            }
+            
             if(listSize < 1){
                 resultMap.put("success", false);
                 resultMap.put("msg", "您当前未加入任何家庭，请加入家庭或者创建家庭！");
@@ -136,7 +148,12 @@ public class FamilyManamgeAction extends BaseAction implements ServletRequestAwa
         }
         return null;
     }
-    
+    /**
+     * <p>Discription:[创建家庭]</p>
+     * @return
+     * @author:[代超]
+     * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
+     */
     public String familyManageAdd(){
         Map<String, Object> paramMap = RequestUtil.getRequestMap(request);
         
@@ -183,6 +200,107 @@ public class FamilyManamgeAction extends BaseAction implements ServletRequestAwa
                 out.flush();
                 out.close();
             }
+        }
+        return null;
+    }
+    /**
+     * <p>Discription:[修改家庭信息]</p>
+     * @return
+     * @author:[代超]
+     * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
+     */
+    public String familyManageEdit(){
+        Map<String, Object> paramMap = RequestUtil.getRequestMap(request);
+        // 定义TransactionDefinition并设置好事务的隔离级别和传播方式。
+        DefaultTransactionDefinition definition = new DefaultTransactionDefinition();
+        // 代价最大、可靠性最高的隔离级别，所有的事务都是按顺序一个接一个地执行
+        definition.setIsolationLevel(TransactionDefinition.ISOLATION_SERIALIZABLE);
+        // 开始事务
+        TransactionStatus status = transactionManager.getTransaction(definition);
+        
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        JsonFormat jf = new JsonFormat(true);
+        jf.setAutoUnicode(true);
+        PrintWriter out = null;
+        
+        try{
+            out = super.getPrintWriter(request, response);
+            RequestUtil.repalceAsDate(paramMap, "familyCreateDate", "yyyy-MM-dd");
+            FamilyInfo family = new FamilyInfo();
+            BeanUtils.populate(family, paramMap);
+            if(family.getFamilyId() == null || "".equals(family.getFamilyId())){
+                String familyId = Tools.getUUID();
+                family.setFamilyId(familyId);
+            }
+            this.familyManageService.saveOrUpdate(family);
+            
+            resultMap.put("success", true);
+            resultMap.put("msg", "家庭信息更新成功！");
+        }catch(Exception e){
+            status.setRollbackOnly();
+            resultMap.put("success", false);
+            resultMap.put("msg", "家庭信息更新失败，错误代码：" + e.getMessage());
+        }finally{
+            transactionManager.commit(status);
+            if(out != null){
+                out.print(Json.toJson(resultMap, jf));
+                out.flush();
+                out.close();
+            }
+        }
+        return null;
+    }
+    /**
+     * <p>Discription:[删除家庭信息]</p>
+     * @return
+     * @author:[代超]
+     * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
+     */
+    public String familyManageDelete(){
+        String familyIds = request.getParameter("familyId");
+        // 定义TransactionDefinition并设置好事务的隔离级别和传播方式。
+        DefaultTransactionDefinition definition = new DefaultTransactionDefinition();
+        // 代价最大、可靠性最高的隔离级别，所有的事务都是按顺序一个接一个地执行
+        definition.setIsolationLevel(TransactionDefinition.ISOLATION_SERIALIZABLE);
+        // 开始事务
+        TransactionStatus status = transactionManager.getTransaction(definition);
+        
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        JsonFormat jf = new JsonFormat(true);
+        jf.setAutoUnicode(true);
+        PrintWriter out = null;
+        try{
+            out = super.getPrintWriter(request, response);
+            if(familyIds == null || "".equals(familyIds.trim())){
+                resultMap.put("success", false);
+                resultMap.put("msg", "未选择家庭信息或所选家庭信息无效！");
+            }else{
+                String [] familyId = familyIds.split(",");
+                List<FamilyInfo> familyList = new ArrayList<FamilyInfo>();
+                List<FamilyMember> memberList = new ArrayList<FamilyMember>();
+                for(int i=0; i<familyId.length; i++){
+                    FamilyInfo family = new FamilyInfo();
+                    family.setFamilyId(familyId[i]);
+                    familyList.add(family);
+                    memberList.addAll(this.familyMemberService.findByProperty("familyId", familyId[i]));
+                }
+                //删除家庭之前需要将其中成员删除
+                this.familyManageService.deleteAll(familyList);
+                this.familyMemberService.deleteAll(memberList);
+                resultMap.put("success", true);
+                resultMap.put("msg", "所选家庭信息以及家庭成员已成功删除！");
+            }
+        }catch(Exception e){
+            status.setRollbackOnly();
+            resultMap.put("success", false);
+            resultMap.put("msg", "系统错误！错误代码："+ e.getMessage());
+        }finally{
+            transactionManager.commit(status);
+            if(out != null){
+                out.print(Json.toJson(resultMap, jf));
+                out.flush();
+                out.close();
+            }            
         }
         return null;
     }
