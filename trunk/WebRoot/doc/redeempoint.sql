@@ -1,9 +1,9 @@
 # --------------------------------------------------------
 # Host:                         127.0.0.1
-# Server version:               5.0.22-community-nt
+# Server version:               5.0.45-community-nt
 # Server OS:                    Win32
 # HeidiSQL version:             6.0.0.3918
-# Date/time:                    2011-12-20 23:17:59
+# Date/time:                    2011-12-21 14:05:16
 # --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -56,15 +56,16 @@ CREATE TABLE IF NOT EXISTS `family_info` (
   `family_house_holder` varchar(50) default NULL COMMENT '家庭户主',
   `family_address` varchar(500) default NULL COMMENT '家庭地址',
   `family_tel` varchar(500) default NULL COMMENT '家庭联系方式',
+  `family_comment` varchar(500) default NULL COMMENT '家庭简介',
   PRIMARY KEY  (`family_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 # Dumping data for table redeempoint.family_info: ~3 rows (approximately)
 /*!40000 ALTER TABLE `family_info` DISABLE KEYS */;
-INSERT INTO `family_info` (`family_id`, `family_name`, `family_create_date`, `family_house_holder`, `family_address`, `family_tel`) VALUES
-	('1', '测试1', '2011-12-20', 'abcd', NULL, NULL),
-	('2', '测试2', '2011-12-20', 'abcde', NULL, NULL),
-	('3', '测试3', '2011-12-19', 'abcdef', NULL, NULL);
+INSERT INTO `family_info` (`family_id`, `family_name`, `family_create_date`, `family_house_holder`, `family_address`, `family_tel`, `family_comment`) VALUES
+	('1', '测试1', '2011-12-20', 'abcd', NULL, NULL, NULL),
+	('2', '测试2', '2011-12-20', 'abcde', NULL, NULL, NULL),
+	('3', '测试3', '2011-12-19', 'abcdef', NULL, NULL, NULL);
 /*!40000 ALTER TABLE `family_info` ENABLE KEYS */;
 
 
@@ -255,6 +256,24 @@ INSERT INTO `menu_info` (`menu_id`, `menu_name`, `page_path`, `menu_level`, `par
 /*!40000 ALTER TABLE `menu_info` ENABLE KEYS */;
 
 
+# Dumping structure for table redeempoint.nodeinstancelog
+DROP TABLE IF EXISTS `nodeinstancelog`;
+CREATE TABLE IF NOT EXISTS `nodeinstancelog` (
+  `id` varchar(50) NOT NULL default '',
+  `type` varchar(50) default NULL,
+  `nodeInstanceId` varchar(50) default NULL,
+  `nodeId` varchar(50) default NULL,
+  `processInstanceId` varchar(50) default NULL,
+  `processId` varchar(50) default NULL,
+  `LOG_DATE` date default NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+# Dumping data for table redeempoint.nodeinstancelog: ~0 rows (approximately)
+/*!40000 ALTER TABLE `nodeinstancelog` DISABLE KEYS */;
+/*!40000 ALTER TABLE `nodeinstancelog` ENABLE KEYS */;
+
+
 # Dumping structure for table redeempoint.persistent_logins
 DROP TABLE IF EXISTS `persistent_logins`;
 CREATE TABLE IF NOT EXISTS `persistent_logins` (
@@ -265,7 +284,7 @@ CREATE TABLE IF NOT EXISTS `persistent_logins` (
   PRIMARY KEY  (`series`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-# Dumping data for table redeempoint.persistent_logins: ~10 rows (approximately)
+# Dumping data for table redeempoint.persistent_logins: ~12 rows (approximately)
 /*!40000 ALTER TABLE `persistent_logins` DISABLE KEYS */;
 INSERT INTO `persistent_logins` (`username`, `series`, `token`, `last_used`) VALUES
 	('admin', 'ABh9ELpdEfZJLAJq1mjVRw==', 'Qb0YAkH4X7Zh9zAIdxCn8g==', '2011-12-20 06:32:22'),
@@ -278,7 +297,8 @@ INSERT INTO `persistent_logins` (`username`, `series`, `token`, `last_used`) VAL
 	('test', 'Q4U70XT7icCjga71waR/Cg==', 'R+GL0zfonv3EjIKBA+BMlA==', '2011-12-19 22:30:13'),
 	('swpigris81', 'R4N4P7uwLddivPsVnPK0Zg==', 'cmyEhOx9qtuJ3VMxf8SmyA==', '2011-12-20 23:14:53'),
 	('test4', 'RSXcsp+hCeYaezaQ14m+AA==', 'WWCpPc7FRMZi4m9C+0GpBw==', '2011-12-19 22:34:12'),
-	('test2', 'w4jhOS+iW4lyvcQkMZcKMg==', '5rRdtvt8pmP92f0vF3+udw==', '2011-12-19 22:33:19');
+	('test2', 'w4jhOS+iW4lyvcQkMZcKMg==', '5rRdtvt8pmP92f0vF3+udw==', '2011-12-19 22:33:19'),
+	('admin', 'wY14AU8yjvfz0jq2WVwwXQ==', 'LXgb0xQ14MC3o4NZBJs+sQ==', '2011-12-21 11:33:48');
 /*!40000 ALTER TABLE `persistent_logins` ENABLE KEYS */;
 
 
@@ -318,7 +338,7 @@ CREATE TABLE IF NOT EXISTS `point_system_codelist_data` (
   KEY `Index 4` (`dataid`,`codeid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AVG_ROW_LENGTH=3276 COMMENT='系统数据标准数据表';
 
-# Dumping data for table redeempoint.point_system_codelist_data: ~3,670 rows (approximately)
+# Dumping data for table redeempoint.point_system_codelist_data: ~3,984 rows (approximately)
 /*!40000 ALTER TABLE `point_system_codelist_data` DISABLE KEYS */;
 INSERT INTO `point_system_codelist_data` (`dataid`, `codeid`, `datakey`, `datavalue`, `parentdatakey`, `remark`) VALUES
 	('4af4953627d6f4ff0127d6fbe877000c', '4af4953627d6f4ff0127d6fbc935000a', '1', '男', NULL, '不要删除'),
@@ -4194,6 +4214,22 @@ INSERT INTO `point_system_codelist_data` (`dataid`, `codeid`, `datakey`, `datava
 	('ff8080812ae751f5012ae784ade2001d', 'ff80808129784c1c01297854b8a60003', '3', '季度报警', NULL, '勿删'),
 	('ff8080812ae751f5012ae784dbb9001f', 'ff80808129784c1c01297854b8a60003', '4', '年度报警', NULL, '勿删');
 /*!40000 ALTER TABLE `point_system_codelist_data` ENABLE KEYS */;
+
+
+# Dumping structure for table redeempoint.processinstancelog
+DROP TABLE IF EXISTS `processinstancelog`;
+CREATE TABLE IF NOT EXISTS `processinstancelog` (
+  `id` varchar(50) NOT NULL default '',
+  `processInstanceId` varchar(50) default NULL,
+  `processId` varchar(50) default NULL,
+  `START_DATE` date default NULL,
+  `END_DATE` date default NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+# Dumping data for table redeempoint.processinstancelog: ~0 rows (approximately)
+/*!40000 ALTER TABLE `processinstancelog` DISABLE KEYS */;
+/*!40000 ALTER TABLE `processinstancelog` ENABLE KEYS */;
 
 
 # Dumping structure for table redeempoint.right_info

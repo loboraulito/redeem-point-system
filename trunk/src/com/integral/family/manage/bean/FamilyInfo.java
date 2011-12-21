@@ -1,6 +1,6 @@
 package com.integral.family.manage.bean;
 
-// Generated Dec 13, 2011 1:16:43 PM by Hibernate Tools 3.4.0.CR1
+// Generated Dec 21, 2011 1:54:25 PM by Hibernate Tools 3.4.0.CR1
 
 import java.util.Date;
 
@@ -21,6 +21,8 @@ public class FamilyInfo implements java.io.Serializable {
 
     private String familyTel;
 
+    private String familyComment;
+
     public FamilyInfo() {
     }
 
@@ -29,13 +31,14 @@ public class FamilyInfo implements java.io.Serializable {
     }
 
     public FamilyInfo(String familyId, String familyName, Date familyCreateDate, String familyHouseHolder,
-            String familyAddress, String familyTel) {
+            String familyAddress, String familyTel, String familyComment) {
         this.familyId = familyId;
         this.familyName = familyName;
         this.familyCreateDate = familyCreateDate;
         this.familyHouseHolder = familyHouseHolder;
         this.familyAddress = familyAddress;
         this.familyTel = familyTel;
+        this.familyComment = familyComment;
     }
 
     public String getFamilyId() {
@@ -84,6 +87,14 @@ public class FamilyInfo implements java.io.Serializable {
 
     public void setFamilyTel(String familyTel) {
         this.familyTel = familyTel;
+    }
+
+    public String getFamilyComment() {
+        return this.familyComment;
+    }
+
+    public void setFamilyComment(String familyComment) {
+        this.familyComment = familyComment;
     }
 
 }

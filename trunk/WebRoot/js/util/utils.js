@@ -114,3 +114,23 @@ function goToTabPanel(tabHref){
 		}
 	});
 }
+/**
+ * 设置某控件为灰, 无法操作
+ * @param {} cmpId
+ */
+function markComponent(cmpId){
+	var c = Ext.getCmp(cmpId);
+	if(c){
+		c.getEl().parent().mask();
+	}
+}
+/**
+ * 解除某控件的灰, 可以操作
+ * @param {} cmpId
+ */
+function unMarkComponent(cmpId){
+	var c = Ext.getCmp(cmpId);
+	if(c){
+		c.getEl().parent().unmask();
+	}
+}
