@@ -1,0 +1,289 @@
+类的特性：封装，多态，继承
+多态，意味着一个对象有着多重特征，可以在特定的情况下，表现不同的状态，从而对应着不同的属性和方法。如一个接口被多个类实现，但是各个类对具体的方法有着不同的实现方式。
+
+
+
+
+Ajax：XMLHttpRequest对象
+Ajax的原理：通过XmlHttpRequest对象来向服务器发异步请求，从服务器获得数据，然后用javascript来操作DOM而更新页面
+
+forward：转发，带参数转发。URL不显示在浏览器上，由服务器端执行
+redirect：重定向，不带参数转发，只能使用rquest.setAttribute方法获取数据参数。URL将会显示在浏览器上，由客户端执行
+
+Java抽象类：可以提供某些方法的具体实现，如果向抽象类中加入一个新的方法，则该抽象类的子类都能自动得到该方法。一个抽象类的实现只能由这个抽象类的子类给出。
+Java接口：接口不提供方法的具体实现，只能由实现该接口的类去实现具体的方法。如果在接口中定义一个新的方法，那么实现该接口的类将会编译失败。因为类必须实现该方法。
+
+Java静态类（static）：不能实例化，类的成员都必须是静态的成员（方法，属性等）
+Java非静态类：一般要实例化之后才能操作（new）
+static的好处：1：开辟一块静态内存。2：不需要创建对象,就能访问某个方法
+
+HashTable：方法同步，不允许null值，迭代使用Enumeration，默认大小是11，增加方式是old*2+1
+HashMap:不是同步的，因此多线程访问的时候需要手动同步。迭代使用Iterator，相对HashTable少了contains方法，多了containsKey以及containsvalue。性能不会有很大的差异
+
+Character：进行单个字符操作的
+String：一串字符进行操作。不可变类，一旦被创建,就不能修改它的值。对已经存在的String对象的修改都是重新创建一个新的对象,然后把新的值保存进去。不能被继承，因为他是final型的。
+StringBuffer：对一串字符进行操作，但是可变类，只能通过构造函数来建立
+
+Hibernate的缓存包括Session的缓存和SessionFactory的缓存，其中SessionFactory的缓存又可以分为两类：内置缓存和外置缓存。Session的缓存是内置的，不能被卸载，也被称为Hibernate的第一级缓存。SessionFactory的内置缓存是SessionFactory对象的一些集合属性包含的数据,Session的缓存是指Session的一些集合属性包含的数据.外置缓存的数据是数据库数据的拷贝，外置缓存的介质可以是内存或者硬盘。SessionFactory的外置缓存也被称为Hibernate的第二级缓存。
+
+Struts1的一个普遍问题是使用抽象类编程而不是接口
+Struts1 Action是单例模式并且必须是线程安全的，因为仅有Action的一个实例来处理所有的请求
+Struts1 Action 依赖于Servlet API
+Struts1 使用ActionForm对象捕获输入。所有的ActionForm必须继承一个基类
+Struts 1支持在ActionForm的validate方法中手动校验，或者通过Commons Validator的扩展来校验
+Struts1支持每一个模块有单独的Request Processors（生命周期），但是模块中的所有Action必须共享相同的生命周期
+
+Struts 2 Action类可以实现一个Action接口，也可实现其他接口,Action接口不是必须的
+Struts2 Action对象为每一个请求产生一个实例，因此没有线程安全问题
+Struts 2 Action不依赖于容器，允许Action脱离容器单独被测试
+Struts 2直接使用Action属性作为输入属性，消除了对第二个输入对象的需求
+Struts2支持通过validate方法和XWork校验框架来进行校验
+Struts2支持通过拦截器堆栈（Interceptor Stacks）为每一个Action创建不同的生命周期。堆栈能够根据需要和不同的Action一起使用
+
+
+Spring原理: 程序在运行时根据配置文件动态加载依赖的类，降低的类与类之间的藕合度
+1: IoC, 控制反转(反射)
+控制权由对象本身转向容器；由容器根据配置文件去创建实例并创建各个实例之间的依赖关系
+动态注入，让一个对象的创建不用new了，可以自动的生产，这其实就是利用java里的反射,反射其实就是在运行时动态的去创建、调用对象，Spring就是在运行时，跟xml  Spring的配置文件来动态的创建对象，和调用对象里的方法的
+
+在applicationContext.xml加入bean标记,在bean标记中通过class属性说明具体类名、通过property标签说明该类的属性名、通过constructor-args说明构造子的参数
+
+2: AOP, 面向切面编程(动态代理)
+可以为某一类对象 进行监督和控制（也就是在调用这类对象的具体方法的前后去调用你指定的 模块）从而达到对一个模块扩充的功能。这些都是通过配置类达到的
+动态代理:不用写代理类，虚拟机根据真实对象实现的接口产生一个类，通过类实例化一个动态代理，在实例化动态代理时将真实对象及装备注入到动态代理中，向客户端公开的是动态代理，当客户端调用动态代理方法时，动态代理根据类的返射得到真实对象的Method,调用装备的invoke方法，将动态代理、Method、方法参数传与装备的invoke方法，invoke方法在唤起method方法前或后做一些处理
+
+Spring的三种注入方式
+setter
+interface
+constructor
+
+spring的核心接口及核类配置文件是什么
+FactoryBean:工厂bean主要实现ioc/di
+ApplicationContext ac=new FileXmlApplicationContext("applicationContext.xml");
+Object obj=ac.getBean("id值");
+
+
+
+
+
+
+
+
+java 同步和异步
+关于线程安全，如果一个方法里面全部是局部变量，那么是没有必要同步的，也就是说它是线程安全的。也就是不必加synchronized
+
+
+java List 排序 Collections.sort() 对 List 排序
+//具体的比较类，实现Comparator接口
+
+import java.util.Comparator;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Collections;
+
+public class ComparatorUser implements Comparator{
+
+ public int compare(Object arg0, Object arg1) {
+  User user0=(User)arg0;
+  User user1=(User)arg1;
+
+   //首先比较年龄，如果年龄相同，则比较名字
+
+  int flag=user0.getAge().compareTo(user1.getAge());
+  if(flag==0){
+   return user0.getName().compareTo(user1.getName());
+  }else{
+   return flag;
+  }  
+ }
+ 
+}
+
+//测试类
+ComparatorUser comparator=new ComparatorUser();
+  Collections.sort(userlist, comparator);
+   
+  for (int i=0;i<userlist.size();i++){
+   User user_temp=(User)userlist.get(i);
+      System.out.println(user_temp.getAge()+","+user_temp.getName()); 
+  }
+
+
+
+
+J2EE SDK是Java企业版的开发包;
+J2SE SDK是Java标准版的开发包.
+J2ME SDK是Java手机开发包
+
+Java泛型：节省某些Java类型转换(casting)上的操作。如List<Apple> box
+
+
+DBC连接数据库的步骤：
+1：加载JDBC数据库驱动
+2：建立数据库连接
+3：创建一个SQL语句对象
+4：执行SQL语句
+5：处理结果集
+6：关闭数据库连接
+
+
+Java解析XML文件的四种方法
+1：DOM被认为是基于树或基于对象的，可以修改，持久化的，树形结构
+2：SAX不需要将数据存储在内存。SAX采用的事件模型，基于数据流，读取文档，没有载入到内存
+3：JDOM仅使用具体类而不使用接口，JDOM自身不包含解析器，通常使用SAX2解析器来解析和验证输入XML文档
+4：DOM4J集成的XPath支持、XML Schema支持以及用于大文档或流化文档的基于事件的处理，DOM4J使用接口和抽象基本类方法，提供一些替代方法以允许更好的性能或更直接的编码方法。性能优异、功能强大。
+
+JDOM和DOM在性能测试时表现不佳
+
+
+Java InputStream：从流中读取数据
+Java OutputStream：输出数据
+
+
+XML  VS  JSON
+XML：
+优势
+1：格式统一, 符合标准
+2：容易与其他系统进行远程交互, 数据共享比较方便
+缺点:
+1. XML文件格式文件庞大, 格式复杂, 传输占用带宽
+2. 服务器端和客户端都需要花费大量代码来解析XML, 不论服务器端和客户端代码变的异常复杂和不容易维护
+3. 客户端不同浏览器之间解析XML的方式不一致, 需要重复编写很多代码
+4. 服务器端和客户端解析XML花费资源和时间
+
+JSON
+优点:
+1. 数据格式比较简单, 易于读写, 格式都是压缩的, 占用带宽小
+2. 易于解析这种语言, 客户端JavaScript可以简单的通过eval()进行JSON数据的读取
+3. 支持多种语言, 便于服务器端的解析
+5. 因为JSON格式能够直接为服务器端代码使用, 大大简化了服务器端和客户端的代码开发量, 但是完成的任务不变, 且易于维护
+缺点:
+1. 没有XML格式这么推广的深入人心和使用广泛, 没有XML那么通用性
+2. JSON格式目前在Web Service中推广还属于初级阶段
+
+java为什么要有接口：
+一个类只能继承一个父类，但是可以实现一个或多个接口 
+
+
+jsp的include一个文件的方式
+<jsp:include page="b.jsp" flush="true"/>（先执行，后包含）此标签表示法：能动态区别加进来的是动态页面还是静态页面，对于静态页面则直接将资源包含(仅取其文本)。
+<%@ include file="b.jsp" %> 此指令表示：静态地包含页面，不管其内容如何，不过是静态页面还是动态页面都首先将页面的内容先加进来。
+
+
+javascript函数无return时候，返回什么：undefined 
+
+String str=new String("abc"); 创建了2个String对象
+String a="ab"+"cd"; 创建了3个String对象
+String str="abc"; 创建了一个String对象。
+
+Servlet生命周期
+1：加载和实例化。Servlet容器完成加载Servlet类和实例化一个Servlet对象
+2：初始化。init（）方法完成初始化工作，由Servlet容器调用完成
+3：请求处理。service（）方法处理客户端请求
+4：服务终止。destroy（）方法在Servlet容器卸载Servlet之前被调用，释放一些资源
+
+this和super的使用
+this：它代表当前对象名
+super:　它引用当前对象的直接父类中的成员
+
+
+scope范围：
+application,整个应用用的是同一个bean。 
+session,这次会话中用的是同一个。 
+page,一个页面的一次请求中用的是同一个，下次请求此页面则是另外一个bean。 
+request,相同请求的页面用的是同一个，即同一页面再一次请求用的是同一个bean,如页面的刷新。
+
+
+struts提供了多少标签库
+HTML：用来创建能够和Struts 框架和其他相应的HTML 标签交互的HTML 输入表单
+Bean：在访问JavaBeans 及其属性，以及定义一个新的bean 时使用
+Logic：管理条件产生的输出和对象集产生的循环
+Template：随着Tiles框架包的出现，此标记已开始减少使用
+Nested：增强对其他的Struts 标签的嵌套使用的能力
+
+
+
+
+
+SQL的常用优化方法
+索引，字段
+
+Oracle的分页
+SELECT * 
+FROM( 
+SELECT ROWNUM RN,TA.* 
+FROM(
+select t.id ID, o.name YYB,u.name XM, t.MC
+from tZDYSX t,tuser u,lborganization o 
+where t.cjr=u.id and u.orgid=o.orgcode and t.gx = 1 order by t.ID
+)TA WHERE ROWNUM <= 20
+)WHERE RN > 10
+
+
+SELECT * FROM 
+(
+SELECT A.*, ROWNUM RN 
+FROM (SELECT * FROM TABLE_NAME) A 
+WHERE ROWNUM <= 40
+)
+WHERE RN >= 21
+
+
+
+数据库
+数据约束：
+unique 唯一值约束，
+check  约束，检查数据完整性以及合法性
+primary 主键约束，
+foreign key  外键约束，
+not null 约束
+
+
+
+MySQL中TIMESTAMP与DATETIME的区别
+1: 相同点: TIMESTAMP列的显示格式与DATETIME列相同。换句话说，显示宽度固定在19字符，并且格式为YYYY-MM-DD HH:MM:SS。
+2: 不同点:
+   1) 范围
+      datetime 以'YYYY-MM-DD HH:MM:SS'格式检索和显示DATETIME值。支持的范围为'1000-01-01 00:00:00'到'9999-12-31 23:59:59'
+      TIMESTAMP值不能早于1970或晚于2037
+   2) 储存
+      datetime: 8个字节储存,实际格式储存,与时区无关
+      TIMESTAMP: 4个字节储存,值以UTC格式保存,时区转化 ，存储时对当前的时区进行转换，检索时再转换回当前的时区
+
+TIMESTAMP的值会根据时区的变化而变化，但是datetime则不会。所以说，如果是不变的日期如生日使用datetime好，如果是变化的日期使用TIMESTAMP也可以。
+
+
+
+
+
+
+
+
+
+C#
+Session有什么重大BUG，微软提出了什么方法加以解决
+是iis中由于有进程回收机制，系统繁忙的话Session会丢失，可以用Sate server或SQL Server数据库的方式存储Session不过这种方式比较慢，而且无法捕获Session的END事件
+
+
+
+IQ测试：
+有A、B、C、D四个人在夜里要过一座桥，过桥时间分别为1,2,5,10分钟，他们只有一只手电筒，这座桥只能同时过两个人，问怎样安排才能使4个人在17分钟内通过这座桥？
+A+B=2, A回来=1，C+D=10, B回来=2，A+B=2. 2+1+10+2+2=17
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
