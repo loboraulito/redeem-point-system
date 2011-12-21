@@ -41,6 +41,36 @@ function buttonManage(){
 		}
 	});
 	
+	var buttonGroupStore = new Ext.data.GroupingStore({
+		url:proxyUrl,
+		reader:buttonReader,
+		groupField:"menuName",
+		sortInfo:{field: 'buttonId', direction: "ASC"},
+		listeners:{
+			"loadexception":function(loader, node, response){
+				if(response.status == "403"){
+					Ext.Msg.alert("系统提示","您无权访问本页面,请联系系统管理员！",function(btn){
+						if(btn == "ok" || btn == "yes"){
+							parent.top.location = path;
+						}
+					});
+				}
+			}
+		}
+	});
+	
+	/**
+	 * 数据标准分组显示
+	 */
+	var groupView = new Ext.grid.GroupingView({
+		forceFit:true,
+		showGroupName: false,//是否在分组行上显示分组字段的名字
+		enableNoGroups:false, //是否允许用户关闭分组功能REQUIRED!
+		hideGroupedColumn: false,//是否隐藏分组列
+		enableGroupingMenu:false,//是否在表头菜单中进行分组控制
+		groupTextTpl: '菜单：{text}&nbsp;&nbsp;&nbsp;&nbsp;有  {[values.rs.length]} 条按钮信息'//用于渲染分组信息的模板，默认为'{text}'
+	});
+	
 	var styleStore = new Ext.data.SimpleStore({
 		fields:["codeid","codename","iconCss"],
 		data:[["table_add","添加按钮","table_add"],["table_edit","修改按钮","table_edit"],
@@ -113,17 +143,20 @@ function buttonManage(){
 		loadMask:true,//载入遮罩动画（默认）
 		frame:true,
 		autoShow:true,		
-		store:buttonStore,
+		//store:buttonStore,
+		store:buttonGroupStore,
 		renderTo:"button_div",
 		cm:buttonCM,
 		sm:buttonSM,
 		viewConfig:{
 			forceFit:true//若父容器的layout为fit，那么强制本grid充满该父容器
 		},
+		view:groupView,
 		split: true,
 		bbar:new Ext.PagingToolbar({
 			pageSize:50,//每页显示数
-			store:buttonStore,
+			//store:buttonStore,
+			store:buttonGroupStore,
 			displayInfo:true,
 			displayMsg:"显示{0}-{1}条记录，共{2}条记录",
 			nextText:"下一页",
@@ -210,7 +243,7 @@ function buttonManage(){
 	 * 执行权限按钮加载, 并且加载列表数据, 显示权限按钮
 	 * see buttonRight.js
 	 */
-	loadButtonRight(buttonRightStore, buttonStore, buttonGrid, "button_div");
+	loadButtonRight(buttonRightStore, buttonGroupStore, buttonGrid, "button_div");
 	/**
 	 * 添加按钮
 	 * @param {} url
@@ -306,7 +339,7 @@ function buttonManage(){
 							Ext.Msg.alert("提示信息",msg.msg);
 						}else{
 							Ext.Msg.alert("提示信息","所选按钮信息删除成功！");
-							buttonStore.reload();
+							buttonGroupStore.reload();
 						}
 					},failure:function(response,options){
 						Ext.Msg.hide();
@@ -520,7 +553,7 @@ function buttonManage(){
 				Ext.Msg.alert('系统提示信息', '按钮信息保存成功!', function(btn, text) {
 					if (btn == 'ok') {
 						var msg = Ext.decode(action.response.responseText);
-						buttonStore.reload();
+						buttonGroupStore.reload();
 						Ext.getCmp(menuWindow).close();
 					}
 				});
