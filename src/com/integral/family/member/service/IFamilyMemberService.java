@@ -26,4 +26,12 @@ public interface IFamilyMemberService {
      * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
      */
     public int findSelfFamilyMemberListCount(String systemUserId);
+    
+    /**
+     * <p>Discription:[添加家庭成员]</p>
+     * @param instance
+     * @author:[代超]
+     * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
+     */
+    public void save(FamilyMember instance);
 }

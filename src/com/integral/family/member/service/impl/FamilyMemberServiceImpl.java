@@ -77,4 +77,8 @@ public class FamilyMemberServiceImpl implements IFamilyMemberService {
         params.put("systemUserId", systemUserId);
         return this.familyMemberDao.findCountByParams(hql, true, -1, -1, params);
     }
+
+    public void save(FamilyMember instance){
+        this.familyMemberDao.save(instance);
+    }
 }

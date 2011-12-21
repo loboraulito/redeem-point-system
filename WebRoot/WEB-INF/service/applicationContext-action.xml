@@ -72,6 +72,7 @@
 	<!-- 家庭管理 -->
 	<bean class="com.integral.family.manage.action.FamilyManamgeAction" scope="prototype">
 		<property name="familyManageService" ref="familyManageService"></property>
+		<property name="familyMemberService" ref="familyMemberService"></property>
 		<property name="transactionManager" ref="transactionManager"></property>
 	</bean>
 	<!-- 家庭成员 -->
