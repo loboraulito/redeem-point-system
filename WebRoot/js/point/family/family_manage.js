@@ -105,7 +105,10 @@ function family_manage(){
 	 * loadButtonRight(buttonStore, mainDataStore, dataGrid, pageDiv, params)
 	 */
 	loadButtonRight(buttonRightStore, familyListStore, familyListDataGrid, "family_manage", loadParam);
-
+	/**
+	 * 创建新家庭
+	 * @param {} url
+	 */
 	this.createFamily = function(url){
 		var familyForm = getFamilyManageForm(url, false, false);
 		var buttons = [{
@@ -125,6 +128,39 @@ function family_manage(){
 			}
 		}];
 		showFamilyManageWindow("addFamilyInfo","创建家庭",450, 320, familyForm, null, buttons);
+		markComponent("familyCreateDate_field");
+	};
+	/**
+	 * 修改家庭信息
+	 * @param {} url
+	 */
+	this.editFamily = function(url){
+		var gridSelectionModel = familyListDataGrid.getSelectionModel();
+		var gridSelection = gridSelectionModel.getSelections();
+		if(gridSelection.length != 1){
+			Ext.MessageBox.alert('提示','请选择一个家庭进行修改！');
+		    return false;
+		}
+		
+		var familyForm = getFamilyManageForm(url, false, false);
+		var buttons = [{
+			text:"保存",
+			handler: function(){
+				if(familyForm.form.isValid()){
+					saveFamilyInfo("editFamilyInfo", familyForm);
+				}
+			}
+		},{
+			text:"取消",
+			handler: function(){
+				var fw = Ext.getCmp("editFamilyInfo");
+				if(fw){
+					fw.close();
+				}
+			}
+		}];
+		showFamilyManageWindow("editFamilyInfo","修改家庭信息",450, 320, familyForm, null, buttons);
+		familyForm.getForm().loadRecord(gridSelection[0]);
 		markComponent("familyCreateDate_field");
 	};
 	
