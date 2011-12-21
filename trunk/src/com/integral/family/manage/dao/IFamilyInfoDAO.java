@@ -36,4 +36,11 @@ public interface IFamilyInfoDAO {
      * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
      */
     public int findCountByParams(String sql, boolean isHql, int start, int limit, Map<String, Object> params);
+    /**
+     * <p>Discription:[创建家庭信息]</p>
+     * @param instance
+     * @author:[代超]
+     * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
+     */
+    public void save(FamilyInfo instance);
 }

@@ -108,15 +108,94 @@ function family_manage(){
 
 	this.createFamily = function(url){
 		var familyForm = getFamilyManageForm(url, false, false);
-		showFamilyManageWindow("addFamilyInfo","创建家庭",600, 400, familyForm);
+		var buttons = [{
+			text:"保存",
+			handler: function(){
+				if(familyForm.form.isValid()){
+					saveFamilyInfo("addFamilyInfo", familyForm);
+				}
+			}
+		},{
+			text:"取消",
+			handler: function(){
+				var fw = Ext.getCmp("addFamilyInfo");
+				if(fw){
+					fw.close();
+				}
+			}
+		}];
+		showFamilyManageWindow("addFamilyInfo","创建家庭",450, 320, familyForm, null, buttons);
 		markComponent("familyCreateDate_field");
 	};
+	
+	/**
+	 * 保存数据
+	 * @param {} windowId
+	 * @param {} form
+	 */	
+	function saveFamilyInfo(windowId, form){
+		Ext.MessageBox.show({
+			msg:"正在保存家庭信息，请稍候...",
+			progressText:"正在保存家庭信息，请稍候...",
+			width:300,
+			wait:true,
+			waitConfig: {interval:200},
+			icon:Ext.Msg.INFO
+		});
+		form.getForm().submit({
+			timeout:60000,
+			success: function(form, action) {
+				Ext.Msg.hide();
+				var result = Ext.decode(action.response.responseText);
+				if(result && result.success){
+					var msg = "家庭信息保存成功，现在你可以邀请别人加入您的家庭！";
+					if(result.msg){
+						msg = result.msg;
+					}
+					Ext.Msg.alert('系统提示信息', msg, function(btn, text) {
+						if (btn == 'ok') {
+							familyListStore.reload();
+							Ext.getCmp(windowId).close();
+						}
+					});
+				}else if(!result.success){
+					var msg = "家庭信息保存失败，请检查您所填信息是否完整无误！";
+					if(result.msg){
+						msg = result.msg;
+					}
+					Ext.Msg.alert('系统提示信息', msg);
+				}
+			},
+			failure: function(form, action) {//action.result.errorMessage
+				Ext.Msg.hide();
+				var msg = "家庭信息保存失败，请检查您的网络连接或者联系管理员！";
+				try{
+					var result = Ext.decode(action.response.responseText);
+					if(result.msg){
+						msg = result.msg;
+					}
+				}catch(e){
+					msg = "系统错误：" + e;
+				}
+				Ext.Msg.alert('系统提示信息', msg);
+			}
+		});
+	}
+	
+	
+	/**
+	 * 获取家庭信息表单
+	 * @param {} url
+	 * @param {} isNull
+	 * @param {} readOnly
+	 * @return {}
+	 */
 	function getFamilyManageForm(url, isNull, readOnly){
 		var familyManageForm = new Ext.form.FormPanel({
 			url:url,
 			frame: true,
 			labelAlign: 'right',
-			labelWidth:90,
+			labelWidth:70,
 			autoScroll:false,
 			waitMsgTarget:true,
 			viewConfig:{forceFit:true},

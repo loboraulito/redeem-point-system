@@ -13,5 +13,10 @@
 			 <result name="success">/jsp/family/family_manage.jsp</result>
 			 <result name="input">/index.jsp</result>
 		</action>
+		<action name="familyManageAdd" class="com.integral.family.manage.action.FamilyManamgeAction" method="familyManageAdd">
+			 <result name="success">/jsp/family/family_manage.jsp</result>
+			 <result name="input">/index.jsp</result>
+		</action>
+		
 	</package>
 </struts>

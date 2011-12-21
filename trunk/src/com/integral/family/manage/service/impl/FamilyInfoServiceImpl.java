@@ -61,4 +61,8 @@ public class FamilyInfoServiceImpl implements IFamilyInfoService {
         params.put("systemMemberId", userId);
         return this.familyInfoDao.findCountByParams(hql, true, -1, -1, params);
     }
+    
+    public void save(FamilyInfo instance){
+        this.familyInfoDao.save(instance);
+    }
 }

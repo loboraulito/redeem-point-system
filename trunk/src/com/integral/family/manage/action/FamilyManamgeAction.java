@@ -8,16 +8,24 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang.math.NumberUtils;
 import org.apache.struts2.interceptor.ServletRequestAware;
 import org.apache.struts2.interceptor.ServletResponseAware;
 import org.nutz.json.Json;
 import org.nutz.json.JsonFormat;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.transaction.TransactionDefinition;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 import com.integral.common.action.BaseAction;
 import com.integral.family.manage.bean.FamilyInfo;
 import com.integral.family.manage.service.IFamilyInfoService;
+import com.integral.family.member.bean.FamilyMember;
+import com.integral.family.member.service.IFamilyMemberService;
+import com.integral.util.RequestUtil;
+import com.integral.util.Tools;
 
 /** 
  * <p>Description: [描述该类概要功能介绍]</p>
@@ -29,6 +37,7 @@ public class FamilyManamgeAction extends BaseAction implements ServletRequestAwa
     private HttpServletRequest request;
     private HttpServletResponse response;
     private IFamilyInfoService familyManageService;
+    private IFamilyMemberService familyMemberService;
     private DataSourceTransactionManager transactionManager;
     
     /**
@@ -45,6 +54,14 @@ public class FamilyManamgeAction extends BaseAction implements ServletRequestAwa
      */
     public void setFamilyManageService(IFamilyInfoService familyManageService) {
         this.familyManageService = familyManageService;
+    }
+
+    public IFamilyMemberService getFamilyMemberService() {
+        return familyMemberService;
+    }
+
+    public void setFamilyMemberService(IFamilyMemberService familyMemberService) {
+        this.familyMemberService = familyMemberService;
     }
 
     /**
@@ -111,6 +128,56 @@ public class FamilyManamgeAction extends BaseAction implements ServletRequestAwa
         }catch(Exception e){
             LOG.error(e.getMessage());
         }finally{
+            if(out != null){
+                out.print(Json.toJson(resultMap, jf));
+                out.flush();
+                out.close();
+            }
+        }
+        return null;
+    }
+    
+    public String familyManageAdd(){
+        Map<String, Object> paramMap = RequestUtil.getRequestMap(request);
+        
+        // 定义TransactionDefinition并设置好事务的隔离级别和传播方式。
+        DefaultTransactionDefinition definition = new DefaultTransactionDefinition();
+        // 代价最大、可靠性最高的隔离级别，所有的事务都是按顺序一个接一个地执行
+        definition.setIsolationLevel(TransactionDefinition.ISOLATION_SERIALIZABLE);
+        // 开始事务
+        TransactionStatus status = transactionManager.getTransaction(definition);
+        
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        JsonFormat jf = new JsonFormat(true);
+        jf.setAutoUnicode(true);
+        PrintWriter out = null;
+        
+        try{
+            out = super.getPrintWriter(request, response);
+            RequestUtil.repalceAsDate(paramMap, "familyCreateDate", "yyyy-MM-dd");
+            FamilyInfo family = new FamilyInfo();
+            BeanUtils.populate(family, paramMap);
+            String familyId = Tools.getUUID();
+            if(family.getFamilyId() == null || "".equals(family.getFamilyId())){
+                family.setFamilyId(familyId);
+            }
+            //用户自己创建的家庭，需要将该用户添加到家庭成员中
+            this.familyManageService.save(family);
+            
+            FamilyMember member = new FamilyMember();
+            member.setFamilyId(familyId);
+            member.setSystemMemberId(family.getFamilyHouseHolder());
+            
+            this.familyMemberService.save(member);
+            
+            resultMap.put("success", true);
+            resultMap.put("msg", "家庭信息创建成功，您已经成为：" + family.getFamilyName() + " 家庭的户主。<br><br>系统已自动将您加入到家庭成员中，请完善您的家庭成员信息！");
+        }catch(Exception e){
+            status.setRollbackOnly();
+            resultMap.put("success", false);
+            resultMap.put("msg", "家庭信息创建失败，错误代码：" + e.getMessage());
+        }finally{
+            transactionManager.commit(status);
             if(out != null){
                 out.print(Json.toJson(resultMap, jf));
                 out.flush();
