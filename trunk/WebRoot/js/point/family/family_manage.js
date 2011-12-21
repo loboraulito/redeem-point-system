@@ -18,6 +18,12 @@ function family_manage(){
 		{name:"familyComment"},//家庭简介
 		{name:"familyTel"}//联系电话
 	]);
+	
+	/**
+	 * 空数据，当主数据位空时，使用该数据以避免报错
+	 * @type 
+	 */
+	var simpleData = {"totalCount":0,"familyList":[],"success":true};
 	/**
 	 * 数据存储
 	 */
@@ -31,6 +37,7 @@ function family_manage(){
 				var o = Ext.util.JSON.decode(action.responseText);
 				if(!o.success){
 					Ext.Msg.alert('错误提示',o.msg);
+					familyListStore.loadData(simpleData);
 				}
 			}
 		}
@@ -163,6 +170,28 @@ function family_manage(){
 		familyForm.getForm().loadRecord(gridSelection[0]);
 		markComponent("familyCreateDate_field");
 	};
+	/**
+	 * 删除家庭信息
+	 * @param {} url
+	 */
+	this.deleteFamily = function(url){
+		var gridSelectionModel = familyListDataGrid.getSelectionModel();
+		var gridSelection = gridSelectionModel.getSelections();
+		if(gridSelection.length < 1){
+			Ext.MessageBox.alert('提示','请至少选择一个家庭删除！');
+		    return false;
+		}
+		var dataIdArray = new Array();
+		for(var i=0; i < gridSelection.length; i++){
+			dataIdArray.push(gridSelection[i].get("familyId"));
+		}
+		var familyIds = dataIdArray.join(",");
+		Ext.Msg.confirm("系统提示","确定要删除所选家庭信息？将会同时删除该家庭的所有家庭成员并且不可恢复！",function(btn){
+			if(btn == "yes" || btn == "ok"){
+				deleteFamilyInfo(url, familyIds);
+			}
+		});
+	};
 	
 	/**
 	 * 保存数据
@@ -217,7 +246,67 @@ function family_manage(){
 			}
 		});
 	}
-	
+	/**
+	 * 删除家庭信息
+	 * @param {} url
+	 * @param {} familyIds
+	 */
+	function deleteFamilyInfo(url, familyIds){
+		Ext.MessageBox.show({
+		    msg: '正在提交您的请求, 请稍侯...',
+		    progressText: '正在提交您的请求',
+		    width:300,
+		    wait:true,
+		    waitConfig: {interval:200},
+		    icon:Ext.Msg.INFO
+		});
+		
+		Ext.Ajax.request({
+			params:{familyId:familyIds},
+			timeout:60000,
+			url:url,
+			success:function(response, options){
+				Ext.Msg.hide();
+				var msg = Ext.util.JSON.decode(response.responseText);
+				if(msg.success){
+					if(msg.msg){
+						Ext.Msg.alert("系统提示",msg.msg);
+					}else{
+						Ext.Msg.alert("系统提示","家庭信息已成功删除！");
+					}
+					familyListStore.reload();
+				}else{
+					if(msg.msg){
+						Ext.Msg.alert("系统提示",msg.msg);
+					}else{
+						Ext.Msg.alert("系统提示","家庭信息删除失败！");
+					}
+				}
+			},failure: function(response, options){
+				Ext.Msg.hide();
+				try{
+					var msg = Ext.util.JSON.decode(response.responseText);
+					if(msg.msg){
+						Ext.Msg.alert("系统提示",msg.msg);
+					}else{
+						Ext.Msg.alert("系统提示","家庭信息删除失败！");
+					}
+				}catch(e){
+					Ext.Msg.alert("系统提示","系统错误！错误代码：" + e);
+				}
+			}
+		});
+	}
+	/**
+	 * 查看所有家庭信息
+	 * @param {} url
+	 */
+	this.viewAllFamily = function(url){
+		familyListStore.baseParams.viewAll = "yes";
+		familyListStore.baseParams.start = 0;
+		familyListStore.baseParams.limit = 50;
+		familyListStore.reload();
+	};
 	
 	/**
 	 * 获取家庭信息表单

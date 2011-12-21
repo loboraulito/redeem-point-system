@@ -23,6 +23,13 @@ function family(){
 		{name:"familyMemberProfession"},//职业
 		{name:"familyMemberDeaddate"}//死亡日期
 	]);
+	
+	/**
+	 * 空数据，当主数据位空时，使用该数据以避免报错
+	 * @type 
+	 */
+	var simpleData = {"totalCount":0,"memberList":[],"success":true};
+	
 	/**
 	 * 家庭成员数据存储
 	 * 是否需要分组显示？
@@ -37,6 +44,7 @@ function family(){
 				var o = Ext.util.JSON.decode(action.responseText);
 				if(!o.success){
 					Ext.Msg.alert('错误提示',o.msg, function(btn){
+						memberListStore.loadData(simpleData);
 						if(btn == "yes" || btn == "ok"){
 							if(o.msg1){
 								//Ext.MessageBox.buttonText.yes = '按钮一';
