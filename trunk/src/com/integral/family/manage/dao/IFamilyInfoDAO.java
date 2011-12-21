@@ -43,4 +43,20 @@ public interface IFamilyInfoDAO {
      * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
      */
     public void save(FamilyInfo instance);
+    /**
+     * <p>Discription:[新增或修改信息]</p>
+     * @param instance
+     * @author:[代超]
+     * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
+     */
+    public void saveOrUpdate(FamilyInfo instance);
+    /**
+     * <p>Discription:[批量删除家庭信息]</p>
+     * @param persistentInstances
+     * @author:[代超]
+     * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
+     */
+    public void deleteAll(List<FamilyInfo> persistentInstances);
+    
+    
 }

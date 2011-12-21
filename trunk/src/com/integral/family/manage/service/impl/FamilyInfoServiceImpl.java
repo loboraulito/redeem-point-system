@@ -62,7 +62,25 @@ public class FamilyInfoServiceImpl implements IFamilyInfoService {
         return this.familyInfoDao.findCountByParams(hql, true, -1, -1, params);
     }
     
+    public List<FamilyInfo> findAllFamilyList(int start, int limit){
+        String hql = "FROM FamilyInfo ";
+        return this.familyInfoDao.findByParams(hql, true, start, limit, null);
+    }
+    
+    public int findAllFamilyListSize(){
+        String hql = "FROM FamilyInfo ";
+        return this.familyInfoDao.findCountByParams(hql, true, -1, -1, null);
+    }
+    
     public void save(FamilyInfo instance){
         this.familyInfoDao.save(instance);
+    }
+    
+    public void saveOrUpdate(FamilyInfo instance){
+        this.familyInfoDao.saveOrUpdate(instance);
+    }
+
+    public void deleteAll(List<FamilyInfo> persistentInstances){
+        this.familyInfoDao.deleteAll(persistentInstances);
     }
 }

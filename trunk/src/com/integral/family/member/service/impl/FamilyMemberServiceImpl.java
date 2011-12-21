@@ -81,4 +81,13 @@ public class FamilyMemberServiceImpl implements IFamilyMemberService {
     public void save(FamilyMember instance){
         this.familyMemberDao.save(instance);
     }
+    
+    public List<FamilyMember> findByProperty(String propertyName, Object value){
+        return this.familyMemberDao.findByProperty(propertyName, value);
+    }
+    
+    public void deleteAll(List<FamilyMember> persistentInstances){
+        this.familyMemberDao.deleteAll(persistentInstances);
+    }
+    
 }
