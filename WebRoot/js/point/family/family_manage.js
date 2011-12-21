@@ -15,6 +15,7 @@ function family_manage(){
 		{name:"familyCreateDate"},//家庭创建日期
 		{name:"familyHouseHolder"},//户主
 		{name:"familyAddress"},//家庭地址
+		{name:"familyComment"},//家庭简介
 		{name:"familyTel"}//联系电话
 	]);
 	/**
@@ -29,42 +30,11 @@ function family_manage(){
 			loadexception:function(dataProxy, type, action, options, response, arg) { 
 				var o = Ext.util.JSON.decode(action.responseText);
 				if(!o.success){
-					Ext.Msg.alert('错误提示',o.msg, function(btn){
-						if(btn == "yes" || btn == "ok"){
-							if(o.msg1){
-								//Ext.MessageBox.buttonText.yes = '按钮一';
-    							//Ext.MessageBox.buttonText.no = '按钮二';
-							    Ext.MessageBox.buttonText={
-							        yes: "申请加入家庭",
-									no: "创建家庭",
-									cancel:"取消"
-							    };
-
-								Ext.Msg.show({
-									title:"系统提示",
-									msg:o.msg1,
-									buttons: Ext.Msg.YESNOCANCEL,
-									fn: processResult,
-									icon: Ext.MessageBox.QUESTION
-								});
-							}
-						}
-					});
+					Ext.Msg.alert('错误提示',o.msg);
 				}
 			}
 		}
 	});
-	
-	function processResult(btn, text){
-		if(btn == "yes"){
-			
-		}else if(btn == "no"){
-			//window.location = path + "/family_manage/familyManage.action?method=begin";
-			//parent.goToTabPanel("/family_manage/familyManage.action?method=begin");
-		}else{
-			
-		}
-	}
 	
 	var familyListSM = new Ext.grid.CheckboxSelectionModel();
 	var familyListCM = new Ext.grid.ColumnModel([new Ext.grid.RowNumberer(),familyListSM,{
@@ -136,6 +106,147 @@ function family_manage(){
 	 */
 	loadButtonRight(buttonRightStore, familyListStore, familyListDataGrid, "family_manage", loadParam);
 
+	this.createFamily = function(url){
+		var familyForm = getFamilyManageForm(url, false, false);
+		showFamilyManageWindow("addFamilyInfo","创建家庭",600, 400, familyForm);
+		markComponent("familyCreateDate_field");
+	};
+	function getFamilyManageForm(url, isNull, readOnly){
+		var familyManageForm = new Ext.form.FormPanel({
+			url:url,
+			frame: true,
+			labelAlign: 'right',
+			labelWidth:90,
+			autoScroll:false,
+			waitMsgTarget:true,
+			viewConfig:{forceFit:true},
+			items:[{
+				layout:"column",
+				border:false,
+				labelSeparator:'：',
+				items:[{
+					layout:"form",
+					columnWidth:0.5,
+					height:50,
+					items:[{
+						xtype: 'textfield',
+						name:"familyName",
+						anchor:"90%",
+						fieldLabel:"家庭名称",
+						maxLength:200,
+						readOnly:readOnly,
+						allowBlank:isNull
+					}]
+				},{
+					layout:"form",
+					columnWidth:0.5,
+					height:50,
+					items:[{
+						xtype: 'textfield',
+						name:"familyHouseHolder",
+						anchor:"90%",
+						fieldLabel:"家庭户主",
+						value:userName,
+						maxLength:200,
+						readOnly:true,
+						allowBlank:isNull
+					}]
+				}]
+			},{
+				layout:"column",
+				border:false,
+				labelSeparator:'：',
+				items:[{
+					layout:"form",
+					columnWidth:0.5,
+					height:50,
+					items:[{
+						xtype: 'textfield',
+						name:"familyTel",
+						anchor:"90%",
+						fieldLabel:"联系电话",
+						maxLength:200
+					}]
+				},{
+					layout:"form",
+					columnWidth:0.5,
+					height:50,
+					items:[{
+						xtype: 'datefield',
+						format:"Y-m-d",
+						name:"familyCreateDate",
+						id:"familyCreateDate_field",
+						anchor:"90%",
+						readOnly:true,
+						value:new Date(),
+						fieldLabel:"创建日期"
+					}]
+				}]
+			},{
+				layout:"column",
+				border:false,
+				labelSeparator:'：',
+				items:[{
+					layout:"form",
+					columnWidth:1,
+					height:50,
+					items:[{
+						xtype: 'textfield',
+						name:"familyAddress",
+						anchor:"95%",
+						fieldLabel:"家庭地址",
+						maxLength:200
+					}]
+				}]
+			},{
+				layout:"column",
+				border:false,
+				labelSeparator:'：',
+				items:[{
+					layout:"form",
+					columnWidth:1,
+					height:70,
+					items:[{
+						xtype: 'textarea',
+						name:"familyComment",
+						anchor:"95%",
+						fieldLabel:"家庭简介",
+						maxLength:200
+					},{
+						xtype:"hidden",
+						name:"familyId"
+					}]
+				}]
+			}]
+		});
+		return familyManageForm;
+	}
+	/**
+	 * 公用窗口
+	 * @param {} id
+	 * @param {} title
+	 * @param {} width
+	 * @param {} height
+	 * @param {} items
+	 * @param {} html
+	 * @param {} buttons
+	 */
+	function showFamilyManageWindow(id, title, width, height, items, html, buttons){
+		var codeListWindow = new Ext.Window({
+			id:id,
+			title:title,
+			width:width,
+			height:height,
+			items:items,
+			//html:html,
+			buttons:buttons,
+			modal:true,
+			//animateTarget:"giftmanage_div",//动画展示
+			layout:"fit",
+			resizable:false
+		});
+		codeListWindow.show();
+	}
 }
 
 Ext.onReady(function(){
