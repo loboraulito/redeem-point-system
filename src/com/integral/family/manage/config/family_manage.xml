@@ -17,6 +17,9 @@
 			 <result name="success">/jsp/family/family_manage.jsp</result>
 			 <result name="input">/index.jsp</result>
 		</action>
-		
+		<action name="familyManageEdit" class="com.integral.family.manage.action.FamilyManamgeAction" method="familyManageEdit">
+			 <result name="success">/jsp/family/family_manage.jsp</result>
+			 <result name="input">/index.jsp</result>
+		</action>
 	</package>
 </struts>
