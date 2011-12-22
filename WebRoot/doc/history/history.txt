@@ -536,3 +536,6 @@ var memberListStore = new Ext.data.Store({
 
 后端产生异常时，发送json串
 "{success: false, msg:'"+msg+"'}"
+
+2011-12-22
+http://www.sencha.com/forum/forumdisplay.php?19-Ext-JS-2.x-Unsupported
