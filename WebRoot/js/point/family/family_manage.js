@@ -155,7 +155,7 @@ function family_manage(){
 			render: function(g) {
 				g.on("beforetooltipshow", function(grid, row, col) {
 					//grid.tooltip.body.update("Tooltip for (" + row + ", " + col + ")");
-					grid.tooltip.body.update(this.store.getAt(row).get("familyComment"));
+					//grid.tooltip.body.update(this.store.getAt(row).get("familyComment"));
 					//Ext.getCmp(familyCommentArea).setValue(this.store.getAt(row).get("familyComment"));
 				});
 			}
