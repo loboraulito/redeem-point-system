@@ -51,15 +51,15 @@ function family_manage(){
 	},{
 		header:"家庭名称",
 		dataIndex:"familyName",
-		width:150
+		width:50
 	},{
 		header:"创建日期",
 		dataIndex:"familyCreateDate",
-		width:150
+		width:50
 	},{
 		header:"户主",
 		dataIndex:"familyHouseHolder",
-		width:150
+		width:50
 	},{
 		header:"家庭地址",
 		dataIndex:"familyAddress",
@@ -67,8 +67,26 @@ function family_manage(){
 	},{
 		header:"联系电话",
 		dataIndex:"familyTel",
-		width:150
+		width:70
 	}]);
+	
+	
+	Ext.ToolTip.prototype.onTargetOver = Ext.ToolTip.prototype.onTargetOver
+			.createInterceptor(function(e) {
+		this.baseTarget = e.getTarget();
+	});
+	
+	Ext.ToolTip.prototype.onMouseMove = Ext.ToolTip.prototype.onMouseMove
+			.createInterceptor(function(e) {
+		if(this.baseTarget != null){
+			if (!e.within(this.baseTarget)) {
+				this.onTargetOver(e);
+				return false;
+			}
+		}else{
+			return false;
+		}
+	});
 	
 	var familyListDataGrid = new Ext.grid.GridPanel({
 		collapsible:true,//是否可以展开
@@ -94,13 +112,63 @@ function family_manage(){
 			prevText:"上一页",
 			emptyMsg:"无相关记录"
 		}),
+		
+		onRender: function() {
+        	Ext.grid.GridPanel.prototype.onRender.apply(this, arguments);
+        	this.addEvents("beforetooltipshow");
+	        this.tooltip = new Ext.ToolTip({
+	        	title:"家庭简介",
+	        	border:true,
+	        	//minWidth:100,
+	        	//maxWidth:300,
+	        	items:[{
+	        		xtype:"textarea",
+	        		id:"familyCommentArea",
+	        		readOnly:true
+	        	}],
+	        	renderTo: Ext.getBody(),
+	        	target: this.view.mainBody,
+	        	listeners: {
+	        		beforeshow: function(qt) {
+	        			var v = this.getView();
+	        			var rows = (this.store != null ? this.store.getCount() : 0);
+	        			if(rows > 0){
+				            var row = v.findRowIndex(qt.baseTarget);
+				            var cell = v.findCellIndex(qt.baseTarget);
+				            /*
+				            var rowData = this.getStore().getAt((row-v.lastRowIndex) + v.lastRowIndex - v.bufferRange[0]);
+				            if (rowData && this.lastSelectedRow != row){
+				            	this.fireEvent("beforetooltipshow", this, row, cell, rowData);
+				            }
+				            */
+				            this.lastSelectedRow = row;
+				            this.fireEvent("beforetooltipshow", this, row, cell);
+	        			}else{
+	        				return false;
+	        			}
+	        		},
+	        		scope: this
+	        	}
+	        });
+        },
+		listeners: {
+			render: function(g) {
+				g.on("beforetooltipshow", function(grid, row, col) {
+					//grid.tooltip.body.update("Tooltip for (" + row + ", " + col + ")");
+					grid.tooltip.body.update(this.store.getAt(row).get("familyComment"));
+					//Ext.getCmp(familyCommentArea).setValue(this.store.getAt(row).get("familyComment"));
+				});
+			}
+		},
 		tbar:[]
 	});
 	
-	var loadParam = {};
-	loadParam.start = 0;
-	loadParam.limit = 50;
-	loadParam.userId = userName;
+	var loadParam = {
+		start : 0,
+		limit : 50,
+		viewAll : "no",
+		userId : userName
+	};
 	
 	/**
 	 * 按钮存储器，尚未执行查询
@@ -149,6 +217,12 @@ function family_manage(){
 		    return false;
 		}
 		
+		var holder = gridSelection[0].get("familyHouseHolder");
+		if(holder != userName){
+			Ext.Msg.alert("系统提示","您不是家庭："+gridSelection[0].get("familyName") + " 的户主，无权修改！");
+			return;
+		}
+		
 		var familyForm = getFamilyManageForm(url, false, false);
 		var buttons = [{
 			text:"保存",
@@ -183,6 +257,11 @@ function family_manage(){
 		}
 		var dataIdArray = new Array();
 		for(var i=0; i < gridSelection.length; i++){
+			var holder = gridSelection[i].get("familyHouseHolder");
+			if(holder != userName){
+				Ext.Msg.alert("系统提示","您不是家庭："+gridSelection[i].get("familyName") + " 的户主，无权删除！");
+				return;
+			}
 			dataIdArray.push(gridSelection[i].get("familyId"));
 		}
 		var familyIds = dataIdArray.join(",");
@@ -191,6 +270,27 @@ function family_manage(){
 				deleteFamilyInfo(url, familyIds);
 			}
 		});
+	};
+	/**
+	 * 查看所有家庭信息
+	 * @param {} url
+	 */
+	this.viewAllFamily = function(url){
+		familyListStore.baseParams.viewAll = "yes";
+		familyListStore.baseParams.userId = "";
+		familyListStore.baseParams.start = 0;
+		familyListStore.baseParams.limit = 50;
+		familyListStore.reload();
+	};
+	/**
+	 * 查看我的家庭
+	 */
+	this.viewMyFamily = function(){
+		familyListStore.baseParams.viewAll = "no";
+		familyListStore.baseParams.userId = userName;
+		familyListStore.baseParams.start = 0;
+		familyListStore.baseParams.limit = 50;
+		familyListStore.reload();
 	};
 	
 	/**
@@ -297,16 +397,6 @@ function family_manage(){
 			}
 		});
 	}
-	/**
-	 * 查看所有家庭信息
-	 * @param {} url
-	 */
-	this.viewAllFamily = function(url){
-		familyListStore.baseParams.viewAll = "yes";
-		familyListStore.baseParams.start = 0;
-		familyListStore.baseParams.limit = 50;
-		familyListStore.reload();
-	};
 	
 	/**
 	 * 获取家庭信息表单
