@@ -35,4 +35,6 @@
 	<include file="com/integral/family/member/config/family_member.xml"></include>
 	<!-- 家庭关系管理 -->
 	<include file="com/integral/family/relationship/config/family_relation.xml"></include>
+	<!-- 系统请求处理 -->
+	<include file="com/integral/system/invitation/config/invitation.xml"></include>
 </struts>
