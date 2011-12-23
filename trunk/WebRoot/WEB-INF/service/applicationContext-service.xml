@@ -341,4 +341,24 @@
 			</props>
 		</property>
 	</bean>
+	<!-- 系统请求处理 -->
+	<bean id="systemInviteProcessService" parent="serviceProxy">
+		<property name="target">
+			<bean
+				class="com.integral.system.invitation.service.impl.SystemInviteProcessServiceImpl"
+				abstract="false" lazy-init="default" autowire="default">
+				<property name="baseDao" ref="BaseDao"></property>
+				<property name="systemInviteProcessDao" ref="SystemInviteProcessDAO"></property>
+			</bean>
+		</property>
+		<property name="transactionAttributes">
+			<props>
+				<prop key="add*">PROPAGATION_REQUIRED</prop>
+				<prop key="del*">PROPAGATION_REQUIRED</prop>
+				<prop key="edit*">PROPAGATION_REQUIRED</prop>
+				<prop key="upd*">PROPAGATION_REQUIRED</prop>
+				<prop key="sa*">PROPAGATION_REQUIRED</prop>
+			</props>
+		</property>
+	</bean>
 </beans>
