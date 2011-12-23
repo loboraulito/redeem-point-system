@@ -435,6 +435,7 @@ ServletRequestAware, ServletResponseAware {
      */
     public String findMenuId(){
         String menuPath = request.getParameter("menuPath");
+        String menuId = request.getParameter("menuId");
         if(menuPath != null && menuPath.indexOf("/redeempoint") >= 0){
             menuPath = menuPath.replace("/redeempoint", "");
         }
@@ -444,14 +445,19 @@ ServletRequestAware, ServletResponseAware {
         jf.setAutoUnicode(true);
         try{
             out = super.getPrintWriter(request, response);
-            List menus = this.menuService.findByMenuPath(menuPath);
-            if(menus != null && menus.size() > 0){
-                MenuInfo  menu = (MenuInfo) menus.get(0);
-                result.put("success", true);
-                result.put("menuId", menu.getMenuId());
-                result.put("menuText", menu.getMenuName());
-                result.put("menuUrl", menu.getPagePath());
+            MenuInfo  menu = null;
+            if(menuPath != null && !"".equals(menuPath.trim())){
+                List menus = this.menuService.findByMenuPath(menuPath);
+                if(menus != null && menus.size() > 0){
+                    menu = (MenuInfo) menus.get(0);
+                }
+            }else if(menuId != null && !"".equals(menuId)){
+                menu = this.menuService.findById(menuId);
             }
+            result.put("success", true);
+            result.put("menuId", menu.getMenuId());
+            result.put("menuText", menu.getMenuName());
+            result.put("menuUrl", menu.getPagePath());
         }catch(Exception e){
             result.put("success", false);
         }finally{
