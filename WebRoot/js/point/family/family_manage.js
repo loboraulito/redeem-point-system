@@ -117,15 +117,21 @@ function family_manage(){
         	Ext.grid.GridPanel.prototype.onRender.apply(this, arguments);
         	this.addEvents("beforetooltipshow");
 	        this.tooltip = new Ext.ToolTip({
+	        	id:"rowTip",
 	        	title:"家庭简介",
 	        	border:true,
-	        	//minWidth:100,
-	        	//maxWidth:300,
+	        	minWidth:300,
+	        	maxWidth:300,
+	        	draggable:true,
+	        	//autoHide: false,
+		        //closable: true,
 	        	items:[{
 	        		xtype:"textarea",
 	        		id:"familyCommentArea",
+	        		width:287,
 	        		readOnly:true
 	        	}],
+	        	
 	        	renderTo: Ext.getBody(),
 	        	target: this.view.mainBody,
 	        	listeners: {
@@ -141,7 +147,7 @@ function family_manage(){
 				            	this.fireEvent("beforetooltipshow", this, row, cell, rowData);
 				            }
 				            */
-				            this.lastSelectedRow = row;
+				            //this.lastSelectedRow = row;
 				            this.fireEvent("beforetooltipshow", this, row, cell);
 	        			}else{
 	        				return false;
@@ -156,7 +162,8 @@ function family_manage(){
 				g.on("beforetooltipshow", function(grid, row, col) {
 					//grid.tooltip.body.update("Tooltip for (" + row + ", " + col + ")");
 					//grid.tooltip.body.update(this.store.getAt(row).get("familyComment"));
-					//Ext.getCmp(familyCommentArea).setValue(this.store.getAt(row).get("familyComment"));
+					//Ext.getCmp("familyCommentArea").setWidth(Ext.getCmp("rowTip").getInnerWidth());
+					Ext.getCmp("familyCommentArea").setValue(this.store.getAt(row).get("familyComment"));
 				});
 			}
 		},
@@ -291,6 +298,13 @@ function family_manage(){
 		familyListStore.baseParams.start = 0;
 		familyListStore.baseParams.limit = 50;
 		familyListStore.reload();
+	};
+	/**
+	 * 邀请用户加入我的家庭
+	 * @param {} url
+	 */
+	this.inviteFamilyMember = function(url){
+		
 	};
 	
 	/**

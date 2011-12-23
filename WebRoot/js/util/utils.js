@@ -85,10 +85,10 @@ function createMainTabPanel(title, tabId, tabHref, closable) {
  * 跳转到指定url的tab页面
  * @param {} tabHref 要跳转页面的相对url(不接path变量)
  */
-function goToTabPanel(tabHref){
+function goToTabPanel(tabHref, menuId){
 	Ext.Msg.alert("系统提示","页面跳转中，请稍候...");
 	Ext.Ajax.request({
-		params:{menuPath:tabHref},
+		params:{menuPath:tabHref, menuId:menuId},
 		timeout:60000,
 		url:path + "/menu/findMenuId.action?method=findMenuId",
 		success:function(response,options){
