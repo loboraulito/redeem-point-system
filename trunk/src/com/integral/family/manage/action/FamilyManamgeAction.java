@@ -138,6 +138,8 @@ public class FamilyManamgeAction extends BaseAction implements ServletRequestAwa
                 resultMap.put("totalCount", listSize);
             }
         }catch(Exception e){
+            resultMap.put("success", false);
+            resultMap.put("msg", "系统错误！错误代码："+ e.getMessage());
             LOG.error(e.getMessage());
         }finally{
             if(out != null){
