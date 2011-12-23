@@ -69,5 +69,13 @@ public class InvitationAction extends BaseAction implements ServletRequestAware,
     public String begin(){
         return SUCCESS;
     }
-
+    /**
+     * <p>Discription:[查询本人所有系统请求]</p>
+     * @return
+     * @author:[代超]
+     * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
+     */
+    public String invitationList(){
+        return null;
+    }
 }
