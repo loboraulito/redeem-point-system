@@ -85,4 +85,9 @@
 		<property name="familyRelationService" ref="familyRelationService"></property>
 		<property name="transactionManager" ref="transactionManager"></property>
 	</bean>
+	<!-- 系统请求处理 -->
+	<bean class="com.integral.system.invitation.action.InvitationAction" scope="prototype">
+		<property name="systemInviteProcessService" ref="systemInviteProcessService"></property>
+		<property name="transactionManager" ref="transactionManager"></property>
+	</bean>
 </beans>

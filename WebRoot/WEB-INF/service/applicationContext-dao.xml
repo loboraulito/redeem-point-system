@@ -85,4 +85,10 @@
 			<ref bean="sessionFactory"/>
 		</property>
 	</bean>
+	<!-- 系统请求处理 -->
+	<bean class="com.integral.system.invitation.dao.impl.SystemInviteProcessDAO" id="SystemInviteProcessDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory"/>
+		</property>
+	</bean>
 </beans>
