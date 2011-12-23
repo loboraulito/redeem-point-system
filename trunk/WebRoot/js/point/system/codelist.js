@@ -843,11 +843,15 @@ function codeListDataManage(){
 				}
 			},failure: function(response, options){
 				Ext.Msg.hide();
-				var msg = Ext.util.JSON.decode(response.responseText);
-				if(msg.msg){
-					Ext.Msg.alert("系统提示",msg.msg);
-				}else{
-					Ext.Msg.alert("系统提示","数据标准信息保存失败！");
+				try{
+					var msg = Ext.util.JSON.decode(response.responseText);
+					if(msg.msg){
+						Ext.Msg.alert("系统提示",msg.msg);
+					}else{
+						Ext.Msg.alert("系统提示","数据标准信息保存失败！");
+					}
+				}catch(e){
+					Ext.Msg.alert("系统提示","系统错误！错误代码：" + e);
 				}
 			}
 		});
