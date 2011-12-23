@@ -118,6 +118,9 @@
 				<value>
 					com/integral/family/relationship/bean/xml/FamilyRelation.hbm.xml
 				</value>
+				<value>
+					com/integral/system/invitation/bean/xml/SystemInviteProcess.hbm.xml
+				</value>
 			</list>
 		</property>
 		<property name="hibernateProperties">

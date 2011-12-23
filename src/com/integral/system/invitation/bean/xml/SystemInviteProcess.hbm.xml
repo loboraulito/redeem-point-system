@@ -3,8 +3,7 @@
                                    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <!-- Generated Dec 23, 2011 3:27:11 PM by Hibernate Tools 3.4.0.CR1 -->
 <hibernate-mapping>
- <class catalog="redeempoint"
-  name="com.integral.system.invitation.bean.SystemInviteProcess" table="system_invite_process">
+ <class name="com.integral.system.invitation.bean.SystemInviteProcess" table="system_invite_process">
   <id name="id" type="string">
    <column length="50" name="id"/>
    <generator class="uuid.hex"/>
