@@ -1,5 +1,4 @@
 package com.integral.system.invitation.dao.impl;
-// default package
 // Generated Dec 23, 2011 3:30:58 PM by Hibernate Tools 3.4.0.CR1
 
 import java.sql.SQLException;
