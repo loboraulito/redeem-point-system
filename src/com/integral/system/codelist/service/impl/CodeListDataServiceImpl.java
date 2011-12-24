@@ -219,4 +219,16 @@ public class CodeListDataServiceImpl implements ICodeListDataService {
     public List findByDataValue(Object dataValue) {
         return this.codeListDataDao.findByDataValue(dataValue);
     }
+    
+    public List findCodeDataListCombo(String codeId, String codeName){
+        if(codeId != null && !"".equals(codeId.trim())){
+            String sql = "FROM CodeListData model WHERE model.codeId = ?";
+            return this.codeListDataDao.findCodeListDataByPage(false, sql, -1, -1, new Object[]{codeId});
+        }else if(codeName != null && !"".equals(codeName.trim())){
+            String sql = "FROM CodeListData model WHERE model.codeId = (SELECT codeId FROM CodeList m WHERE m.codeName = ?)";
+            return this.codeListDataDao.findCodeListDataByPage(false, sql, -1, -1, new Object[]{codeName});
+        }else{
+            return null;
+        }
+    }
 }
