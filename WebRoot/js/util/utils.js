@@ -175,7 +175,7 @@ function dateFormat(value,preformat,format){
 function getCodeListCombo(){
 	var codeStore = new Ext.data.Store({
 		proxy:new Ext.data.HttpProxy({
-			url:basePath+"common/codelist.action?method=getCodeList"
+			url:path+"/common/codeListCombo.action?method=codeListCombo"
 		}),
 		reader:new Ext.data.JsonReader({
 			totalProperty:"totalCount",
