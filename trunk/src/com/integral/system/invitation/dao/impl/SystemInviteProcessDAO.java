@@ -13,13 +13,14 @@ import org.springframework.orm.hibernate3.HibernateCallback;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 import com.integral.system.invitation.bean.SystemInviteProcess;
+import com.integral.system.invitation.dao.ISystemInviteProcessDao;
 
 /**
  * Home object for domain model class SystemInviteProcess.
  * @see .SystemInviteProcess
  * @author Hibernate Tools
  */
-public class SystemInviteProcessDAO extends HibernateDaoSupport {
+public class SystemInviteProcessDAO extends HibernateDaoSupport implements ISystemInviteProcessDao{
 
     private static final Log log = LogFactory.getLog(SystemInviteProcessDAO.class);
 
