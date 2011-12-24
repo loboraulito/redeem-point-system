@@ -69,6 +69,15 @@
 		<property name="codeListDataService" ref="codeListDataService"></property>
 		<property name="transactionManager" ref="transactionManager"></property>
 	</bean>
+	
+	<!-- 系统公共Action -->
+	<bean class="com.integral.system.common.action.CommonAction" scope="prototype">
+		<property name="commonService" ref="commonService"></property>
+		<property name="codeListService" ref="codeListService"></property>
+		<property name="codeListDataService" ref="codeListDataService"></property>
+		<property name="transactionManager" ref="transactionManager"></property>
+	</bean>
+	
 	<!-- 家庭管理 -->
 	<bean class="com.integral.family.manage.action.FamilyManamgeAction" scope="prototype">
 		<property name="familyManageService" ref="familyManageService"></property>

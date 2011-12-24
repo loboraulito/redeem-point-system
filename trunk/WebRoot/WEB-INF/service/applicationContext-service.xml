@@ -279,6 +279,26 @@
 		</property>
 	</bean>
 	
+	<!-- 系统公共Service -->
+	<bean id="commonService" parent="serviceProxy">
+		<property name="target">
+			<bean
+				class="com.integral.system.common.service.impl.CommonServiceImpl"
+				abstract="false" lazy-init="default" autowire="default">
+				<property name="baseDao" ref="BaseDao"></property>
+			</bean>
+		</property>
+		<property name="transactionAttributes">
+			<props>
+				<prop key="add*">PROPAGATION_REQUIRED</prop>
+				<prop key="del*">PROPAGATION_REQUIRED</prop>
+				<prop key="edit*">PROPAGATION_REQUIRED</prop>
+				<prop key="upd*">PROPAGATION_REQUIRED</prop>
+				<prop key="sa*">PROPAGATION_REQUIRED</prop>
+			</props>
+		</property>
+	</bean>
+	
 	<!-- 家庭管理Service -->
 	<bean id="familyManageService" parent="serviceProxy">
 		<property name="target">
