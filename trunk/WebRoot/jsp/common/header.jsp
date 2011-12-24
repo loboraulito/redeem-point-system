@@ -20,6 +20,7 @@
 <script type="text/javascript" src="<%=headerPath %>/js/ext-2.2.1/source/ux/RemoteValidator.js"></script>
 <script type="text/javascript" src="<%=headerPath %>/js/point/system/login.js"></script>
 <script type="text/javascript" src="<%=headerPath %>/js/point/system/register.js"></script>
+<script type="text/javascript" src="<%=headerPath %>/js/util/dataStore.js"></script>
 </head>
 <body>
 <div id="header">
