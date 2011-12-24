@@ -108,8 +108,13 @@ public class CommonAction extends BaseAction implements ServletRequestAware, Ser
                 resultMap.put("msg", "数据字典信息不完整，无法查询您的请求信息");
             }else{
                 List list = this.codeListDataService.findCodeDataListCombo(codeId, codeName);
-                resultMap.put("success", true);
-                resultMap.put("codeList", list);
+                if(list == null || list.size()<1){
+                    resultMap.put("success", false);
+                    resultMap.put("msg", "系统中没有查询到您指定的数据字典！");
+                }else{
+                    resultMap.put("success", true);
+                    resultMap.put("codeList", list);
+                }
             }
         }catch(Exception e){
             resultMap.put("success", false);
