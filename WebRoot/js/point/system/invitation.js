@@ -24,7 +24,12 @@ function invitation(){
 		{name:"invitationReason"},//理由
 		{name:"nextaction"}//下一步操作
 	]);
-	
+	var loadParam = {
+		start : 0,
+		limit : 50,
+		viewAll : "no",
+		userId : userName
+	};
 	/**
 	 * 空数据
 	 * @type 
@@ -37,6 +42,7 @@ function invitation(){
 		proxy:new Ext.data.HttpProxy({
 			url:path+"/invitation/invitationList.action?method=invitationList"
 		}),
+		baseParams: loadParam,
 		reader:invitationListReader,
 		listeners:{
 			loadexception:function(dataProxy, type, action, options, response, arg) { 
@@ -54,7 +60,9 @@ function invitation(){
 		dataIndex:"id",
 		hidden:true,
 		hideable:false//不允许将隐藏的字段显示出来
-	},{
+	}
+	/*
+	,{
 		dataIndex:"sponsor",
 		hidden:true,
 		hideable:false
@@ -62,13 +70,14 @@ function invitation(){
 		dataIndex:"recipient",
 		hidden:true,
 		hideable:false
-	},{
+	}*/
+	,{
 		header:"发起人",
-		dataIndex:"sponsorName",
+		dataIndex:"sponsor",
 		width:150
 	},{
 		header:"接收人",
-		dataIndex:"recipientName",
+		dataIndex:"recipient",
 		width:150
 	},{
 		header:"发起时间",
@@ -103,6 +112,23 @@ function invitation(){
 		hidden:true,
 		hideable:false
 	}]);
+	
+	Ext.ToolTip.prototype.onTargetOver = Ext.ToolTip.prototype.onTargetOver
+			.createInterceptor(function(e) {
+		this.baseTarget = e.getTarget();
+	});
+	
+	Ext.ToolTip.prototype.onMouseMove = Ext.ToolTip.prototype.onMouseMove
+			.createInterceptor(function(e) {
+		if(this.baseTarget != null){
+			if (!e.within(this.baseTarget)) {
+				this.onTargetOver(e);
+				return false;
+			}
+		}else{
+			return false;
+		}
+	});
 	
 	var invitationListDataGrid = new Ext.grid.GridPanel({
 		collapsible:true,//是否可以展开
@@ -185,13 +211,6 @@ function invitation(){
 		},
 		tbar:[]
 	});
-	
-	var loadParam = {
-		start : 0,
-		limit : 50,
-		viewAll : "no",
-		userId : userName
-	};
 	
 	/**
 	 * 按钮存储器，尚未执行查询
