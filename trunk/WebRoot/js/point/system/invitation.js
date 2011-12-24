@@ -36,6 +36,32 @@ function invitation(){
 	 */
 	var simpleData = {"totalCount":0,"invitationList":[],"success":true};
 	/**
+	 * 处理结果数据字典
+	 * @type 
+	 */
+	var processResultStore = parent.processResult;
+	processResultStore.load({params:{codeId:"8ac388f13469610701346962d7ba0002"}});
+	processResultStore.on("loadexception",function(dataProxy, type, action, options, response, arg){
+		var o = Ext.util.JSON.decode(action.responseText);
+		if(!o.success){
+			Ext.Msg.alert('错误提示',o.msg, function(btn){
+			});
+		}
+	});
+	/**
+	 * 处理状态数据字典
+	 * @type 
+	 */
+	var processStatusStore = parent.processStatus;
+	processStatusStore.load({params:{codeId:"8ac388f13469610701346962a3e90001"}});
+	processStatusStore.on("loadexception",function(dataProxy, type, action, options, response, arg){
+		var o = Ext.util.JSON.decode(action.responseText);
+		if(!o.success){
+			Ext.Msg.alert('错误提示',o.msg, function(btn){
+			});
+		}
+	});
+	/**
 	 * 数据存储
 	 */
 	var invitationListStore = new Ext.data.Store({
@@ -90,10 +116,12 @@ function invitation(){
 	},{
 		header:"处理状态",
 		dataIndex:"processStatus",
+		renderer:showProcessStatus,
 		width:150
 	},{
 		header:"处理结果",
 		dataIndex:"processResultCode",
+		renderer:showProcessResultCode,
 		width:150
 	},{
 		dataIndex:"invitationMenu",
@@ -222,6 +250,14 @@ function invitation(){
 	 * loadButtonRight(buttonStore, mainDataStore, dataGrid, pageDiv, params)
 	 */
 	loadButtonRight(buttonRightStore, invitationListStore, invitationListDataGrid, "invitation_div", loadParam);
+	
+	function showProcessStatus(value,metadata,record,rowIndex,colIndex,store){
+		return parent.getCodeNameFromStore(value,processStatusStore,"dataKey","dataValue");
+	}
+	
+	function showProcessResultCode(value,metadata,record,rowIndex,colIndex,store){
+		return parent.getCodeNameFromStore(value,processResultStore,"dataKey","dataValue");
+	}
 }
 /**
  * 入口函数
