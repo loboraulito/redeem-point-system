@@ -134,3 +134,56 @@ function unMarkComponent(cmpId){
 		c.getEl().parent().unmask();
 	}
 }
+
+/**
+ * 格式化日期(有异常处理)
+ * value:一个日期
+ * preformat:该日期的格式，如时间为：1999-02-05 19:05:30，其格式应该是：Y-m-d H:i:s
+ * 注意该格式一定要匹配，否则异常
+ * format:要格式化的日期格式，默认为Y-m-d
+ */
+function dateFormat(value,preformat,format){
+	if(!value){
+		return "";
+	}
+	if(!preformat){
+		preformat = "Y-m-d H:i:s";
+	}
+	if(!format){
+		format = "Y-m-d";
+	}
+	if(value && value!=""){
+		try{
+			var dt = Date.parseDate(value,preformat);
+			if(dt){
+				dt = dt.format(format);
+				return dt;
+			}else{
+				return value;
+			}
+		}catch(e){
+			return value;
+		}
+	}else{
+		return value;
+	}
+}
+
+/**
+ * 查询数据标准的下拉框
+ */
+function getCodeListCombo(){
+	var codeStore = new Ext.data.Store({
+		proxy:new Ext.data.HttpProxy({
+			url:basePath+"common/codelist.action?method=getCodeList"
+		}),
+		reader:new Ext.data.JsonReader({
+			totalProperty:"totalCount",
+			root:"codeList"
+		},[
+			{name:"codeid"},
+			{name:"codename"}
+		])
+	});
+	return codeStore;
+}

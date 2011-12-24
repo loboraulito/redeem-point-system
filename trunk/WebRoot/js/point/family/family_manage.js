@@ -19,6 +19,13 @@ function family_manage(){
 		{name:"familyTel"}//联系电话
 	]);
 	
+	var loadParam = {
+		start : 0,
+		limit : 50,
+		viewAll : "no",
+		userId : userName
+	};
+	
 	/**
 	 * 空数据，当主数据位空时，使用该数据以避免报错
 	 * @type 
@@ -31,6 +38,7 @@ function family_manage(){
 		proxy:new Ext.data.HttpProxy({
 			url:path+"/family_manage/familyList.action?method=familyList"
 		}),
+		baseParams:loadParam,
 		reader:familyListReader,
 		listeners:{
 			loadexception:function(dataProxy, type, action, options, response, arg) { 
@@ -169,13 +177,6 @@ function family_manage(){
 		},
 		tbar:[]
 	});
-	
-	var loadParam = {
-		start : 0,
-		limit : 50,
-		viewAll : "no",
-		userId : userName
-	};
 	
 	/**
 	 * 按钮存储器，尚未执行查询

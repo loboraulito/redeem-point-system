@@ -30,6 +30,11 @@ function family(){
 	 */
 	var simpleData = {"totalCount":0,"memberList":[],"success":true};
 	
+	var loadParam = {};
+	loadParam.start = 0;
+	loadParam.limit = 50;
+	loadParam.userId = userName;
+	
 	/**
 	 * 家庭成员数据存储
 	 * 是否需要分组显示？
@@ -38,6 +43,7 @@ function family(){
 		proxy:new Ext.data.HttpProxy({
 			url:path+"/family_member/familyMemberList.action?method=familyMemberList"
 		}),
+		baseParams:loadParam,
 		reader:memberListReader,
 		listeners:{
 			loadexception:function(dataProxy, type, action, options, response, arg) { 
@@ -164,10 +170,7 @@ function family(){
 		}),
 		tbar:[]
 	});
-	var loadParam = {};
-	loadParam.start = 0;
-	loadParam.limit = 50;
-	loadParam.userId = userName;
+	
 	/**
 	 * 按钮存储器，尚未执行查询
 	 */
