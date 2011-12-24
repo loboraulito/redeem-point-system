@@ -181,9 +181,41 @@ function getCodeListCombo(){
 			totalProperty:"totalCount",
 			root:"codeList"
 		},[
-			{name:"codeid"},
-			{name:"codename"}
+			{name:"dataKey"},
+			{name:"dataValue"}
 		])
 	});
 	return codeStore;
+}
+
+/**
+ * 根据数据标准的具体值，找到其对应的数据标准值。
+ * 使用时，若codeid与codename互换的话，则找其对应的值
+ * value:查找的值
+ * store：数据标准数据集
+ * codeid：数据标准id
+ * codename：数据标准id对应的值
+ */
+function getCodeNameFromStore(value,store,codeid,codename){
+	if(!codeid){
+		codeid = "codeId";
+	}
+	if(!codename){
+		codename = "codeName";
+	}
+	try{
+		var index = store.find(codeid,value);
+		if(index>=0){
+			var record = store.getAt(index);
+			if(record){
+				var fieldvalue = record.get(codename);
+				if(fieldvalue){
+					return fieldvalue;
+				}
+			}
+		}
+	}catch(e){
+		return value;
+	}
+	return value;
 }
