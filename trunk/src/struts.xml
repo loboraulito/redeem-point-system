@@ -29,6 +29,8 @@
 	<include file="com/integral/exchange/gifts/config/gift.xml"></include>
 	<!-- 系统数据字典管理 -->
 	<include file="com/integral/system/codelist/config/codelist.xml"></include>
+	<!-- 系统公共Action -->
+	<include file="com/integral/system/common/config/common.xml"></include>
 	<!-- 家庭管理 -->
 	<include file="com/integral/family/manage/config/family_manage.xml"></include>
 	<!-- 家庭成员管理 -->
