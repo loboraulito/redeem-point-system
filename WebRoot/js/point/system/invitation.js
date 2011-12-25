@@ -19,6 +19,7 @@ function invitation(){
 		{name:"processTime"},//处理时间
 		{name:"processStatus"},//处理状态
 		{name:"invitationMenu"},//相关菜单ID
+		{name:"invitationMenuName"},//相关菜单
 		{name:"processResultCode"},//处理结果
 		{name:"invitationEvent"},//处理事件内容
 		{name:"invitationReason"},//理由
@@ -104,6 +105,11 @@ function invitation(){
 	},{
 		header:"接收人",
 		dataIndex:"recipient",
+		width:150
+	},{
+		header:"相关菜单链接",
+		dataIndex:"invitationMenuName",
+		renderer:showMenuLink,
 		width:150
 	},{
 		header:"发起时间",
@@ -250,13 +256,47 @@ function invitation(){
 	 * loadButtonRight(buttonStore, mainDataStore, dataGrid, pageDiv, params)
 	 */
 	loadButtonRight(buttonRightStore, invitationListStore, invitationListDataGrid, "invitation_div", loadParam);
-	
+	/**
+	 * 显示处理状态
+	 * @param {} value
+	 * @param {} metadata
+	 * @param {} record
+	 * @param {} rowIndex
+	 * @param {} colIndex
+	 * @param {} store
+	 * @return {}
+	 */
 	function showProcessStatus(value,metadata,record,rowIndex,colIndex,store){
 		return parent.getCodeNameFromStore(value,processStatusStore,"dataKey","dataValue");
 	}
-	
+	/**
+	 * 显示处理结果
+	 * @param {} value
+	 * @param {} metadata
+	 * @param {} record
+	 * @param {} rowIndex
+	 * @param {} colIndex
+	 * @param {} store
+	 * @return {}
+	 */
 	function showProcessResultCode(value,metadata,record,rowIndex,colIndex,store){
 		return parent.getCodeNameFromStore(value,processResultStore,"dataKey","dataValue");
+	}
+	/**
+	 * 显示相关菜单链接
+	 * @param {} value
+	 * @param {} metadata
+	 * @param {} record
+	 * @param {} rowIndex
+	 * @param {} colIndex
+	 * @param {} store
+	 */
+	function showMenuLink(value,metadata,record,rowIndex,colIndex,store){
+		if(value && value != ""){
+			var menuId = record.get("invitationMenu");
+			return "<a href='javascript:parent.goToTabPanel(null,\""+menuId+"\")'>"+ value +"</a>";
+		}
+		return value;
 	}
 }
 /**

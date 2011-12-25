@@ -146,7 +146,7 @@ public class SystemInviteProcessDAO extends HibernateDaoSupport implements ISyst
     }
 
     @SuppressWarnings("unchecked")
-    public List<SystemInviteProcess> findByParams(final String sql, final boolean isHql, final int start,
+    public List findByParams(final String sql, final boolean isHql, final int start,
             final int limit, final Map<String, Object> params) {
         log.info("finding by SystemInviteProcess instance by sql : " + sql);
         return getHibernateTemplate().executeFind(new HibernateCallback<Object>() {
