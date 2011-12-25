@@ -2,6 +2,7 @@ package com.integral.family.manage.action;
 
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,6 +26,9 @@ import com.integral.family.manage.bean.FamilyInfo;
 import com.integral.family.manage.service.IFamilyInfoService;
 import com.integral.family.member.bean.FamilyMember;
 import com.integral.family.member.service.IFamilyMemberService;
+import com.integral.system.invitation.bean.SystemInviteProcess;
+import com.integral.system.invitation.service.ISystemInviteProcessService;
+import com.integral.system.user.service.IUserService;
 import com.integral.util.RequestUtil;
 import com.integral.util.Tools;
 
@@ -39,8 +43,26 @@ public class FamilyManamgeAction extends BaseAction implements ServletRequestAwa
     private HttpServletResponse response;
     private IFamilyInfoService familyManageService;
     private IFamilyMemberService familyMemberService;
+    private IUserService userService;
+    private ISystemInviteProcessService systemInviteProcessService;
     private DataSourceTransactionManager transactionManager;
     
+    public ISystemInviteProcessService getSystemInviteProcessService() {
+        return systemInviteProcessService;
+    }
+
+    public void setSystemInviteProcessService(ISystemInviteProcessService systemInviteProcessService) {
+        this.systemInviteProcessService = systemInviteProcessService;
+    }
+
+    public IUserService getUserService() {
+        return userService;
+    }
+
+    public void setUserService(IUserService userService) {
+        this.userService = userService;
+    }
+
     /**
      * <p>Discription:[方法功能中文描述]</p>
      * @return IFamilyInfoService familyManageService.
@@ -306,5 +328,99 @@ public class FamilyManamgeAction extends BaseAction implements ServletRequestAwa
         }
         return null;
     }
+    /**
+     * <p>Discription:[家庭用户列表]</p>
+     * @return
+     * @author:[代超]
+     * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
+     */
+    public String familyUserList(){
+        int start = NumberUtils.toInt(request.getParameter("start"), 0);
+        int limit = NumberUtils.toInt(request.getParameter("limit"), 50);
+        String userId = request.getParameter("userId");
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        JsonFormat jf = new JsonFormat(true);
+        jf.setAutoUnicode(true);
+        PrintWriter out = null;
+        try{
+            out = super.getPrintWriter(request, response);
+            int userSize = this.userService.findUserByPageCondition("From UserInfo model where model.userName != ?", -1, -1, new Object[]{userId}).size();
+            //List userList = this.userService.findUserByPageWithProtect(start, limit);
+            List userList = this.userService.findUserByPageCondition("From UserInfo model where model.userName != ?", start, limit, new Object[]{userId});
+            resultMap.put("success", true);
+            resultMap.put("userList", userList);
+            resultMap.put("totalCount", userSize);
+        }catch(Exception e){
+            resultMap.put("success", false);
+            resultMap.put("msg", "系统错误！错误代码："+e.getMessage());
+            LOG.error(e.getMessage());
+        }finally{
+            if(out != null){
+                out.print(Json.toJson(resultMap,jf));
+                out.flush();
+                out.close();
+            }
+        }
+        return null;
+    }
+    /**
+     * <p>Discription:[发出邀请加入家庭]</p>
+     * @return
+     * @author:[代超]
+     * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
+     */
+    public String familyManageInvite(){
+        String userIds = request.getParameter("userId");
+        String familyIds = request.getParameter("familyId");
+        String sponsor = request.getParameter("sponsor");
+        String menuId = request.getParameter("menuId");
+        // 定义TransactionDefinition并设置好事务的隔离级别和传播方式。
+        DefaultTransactionDefinition definition = new DefaultTransactionDefinition();
+        // 代价最大、可靠性最高的隔离级别，所有的事务都是按顺序一个接一个地执行
+        definition.setIsolationLevel(TransactionDefinition.ISOLATION_SERIALIZABLE);
+        // 开始事务
+        TransactionStatus status = transactionManager.getTransaction(definition);
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        JsonFormat jf = new JsonFormat(true);
+        jf.setAutoUnicode(true);
+        PrintWriter out = null;
+        try{
+            out = super.getPrintWriter(request, response);
+            if(userIds == null || "".equals(userIds.trim()) || familyIds == null || "".equals(familyIds.trim())){
+                resultMap.put("success", false);
+                resultMap.put("msg", "所选用户为空或者是所选家庭为空！");
+            }else{
+                String userId[] = userIds.split(",");
+                String fimilyId[] = familyIds.split(",");
+                List<SystemInviteProcess> processList = new ArrayList<SystemInviteProcess>();
+                for(int i=0; i<userId.length;i++){
+                    SystemInviteProcess process = new SystemInviteProcess();
+                    process.setSponsor(sponsor);
+                    process.setProcessTime(new Date());
+                    process.setRecipient(userId[i]);
+                    process.setInvitationMenu(menuId);
+                    processList.add(process);
+                }
+                this.systemInviteProcessService.saveOrUpdateAll(processList);
+                resultMap.put("success", true);
+                resultMap.put("msg", "已向所选用户发出邀请，请等待用户回应！");
+            }
+        }catch(Exception e){
+            status.setRollbackOnly();
+            resultMap.put("success", false);
+            resultMap.put("msg", "系统错误！错误代码：" + e.getMessage());
+            LOG.error(e.getMessage());
+        }finally{
+            transactionManager.commit(status);
+            if(out != null){
+                out.print(Json.toJson(resultMap, jf));
+                out.flush();
+                out.close();
+            }
+        }
+        return null;
+    }
+    
+    
 
 }

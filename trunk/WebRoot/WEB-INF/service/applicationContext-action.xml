@@ -82,11 +82,14 @@
 	<bean class="com.integral.family.manage.action.FamilyManamgeAction" scope="prototype">
 		<property name="familyManageService" ref="familyManageService"></property>
 		<property name="familyMemberService" ref="familyMemberService"></property>
+		<property name="systemInviteProcessService" ref="systemInviteProcessService"></property>
+		<property name="userService" ref="userService"></property>
 		<property name="transactionManager" ref="transactionManager"></property>
 	</bean>
 	<!-- 家庭成员 -->
 	<bean class="com.integral.family.member.action.FamilyMemberAction" scope="prototype">
 		<property name="familyMemberService" ref="familyMemberService"></property>
+		<!-- <property name="userService" ref="userService"></property> -->
 		<property name="transactionManager" ref="transactionManager"></property>
 	</bean>
 	<!-- 家庭关系 -->

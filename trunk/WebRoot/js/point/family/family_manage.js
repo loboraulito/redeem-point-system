@@ -305,8 +305,207 @@ function family_manage(){
 	 * @param {} url
 	 */
 	this.inviteFamilyMember = function(url){
+		var gridSelectionModel = familyListDataGrid.getSelectionModel();
+		var gridSelection = gridSelectionModel.getSelections();
+		if(gridSelection.length < 1){
+			Ext.MessageBox.alert('提示','请至少选择一个家庭！');
+		    return false;
+		}
+		var dataIdArray = new Array();
+		for(var i=0; i < gridSelection.length; i++){
+			var holder = gridSelection[i].get("familyHouseHolder");
+			if(holder != userName){
+				Ext.Msg.alert("系统提示","您不是家庭："+gridSelection[i].get("familyName") + " 的户主，无权邀请！");
+				return;
+			}
+			dataIdArray.push(gridSelection[i].get("familyId"));
+		}
 		
+		var familyIds = dataIdArray.join(",");
+		
+		var userReader = new Ext.data.JsonReader({
+			totalProperty : "totalCount",
+			root : "userList"
+		},[
+			{name:"userId"},//唯一id
+			{name:"userCode"},//用户编号
+			{name:"userName"},//用户名
+			{name:"telphoneNo"},//电话
+			{name:"phoneNo"},//手机
+			{name:"privence"},//省
+			{name:"city"},//城市
+			{name:"address"},//地址
+			{name:"zip"},//邮编
+			{name:"email"}//电子邮件
+		]);
+		
+		var proxyUrl = path+"/family_manage/familyUserList.action?method=familyUserList";
+		/**
+		 * userStore:用户数据仓库
+		 */
+		var userStore = new Ext.data.Store({
+			proxy:new Ext.data.HttpProxy({
+				url:proxyUrl
+			}),
+			baseParams:{
+				start:0,
+				limit:50,
+				userId : userName
+			},
+			reader:userReader
+		});
+		
+		/**
+		 * userSM:数据展现样式
+		 */
+		var userSM = new Ext.grid.CheckboxSelectionModel();
+		/**
+		 * userCM:数据列展示样式
+		 */
+		var userCM = new Ext.grid.ColumnModel([new Ext.grid.RowNumberer(),userSM,{
+			dataIndex:"userId",
+			hidden:true,
+			hideable:false//不允许将隐藏的字段显示出来
+		},{
+			header:"用户名称",
+			dataIndex:"userName",
+			width:150
+		},{
+			header:"电话号码",
+			dataIndex:"telphoneNo",
+			width:150
+		},{
+			header:"手机号码",
+			dataIndex:"phoneNo",
+			width:180
+		},{
+			header:"省",
+			dataIndex:"privence",
+			sortable:true,
+			width:80
+		},{
+			header:"市",
+			dataIndex:"city",
+			width:130
+		},{
+			header:"具体地址",
+			dataIndex:"address",
+			width:130
+		},{
+			header:"邮编号码",
+			dataIndex:"zip",
+			width:130
+		},{
+			header:"电子邮件",
+			dataIndex:"email",
+			width:130
+		}]);
+		
+		/**
+		 * userGrid: 菜单展示列表
+		 */
+		var userGrid = new Ext.grid.GridPanel({
+			collapsible:true,//是否可以展开
+			animCollapse:true,//展开时是否有动画效果
+			autoScroll:true,
+			//width:Ext.get("user_div").getWidth(),
+			//height:Ext.get("user_div").getHeight()-20,
+			loadMask:true,//载入遮罩动画（默认）
+			frame:true,
+			autoShow:true,		
+			store:userStore,
+			//renderTo:"user_div",
+			cm:userCM,
+			sm:userSM,
+			viewConfig:{forceFit:true},//若父容器的layout为fit，那么强制本grid充满该父容器
+			split: true,
+			bbar:new Ext.PagingToolbar({
+				pageSize:50,//每页显示数
+				store:userStore,
+				displayInfo:true,
+				displayMsg:"显示{0}-{1}条记录，共{2}条记录",
+				nextText:"下一页",
+				prevText:"上一页",
+				emptyMsg:"无相关记录"
+			}),
+			tbar:[{
+				text:"邀请用户加入我的家庭",
+				iconCls:"table_gear",
+				tooltip:"邀请选中用户加入我的家庭",
+				handler:function(){
+					inviteMember(userGrid, "inviteFamilyMemberWindow", familyIds, url);
+				}
+			}]
+		});
+		
+		showFamilyManageWindow("inviteFamilyMemberWindow","邀请用户加入我的家庭",450, 320, userGrid);
+		userStore.load();
 	};
+	/**
+	 * 邀请用户加入家庭
+	 * @param {} grid
+	 * @param {} windowId
+	 */
+	function inviteMember(grid, windowId, familyIds, url){
+		var gridSelectionModel = grid.getSelectionModel();
+		var gridSelection = gridSelectionModel.getSelections();
+		if(gridSelection.length < 1){
+			Ext.MessageBox.alert('提示','请至少选择一个家庭删除！');
+		    return false;
+		}
+		var dataIdArray = new Array();
+		for(var i=0; i < gridSelection.length; i++){
+			dataIdArray.push(gridSelection[i].get("userName"));
+		}
+		var userIds = dataIdArray.join(",");
+		
+		Ext.MessageBox.show({
+		    msg: '正在提交您的请求, 请稍侯...',
+		    progressText: '正在提交您的请求',
+		    width:300,
+		    wait:true,
+		    waitConfig: {interval:200},
+		    icon:Ext.Msg.INFO
+		});
+		
+		Ext.Ajax.request({
+			params:{familyId:familyIds, userId:userIds, sponsor:userName, menuId: currentMenuId},
+			timeout:60000,
+			url:url,
+			success:function(response, options){
+				Ext.Msg.hide();
+				var msg = Ext.util.JSON.decode(response.responseText);
+				if(msg.success){
+					if(msg.msg){
+						Ext.Msg.alert("系统提示",msg.msg);
+					}else{
+						Ext.Msg.alert("系统提示","已向所选用户发出邀请，请等待邀请结果！");
+					}
+					//familyListStore.reload();
+					Ext.getCmp(windowId).close();
+				}else{
+					if(msg.msg){
+						Ext.Msg.alert("系统提示",msg.msg);
+					}else{
+						Ext.Msg.alert("系统提示","向所选用户发出邀请失败！");
+					}
+				}
+			},failure: function(response, options){
+				Ext.Msg.hide();
+				try{
+					var msg = Ext.util.JSON.decode(response.responseText);
+					if(msg.msg){
+						Ext.Msg.alert("系统提示",msg.msg);
+					}else{
+						Ext.Msg.alert("系统提示","向所选用户发出邀请失败！");
+					}
+				}catch(e){
+					Ext.Msg.alert("系统提示","系统错误！错误代码：" + e);
+				}
+			}
+		});
+		
+	}
 	
 	/**
 	 * 保存数据

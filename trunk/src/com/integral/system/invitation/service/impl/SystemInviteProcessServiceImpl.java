@@ -70,4 +70,24 @@ public class SystemInviteProcessServiceImpl implements ISystemInviteProcessServi
         
         return this.systemInviteProcessDao.findCountByParams(sql, true, -1, -1, params);
     }
+    @Override
+    public void save(SystemInviteProcess instance) {
+        this.systemInviteProcessDao.save(instance);
+    }
+    @Override
+    public void saveOrUpdate(SystemInviteProcess instance) {
+        this.systemInviteProcessDao.saveOrUpdate(instance);
+    }
+    @Override
+    public void saveOrUpdateAll(List<SystemInviteProcess> persistentInstances) {
+        this.systemInviteProcessDao.saveOrUpdateAll(persistentInstances);
+    }
+    @Override
+    public void delete(SystemInviteProcess persistentInstance) {
+        this.systemInviteProcessDao.delete(persistentInstance);
+    }
+    @Override
+    public void deleteAll(List<SystemInviteProcess> persistentInstances) {
+        this.systemInviteProcessDao.deleteAll(persistentInstances);
+    }
 }
