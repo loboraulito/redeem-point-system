@@ -29,5 +29,5 @@ public interface ISystemInviteProcessDao {
      * @author:[代超]
      * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
      */
-    public List<SystemInviteProcess> findByParams(String sql, boolean isHql, int start, int limit, Map<String, Object> params);
+    public List findByParams(String sql, boolean isHql, int start, int limit, Map<String, Object> params);
 }
