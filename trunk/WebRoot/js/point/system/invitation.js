@@ -372,6 +372,12 @@ function invitation(){
 		    	return false;
 			}
 			
+			var recipient = gridSelection[i].get("recipient");
+			if(recipient != userName){
+				Ext.MessageBox.alert('提示','您无权处理发给别人的请求！');
+				return false;
+			}
+			
 			/*
 			if(relateData){
 				relateData = Ext.decode(relateData);
@@ -407,6 +413,11 @@ function invitation(){
 			if(status == "2"){
 				Ext.MessageBox.alert('提示','不能选择已处理过的请求进行处理！');
 		    	return false;
+			}
+			var recipient = gridSelection[i].get("recipient");
+			if(recipient != userName){
+				Ext.MessageBox.alert('提示','您无权处理发给别人的请求！');
+				return false;
 			}
 		}
 		Ext.Msg.prompt("系统提示","请输入拒绝理由：",function(btn,txt){
