@@ -411,7 +411,7 @@ public class FamilyManamgeAction extends BaseAction implements ServletRequestAwa
                         process.setInvitationMenu(menuId);
                         //未处理
                         process.setProcessStatus("1");
-                        String event = "用户 "+sponsor+" 邀请您加入他的家庭：["+familyName[j] +"]";
+                        String event = "用户 "+sponsor+" 邀请您加入他的家庭：【"+familyName[j] +"】";
                         process.setInvitationEvent(event);
                         String nextAction = "/family_manage/familyProcessInvition.action?method=familyProcessInvition";
                         process.setNextaction(nextAction);
