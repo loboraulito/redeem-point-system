@@ -113,11 +113,11 @@ function invitation(){
 	},{
 		header:"发起人",
 		dataIndex:"sponsor",
-		width:150
+		width:70
 	},{
 		header:"接收人",
 		dataIndex:"recipient",
-		width:150
+		width:70
 	},{
 		header:"相关菜单链接",
 		dataIndex:"invitationMenuName",
@@ -135,12 +135,12 @@ function invitation(){
 		header:"处理状态",
 		dataIndex:"processStatus",
 		renderer:showProcessStatus,
-		width:150
+		width:70
 	},{
 		header:"处理结果",
 		dataIndex:"processResultCode",
 		renderer:showProcessResultCode,
-		width:150
+		width:70
 	},{
 		dataIndex:"invitationMenu",
 		hidden:true,
@@ -150,9 +150,9 @@ function invitation(){
 		hidden:true,
 		hideable:false
 	},{
+		header:"理由",
 		dataIndex:"invitationReason",
-		hidden:true,
-		hideable:false
+		width:250
 	},{
 		dataIndex:"nextaction",
 		hidden:true,
