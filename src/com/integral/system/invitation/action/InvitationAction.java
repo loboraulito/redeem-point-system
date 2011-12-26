@@ -97,6 +97,7 @@ public class InvitationAction extends BaseAction implements ServletRequestAware,
         String userId = request.getParameter("userId");
         String menuId = request.getParameter("menuId");
         String status = request.getParameter("status");
+        String fromUserId = request.getParameter("fromUserId");
         Map<String, Object> resultMap = new HashMap<String, Object>();
         JsonFormat jf = new JsonFormat(true);
         jf.setAutoUnicode(true);
@@ -106,9 +107,15 @@ public class InvitationAction extends BaseAction implements ServletRequestAware,
             if(userId == null || "".equals(userId.trim())){
                 resultMap.put("success", false);
                 resultMap.put("msg", "用户ID为空，不能查询您的请求信息");
+            }else if(fromUserId != null && !"".equals(fromUserId.trim())){
+                List<SystemInviteProcess> list = this.systemInviteProcessService.findByUserId(userId, fromUserId, menuId, status, start, limit);
+                int listSize = this.systemInviteProcessService.findCountByUserId(userId, fromUserId, menuId, status);
+                resultMap.put("success", true);
+                resultMap.put("invitationList", list);
+                resultMap.put("totalCount", listSize);
             }else{
-                List<SystemInviteProcess> list = this.systemInviteProcessService.findByUserId(userId, menuId, status, start, limit);
-                int listSize = this.systemInviteProcessService.findCountByUserId(userId, menuId, status);
+                List<SystemInviteProcess> list = this.systemInviteProcessService.findByUserId(userId, "", menuId, status, start, limit);
+                int listSize = this.systemInviteProcessService.findCountByUserId(userId, "", menuId, status);
                 resultMap.put("success", true);
                 resultMap.put("invitationList", list);
                 resultMap.put("totalCount", listSize);

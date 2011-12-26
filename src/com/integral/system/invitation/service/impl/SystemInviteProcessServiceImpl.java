@@ -32,22 +32,29 @@ public class SystemInviteProcessServiceImpl implements ISystemInviteProcessServi
         this.systemInviteProcessDao = systemInviteProcessDao;
     }
     @Override
-    public List<SystemInviteProcess> findByUserId(String userId, String menuId, String status, int start, int limit) {
+    public List<SystemInviteProcess> findByUserId(String userId, String fromUserId, String menuId, String status, int start, int limit) {
         //String sql = "from SystemInviteProcess model  JOIN MenuInfo menu where model.invitationMenu = menu.menuId and model.recipient = :userId";
         String sql = "SELECT ps.id, ps.sponsor, ps.recipient, ps.sponsor_time, ps.process_time, ps.process_status, ps.invitation_menu," +
         		" m.menu_name, ps.process_result_code, ps.invitation_event, ps.invitation_reason, ps.nextaction, ps.relation_data FROM system_invite_process AS ps" +
-        		" LEFT JOIN menu_info AS m ON ps.invitation_menu = m.menu_id where ps.recipient = :userId "; 
+        		" LEFT JOIN menu_info AS m ON ps.invitation_menu = m.menu_id where 1 = 1 "; 
         Map<String, Object> params = new HashMap<String, Object>();
-        params.put("userId", userId);
-        if(menuId != null && !"".equals(menuId.trim())){
-            sql = sql + " and ps.invitation_menu = :menuId";
-            params.put("menuId", menuId);
+        if(fromUserId != null && !"".equals(fromUserId.trim())){
+            sql += " and ps.sponsor = :fromUserId ";
+            params.put("fromUserId", fromUserId);
+        }else{
+            if(userId != null && !"".equals(userId.trim())){
+                sql += " and ps.recipient = :userId ";
+                params.put("userId", userId);
+            }
+            if(menuId != null && !"".equals(menuId.trim())){
+                sql = sql + " and ps.invitation_menu = :menuId";
+                params.put("menuId", menuId);
+            }
+            if(status != null && !"".equals(status.trim())){
+                sql += " and ps.process_status = :status";
+                params.put("status", status);
+            }
         }
-        if(status != null && !"".equals(status.trim())){
-            sql += " and ps.process_status = :status";
-            params.put("status", status);
-        }
-        
         List list = this.systemInviteProcessDao.findByParams(sql, false, start, limit, params);
         
         List<SystemInviteProcess> processList = new ArrayList<SystemInviteProcess>();
@@ -74,17 +81,25 @@ public class SystemInviteProcessServiceImpl implements ISystemInviteProcessServi
         return processList;
     }
     @Override
-    public int findCountByUserId(String userId, String menuId, String status) {
-        String sql = "from SystemInviteProcess model where model.recipient = :userId";
+    public int findCountByUserId(String userId, String fromUserId, String menuId, String status) {
+        String sql = "from SystemInviteProcess model where 1 = 1 ";
         Map<String, Object> params = new HashMap<String, Object>();
-        params.put("userId", userId);
-        if(menuId != null && !"".equals(menuId.trim())){
-            sql = sql + " and model.invitationMenu = :menuId";
-            params.put("menuId", menuId);
-        }
-        if(status != null && !"".equals(status.trim())){
-            sql += " and model.processStatus = :status";
-            params.put("status", status);
+        if(fromUserId != null && !"".equals(fromUserId.trim())){
+            sql += " and model.sponsor = :fromUserId ";
+            params.put("fromUserId", fromUserId);
+        }else{
+            if(userId != null && !"".equals(userId.trim())){
+                sql += " and model.recipient = :userId ";
+                params.put("userId", userId);
+            }
+            if(menuId != null && !"".equals(menuId.trim())){
+                sql = sql + " and model.invitationMenu = :menuId";
+                params.put("menuId", menuId);
+            }
+            if(status != null && !"".equals(status.trim())){
+                sql += " and model.processStatus = :status";
+                params.put("status", status);
+            }
         }
         return this.systemInviteProcessDao.findCountByParams(sql, true, -1, -1, params);
     }
