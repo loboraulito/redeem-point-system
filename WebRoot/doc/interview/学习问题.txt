@@ -7,8 +7,11 @@
 Ajax：XMLHttpRequest对象
 Ajax的原理：通过XmlHttpRequest对象来向服务器发异步请求，从服务器获得数据，然后用javascript来操作DOM而更新页面
 
-forward：转发，带参数转发。URL不显示在浏览器上，由服务器端执行
+forward：转发，带参数转发。URL不显示在浏览器上，由服务器端执行, 只能转发一次，否则抛出异常。无法在后面带参数传递,比如servlet?name=frank,这样不行
 redirect：重定向，不带参数转发，只能使用rquest.setAttribute方法获取数据参数。URL将会显示在浏览器上，由客户端执行
+两者相对来说RequestDispatcher.forward()方法更加高效，当它可以满足需要时，尽量使用Request Dispatcher.forward()方法，并且，这样也有助于隐藏实际的链接。 
+request.getRequestDispatcher(url).forward(request, response);
+response.sendRedirect(url);
 
 Java抽象类：可以提供某些方法的具体实现，如果向抽象类中加入一个新的方法，则该抽象类的子类都能自动得到该方法。一个抽象类的实现只能由这个抽象类的子类给出。
 Java接口：接口不提供方法的具体实现，只能由实现该接口的类去实现具体的方法。如果在接口中定义一个新的方法，那么实现该接口的类将会编译失败。因为类必须实现该方法。

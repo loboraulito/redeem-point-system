@@ -13,5 +13,13 @@
 			 <result name="success">/jsp/system/invitation/invitation.jsp</result>
 			 <result name="input">/index.jsp</result>
 		</action>
+		<action name="invitationPass" class="com.integral.system.invitation.action.InvitationAction" method="invitationPass">
+			 <result name="success">/jsp/system/invitation/invitation.jsp</result>
+			 <result name="input">/index.jsp</result>
+		</action>
+		<action name="invitationReject" class="com.integral.system.invitation.action.InvitationAction" method="invitationReject">
+			 <result name="success">/jsp/system/invitation/invitation.jsp</result>
+			 <result name="input">/index.jsp</result>
+		</action>
 	</package>
 </struts>

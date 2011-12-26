@@ -20,7 +20,7 @@ public interface ISystemInviteProcessService {
      * @author:[代超]
      * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
      */
-    public List<SystemInviteProcess> findByUserId(String userId, int start, int limit);
+    public List<SystemInviteProcess> findByUserId(String userId, String menuId, String status, int start, int limit);
 
     /**
      * <p>Discription:[查询用户的系统请求数量]</p>
@@ -31,7 +31,7 @@ public interface ISystemInviteProcessService {
      * @author:[代超]
      * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
      */
-    public int findCountByUserId(String userId);
+    public int findCountByUserId(String userId, String menuId, String status);
     
     /**
      * <p>Discription:[新增系统请求]</p>
@@ -68,4 +68,13 @@ public interface ISystemInviteProcessService {
      * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
      */
     public void deleteAll(List<SystemInviteProcess> persistentInstances);
+    
+    /**
+     * <p>Discription:[主键查询]</p>
+     * @param id
+     * @return
+     * @author:[代超]
+     * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
+     */
+    public SystemInviteProcess findById(java.lang.String id);
 }

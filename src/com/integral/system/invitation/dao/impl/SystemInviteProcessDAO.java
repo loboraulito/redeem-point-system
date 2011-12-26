@@ -116,7 +116,7 @@ public class SystemInviteProcessDAO extends HibernateDaoSupport implements ISyst
     public SystemInviteProcess findById(java.lang.String id) {
         log.info("getting SystemInviteProcess instance with id: " + id);
         try {
-            SystemInviteProcess instance = (SystemInviteProcess) getHibernateTemplate().get("SystemInviteProcess", id);
+            SystemInviteProcess instance = (SystemInviteProcess) getHibernateTemplate().get(SystemInviteProcess.class, id);
             if (instance == null) {
                 log.info("get successful, no instance found");
             }

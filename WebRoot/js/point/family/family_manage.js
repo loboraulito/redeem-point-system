@@ -42,9 +42,14 @@ function family_manage(){
 		reader:familyListReader,
 		listeners:{
 			loadexception:function(dataProxy, type, action, options, response, arg) { 
-				var o = Ext.util.JSON.decode(action.responseText);
-				if(!o.success){
-					Ext.Msg.alert('错误提示',o.msg);
+				try{
+					var o = Ext.util.JSON.decode(action.responseText);
+					if(!o.success){
+						Ext.Msg.alert('错误提示',o.msg);
+						familyListStore.loadData(simpleData);
+					}
+				}catch(e){
+					Ext.Msg.alert('错误提示',"系统错误！错误代码："+e);
 					familyListStore.loadData(simpleData);
 				}
 			}
@@ -312,6 +317,7 @@ function family_manage(){
 		    return false;
 		}
 		var dataIdArray = new Array();
+		var dataNameArray = new Array();
 		for(var i=0; i < gridSelection.length; i++){
 			var holder = gridSelection[i].get("familyHouseHolder");
 			if(holder != userName){
@@ -319,9 +325,11 @@ function family_manage(){
 				return;
 			}
 			dataIdArray.push(gridSelection[i].get("familyId"));
+			dataNameArray.push(gridSelection[i].get("familyName"));
 		}
 		
 		var familyIds = dataIdArray.join(",");
+		var familyNames = dataNameArray.join(",");
 		
 		var userReader = new Ext.data.JsonReader({
 			totalProperty : "totalCount",
@@ -433,7 +441,7 @@ function family_manage(){
 				iconCls:"table_gear",
 				tooltip:"邀请选中用户加入我的家庭",
 				handler:function(){
-					inviteMember(userGrid, "inviteFamilyMemberWindow", familyIds, url);
+					inviteMember(userGrid, "inviteFamilyMemberWindow", familyIds, familyNames, url);
 				}
 			}]
 		});
@@ -446,11 +454,11 @@ function family_manage(){
 	 * @param {} grid
 	 * @param {} windowId
 	 */
-	function inviteMember(grid, windowId, familyIds, url){
+	function inviteMember(grid, windowId, familyIds, familyNames, url){
 		var gridSelectionModel = grid.getSelectionModel();
 		var gridSelection = gridSelectionModel.getSelections();
 		if(gridSelection.length < 1){
-			Ext.MessageBox.alert('提示','请至少选择一个家庭删除！');
+			Ext.MessageBox.alert('提示','请至少选择一个家庭！');
 		    return false;
 		}
 		var dataIdArray = new Array();
@@ -469,7 +477,7 @@ function family_manage(){
 		});
 		
 		Ext.Ajax.request({
-			params:{familyId:familyIds, userId:userIds, sponsor:userName, menuId: currentMenuId},
+			params:{familyId:familyIds, familyName:familyNames, userId:userIds, sponsor:userName, menuId: currentMenuId},
 			timeout:60000,
 			url:url,
 			success:function(response, options){
@@ -506,6 +514,15 @@ function family_manage(){
 		});
 		
 	}
+	/**
+	 * 查看我的邀请
+	 * @param {} url
+	 */
+	this.viewMyInvite = function(url){
+		parent.fromMenuId = currentMenuId;
+		parent.goToTabPanel(url, null, true);
+	};
+	
 	
 	/**
 	 * 保存数据
@@ -756,9 +773,56 @@ function family_manage(){
 		codeListWindow.show();
 	}
 }
+/**
+ * 查看我的邀请信息
+ */
+function viewInvitation(){
+	var url = path + "/invitation/invitationList.action?method=invitationList";
+	Ext.Ajax.request({
+		params:{userId:userName, menuId:currentMenuId, status:"1"},
+		timeout:60000,
+		url:url,
+		success:function(response, options){
+			var msg = Ext.util.JSON.decode(response.responseText);
+			if(msg.success){
+				if(msg.msg){
+					Ext.Msg.alert("系统提示",msg.msg);
+					family_manage();
+				}else{
+					if(msg.totalCount > 0){
+						Ext.Msg.confirm("系统提示","您有未处理的系统邀请信息，现在处理？",function(btn){
+							if(btn == "yes" || btn == "ok"){
+								parent.fromMenuId = currentMenuId;
+								parent.goToTabPanel("/invitation/invitation.action?method=begin", null, true);
+							}else{
+								//family_manage();
+							}
+						});
+					}else{
+						//family_manage();
+					}
+				}
+			}else{
+				//family_manage();
+			}
+		},failure: function(response, options){
+			try{
+				var msg = Ext.util.JSON.decode(response.responseText);
+				if(msg.msg){
+					Ext.Msg.alert("系统提示",msg.msg);
+				}else{
+					Ext.Msg.alert("系统提示","系统错误，请联系管理员！");
+				}
+			}catch(e){
+				Ext.Msg.alert("系统提示","系统错误！错误代码：" + e);
+			}
+		}
+	});
+}
 
 Ext.onReady(function(){
 	Ext.QuickTips.init();
 	Ext.form.Field.prototype.msgTarget = "under";
+	viewInvitation();
 	family_manage();
 });

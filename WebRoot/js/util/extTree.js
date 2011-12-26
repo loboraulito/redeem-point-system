@@ -48,6 +48,7 @@ function providetreePanel(mainMenuId, rootName){
 	tree.on("click",function(node){
 		menuId = node.id;
 		if(node.isLeaf()){
+			fromMenuId = "";
 			createMainTabPanel(node.text, node.id, node.attributes.hrefComment, true);
 			return;
 		}

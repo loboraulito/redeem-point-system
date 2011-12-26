@@ -372,6 +372,7 @@ public class FamilyManamgeAction extends BaseAction implements ServletRequestAwa
     public String familyManageInvite(){
         String userIds = request.getParameter("userId");
         String familyIds = request.getParameter("familyId");
+        String familyNames = request.getParameter("familyName");
         String sponsor = request.getParameter("sponsor");
         String menuId = request.getParameter("menuId");
         // 定义TransactionDefinition并设置好事务的隔离级别和传播方式。
@@ -391,16 +392,36 @@ public class FamilyManamgeAction extends BaseAction implements ServletRequestAwa
                 resultMap.put("msg", "所选用户为空或者是所选家庭为空！");
             }else{
                 String userId[] = userIds.split(",");
-                String fimilyId[] = familyIds.split(",");
+                String familyId[] = familyIds.split(",");
+                String familyName[] = familyNames.split(",");
+                        
                 List<SystemInviteProcess> processList = new ArrayList<SystemInviteProcess>();
-                for(int i=0; i<userId.length;i++){
-                    SystemInviteProcess process = new SystemInviteProcess();
-                    process.setSponsor(sponsor);
-                    process.setProcessTime(new Date());
-                    process.setRecipient(userId[i]);
-                    process.setInvitationMenu(menuId);
-                    processList.add(process);
+                
+                for(int j=0; j<familyId.length; j++){
+                    String family_id = familyId[j];
+                    FamilyMember member = new FamilyMember();
+                    member.setFamilyId(family_id);
+                    member.setFamilyName(familyName[j]);
+                    for(int i=0; i<userId.length;i++){
+                        member.setSystemMemberId(userId[i]);
+                        SystemInviteProcess process = new SystemInviteProcess();
+                        process.setSponsor(sponsor);
+                        process.setSponsorTime(new Date());
+                        process.setRecipient(userId[i]);
+                        process.setInvitationMenu(menuId);
+                        //未处理
+                        process.setProcessStatus("1");
+                        String event = "用户 "+sponsor+" 邀请您加入他的家庭：["+familyName[j] +"]";
+                        process.setInvitationEvent(event);
+                        String nextAction = "/family_manage/familyProcessInvition.action?method=familyProcessInvition";
+                        process.setNextaction(nextAction);
+                        
+                        JsonFormat jf1 = new JsonFormat(true);
+                        process.setRelationData(Json.toJson(member, jf1));
+                        processList.add(process);
+                    }
                 }
+                
                 this.systemInviteProcessService.saveOrUpdateAll(processList);
                 resultMap.put("success", true);
                 resultMap.put("msg", "已向所选用户发出邀请，请等待用户回应！");
@@ -420,7 +441,48 @@ public class FamilyManamgeAction extends BaseAction implements ServletRequestAwa
         }
         return null;
     }
-    
-    
-
+    /**
+     * <p>Discription:[加入家庭]</p>
+     * @return
+     * @author:[代超]
+     * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
+     */
+    public String familyProcessInvition(){
+        // 定义TransactionDefinition并设置好事务的隔离级别和传播方式。
+        DefaultTransactionDefinition definition = new DefaultTransactionDefinition();
+        // 代价最大、可靠性最高的隔离级别，所有的事务都是按顺序一个接一个地执行
+        definition.setIsolationLevel(TransactionDefinition.ISOLATION_SERIALIZABLE);
+        // 开始事务
+        TransactionStatus status = transactionManager.getTransaction(definition);
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        JsonFormat jf = new JsonFormat(true);
+        jf.setAutoUnicode(true);
+        PrintWriter out = null;
+        try{
+            out = super.getPrintWriter(request, response);
+            String familyNames = (String) request.getSession().getAttribute("familyNames");
+            List<FamilyMember> relationDataList = (List<FamilyMember>) request.getSession().getAttribute("relationDataList");
+            if(relationDataList != null){
+                this.familyMemberService.saveOrUpdateAll(relationDataList);
+                resultMap.put("success", true);
+                resultMap.put("msg", "您已成功接受邀请，加入【"+familyNames+"】，请立即完善您的成员信息！");
+            }else{
+                resultMap.put("success", false);
+                resultMap.put("msg", "家庭信息不完整，无法处理！");
+            }
+        }catch(Exception e){
+            status.setRollbackOnly();
+            resultMap.put("success", false);
+            resultMap.put("msg", "系统错误！错误代码："+e.getMessage());
+            LOG.info(e.getMessage());
+        }finally{
+            this.transactionManager.commit(status);
+            if(out != null){
+                out.print(Json.toJson(resultMap, jf));
+                out.flush();
+                out.close();
+            }
+        }
+        return null;
+    }
 }

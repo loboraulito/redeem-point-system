@@ -58,5 +58,10 @@
     <comment>下一步</comment>
    </column>
   </property>
+  <property generated="never" lazy="false" name="relationData" type="string">
+   <column length="500" name="relation_data">
+    <comment>相关数据(json格式)</comment>
+   </column>
+  </property>
  </class>
 </hibernate-mapping>

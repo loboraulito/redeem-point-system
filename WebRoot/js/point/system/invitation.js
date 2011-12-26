@@ -23,13 +23,16 @@ function invitation(){
 		{name:"processResultCode"},//处理结果
 		{name:"invitationEvent"},//处理事件内容
 		{name:"invitationReason"},//理由
-		{name:"nextaction"}//下一步操作
+		{name:"nextaction"},//下一步操作
+		{name:"relationData"}//相关数据
 	]);
 	var loadParam = {
 		start : 0,
 		limit : 50,
 		viewAll : "no",
-		userId : userName
+		status: "",
+		userId : userName,
+		menuId : parent.fromMenuId
 	};
 	/**
 	 * 空数据
@@ -43,9 +46,14 @@ function invitation(){
 	var processResultStore = parent.processResult;
 	processResultStore.load({params:{codeId:"8ac388f13469610701346962d7ba0002"}});
 	processResultStore.on("loadexception",function(dataProxy, type, action, options, response, arg){
-		var o = Ext.util.JSON.decode(action.responseText);
-		if(!o.success){
-			Ext.Msg.alert('错误提示',o.msg, function(btn){
+		try{
+			var o = Ext.util.JSON.decode(action.responseText);
+			if(!o.success){
+				Ext.Msg.alert('错误提示',o.msg, function(btn){
+				});
+			}
+		}catch(e){
+			Ext.Msg.alert('错误提示',"系统错误！错误代码："+e, function(btn){
 			});
 		}
 	});
@@ -56,9 +64,14 @@ function invitation(){
 	var processStatusStore = parent.processStatus;
 	processStatusStore.load({params:{codeId:"8ac388f13469610701346962a3e90001"}});
 	processStatusStore.on("loadexception",function(dataProxy, type, action, options, response, arg){
-		var o = Ext.util.JSON.decode(action.responseText);
-		if(!o.success){
-			Ext.Msg.alert('错误提示',o.msg, function(btn){
+		try{
+			var o = Ext.util.JSON.decode(action.responseText);
+			if(!o.success){
+				Ext.Msg.alert('错误提示',o.msg, function(btn){
+				});
+			}
+		}catch(e){
+			Ext.Msg.alert('错误提示',"系统错误！错误代码："+e, function(btn){
 			});
 		}
 	});
@@ -73,9 +86,15 @@ function invitation(){
 		reader:invitationListReader,
 		listeners:{
 			loadexception:function(dataProxy, type, action, options, response, arg) { 
-				var o = Ext.util.JSON.decode(action.responseText);
-				if(!o.success){
-					Ext.Msg.alert('错误提示',o.msg, function(btn){
+				try{
+					var o = Ext.util.JSON.decode(action.responseText);
+					if(!o.success){
+						Ext.Msg.alert('错误提示',o.msg, function(btn){
+							invitationListStore.loadData(simpleData);
+						});
+					}
+				}catch(e){
+					Ext.Msg.alert('错误提示',"系统错误！错误代码："+e, function(btn){
 						invitationListStore.loadData(simpleData);
 					});
 				}
@@ -87,18 +106,11 @@ function invitation(){
 		dataIndex:"id",
 		hidden:true,
 		hideable:false//不允许将隐藏的字段显示出来
-	}
-	/*
-	,{
-		dataIndex:"sponsor",
+	},{
+		dataIndex:"relationData",
 		hidden:true,
 		hideable:false
 	},{
-		dataIndex:"recipient",
-		hidden:true,
-		hideable:false
-	}*/
-	,{
 		header:"发起人",
 		dataIndex:"sponsor",
 		width:150
@@ -294,9 +306,156 @@ function invitation(){
 	function showMenuLink(value,metadata,record,rowIndex,colIndex,store){
 		if(value && value != ""){
 			var menuId = record.get("invitationMenu");
-			return "<a href='javascript:parent.goToTabPanel(null,\""+menuId+"\")'>"+ value +"</a>";
+			return "<a href='javascript:parent.goToTabPanel(null,\""+menuId+"\", true)'>"+ value +"</a>";
 		}
 		return value;
+	}
+	/**
+	 * 已处理过的请求
+	 * @param {} url
+	 */
+	this.invitationProcessed = function(url){
+		invitationListStore.baseParams.status = "2";
+		invitationListStore.reload();
+	};
+	/**
+	 * 未处理的请求
+	 * @param {} url
+	 */
+	this.invitationProcessing = function(url){
+		invitationListStore.baseParams.status = "1";
+		invitationListStore.reload();
+	};
+	/**
+	 * 全部请求
+	 * @param {} url
+	 */
+	this.invitationAll = function(url){
+		invitationListStore.baseParams.status = "";
+		invitationListStore.reload();
+	};
+	/**
+	 * 通过请求
+	 * @param {} url
+	 */
+	this.invitationPass = function(url, txt){
+		var gridSelectionModel = invitationListDataGrid.getSelectionModel();
+		var gridSelection = gridSelectionModel.getSelections();
+		if(gridSelection.length < 1){
+			Ext.MessageBox.alert('提示','请至少选择一条请求信息！');
+		    return false;
+		}
+		
+		var invitationId = new Array();
+		var relationDataArray = new Array();
+		var invitationUrl = new Array();
+		for(var i = 0; i < gridSelection.length; i++){
+			invitationId.push(gridSelection[i].get("id"));
+			var relateData = gridSelection[i].get("relationData");
+			
+			var status = gridSelection[i].get("processStatus");
+			if(status == "2"){
+				Ext.MessageBox.alert('提示','不能选择已处理过的请求进行处理！');
+		    	return false;
+			}
+			
+			/*
+			if(relateData){
+				relateData = Ext.decode(relateData);
+			}
+			*/
+			relationDataArray.push(relateData);
+			invitationUrl.push(path + gridSelection[i].get("nextaction"));
+			if(i > 0){
+				if(invitationUrl[0] != invitationUrl[i]){
+					Ext.MessageBox.alert('提示','请选择“相关菜单”一致的系统请求，否则系统无法处理！');
+					return false;
+				}
+			}
+		}
+		var invitationIds = invitationId.join(",");
+		var datas = relationDataArray.join("@");
+		var urls = invitationUrl[0];
+		processInvitation(url, invitationIds, datas, urls, txt);
+	};
+	/**
+	 * 拒绝请求
+	 * @param {} url
+	 */
+	this.invitationReject = function(url){
+		var gridSelectionModel = invitationListDataGrid.getSelectionModel();
+		var gridSelection = gridSelectionModel.getSelections();
+		if(gridSelection.length < 1){
+			Ext.MessageBox.alert('提示','请至少选择一条请求信息！');
+		    return false;
+		}
+		for(var i = 0; i < gridSelection.length; i++){
+			var status = gridSelection[i].get("processStatus");
+			if(status == "2"){
+				Ext.MessageBox.alert('提示','不能选择已处理过的请求进行处理！');
+		    	return false;
+			}
+		}
+		Ext.Msg.prompt("系统提示","请输入拒绝理由：",function(btn,txt){
+			if(btn == "yes" || btn == "ok"){
+				invitationPass(url, txt);
+			}
+		},this, true);
+		
+	};
+	/**
+	 * 处理请求
+	 * @param {} url
+	 * @param {} invitationId
+	 * @param {} data
+	 * @param {} urls
+	 */
+	function processInvitation(url, invitationId, data, urls, txt){
+		Ext.MessageBox.show({
+		    msg: '正在提交您的请求, 请稍侯...',
+		    progressText: '正在提交您的请求',
+		    width:300,
+		    wait:true,
+		    waitConfig: {interval:200},
+		    icon:Ext.Msg.INFO
+		});
+		
+		Ext.Ajax.request({
+			params:{invitationId:invitationId, data: data, urls: urls, reason:txt},
+			timeout:60000,
+			url:url,
+			success:function(response, options){
+				Ext.Msg.hide();
+				var msg = Ext.util.JSON.decode(response.responseText);
+				if(msg.success){
+					if(msg.msg){
+						Ext.Msg.alert("系统提示",msg.msg);
+					}else{
+						Ext.Msg.alert("系统提示","请求已经成功处理！");
+					}
+					invitationListStore.baseParams.status = "1";
+					invitationListStore.reload();
+				}else{
+					if(msg.msg){
+						Ext.Msg.alert("系统提示",msg.msg);
+					}else{
+						Ext.Msg.alert("系统提示","请求已经成功处理！");
+					}
+				}
+			},failure: function(response, options){
+				Ext.Msg.hide();
+				try{
+					var msg = Ext.util.JSON.decode(response.responseText);
+					if(msg.msg){
+						Ext.Msg.alert("系统提示",msg.msg);
+					}else{
+						Ext.Msg.alert("系统提示","请求处理失败！");
+					}
+				}catch(e){
+					Ext.Msg.alert("系统提示","系统错误！错误代码：" + e);
+				}
+			}
+		});
 	}
 }
 /**

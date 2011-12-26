@@ -69,7 +69,14 @@ function addTabPanel(panel,panelId,title,href,closable){
  * 激活当前面板
  * @param {} panel
  * @param {} tabId
+ * @param {} needRefresh 是否需要刷新
  */
-function activeTabPanel(panel,tabId){
+function activeTabPanel(panel, tabId, needRefresh){
+	var tab = Ext.getCmp(tabId);
+	//tab.load(tab.initialConfig);
+	//tab.getUpdater().refresh();
 	panel.setActiveTab(tabId);
+	if(needRefresh){
+		window.frames[tabId+"_frame"].location.reload();
+	}
 }

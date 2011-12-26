@@ -12,6 +12,8 @@ public class FamilyMember implements java.io.Serializable {
     private String familyMemberId;
 
     private String familyId;
+    
+    private String familyName;
 
     private String familyMemberName;
 
@@ -34,6 +36,14 @@ public class FamilyMember implements java.io.Serializable {
     private Date familyMemberDeaddate;
 
     public FamilyMember() {
+    }
+
+    public String getFamilyName() {
+        return familyName;
+    }
+
+    public void setFamilyName(String familyName) {
+        this.familyName = familyName;
     }
 
     public FamilyMember(String familyMemberId) {
