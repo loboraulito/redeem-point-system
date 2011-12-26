@@ -114,7 +114,7 @@ public class FamilyRelationDAO extends HibernateDaoSupport implements IFamilyRel
             throw re;
         }
     }
-
+ 
     public FamilyRelation findById(java.lang.String id) {
         log.debug("getting FamilyRelation instance with id: " + id);
         try {
