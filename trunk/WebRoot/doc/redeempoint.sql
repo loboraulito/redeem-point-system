@@ -1,9 +1,9 @@
 # --------------------------------------------------------
 # Host:                         127.0.0.1
-# Server version:               5.0.22-community-nt
+# Server version:               5.0.45-community-nt
 # Server OS:                    Win32
 # HeidiSQL version:             6.0.0.3918
-# Date/time:                    2011-12-25 22:39:56
+# Date/time:                    2011-12-26 17:35:54
 # --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -63,10 +63,11 @@ CREATE TABLE IF NOT EXISTS `family_info` (
 # Dumping data for table redeempoint.family_info: ~4 rows (approximately)
 /*!40000 ALTER TABLE `family_info` DISABLE KEYS */;
 INSERT INTO `family_info` (`family_id`, `family_name`, `family_create_date`, `family_house_holder`, `family_address`, `family_tel`, `family_comment`) VALUES
+	('0c602565-69b6-460a-9a45-acdccdff0f26', '测试家庭', '2011-12-26', 'swpigris81', '天朝', '123456789', '天朝'),
 	('1', '测试1', '2011-12-20', 'abcd', NULL, NULL, NULL),
 	('2', '测试2', '2011-12-20', 'abcde', NULL, NULL, NULL),
 	('3', '测试3', '2011-12-19', 'abcdef', NULL, NULL, NULL),
-	('9ab70fea-75c1-44a7-8f77-a13e280e81e8', '测', '2011-12-22', 'admin', '', '', '常德市常德市常德市常德市常德市常德市常德市常德市常德市常德市常德市常德市常德市常德市常德市常德市常德市常德市常德市常德市常德市常德市常德市常德市常德市常德市常德市常德市常德市常德市');
+	('9ab70fea-75c1-44a7-8f77-a13e280e81e8', 'admin的家庭', '2011-12-22', 'admin', '广州天河上社中和里22号', '15975514537', '常德市常德市常德市常德市常德市常德市常德市常德市常德市常德市常德市常德市常德市常德市常德市常德市常德市常德市常德市常德市常德市常德市常德市常德市常德市常德市常德市常德市常德市常德市');
 /*!40000 ALTER TABLE `family_info` ENABLE KEYS */;
 
 
@@ -97,7 +98,18 @@ INSERT INTO `family_member` (`family_member_id`, `family_id`, `family_member_nam
 	('4', '2', '123', 'asd', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 	('5', '3', '112', '112', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 	('6', '3', 'avc', 'swpigris81', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	('8ac388f134644dc80134649e8bec0001', '9ab70fea-75c1-44a7-8f77-a13e280e81e8', NULL, 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+	('8ac388f134644dc80134649e8bec0001', '9ab70fea-75c1-44a7-8f77-a13e280e81e8', NULL, 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	('8ac388f1347951400134795a723e0001', '9ab70fea-75c1-44a7-8f77-a13e280e81e8', NULL, '111', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	('8ac388f1347951400134795a726d0002', '9ab70fea-75c1-44a7-8f77-a13e280e81e8', NULL, '代超', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	('8ac388f1347951400134795d6e660006', '9ab70fea-75c1-44a7-8f77-a13e280e81e8', NULL, '111', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	('8ac388f1347951400134795d6e660007', '9ab70fea-75c1-44a7-8f77-a13e280e81e8', NULL, '代超', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	('8ac388f1347951400134795fb6b90008', '9ab70fea-75c1-44a7-8f77-a13e280e81e8', NULL, '111', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	('8ac388f1347951400134795fb6b90009', '9ab70fea-75c1-44a7-8f77-a13e280e81e8', NULL, '代超', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	('8ac388f1347981f60134798479cd0001', '9ab70fea-75c1-44a7-8f77-a13e280e81e8', NULL, 'swpigris81', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	('8ac388f1347995cb013479a67af2004f', '9ab70fea-75c1-44a7-8f77-a13e280e81e8', NULL, 'swpigris81', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	('8ac388f13479aa40013479b006d70002', '9ab70fea-75c1-44a7-8f77-a13e280e81e8', NULL, 'swpigris81', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	('8ac388f13479aa40013479b1b4580003', '0c602565-69b6-460a-9a45-acdccdff0f26', NULL, 'swpigris81', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	('8ac388f13479aa40013479b2ad0f0005', '0c602565-69b6-460a-9a45-acdccdff0f26', NULL, 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 /*!40000 ALTER TABLE `family_member` ENABLE KEYS */;
 
 
@@ -174,7 +186,7 @@ CREATE TABLE IF NOT EXISTS `menubutton` (
   PRIMARY KEY  (`button_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AVG_ROW_LENGTH=528;
 
-# Dumping data for table redeempoint.menubutton: ~48 rows (approximately)
+# Dumping data for table redeempoint.menubutton: ~55 rows (approximately)
 /*!40000 ALTER TABLE `menubutton` DISABLE KEYS */;
 INSERT INTO `menubutton` (`button_id`, `button_name`, `button_text`, `menu_id`, `button_url`, `button_show`, `button_css`, `handler`) VALUES
 	('402880e430e992d60130e9d0267b0039', 'button_addButton', '添加按钮', '402881eb2452211b012452264ad70049', '/button/buttonManageAdd.action?method=addButton', 'yes', 'table_add', 'addButton'),
@@ -219,6 +231,14 @@ INSERT INTO `menubutton` (`button_id`, `button_name`, `button_text`, `menu_id`, 
 	('8ac388f13463cbde013463cf1b730002', 'family_manage_viewall_btn', '查看所有家庭', '4028878734566e2c01345670ac6a0001', '/family_manage/main.action', 'yes', 'table_find', 'viewAllFamily'),
 	('8ac388f13463cbde013463d3bd900040', 'family_manage_viewone_btn', '查看我的家庭', '4028878734566e2c01345670ac6a0001', '/family_manage/main.action', 'yes', 'table_find', 'viewMyFamily'),
 	('8ac388f1346874920134694ff1ad0001', 'family_manage_invite_btn', '邀请加入我的家庭', '4028878734566e2c01345670ac6a0001', '/family_manage/familyManageInvite.action?method=familyManageInvite', 'yes', 'table_gear', 'inviteFamilyMember'),
+	('8ac388f13477e6b2013477ea00960001', 'family_manage_invite_me_btn', '查看我的邀请', '4028878734566e2c01345670ac6a0001', '/invitation/invitation.action?method=begin', 'yes', 'table_find', 'viewMyInvite'),
+	('8ac388f134783fcc013478431f040001', 'invitation_processed_btn', '已处理过的请求', '40288787347015060134703dcf590001', '/main.action', 'yes', 'table_find', 'invitationProcessed'),
+	('8ac388f134783fcc0134784446da0002', 'invitation_processing_btn', '未处理的请求', '40288787347015060134703dcf590001', '/main.action', 'yes', 'table_find', 'invitationProcessing'),
+	('8ac388f134783fcc01347845f4520003', 'invitation_pass_btn', '通过请求', '40288787347015060134703dcf590001', '/invitation/invitationPass.action?method=invitationPass', 'yes', 'table_gear', 'invitationPass'),
+	('8ac388f134783fcc0134784746360004', 'invitation_reject_btn', '拒绝请求', '40288787347015060134703dcf590001', '/invitation/invitationReject.action?method=invitationReject', 'yes', 'table_gear', 'invitationReject'),
+	('8ac388f134783fcc0134784991cb004d', 'invitation_all_btn', '全部请求列表', '40288787347015060134703dcf590001', '/main.action', 'yes', 'table_find', 'invitationAll'),
+	('8ac388f134783fcc013478587450009e', 'invitation_in_family_btn', '加入家庭', '4028878734566e2c01345670ac6a0001', '/family_manage/familyProcessInvition.action?method=familyProcessInvition', 'no', 'none', ''),
+	('8ac388f134798c600134798d83820001', 'invitation_my_btn', '我发出的请求', '40288787347015060134703dcf590001', '/main.action', 'yes', 'table_find', 'viewMyInvitation'),
 	('ff808081297247bf0129724a54300004', 'user_list', '用户列表', '402880e428befea20128bf01b8300003', '/user/userList.action?method=userManageList', 'no', 'none', ''),
 	('ff80808129a30cbc0129a30e45860005', 'role_list', '角色列表', '402880e428befea20128bf029c1a0005', '/role/roleList.action?method=roleManageList', 'no', 'none', ''),
 	('ff80808129de49ac0129de4b3ecc0005', 'authorizeForUser', '增加授权用户', '402880e428befea20128bf04ae450021', '/right/authorizeUserAdd.action?method=authorizeUserAdd', 'yes', 'table_add', 'addAuthorizeUser'),
@@ -242,7 +262,7 @@ CREATE TABLE IF NOT EXISTS `menu_info` (
   PRIMARY KEY  (`menu_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AVG_ROW_LENGTH=1365;
 
-# Dumping data for table redeempoint.menu_info: ~17 rows (approximately)
+# Dumping data for table redeempoint.menu_info: ~19 rows (approximately)
 /*!40000 ALTER TABLE `menu_info` DISABLE KEYS */;
 INSERT INTO `menu_info` (`menu_id`, `menu_name`, `page_path`, `menu_level`, `parent_menu`, `is_leave`, `is_show`, `comment`) VALUES
 	('402880e4270e8f7c01270ea42f020004', '权限管理', '/map/map.action?method=begin', '', '402880e430e992d60130e9cab80b0002', '0', '1', NULL),
@@ -295,16 +315,32 @@ CREATE TABLE IF NOT EXISTS `persistent_logins` (
   PRIMARY KEY  (`series`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-# Dumping data for table redeempoint.persistent_logins: ~21 rows (approximately)
+# Dumping data for table redeempoint.persistent_logins: ~10 rows (approximately)
 /*!40000 ALTER TABLE `persistent_logins` DISABLE KEYS */;
 INSERT INTO `persistent_logins` (`username`, `series`, `token`, `last_used`) VALUES
+	('swpigris81', '046lCZRizpYcPe3wpptYSw==', 'rUNiwivyBbTgsvmp/sCIxA==', '2011-12-26 16:36:50'),
+	('admin', '7b2OxdMBQUA5G5cDklfveA==', 's+OPadeut45THmZAHHD41w==', '2011-12-26 16:35:29'),
+	('admin', '7eLqXOIrOypmp0hc7fZEcQ==', 'SxyOGM4cQ9iF9Vl1oGZxNA==', '2011-12-26 14:56:59'),
 	('test7', 'CeNdmlqXVyRYvZwKcmUV7w==', '2OBecJqdheuz3twVOxSsnA==', '2011-12-19 22:40:07'),
+	('admin', 'Cu7bzLKoQYNwaxbi6Pugjw==', 'qnGMVnvPsRXO4UQMVYLU4Q==', '2011-12-26 11:24:26'),
+	('admin', 'DOKGtwh0LvZy8w0Rm5Mxyw==', 'wZVdnyHX/CJDXKED/pJrLA==', '2011-12-26 10:44:04'),
+	('admin', 'F42Y77ZjnpNEsnpIiF4sQA==', 'ZSMUuGb8irVbyOK4zBADkQ==', '2011-12-26 17:19:07'),
 	('test', 'G2FVauqxspI+kKZdf33Q9A==', 'IzNMi/Wzgm4niwQ74RWQCQ==', '2011-12-19 22:32:56'),
 	('test5', 'oSbmTPwPzTHWhOqdvx9tmQ==', 'NNW4cnPzcZ+sn7UmpTCABA==', '2011-12-19 22:35:42'),
 	('test', 'Q4U70XT7icCjga71waR/Cg==', 'R+GL0zfonv3EjIKBA+BMlA==', '2011-12-19 22:30:13'),
+	('admin', 'RD05d/SEMWRT5lNfN6iCgA==', '/VG5O7l+AL9Joct8EjA7UA==', '2011-12-26 09:06:43'),
 	('test4', 'RSXcsp+hCeYaezaQ14m+AA==', 'WWCpPc7FRMZi4m9C+0GpBw==', '2011-12-19 22:34:12'),
+	('swpigris81', 'RW3xfX8qfnebfm4EjixPAg==', '2ORXZO/b4R7JJASd3nWRqQ==', '2011-12-26 16:41:16'),
+	('admin', 'S7tBhHP46KN0SMJTe6YKEA==', 'H7/VprUuzVoY3B4WpZEnIg==', '2011-12-26 15:42:05'),
 	('admin', 'tLJ7V2/NF00Wb6l4idRbZQ==', 'VWDj+8/Gn8Aex5Mn9xA23Q==', '2011-12-25 22:36:57'),
-	('test2', 'w4jhOS+iW4lyvcQkMZcKMg==', '5rRdtvt8pmP92f0vF3+udw==', '2011-12-19 22:33:19');
+	('admin', 'vMBi1Cu/jBnWTjewaB4ILw==', 'G1zIoPkXoezZmmyz4AWOVA==', '2011-12-26 12:47:39'),
+	('test2', 'w4jhOS+iW4lyvcQkMZcKMg==', '5rRdtvt8pmP92f0vF3+udw==', '2011-12-19 22:33:19'),
+	('admin', 'wXHdGKDu3Cud+2O02jEJsQ==', 'N6n29+jjEp18L/fIOqWk2g==', '2011-12-26 11:18:36'),
+	('admin', 'WZ+6q73F4HhIxRt4GyzjQg==', '4CZwdvqicXrWpuD3A9TaPQ==', '2011-12-26 15:15:07'),
+	('admin', 'WZxpdhp7byf+lLY4dmTUWA==', '67s1nrJOx0zjs5ah9GLEOg==', '2011-12-26 11:38:34'),
+	('swpigris81', 'x1DeOxjmzQyk1pfEZG2kkg==', 'UL2g/8Be+/Ibj9t98rTrCg==', '2011-12-26 17:24:09'),
+	('admin', 'YVu9eqTlVPuRpcWBjGOn9w==', 'CK2Kmlm96WxRaYlgEeee9g==', '2011-12-26 09:56:55'),
+	('admin', 'ZpYII6Abs7w0VHzsMSIR7Q==', 'Cm0Ix5L4F8Pzg8xlejVdvg==', '2011-12-26 13:40:54');
 /*!40000 ALTER TABLE `persistent_logins` ENABLE KEYS */;
 
 
@@ -346,7 +382,7 @@ CREATE TABLE IF NOT EXISTS `point_system_codelist_data` (
   KEY `Index 4` (`dataid`,`codeid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AVG_ROW_LENGTH=3276 COMMENT='系统数据标准数据表';
 
-# Dumping data for table redeempoint.point_system_codelist_data: ~3,965 rows (approximately)
+# Dumping data for table redeempoint.point_system_codelist_data: ~3,980 rows (approximately)
 /*!40000 ALTER TABLE `point_system_codelist_data` DISABLE KEYS */;
 INSERT INTO `point_system_codelist_data` (`dataid`, `codeid`, `datakey`, `datavalue`, `parentdatakey`, `remark`) VALUES
 	('4af4953627d6f4ff0127d6fbe877000c', '4af4953627d6f4ff0127d6fbc935000a', '1', '男', NULL, '不要删除'),
@@ -4255,59 +4291,67 @@ CREATE TABLE IF NOT EXISTS `right_info` (
   PRIMARY KEY  (`right_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AVG_ROW_LENGTH=512;
 
-# Dumping data for table redeempoint.right_info: ~50 rows (approximately)
+# Dumping data for table redeempoint.right_info: ~56 rows (approximately)
 /*!40000 ALTER TABLE `right_info` DISABLE KEYS */;
 INSERT INTO `right_info` (`right_id`, `right_name`, `role_id`, `menu_id`, `button_id`) VALUES
 	('402887873456af4e013456babd110013', NULL, '402887873456af4e013456b938500005', NULL, '8ac388f134220b830134220fb3cf0003'),
-	('4028878734756ed90134756f6bc20014', NULL, '1', NULL, '4af4953627d6f4ff0127d708d95b0019'),
-	('4028878734756ed90134756f6bc20015', NULL, '1', NULL, '4af495362813e685012813f3ec120003'),
-	('4028878734756ed90134756f6bc20016', NULL, '1', NULL, '4af495362813e685012813f4f53f0005'),
-	('4028878734756ed90134756f6bc30017', NULL, '1', NULL, '4af49536281a5f0301281a6032640003'),
-	('4028878734756ed90134756f6bc30018', NULL, '1', NULL, '402880e430e992d60130e9d0267b0039'),
-	('4028878734756ed90134756f6bc30019', NULL, '1', NULL, '4af49536275fac9401275faf59c30008'),
-	('4028878734756ed90134756f6bc3001a', NULL, '1', NULL, '4af49536275fac9401275fb06f00000a'),
-	('4028878734756ed90134756f6bc3001b', NULL, '1', NULL, '4af49536276143d301276145131d0003'),
-	('4028878734756ed90134756f6bc4001c', NULL, '1', NULL, '402880e430eb58470130eb5d5f880001'),
-	('4028878734756ed90134756f6bc7001d', NULL, '1', NULL, '402880e430eb58470130eb5e584e0002'),
-	('4028878734756ed90134756f6bc7001e', NULL, '1', NULL, '402880e430eb58470130eb5f22870003'),
-	('4028878734756ed90134756f6bc7001f', NULL, '1', NULL, 'ff808081297247bf0129724a54300004'),
-	('4028878734756ed90134756f6bc70020', NULL, '1', NULL, '402880e430eb58470130eb6112ea0004'),
-	('4028878734756ed90134756f6bc70021', NULL, '1', NULL, '402880e430eb58470130eb61cf4a0005'),
-	('4028878734756ed90134756f6bc70022', NULL, '1', NULL, '402880e430eb58470130eb62d0f70006'),
-	('4028878734756ed90134756f6bc70023', NULL, '1', NULL, 'ff80808129a30cbc0129a30e45860005'),
-	('4028878734756ed90134756f6bc70024', NULL, '1', NULL, '402881e423cdce810123cdd2c2bc0004'),
-	('4028878734756ed90134756f6bc70025', NULL, '1', NULL, '402881e82505b3a5012505b666990004'),
-	('4028878734756ed90134756f6bc70026', NULL, '1', NULL, 'ff80808129de49ac0129de4b3ecc0005'),
-	('4028878734756ed90134756f6bc70027', NULL, '1', NULL, 'ff80808129e37c8b0129e37dbe0c0005'),
-	('4028878734756ed90134756f6bc70028', NULL, '1', NULL, 'ff8080812c487f3a012c48e306290007'),
-	('4028878734756ed90134756f6bc70029', NULL, '1', NULL, 'ff8080812c487f3a012c48e3c02c0009'),
-	('4028878734756ed90134756f6bc7002a', NULL, '1', NULL, '402880e431b3e2c40131b3e59b960001'),
-	('4028878734756ed90134756f6bc7002b', NULL, '1', NULL, '402880e431b3e2c40131b3e63d700002'),
-	('4028878734756ed90134756f6bc7002c', NULL, '1', NULL, '402880e431b3e2c40131b3ea37b7002b'),
-	('4028878734756ed90134756f6bc7002d', NULL, '1', NULL, '402880e431b3e2c40131b3eaff23002c'),
-	('4028878734756ed90134756f6bc7002e', NULL, '1', NULL, '402880e431b3e2c40131b3ebadc8002d'),
-	('4028878734756ed90134756f6bc8002f', NULL, '1', NULL, '402880e531c753e10131c76f2aea0009'),
-	('4028878734756ed90134756f6bc80030', NULL, '1', NULL, '402880e531c753e10131c7725de5003b'),
-	('4028878734756ed90134756f6bc80031', NULL, '1', NULL, '402880e531c753e10131c7734d56003c'),
-	('4028878734756ed90134756f6bc80032', NULL, '1', NULL, '402880e431b918cd0131b9238775002d'),
-	('4028878734756ed90134756f6bc80033', NULL, '1', NULL, '402880e431b918cd0131b924901f002e'),
-	('4028878734756ed90134756f6bc80034', NULL, '1', NULL, '402880e431b918cd0131b9257a55002f'),
-	('4028878734756ed90134756f6bc80035', NULL, '1', NULL, '402887873470150601347040e7630002'),
-	('4028878734756ed90134756f6bc80036', NULL, '1', NULL, '8ac388eb314562a601314566b0b10024'),
-	('4028878734756ed90134756f6bc80037', NULL, '1', NULL, '8ac388eb314562a601314567a5e90025'),
-	('4028878734756ed90134756f6bc80038', NULL, '1', NULL, '8ac388eb314aae6401314bfdb3680035'),
-	('4028878734756ed90134756f6bc80039', NULL, '1', NULL, '8ac388eb314aae6401314bfe88a80036'),
-	('4028878734756ed90134756f6bc8003a', NULL, '1', NULL, '4028878734566e2c013456718c000002'),
-	('4028878734756ed90134756f6bc9003b', NULL, '1', NULL, '4028878734586d61013458726cac0002'),
-	('4028878734756ed90134756f6bc9003c', NULL, '1', NULL, '8ac388f1345fbdfd01345fd07cae0003'),
-	('4028878734756ed90134756f6bc9003d', NULL, '1', NULL, '8ac388f13463cbde013463cdfb540001'),
-	('4028878734756ed90134756f6bc9003e', NULL, '1', NULL, '8ac388f13463cbde013463cf1b730002'),
-	('4028878734756ed90134756f6bc9003f', NULL, '1', NULL, '8ac388f13463cbde013463d3bd900040'),
-	('4028878734756ed90134756f6bc90040', NULL, '1', NULL, '8ac388f1346874920134694ff1ad0001'),
-	('4028878734756ed90134756f6bc90041', NULL, '1', NULL, '4028878734586d6101345871800b0001'),
-	('4028878734756ed90134756f6bc90042', NULL, '1', NULL, '4028878734586d6101345873d98f0003'),
-	('4028878734756ed90134756f6bc90043', NULL, '1', NULL, '8ac388f134220b830134220fb3cf0003'),
-	('8ac388eb31402e2001314059cf0c0006', NULL, '2', NULL, 'ff80808129e37c8b0129e37dbe0c0005');
+	('8ac388eb31402e2001314059cf0c0006', NULL, '2', NULL, 'ff80808129e37c8b0129e37dbe0c0005'),
+	('8ac388f1347995cb0134799c64040014', NULL, '1', NULL, '4af4953627d6f4ff0127d708d95b0019'),
+	('8ac388f1347995cb0134799c64040015', NULL, '1', NULL, '4af495362813e685012813f3ec120003'),
+	('8ac388f1347995cb0134799c64040016', NULL, '1', NULL, '4af495362813e685012813f4f53f0005'),
+	('8ac388f1347995cb0134799c64040017', NULL, '1', NULL, '4af49536281a5f0301281a6032640003'),
+	('8ac388f1347995cb0134799c64040018', NULL, '1', NULL, '402880e430e992d60130e9d0267b0039'),
+	('8ac388f1347995cb0134799c64040019', NULL, '1', NULL, '4af49536275fac9401275faf59c30008'),
+	('8ac388f1347995cb0134799c6404001a', NULL, '1', NULL, '4af49536275fac9401275fb06f00000a'),
+	('8ac388f1347995cb0134799c6404001b', NULL, '1', NULL, '4af49536276143d301276145131d0003'),
+	('8ac388f1347995cb0134799c6404001c', NULL, '1', NULL, '402880e430eb58470130eb5d5f880001'),
+	('8ac388f1347995cb0134799c6404001d', NULL, '1', NULL, '402880e430eb58470130eb5e584e0002'),
+	('8ac388f1347995cb0134799c6404001e', NULL, '1', NULL, '402880e430eb58470130eb5f22870003'),
+	('8ac388f1347995cb0134799c6404001f', NULL, '1', NULL, 'ff808081297247bf0129724a54300004'),
+	('8ac388f1347995cb0134799c64040020', NULL, '1', NULL, '402880e430eb58470130eb6112ea0004'),
+	('8ac388f1347995cb0134799c64040021', NULL, '1', NULL, '402880e430eb58470130eb61cf4a0005'),
+	('8ac388f1347995cb0134799c64040022', NULL, '1', NULL, '402880e430eb58470130eb62d0f70006'),
+	('8ac388f1347995cb0134799c64040023', NULL, '1', NULL, 'ff80808129a30cbc0129a30e45860005'),
+	('8ac388f1347995cb0134799c64040024', NULL, '1', NULL, '402881e423cdce810123cdd2c2bc0004'),
+	('8ac388f1347995cb0134799c64040025', NULL, '1', NULL, '402881e82505b3a5012505b666990004'),
+	('8ac388f1347995cb0134799c64040026', NULL, '1', NULL, 'ff80808129de49ac0129de4b3ecc0005'),
+	('8ac388f1347995cb0134799c64040027', NULL, '1', NULL, 'ff80808129e37c8b0129e37dbe0c0005'),
+	('8ac388f1347995cb0134799c64040028', NULL, '1', NULL, 'ff8080812c487f3a012c48e306290007'),
+	('8ac388f1347995cb0134799c64040029', NULL, '1', NULL, 'ff8080812c487f3a012c48e3c02c0009'),
+	('8ac388f1347995cb0134799c6404002a', NULL, '1', NULL, '402880e431b3e2c40131b3e59b960001'),
+	('8ac388f1347995cb0134799c6404002b', NULL, '1', NULL, '402880e431b3e2c40131b3e63d700002'),
+	('8ac388f1347995cb0134799c6404002c', NULL, '1', NULL, '402880e431b3e2c40131b3ea37b7002b'),
+	('8ac388f1347995cb0134799c6404002d', NULL, '1', NULL, '402880e431b3e2c40131b3eaff23002c'),
+	('8ac388f1347995cb0134799c6404002e', NULL, '1', NULL, '402880e431b3e2c40131b3ebadc8002d'),
+	('8ac388f1347995cb0134799c6404002f', NULL, '1', NULL, '402880e531c753e10131c76f2aea0009'),
+	('8ac388f1347995cb0134799c64040030', NULL, '1', NULL, '402880e531c753e10131c7725de5003b'),
+	('8ac388f1347995cb0134799c64040031', NULL, '1', NULL, '402880e531c753e10131c7734d56003c'),
+	('8ac388f1347995cb0134799c64040032', NULL, '1', NULL, '402880e431b918cd0131b9238775002d'),
+	('8ac388f1347995cb0134799c64040033', NULL, '1', NULL, '402880e431b918cd0131b924901f002e'),
+	('8ac388f1347995cb0134799c64040034', NULL, '1', NULL, '402880e431b918cd0131b9257a55002f'),
+	('8ac388f1347995cb0134799c64040035', NULL, '1', NULL, '402887873470150601347040e7630002'),
+	('8ac388f1347995cb0134799c64040036', NULL, '1', NULL, '8ac388f134783fcc013478431f040001'),
+	('8ac388f1347995cb0134799c64040037', NULL, '1', NULL, '8ac388f134783fcc0134784446da0002'),
+	('8ac388f1347995cb0134799c64140038', NULL, '1', NULL, '8ac388f134783fcc01347845f4520003'),
+	('8ac388f1347995cb0134799c64140039', NULL, '1', NULL, '8ac388f134783fcc0134784746360004'),
+	('8ac388f1347995cb0134799c6414003a', NULL, '1', NULL, '8ac388f134783fcc0134784991cb004d'),
+	('8ac388f1347995cb0134799c6414003b', NULL, '1', NULL, '8ac388f134798c600134798d83820001'),
+	('8ac388f1347995cb0134799c6414003c', NULL, '1', NULL, '8ac388eb314562a601314566b0b10024'),
+	('8ac388f1347995cb0134799c6414003d', NULL, '1', NULL, '8ac388eb314562a601314567a5e90025'),
+	('8ac388f1347995cb0134799c6414003e', NULL, '1', NULL, '8ac388eb314aae6401314bfdb3680035'),
+	('8ac388f1347995cb0134799c6414003f', NULL, '1', NULL, '8ac388eb314aae6401314bfe88a80036'),
+	('8ac388f1347995cb0134799c64140040', NULL, '1', NULL, '4028878734566e2c013456718c000002'),
+	('8ac388f1347995cb0134799c64140041', NULL, '1', NULL, '4028878734586d61013458726cac0002'),
+	('8ac388f1347995cb0134799c64140042', NULL, '1', NULL, '8ac388f1345fbdfd01345fd07cae0003'),
+	('8ac388f1347995cb0134799c64140043', NULL, '1', NULL, '8ac388f13463cbde013463cdfb540001'),
+	('8ac388f1347995cb0134799c64140044', NULL, '1', NULL, '8ac388f13463cbde013463cf1b730002'),
+	('8ac388f1347995cb0134799c64140045', NULL, '1', NULL, '8ac388f13463cbde013463d3bd900040'),
+	('8ac388f1347995cb0134799c64140046', NULL, '1', NULL, '8ac388f1346874920134694ff1ad0001'),
+	('8ac388f1347995cb0134799c64140047', NULL, '1', NULL, '8ac388f13477e6b2013477ea00960001'),
+	('8ac388f1347995cb0134799c64140048', NULL, '1', NULL, '8ac388f134783fcc013478587450009e'),
+	('8ac388f1347995cb0134799c64140049', NULL, '1', NULL, '4028878734586d6101345871800b0001'),
+	('8ac388f1347995cb0134799c6414004a', NULL, '1', NULL, '4028878734586d6101345873d98f0003'),
+	('8ac388f1347995cb0134799c6414004b', NULL, '1', NULL, '8ac388f134220b830134220fb3cf0003');
 /*!40000 ALTER TABLE `right_info` ENABLE KEYS */;
 
 
@@ -4320,35 +4364,35 @@ CREATE TABLE IF NOT EXISTS `rolemenu` (
   PRIMARY KEY  (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AVG_ROW_LENGTH=963;
 
-# Dumping data for table redeempoint.rolemenu: ~24 rows (approximately)
+# Dumping data for table redeempoint.rolemenu: ~26 rows (approximately)
 /*!40000 ALTER TABLE `rolemenu` DISABLE KEYS */;
 INSERT INTO `rolemenu` (`ID`, `roleId`, `menuId`) VALUES
 	('402887873456af4e013456babd110011', '402887873456af4e013456b938500005', '8ac388f134220b830134220e2a930001'),
 	('402887873456af4e013456babd110012', '402887873456af4e013456b938500005', '8ac388f134220b830134220ed8e20002'),
-	('4028878734756ed90134756f6bbf0001', '1', '402880e430e992d60130e9c8b54d0001'),
-	('4028878734756ed90134756f6bc10002', '1', '402880e430e992d60130e9cab80b0002'),
-	('4028878734756ed90134756f6bc10003', '1', '402880e4270e8f7c01270ea42f020004'),
-	('4028878734756ed90134756f6bc10004', '1', '402880e4270e8f7c01270ea9ff4c0025'),
-	('4028878734756ed90134756f6bc10005', '1', '402880e4270e8f7c01270eaaa5730041'),
-	('4028878734756ed90134756f6bc10006', '1', '402881eb2452211b012452264ad70049'),
-	('4028878734756ed90134756f6bc20007', '1', '402880e428befea20128bf01b8300003'),
-	('4028878734756ed90134756f6bc20008', '1', '402880e428befea20128bf029c1a0005'),
-	('4028878734756ed90134756f6bc20009', '1', '402880e428befea20128bf04ae450021'),
-	('4028878734756ed90134756f6bc2000a', '1', '402880e430e992d60130e9cca8980003'),
-	('4028878734756ed90134756f6bc2000b', '1', '402880e431b908780131b90d33dd0001'),
-	('4028878734756ed90134756f6bc2000c', '1', '40288787347015060134703dcf590001'),
-	('4028878734756ed90134756f6bc2000d', '1', '40288787347538e10134756b664f0001'),
-	('4028878734756ed90134756f6bc2000e', '1', '40288787347538e10134756d88cd0002'),
-	('4028878734756ed90134756f6bc2000f', '1', '8ac388eb314562a601314564ea0f0001'),
-	('4028878734756ed90134756f6bc20010', '1', '8ac388eb311df21701311df3d9190001'),
-	('4028878734756ed90134756f6bc20011', '1', '8ac388f134220b830134220e2a930001'),
-	('4028878734756ed90134756f6bc20012', '1', '4028878734566e2c01345670ac6a0001'),
-	('4028878734756ed90134756f6bc20013', '1', '8ac388f134220b830134220ed8e20002'),
 	('8ac388eb31402e2001314059cf0c0001', '2', '402880e430e992d60130e9c8b54d0001'),
 	('8ac388eb31402e2001314059cf0c0002', '2', '402880e430e992d60130e9cab80b0002'),
 	('8ac388eb31402e2001314059cf0c0003', '2', '402880e4270e8f7c01270ea42f020004'),
 	('8ac388eb31402e2001314059cf0c0004', '2', '402880e428befea20128bf04ae450021'),
-	('8ac388eb31402e2001314059cf0c0005', '2', '8ac388eb311df21701311df3d9190001');
+	('8ac388eb31402e2001314059cf0c0005', '2', '8ac388eb311df21701311df3d9190001'),
+	('8ac388f1347995cb0134799c64040001', '1', '402880e430e992d60130e9c8b54d0001'),
+	('8ac388f1347995cb0134799c64040002', '1', '402880e430e992d60130e9cab80b0002'),
+	('8ac388f1347995cb0134799c64040003', '1', '402880e4270e8f7c01270ea42f020004'),
+	('8ac388f1347995cb0134799c64040004', '1', '402880e4270e8f7c01270ea9ff4c0025'),
+	('8ac388f1347995cb0134799c64040005', '1', '402880e4270e8f7c01270eaaa5730041'),
+	('8ac388f1347995cb0134799c64040006', '1', '402881eb2452211b012452264ad70049'),
+	('8ac388f1347995cb0134799c64040007', '1', '402880e428befea20128bf01b8300003'),
+	('8ac388f1347995cb0134799c64040008', '1', '402880e428befea20128bf029c1a0005'),
+	('8ac388f1347995cb0134799c64040009', '1', '402880e428befea20128bf04ae450021'),
+	('8ac388f1347995cb0134799c6404000a', '1', '402880e430e992d60130e9cca8980003'),
+	('8ac388f1347995cb0134799c6404000b', '1', '402880e431b908780131b90d33dd0001'),
+	('8ac388f1347995cb0134799c6404000c', '1', '40288787347015060134703dcf590001'),
+	('8ac388f1347995cb0134799c6404000d', '1', '40288787347538e10134756b664f0001'),
+	('8ac388f1347995cb0134799c6404000e', '1', '40288787347538e10134756d88cd0002'),
+	('8ac388f1347995cb0134799c6404000f', '1', '8ac388eb314562a601314564ea0f0001'),
+	('8ac388f1347995cb0134799c64040010', '1', '8ac388eb311df21701311df3d9190001'),
+	('8ac388f1347995cb0134799c64040011', '1', '8ac388f134220b830134220e2a930001'),
+	('8ac388f1347995cb0134799c64040012', '1', '4028878734566e2c01345670ac6a0001'),
+	('8ac388f1347995cb0134799c64040013', '1', '8ac388f134220b830134220ed8e20002');
 /*!40000 ALTER TABLE `rolemenu` ENABLE KEYS */;
 
 
@@ -4410,25 +4454,12 @@ CREATE TABLE IF NOT EXISTS `system_invite_process` (
   `invitation_event` varchar(500) default NULL COMMENT '请求事件',
   `invitation_reason` varchar(500) default NULL COMMENT '请求理由',
   `nextaction` varchar(500) default NULL COMMENT '下一步',
+  `relation_data` varchar(1000) default NULL COMMENT '相关数据(json格式)',
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='系统请求处理';
 
-# Dumping data for table redeempoint.system_invite_process: ~1 rows (approximately)
+# Dumping data for table redeempoint.system_invite_process: ~20 rows (approximately)
 /*!40000 ALTER TABLE `system_invite_process` DISABLE KEYS */;
-INSERT INTO `system_invite_process` (`id`, `sponsor`, `recipient`, `sponsor_time`, `process_time`, `process_status`, `invitation_menu`, `process_result_code`, `invitation_event`, `invitation_reason`, `nextaction`) VALUES
-	('1', 'system', 'admin', '2011-12-24 20:32:40', NULL, '1', '8ac388f134220b830134220ed8e20002', NULL, 'jhjh啊啊', NULL, NULL),
-	('2', 'system', 'swpigris81', '2011-12-25 12:52:31', '2011-12-25 12:52:32', '1', NULL, NULL, NULL, NULL, NULL),
-	('3', 'system', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	('4028878734759cf8013475a17e4c0001', 'admin', 'abcd', NULL, '2011-12-25 22:30:45', NULL, NULL, NULL, NULL, NULL, NULL),
-	('4028878734759cf8013475a17e570002', 'admin', 'user', NULL, '2011-12-25 22:30:45', NULL, NULL, NULL, NULL, NULL, NULL),
-	('4028878734759cf8013475a20b790003', 'admin', 'abcd', NULL, '2011-12-25 22:31:21', NULL, NULL, NULL, NULL, NULL, NULL),
-	('4028878734759cf8013475a20b790004', 'admin', 'user', NULL, '2011-12-25 22:31:21', NULL, NULL, NULL, NULL, NULL, NULL),
-	('4028878734759cf8013475a20b790005', 'admin', 'swpigris81', NULL, '2011-12-25 22:31:21', NULL, NULL, NULL, NULL, NULL, NULL),
-	('4028878734759cf8013475a20b790006', 'admin', '代超', NULL, '2011-12-25 22:31:21', NULL, NULL, NULL, NULL, NULL, NULL),
-	('4028878734759cf8013475a337550007', 'admin', 'swpigris81', NULL, '2011-12-25 22:32:37', NULL, NULL, NULL, NULL, NULL, NULL),
-	('4028878734759cf8013475a432e70008', 'admin', 'swpigris81', NULL, '2011-12-25 22:33:40', NULL, NULL, NULL, NULL, NULL, NULL),
-	('4028878734759cf8013475a4e6ea0009', 'admin', 'swpigris81', NULL, '2011-12-25 22:34:28', NULL, NULL, NULL, NULL, NULL, NULL),
-	('4028878734759cf8013475a70c14000a', 'swpigris81', 'admin', NULL, '2011-12-25 22:36:49', NULL, '4028878734566e2c01345670ac6a0001', NULL, NULL, NULL, NULL);
 /*!40000 ALTER TABLE `system_invite_process` ENABLE KEYS */;
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
