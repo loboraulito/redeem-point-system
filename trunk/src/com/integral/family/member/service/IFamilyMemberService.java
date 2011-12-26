@@ -52,4 +52,12 @@ public interface IFamilyMemberService {
      * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
      */
     public void deleteAll(List<FamilyMember> persistentInstances);
+    
+    /**
+     * <p>Discription:[批量新增/修改家庭成员信息]</p>
+     * @param persistentInstances
+     * @author:[代超]
+     * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
+     */
+    public void saveOrUpdateAll(List<FamilyMember> persistentInstances);
 }

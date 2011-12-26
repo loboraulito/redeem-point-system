@@ -37,5 +37,9 @@
 			 <result name="success">/jsp/family/family_manage.jsp</result>
 			 <result name="input">/index.jsp</result>
 		</action>
+		<action name="familyProcessInvition" class="com.integral.family.manage.action.FamilyManamgeAction" method="familyProcessInvition">
+			 <result name="success">/jsp/family/family_manage.jsp</result>
+			 <result name="input">/index.jsp</result>
+		</action>
 	</package>
 </struts>

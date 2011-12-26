@@ -89,5 +89,10 @@ public class FamilyMemberServiceImpl implements IFamilyMemberService {
     public void deleteAll(List<FamilyMember> persistentInstances){
         this.familyMemberDao.deleteAll(persistentInstances);
     }
+
+    @Override
+    public void saveOrUpdateAll(List<FamilyMember> persistentInstances) {
+        this.familyMemberDao.saveOrUpdateAll(persistentInstances);
+    }
     
 }

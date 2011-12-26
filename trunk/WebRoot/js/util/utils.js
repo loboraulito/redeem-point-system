@@ -67,8 +67,9 @@ function getCurrentMenuId() {
  * @param {} tabId 面板唯一ID
  * @param {} tabHref 面板的url
  * @param {} closable 是否可关闭的面板
+ * @param {} needRefresh 是否需要刷新
  */
-function createMainTabPanel(title, tabId, tabHref, closable) {
+function createMainTabPanel(title, tabId, tabHref, closable, needRefresh) {
 	var tabPanel = Ext.getCmp("mainTabPanel");
 	if (!tabPanel) {
 		createTabPanel(title, tabId + "_tab", tabHref, closable);
@@ -77,15 +78,17 @@ function createMainTabPanel(title, tabId, tabHref, closable) {
 		if (!tabPanelPage) {
 			addTabPanel(tabPanel, tabId + "_tab", title, tabHref, closable);
 		} else {
-			activeTabPanel(tabPanel, tabId + "_tab");
+			activeTabPanel(tabPanel, tabId + "_tab", needRefresh);
 		}
 	}
 }
 /**
  * 跳转到指定url的tab页面
  * @param {} tabHref 要跳转页面的相对url(不接path变量)
+ * @param {} menuId 要跳转页面的菜单ID
+ * @param {} needRefresh 是否要求刷新页面
  */
-function goToTabPanel(tabHref, menuId){
+function goToTabPanel(tabHref, menuId, needRefresh){
 	Ext.Msg.alert("系统提示","页面跳转中，请稍候...");
 	Ext.Ajax.request({
 		params:{menuPath:tabHref, menuId:menuId},
@@ -99,9 +102,9 @@ function goToTabPanel(tabHref, menuId){
 				var tabId = msg.menuId;
 				var tabUrl = msg.menuUrl;
 				if(!tabUrl){
-					createMainTabPanel(title, tabId, tabHref, true);
+					createMainTabPanel(title, tabId, tabHref, true, needRefresh);
 				}else{
-					createMainTabPanel(title, tabId, tabUrl, true);
+					createMainTabPanel(title, tabId, tabUrl, true, needRefresh);
 				}
 			}else if(msg && !msg.success){
 				Ext.Msg.hide();

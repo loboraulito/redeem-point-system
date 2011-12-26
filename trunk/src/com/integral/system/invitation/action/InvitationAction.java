@@ -1,6 +1,8 @@
 package com.integral.system.invitation.action;
 
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,9 +15,14 @@ import org.apache.struts2.interceptor.ServletRequestAware;
 import org.apache.struts2.interceptor.ServletResponseAware;
 import org.nutz.json.Json;
 import org.nutz.json.JsonFormat;
+import org.nutz.lang.Lang;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.transaction.TransactionDefinition;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 import com.integral.common.action.BaseAction;
+import com.integral.family.member.bean.FamilyMember;
 import com.integral.system.invitation.bean.SystemInviteProcess;
 import com.integral.system.invitation.service.ISystemInviteProcessService;
 
@@ -88,6 +95,8 @@ public class InvitationAction extends BaseAction implements ServletRequestAware,
         int start = NumberUtils.toInt(request.getParameter("start"), 0);
         int limit = NumberUtils.toInt(request.getParameter("limit"), 50);
         String userId = request.getParameter("userId");
+        String menuId = request.getParameter("menuId");
+        String status = request.getParameter("status");
         Map<String, Object> resultMap = new HashMap<String, Object>();
         JsonFormat jf = new JsonFormat(true);
         jf.setAutoUnicode(true);
@@ -98,8 +107,8 @@ public class InvitationAction extends BaseAction implements ServletRequestAware,
                 resultMap.put("success", false);
                 resultMap.put("msg", "用户ID为空，不能查询您的请求信息");
             }else{
-                List<SystemInviteProcess> list = this.systemInviteProcessService.findByUserId(userId, start, limit);
-                int listSize = this.systemInviteProcessService.findCountByUserId(userId);
+                List<SystemInviteProcess> list = this.systemInviteProcessService.findByUserId(userId, menuId, status, start, limit);
+                int listSize = this.systemInviteProcessService.findCountByUserId(userId, menuId, status);
                 resultMap.put("success", true);
                 resultMap.put("invitationList", list);
                 resultMap.put("totalCount", listSize);
@@ -109,6 +118,135 @@ public class InvitationAction extends BaseAction implements ServletRequestAware,
             resultMap.put("msg", "系统错误！错误代码："+ e.getMessage());
             LOG.error(e.getMessage());
         }finally{
+            if(out != null){
+                out.print(Json.toJson(resultMap, jf));
+                out.flush();
+                out.close();
+            }
+        }
+        return null;
+    }
+    /**
+     * <p>Discription:[请求通过]</p>
+     * @return
+     * @author:[代超]
+     * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
+     */
+    public String invitationPass(){
+        String invitationId = request.getParameter("invitationId");
+        String data = request.getParameter("data");
+        String url = request.getParameter("urls");
+        // 定义TransactionDefinition并设置好事务的隔离级别和传播方式。
+        DefaultTransactionDefinition definition = new DefaultTransactionDefinition();
+        // 代价最大、可靠性最高的隔离级别，所有的事务都是按顺序一个接一个地执行
+        definition.setIsolationLevel(TransactionDefinition.ISOLATION_SERIALIZABLE);
+        // 开始事务
+        TransactionStatus status = transactionManager.getTransaction(definition);
+        
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        JsonFormat jf = new JsonFormat(true);
+        jf.setAutoUnicode(true);
+        PrintWriter out = null;
+        try{
+            out = super.getPrintWriter(request, response);
+            if(invitationId == null || "".equals(invitationId.trim())){
+                resultMap.put("success", false);
+                resultMap.put("msg", "所选系统请求数据不完整，无法处理！");
+            }else{
+                String [] invitationIds = invitationId.split(",");
+                String [] datas = data.split("@");
+                List<SystemInviteProcess> list = new ArrayList<SystemInviteProcess>();
+                List<FamilyMember> relationDataList = new ArrayList<FamilyMember>();
+                StringBuffer fl = new StringBuffer();
+                for(int i=0; i<invitationIds.length; i++){
+                    SystemInviteProcess process = this.systemInviteProcessService.findById(invitationIds[i]);
+                    if(process != null){
+                        process.setProcessTime(new Date());
+                        process.setProcessStatus("2");
+                        process.setProcessResultCode("1");
+                        list.add(process);
+                    }
+                    FamilyMember relationData = Json.fromJson(FamilyMember.class, Lang.inr(datas[i]));
+                    relationDataList.add(relationData);
+                    fl.append(relationData.getFamilyName()).append(",");
+                    //转发只能转发一次, 不能带参数：如abc.action?method=abc
+                    //request.getRequestDispatcher(urls[i]).forward(request, response);
+                }
+                this.systemInviteProcessService.saveOrUpdateAll(list);
+                
+                request.getSession().setAttribute("familyNames", fl.substring(0, fl.lastIndexOf(",")));
+                request.getSession().setAttribute("relationDataList", relationDataList);
+                //重定向无法使用request传递参数，只能在url上传递
+                response.sendRedirect(url);
+                resultMap.put("success", true);
+                resultMap.put("msg", "所选系统请求已成功处理！");
+            }
+        }catch(Exception e){
+            status.setRollbackOnly();
+            resultMap.put("success", false);
+            resultMap.put("msg", "系统错误！错误代码："+e.getMessage());
+            LOG.error(e.getMessage());
+        }finally{
+            this.transactionManager.commit(status);
+            if(out != null){
+                out.print(Json.toJson(resultMap, jf));
+                out.flush();
+                out.close();
+            }
+        }
+        return null;
+    }
+    /**
+     * <p>Discription:[请求被拒绝]</p>
+     * @return
+     * @author:[代超]
+     * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
+     */
+    public String invitationReject(){
+        String invitationId = request.getParameter("invitationId");
+        String data = request.getParameter("data");
+        String url = request.getParameter("urls");
+        String text = request.getParameter("reason");
+        // 定义TransactionDefinition并设置好事务的隔离级别和传播方式。
+        DefaultTransactionDefinition definition = new DefaultTransactionDefinition();
+        // 代价最大、可靠性最高的隔离级别，所有的事务都是按顺序一个接一个地执行
+        definition.setIsolationLevel(TransactionDefinition.ISOLATION_SERIALIZABLE);
+        // 开始事务
+        TransactionStatus status = transactionManager.getTransaction(definition);
+        
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        JsonFormat jf = new JsonFormat(true);
+        jf.setAutoUnicode(true);
+        PrintWriter out = null;
+        try{
+            out = super.getPrintWriter(request, response);
+            if(invitationId == null || "".equals(invitationId.trim())){
+                resultMap.put("success", false);
+                resultMap.put("msg", "所选系统请求数据不完整，无法处理！");
+            }else{
+                String invitationIds[] = invitationId.split(",");
+                List<SystemInviteProcess> list = new ArrayList<SystemInviteProcess>();
+                for(int i=0; i<invitationIds.length; i++){
+                    SystemInviteProcess process = this.systemInviteProcessService.findById(invitationIds[i]);
+                    if(process != null){
+                        process.setProcessTime(new Date());
+                        process.setProcessStatus("2");
+                        process.setProcessResultCode("2");
+                        process.setInvitationReason(text);
+                        list.add(process);
+                    }
+                }
+                this.systemInviteProcessService.saveOrUpdateAll(list);
+                resultMap.put("success", true);
+                resultMap.put("msg", "您已成功拒绝所选请求！");
+            }
+        }catch(Exception e){
+            status.setRollbackOnly();
+            resultMap.put("success", false);
+            resultMap.put("msg", "系统错误！错误代码："+e.getMessage());
+            LOG.error(e.getMessage());
+        }finally{
+            this.transactionManager.commit(status);
             if(out != null){
                 out.print(Json.toJson(resultMap, jf));
                 out.flush();

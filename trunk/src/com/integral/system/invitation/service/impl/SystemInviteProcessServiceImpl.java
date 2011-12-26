@@ -32,14 +32,24 @@ public class SystemInviteProcessServiceImpl implements ISystemInviteProcessServi
         this.systemInviteProcessDao = systemInviteProcessDao;
     }
     @Override
-    public List<SystemInviteProcess> findByUserId(String userId, int start, int limit) {
+    public List<SystemInviteProcess> findByUserId(String userId, String menuId, String status, int start, int limit) {
         //String sql = "from SystemInviteProcess model  JOIN MenuInfo menu where model.invitationMenu = menu.menuId and model.recipient = :userId";
         String sql = "SELECT ps.id, ps.sponsor, ps.recipient, ps.sponsor_time, ps.process_time, ps.process_status, ps.invitation_menu," +
-        		" m.menu_name, ps.process_result_code, ps.invitation_event, ps.invitation_reason, ps.nextaction FROM system_invite_process AS ps" +
-        		" LEFT JOIN menu_info AS m ON ps.invitation_menu = m.menu_id where ps.recipient = :userId"; 
+        		" m.menu_name, ps.process_result_code, ps.invitation_event, ps.invitation_reason, ps.nextaction, ps.relation_data FROM system_invite_process AS ps" +
+        		" LEFT JOIN menu_info AS m ON ps.invitation_menu = m.menu_id where ps.recipient = :userId "; 
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("userId", userId);
+        if(menuId != null && !"".equals(menuId.trim())){
+            sql = sql + " and ps.invitation_menu = :menuId";
+            params.put("menuId", menuId);
+        }
+        if(status != null && !"".equals(status.trim())){
+            sql += " and ps.process_status = :status";
+            params.put("status", status);
+        }
+        
         List list = this.systemInviteProcessDao.findByParams(sql, false, start, limit, params);
+        
         List<SystemInviteProcess> processList = new ArrayList<SystemInviteProcess>();
         if(list != null && list.size()>0){
             for (int i = 0, j = list.size(); i < j; i++) {
@@ -57,17 +67,25 @@ public class SystemInviteProcessServiceImpl implements ISystemInviteProcessServi
                 process.setInvitationEvent(obj[9] == null ? "" : obj[9].toString());
                 process.setInvitationReason(obj[10] == null ? "" : obj[10].toString());
                 process.setNextaction(obj[11] == null ? "" : obj[11].toString());
+                process.setRelationData(obj[12] == null ? "" : obj[12].toString());
                 processList.add(process);
             }
         }
         return processList;
     }
     @Override
-    public int findCountByUserId(String userId) {
+    public int findCountByUserId(String userId, String menuId, String status) {
         String sql = "from SystemInviteProcess model where model.recipient = :userId";
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("userId", userId);
-        
+        if(menuId != null && !"".equals(menuId.trim())){
+            sql = sql + " and model.invitationMenu = :menuId";
+            params.put("menuId", menuId);
+        }
+        if(status != null && !"".equals(status.trim())){
+            sql += " and model.processStatus = :status";
+            params.put("status", status);
+        }
         return this.systemInviteProcessDao.findCountByParams(sql, true, -1, -1, params);
     }
     @Override
@@ -89,5 +107,9 @@ public class SystemInviteProcessServiceImpl implements ISystemInviteProcessServi
     @Override
     public void deleteAll(List<SystemInviteProcess> persistentInstances) {
         this.systemInviteProcessDao.deleteAll(persistentInstances);
+    }
+    @Override
+    public SystemInviteProcess findById(String id) {
+        return this.systemInviteProcessDao.findById(id);
     }
 }
