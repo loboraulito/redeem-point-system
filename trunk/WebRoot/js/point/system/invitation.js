@@ -32,6 +32,7 @@ function invitation(){
 		viewAll : "no",
 		status: "",
 		userId : userName,
+		fromUserId:"",
 		menuId : parent.fromMenuId
 	};
 	/**
@@ -316,6 +317,7 @@ function invitation(){
 	 */
 	this.invitationProcessed = function(url){
 		invitationListStore.baseParams.status = "2";
+		invitationListStore.baseParams.fromUserId = "";
 		invitationListStore.reload();
 	};
 	/**
@@ -324,6 +326,7 @@ function invitation(){
 	 */
 	this.invitationProcessing = function(url){
 		invitationListStore.baseParams.status = "1";
+		invitationListStore.baseParams.fromUserId = "";
 		invitationListStore.reload();
 	};
 	/**
@@ -332,6 +335,16 @@ function invitation(){
 	 */
 	this.invitationAll = function(url){
 		invitationListStore.baseParams.status = "";
+		invitationListStore.baseParams.fromUserId = "";
+		invitationListStore.reload();
+	};
+	/**
+	 * 我发出的请求
+	 * @param {} url
+	 */
+	this.viewMyInvitation = function(url){
+		invitationListStore.baseParams.status = "";
+		invitationListStore.baseParams.fromUserId = userName;
 		invitationListStore.reload();
 	};
 	/**
@@ -434,6 +447,7 @@ function invitation(){
 						Ext.Msg.alert("系统提示","请求已经成功处理！");
 					}
 					invitationListStore.baseParams.status = "1";
+					invitationListStore.baseParams.fromUserId = "";
 					invitationListStore.reload();
 				}else{
 					if(msg.msg){
