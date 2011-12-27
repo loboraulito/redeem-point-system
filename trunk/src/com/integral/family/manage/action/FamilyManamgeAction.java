@@ -29,6 +29,7 @@ import com.integral.family.member.service.IFamilyMemberService;
 import com.integral.system.invitation.bean.SystemInviteProcess;
 import com.integral.system.invitation.service.ISystemInviteProcessService;
 import com.integral.system.user.service.IUserService;
+import com.integral.util.ListUtils;
 import com.integral.util.RequestUtil;
 import com.integral.util.Tools;
 
@@ -462,10 +463,29 @@ public class FamilyManamgeAction extends BaseAction implements ServletRequestAwa
             out = super.getPrintWriter(request, response);
             String familyNames = (String) request.getSession().getAttribute("familyNames");
             List<FamilyMember> relationDataList = (List<FamilyMember>) request.getSession().getAttribute("relationDataList");
+            List<FamilyMember> memberList = new ArrayList<FamilyMember>();
+            StringBuffer sb = new StringBuffer();
+            
             if(relationDataList != null){
-                this.familyMemberService.saveOrUpdateAll(relationDataList);
+                //剔除重复的
+                List<FamilyMember> ll = ListUtils.removeDuplication(relationDataList, "familyId", "systemMemberId");
+                
+                for(FamilyMember m : ll){
+                    List l = this.familyMemberService.findByExample(m);
+                    if(l != null && l.size() >0){
+                        sb.append("您已经是【"+m.getFamilyName()+"】的成员，无需重复加入！<br><br>");
+                        continue;
+                    }else{
+                        memberList.add(m);
+                        sb.append("您已成功接受邀请，加入【"+m.getFamilyName()+"】，请立即完善您的成员信息！<br><br>");
+                    }
+                }
+                if(memberList != null && memberList.size() >0){
+                    this.familyMemberService.saveOrUpdateAll(memberList);
+                }
+                
                 resultMap.put("success", true);
-                resultMap.put("msg", "您已成功接受邀请，加入【"+familyNames+"】，请立即完善您的成员信息！");
+                resultMap.put("msg", sb.substring(0, sb.lastIndexOf("<br><br>")).toString());
             }else{
                 resultMap.put("success", false);
                 resultMap.put("msg", "家庭信息不完整，无法处理！");
