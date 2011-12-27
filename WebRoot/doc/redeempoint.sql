@@ -3,7 +3,7 @@
 # Server version:               5.0.45-community-nt
 # Server OS:                    Win32
 # HeidiSQL version:             6.0.0.3918
-# Date/time:                    2011-12-26 17:35:54
+# Date/time:                    2011-12-27 17:22:53
 # --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -60,14 +60,15 @@ CREATE TABLE IF NOT EXISTS `family_info` (
   PRIMARY KEY  (`family_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-# Dumping data for table redeempoint.family_info: ~4 rows (approximately)
+# Dumping data for table redeempoint.family_info: ~6 rows (approximately)
 /*!40000 ALTER TABLE `family_info` DISABLE KEYS */;
 INSERT INTO `family_info` (`family_id`, `family_name`, `family_create_date`, `family_house_holder`, `family_address`, `family_tel`, `family_comment`) VALUES
 	('0c602565-69b6-460a-9a45-acdccdff0f26', '测试家庭', '2011-12-26', 'swpigris81', '天朝', '123456789', '天朝'),
 	('1', '测试1', '2011-12-20', 'abcd', NULL, NULL, NULL),
 	('2', '测试2', '2011-12-20', 'abcde', NULL, NULL, NULL),
 	('3', '测试3', '2011-12-19', 'abcdef', NULL, NULL, NULL),
-	('9ab70fea-75c1-44a7-8f77-a13e280e81e8', 'admin的家庭', '2011-12-22', 'admin', '广州天河上社中和里22号', '15975514537', '常德市常德市常德市常德市常德市常德市常德市常德市常德市常德市常德市常德市常德市常德市常德市常德市常德市常德市常德市常德市常德市常德市常德市常德市常德市常德市常德市常德市常德市常德市');
+	('9ab70fea-75c1-44a7-8f77-a13e280e81e8', 'admin的家庭', '2011-12-22', 'admin', '广州天河上社中和里22号', '15975514537', '常德市常德市常德市常德市常德市常德市常德市常德市常德市常德市常德市常德市常德市常德市常德市常德市常德市常德市常德市常德市常德市常德市常德市常德市常德市常德市常德市常德市常德市常德市'),
+	('d5cd2738-d754-43de-879b-106dd9dd09a4', '测试家庭1', '2011-12-27', 'swpigris81', '1', '11', '11');
 /*!40000 ALTER TABLE `family_info` ENABLE KEYS */;
 
 
@@ -89,7 +90,7 @@ CREATE TABLE IF NOT EXISTS `family_member` (
   PRIMARY KEY  (`family_member_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-# Dumping data for table redeempoint.family_member: ~7 rows (approximately)
+# Dumping data for table redeempoint.family_member: ~14 rows (approximately)
 /*!40000 ALTER TABLE `family_member` DISABLE KEYS */;
 INSERT INTO `family_member` (`family_member_id`, `family_id`, `family_member_name`, `system_member_id`, `family_member_card`, `family_member_birthdate`, `family_member_birthplace`, `family_member_sex`, `family_member_height`, `family_member_educational`, `family_member_profession`, `family_member_deaddate`) VALUES
 	('1', '1', 'avc', 'swpigris81', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
@@ -101,15 +102,11 @@ INSERT INTO `family_member` (`family_member_id`, `family_id`, `family_member_nam
 	('8ac388f134644dc80134649e8bec0001', '9ab70fea-75c1-44a7-8f77-a13e280e81e8', NULL, 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 	('8ac388f1347951400134795a723e0001', '9ab70fea-75c1-44a7-8f77-a13e280e81e8', NULL, '111', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 	('8ac388f1347951400134795a726d0002', '9ab70fea-75c1-44a7-8f77-a13e280e81e8', NULL, '代超', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	('8ac388f1347951400134795d6e660006', '9ab70fea-75c1-44a7-8f77-a13e280e81e8', NULL, '111', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	('8ac388f1347951400134795d6e660007', '9ab70fea-75c1-44a7-8f77-a13e280e81e8', NULL, '代超', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	('8ac388f1347951400134795fb6b90008', '9ab70fea-75c1-44a7-8f77-a13e280e81e8', NULL, '111', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	('8ac388f1347951400134795fb6b90009', '9ab70fea-75c1-44a7-8f77-a13e280e81e8', NULL, '代超', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 	('8ac388f1347981f60134798479cd0001', '9ab70fea-75c1-44a7-8f77-a13e280e81e8', NULL, 'swpigris81', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	('8ac388f1347995cb013479a67af2004f', '9ab70fea-75c1-44a7-8f77-a13e280e81e8', NULL, 'swpigris81', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	('8ac388f13479aa40013479b006d70002', '9ab70fea-75c1-44a7-8f77-a13e280e81e8', NULL, 'swpigris81', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 	('8ac388f13479aa40013479b1b4580003', '0c602565-69b6-460a-9a45-acdccdff0f26', NULL, 'swpigris81', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	('8ac388f13479aa40013479b2ad0f0005', '0c602565-69b6-460a-9a45-acdccdff0f26', NULL, 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+	('8ac388f13479aa40013479b2ad0f0005', '0c602565-69b6-460a-9a45-acdccdff0f26', NULL, 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	('8ac388f1347e65df01347e6878920001', 'd5cd2738-d754-43de-879b-106dd9dd09a4', NULL, 'swpigris81', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	('8ac388f1347e65df01347e693c8d0005', 'd5cd2738-d754-43de-879b-106dd9dd09a4', NULL, 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 /*!40000 ALTER TABLE `family_member` ENABLE KEYS */;
 
 
@@ -186,7 +183,7 @@ CREATE TABLE IF NOT EXISTS `menubutton` (
   PRIMARY KEY  (`button_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AVG_ROW_LENGTH=528;
 
-# Dumping data for table redeempoint.menubutton: ~55 rows (approximately)
+# Dumping data for table redeempoint.menubutton: ~57 rows (approximately)
 /*!40000 ALTER TABLE `menubutton` DISABLE KEYS */;
 INSERT INTO `menubutton` (`button_id`, `button_name`, `button_text`, `menu_id`, `button_url`, `button_show`, `button_css`, `handler`) VALUES
 	('402880e430e992d60130e9d0267b0039', 'button_addButton', '添加按钮', '402881eb2452211b012452264ad70049', '/button/buttonManageAdd.action?method=addButton', 'yes', 'table_add', 'addButton'),
@@ -210,7 +207,7 @@ INSERT INTO `menubutton` (`button_id`, `button_name`, `button_text`, `menu_id`, 
 	('402881e423cdce810123cdd2c2bc0004', 'authorize_user', '授权用户(勿删)', '402880e428befea20128bf04ae450021', '/right/authorizeUser.action?method=showAuthorizeUser', 'no', 'none', ''),
 	('402881e82505b3a5012505b666990004', 'authorize_menu', '授权树(勿删)', '402880e428befea20128bf04ae450021', '/right/authorizeMenu.action?method=showAuthorizeMenu', 'no', 'none', ''),
 	('4028878734566e2c013456718c000002', 'family_manage_list_btn', '家庭基本信息列表', '4028878734566e2c01345670ac6a0001', '/family_manage/familyList.action?method=familyList', 'no', 'none', ''),
-	('4028878734586d6101345871800b0001', 'apply_family_btn', '申请加入家庭', '8ac388f134220b830134220ed8e20002', '/family_member/main.action', 'yes', 'table_gear', 'familyApply'),
+	('4028878734586d6101345871800b0001', 'apply_family_btn', '申请加入家庭', '8ac388f134220b830134220ed8e20002', '/family_member/familyMemberApply.action?method=familyMemberApply', 'yes', 'table_gear', 'familyApply'),
 	('4028878734586d61013458726cac0002', 'create_family_btn', '创建新的家庭', '4028878734566e2c01345670ac6a0001', '/family_manage/familyManageAdd.action?method=familyManageAdd', 'yes', 'table_add', 'createFamily'),
 	('4028878734586d6101345873d98f0003', 'create_family_member_btn', '创建家庭', '8ac388f134220b830134220ed8e20002', '/family_manage/familyManage.action?method=begin', 'yes', 'table_goto', 'createFamily'),
 	('402887873470150601347040e7630002', 'invitation_begin_btn', '系统请求列表', '40288787347015060134703dcf590001', '/invitation/invitationList.action?method=invitationList', 'no', 'none', ''),
@@ -229,7 +226,7 @@ INSERT INTO `menubutton` (`button_id`, `button_name`, `button_text`, `menu_id`, 
 	('8ac388f1345fbdfd01345fd07cae0003', 'family_manage_edit_btn', '修改家庭信息', '4028878734566e2c01345670ac6a0001', '/family_manage/familyManageEdit.action?method=familyManageEdit', 'yes', 'table_edit', 'editFamily'),
 	('8ac388f13463cbde013463cdfb540001', 'family_manage_delete_btn', '删除家庭信息', '4028878734566e2c01345670ac6a0001', '/family_manage/familyManageDelete.action?method=familyManageDelete', 'yes', 'table_delete', 'deleteFamily'),
 	('8ac388f13463cbde013463cf1b730002', 'family_manage_viewall_btn', '查看所有家庭', '4028878734566e2c01345670ac6a0001', '/family_manage/main.action', 'yes', 'table_find', 'viewAllFamily'),
-	('8ac388f13463cbde013463d3bd900040', 'family_manage_viewone_btn', '查看我的家庭', '4028878734566e2c01345670ac6a0001', '/family_manage/main.action', 'yes', 'table_find', 'viewMyFamily'),
+	('8ac388f13463cbde013463d3bd900040', 'family_manage_viewone_btn', '查看我所在家庭', '4028878734566e2c01345670ac6a0001', '/family_manage/main.action', 'yes', 'table_find', 'viewMyFamily'),
 	('8ac388f1346874920134694ff1ad0001', 'family_manage_invite_btn', '邀请加入我的家庭', '4028878734566e2c01345670ac6a0001', '/family_manage/familyManageInvite.action?method=familyManageInvite', 'yes', 'table_gear', 'inviteFamilyMember'),
 	('8ac388f13477e6b2013477ea00960001', 'family_manage_invite_me_btn', '查看我的邀请', '4028878734566e2c01345670ac6a0001', '/invitation/invitation.action?method=begin', 'yes', 'table_find', 'viewMyInvite'),
 	('8ac388f134783fcc013478431f040001', 'invitation_processed_btn', '已处理过的请求', '40288787347015060134703dcf590001', '/main.action', 'yes', 'table_find', 'invitationProcessed'),
@@ -237,8 +234,9 @@ INSERT INTO `menubutton` (`button_id`, `button_name`, `button_text`, `menu_id`, 
 	('8ac388f134783fcc01347845f4520003', 'invitation_pass_btn', '通过请求', '40288787347015060134703dcf590001', '/invitation/invitationPass.action?method=invitationPass', 'yes', 'table_gear', 'invitationPass'),
 	('8ac388f134783fcc0134784746360004', 'invitation_reject_btn', '拒绝请求', '40288787347015060134703dcf590001', '/invitation/invitationReject.action?method=invitationReject', 'yes', 'table_gear', 'invitationReject'),
 	('8ac388f134783fcc0134784991cb004d', 'invitation_all_btn', '全部请求列表', '40288787347015060134703dcf590001', '/main.action', 'yes', 'table_find', 'invitationAll'),
-	('8ac388f134783fcc013478587450009e', 'invitation_in_family_btn', '加入家庭', '4028878734566e2c01345670ac6a0001', '/family_manage/familyProcessInvition.action?method=familyProcessInvition', 'no', 'none', ''),
+	('8ac388f134783fcc013478587450009e', 'invitation_in_family_btn', '处理邀请', '4028878734566e2c01345670ac6a0001', '/family_manage/familyProcessInvition.action?method=familyProcessInvition', 'no', 'none', ''),
 	('8ac388f134798c600134798d83820001', 'invitation_my_btn', '我发出的请求', '40288787347015060134703dcf590001', '/main.action', 'yes', 'table_find', 'viewMyInvitation'),
+	('8ac388f1347e65df01347ebc4f740006', 'family_member_apply_process_btn', '处理申请', '8ac388f134220b830134220ed8e20002', '/family_member/familyMemberApplyProcess.action?method=familyMemberApplyProcess', 'no', 'none', ''),
 	('ff808081297247bf0129724a54300004', 'user_list', '用户列表', '402880e428befea20128bf01b8300003', '/user/userList.action?method=userManageList', 'no', 'none', ''),
 	('ff80808129a30cbc0129a30e45860005', 'role_list', '角色列表', '402880e428befea20128bf029c1a0005', '/role/roleList.action?method=roleManageList', 'no', 'none', ''),
 	('ff80808129de49ac0129de4b3ecc0005', 'authorizeForUser', '增加授权用户', '402880e428befea20128bf04ae450021', '/right/authorizeUserAdd.action?method=authorizeUserAdd', 'yes', 'table_add', 'addAuthorizeUser'),
@@ -315,32 +313,18 @@ CREATE TABLE IF NOT EXISTS `persistent_logins` (
   PRIMARY KEY  (`series`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-# Dumping data for table redeempoint.persistent_logins: ~10 rows (approximately)
+# Dumping data for table redeempoint.persistent_logins: ~9 rows (approximately)
 /*!40000 ALTER TABLE `persistent_logins` DISABLE KEYS */;
 INSERT INTO `persistent_logins` (`username`, `series`, `token`, `last_used`) VALUES
-	('swpigris81', '046lCZRizpYcPe3wpptYSw==', 'rUNiwivyBbTgsvmp/sCIxA==', '2011-12-26 16:36:50'),
-	('admin', '7b2OxdMBQUA5G5cDklfveA==', 's+OPadeut45THmZAHHD41w==', '2011-12-26 16:35:29'),
-	('admin', '7eLqXOIrOypmp0hc7fZEcQ==', 'SxyOGM4cQ9iF9Vl1oGZxNA==', '2011-12-26 14:56:59'),
+	('swpigris81', 'AZsvjkS8jRttEghMSBYWEA==', 'u6NUePolUPnrImMx/DEbcw==', '2011-12-27 15:24:26'),
 	('test7', 'CeNdmlqXVyRYvZwKcmUV7w==', '2OBecJqdheuz3twVOxSsnA==', '2011-12-19 22:40:07'),
-	('admin', 'Cu7bzLKoQYNwaxbi6Pugjw==', 'qnGMVnvPsRXO4UQMVYLU4Q==', '2011-12-26 11:24:26'),
-	('admin', 'DOKGtwh0LvZy8w0Rm5Mxyw==', 'wZVdnyHX/CJDXKED/pJrLA==', '2011-12-26 10:44:04'),
-	('admin', 'F42Y77ZjnpNEsnpIiF4sQA==', 'ZSMUuGb8irVbyOK4zBADkQ==', '2011-12-26 17:19:07'),
 	('test', 'G2FVauqxspI+kKZdf33Q9A==', 'IzNMi/Wzgm4niwQ74RWQCQ==', '2011-12-19 22:32:56'),
+	('admin', 'nbqKVqxdHYuQi5QxLwqjZg==', 'jk/P/jFsHJbzEL6QXCEWpg==', '2011-12-27 15:24:06'),
 	('test5', 'oSbmTPwPzTHWhOqdvx9tmQ==', 'NNW4cnPzcZ+sn7UmpTCABA==', '2011-12-19 22:35:42'),
 	('test', 'Q4U70XT7icCjga71waR/Cg==', 'R+GL0zfonv3EjIKBA+BMlA==', '2011-12-19 22:30:13'),
-	('admin', 'RD05d/SEMWRT5lNfN6iCgA==', '/VG5O7l+AL9Joct8EjA7UA==', '2011-12-26 09:06:43'),
 	('test4', 'RSXcsp+hCeYaezaQ14m+AA==', 'WWCpPc7FRMZi4m9C+0GpBw==', '2011-12-19 22:34:12'),
-	('swpigris81', 'RW3xfX8qfnebfm4EjixPAg==', '2ORXZO/b4R7JJASd3nWRqQ==', '2011-12-26 16:41:16'),
-	('admin', 'S7tBhHP46KN0SMJTe6YKEA==', 'H7/VprUuzVoY3B4WpZEnIg==', '2011-12-26 15:42:05'),
-	('admin', 'tLJ7V2/NF00Wb6l4idRbZQ==', 'VWDj+8/Gn8Aex5Mn9xA23Q==', '2011-12-25 22:36:57'),
-	('admin', 'vMBi1Cu/jBnWTjewaB4ILw==', 'G1zIoPkXoezZmmyz4AWOVA==', '2011-12-26 12:47:39'),
 	('test2', 'w4jhOS+iW4lyvcQkMZcKMg==', '5rRdtvt8pmP92f0vF3+udw==', '2011-12-19 22:33:19'),
-	('admin', 'wXHdGKDu3Cud+2O02jEJsQ==', 'N6n29+jjEp18L/fIOqWk2g==', '2011-12-26 11:18:36'),
-	('admin', 'WZ+6q73F4HhIxRt4GyzjQg==', '4CZwdvqicXrWpuD3A9TaPQ==', '2011-12-26 15:15:07'),
-	('admin', 'WZxpdhp7byf+lLY4dmTUWA==', '67s1nrJOx0zjs5ah9GLEOg==', '2011-12-26 11:38:34'),
-	('swpigris81', 'x1DeOxjmzQyk1pfEZG2kkg==', 'UL2g/8Be+/Ibj9t98rTrCg==', '2011-12-26 17:24:09'),
-	('admin', 'YVu9eqTlVPuRpcWBjGOn9w==', 'CK2Kmlm96WxRaYlgEeee9g==', '2011-12-26 09:56:55'),
-	('admin', 'ZpYII6Abs7w0VHzsMSIR7Q==', 'Cm0Ix5L4F8Pzg8xlejVdvg==', '2011-12-26 13:40:54');
+	('admin', 'yw90E8vHV6P8lHML+LJ6Lw==', '4Xejbq293e/4CdJtZ52Esg==', '2011-12-27 15:17:35');
 /*!40000 ALTER TABLE `persistent_logins` ENABLE KEYS */;
 
 
@@ -382,7 +366,7 @@ CREATE TABLE IF NOT EXISTS `point_system_codelist_data` (
   KEY `Index 4` (`dataid`,`codeid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AVG_ROW_LENGTH=3276 COMMENT='系统数据标准数据表';
 
-# Dumping data for table redeempoint.point_system_codelist_data: ~3,980 rows (approximately)
+# Dumping data for table redeempoint.point_system_codelist_data: ~3,941 rows (approximately)
 /*!40000 ALTER TABLE `point_system_codelist_data` DISABLE KEYS */;
 INSERT INTO `point_system_codelist_data` (`dataid`, `codeid`, `datakey`, `datavalue`, `parentdatakey`, `remark`) VALUES
 	('4af4953627d6f4ff0127d6fbe877000c', '4af4953627d6f4ff0127d6fbc935000a', '1', '男', NULL, '不要删除'),
@@ -4291,7 +4275,7 @@ CREATE TABLE IF NOT EXISTS `right_info` (
   PRIMARY KEY  (`right_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AVG_ROW_LENGTH=512;
 
-# Dumping data for table redeempoint.right_info: ~56 rows (approximately)
+# Dumping data for table redeempoint.right_info: ~58 rows (approximately)
 /*!40000 ALTER TABLE `right_info` DISABLE KEYS */;
 INSERT INTO `right_info` (`right_id`, `right_name`, `role_id`, `menu_id`, `button_id`) VALUES
 	('402887873456af4e013456babd110013', NULL, '402887873456af4e013456b938500005', NULL, '8ac388f134220b830134220fb3cf0003'),
@@ -4458,8 +4442,18 @@ CREATE TABLE IF NOT EXISTS `system_invite_process` (
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='系统请求处理';
 
-# Dumping data for table redeempoint.system_invite_process: ~20 rows (approximately)
+# Dumping data for table redeempoint.system_invite_process: ~9 rows (approximately)
 /*!40000 ALTER TABLE `system_invite_process` DISABLE KEYS */;
+INSERT INTO `system_invite_process` (`id`, `sponsor`, `recipient`, `sponsor_time`, `process_time`, `process_status`, `invitation_menu`, `process_result_code`, `invitation_event`, `invitation_reason`, `nextaction`, `relation_data`) VALUES
+	('8ac388f1347d9abb01347e5a756a0001', 'admin', 'admin', '2011-12-27 15:09:44', '2011-12-27 15:14:52', '2', '4028878734566e2c01345670ac6a0001', '1', '用户 admin 邀请您加入他的家庭：【admin的家庭】', NULL, '/family_manage/familyProcessInvition.action?method=familyProcessInvition', '{"familyMemberCard":null,"systemMemberId":"swpigris81","familyName":"admin的家庭","familyMemberName":null,"familyMemberProfession":null,"familyMemberBirthplace":null,"familyMemberHeight":null,"familyMemberSex":null,"familyMemberDeaddate":null,"familyId":"9ab70fea-75c1-44a7-8f77-a13e280e81e8","familyMemberEducational":null,"familyMemberBirthdate":null,"familyMemberId":null}'),
+	('8ac388f1347d9abb01347e5a75a90002', 'admin', '代超', '2011-12-27 15:09:44', NULL, '1', '4028878734566e2c01345670ac6a0001', NULL, '用户 admin 邀请您加入他的家庭：【admin的家庭】', NULL, '/family_manage/familyProcessInvition.action?method=familyProcessInvition', '{"familyMemberCard":null,"systemMemberId":"代超","familyName":"admin的家庭","familyMemberName":null,"familyMemberProfession":null,"familyMemberBirthplace":null,"familyMemberHeight":null,"familyMemberSex":null,"familyMemberDeaddate":null,"familyId":"9ab70fea-75c1-44a7-8f77-a13e280e81e8","familyMemberEducational":null,"familyMemberBirthdate":null,"familyMemberId":null}'),
+	('8ac388f1347d9abb01347e5a75a90003', 'admin', 'admin', '2011-12-27 15:09:44', '2011-12-27 15:14:52', '2', '4028878734566e2c01345670ac6a0001', '1', '用户 admin 邀请您加入他的家庭：【admin的家庭】', NULL, '/family_manage/familyProcessInvition.action?method=familyProcessInvition', '{"familyMemberCard":null,"systemMemberId":"111","familyName":"admin的家庭","familyMemberName":null,"familyMemberProfession":null,"familyMemberBirthplace":null,"familyMemberHeight":null,"familyMemberSex":null,"familyMemberDeaddate":null,"familyId":"9ab70fea-75c1-44a7-8f77-a13e280e81e8","familyMemberEducational":null,"familyMemberBirthdate":null,"familyMemberId":null}'),
+	('8ac388f1347d9abb01347e61590d0004', 'swpigris81', 'admin', '2011-12-27 15:17:16', '2011-12-27 15:18:13', '2', '4028878734566e2c01345670ac6a0001', '1', '用户 swpigris81 邀请您加入他的家庭：【测试家庭】', NULL, '/family_manage/familyProcessInvition.action?method=familyProcessInvition', '{"familyMemberCard":null,"systemMemberId":"admin","familyName":"测试家庭","familyMemberName":null,"familyMemberProfession":null,"familyMemberBirthplace":null,"familyMemberHeight":null,"familyMemberSex":null,"familyMemberDeaddate":null,"familyId":"0c602565-69b6-460a-9a45-acdccdff0f26","familyMemberEducational":null,"familyMemberBirthdate":null,"familyMemberId":null}'),
+	('8ac388f1347d9abb01347e61668a0005', 'swpigris81', 'admin', '2011-12-27 15:17:19', '2011-12-27 15:18:13', '2', '4028878734566e2c01345670ac6a0001', '1', '用户 swpigris81 邀请您加入他的家庭：【测试家庭】', NULL, '/family_manage/familyProcessInvition.action?method=familyProcessInvition', '{"familyMemberCard":null,"systemMemberId":"admin","familyName":"测试家庭","familyMemberName":null,"familyMemberProfession":null,"familyMemberBirthplace":null,"familyMemberHeight":null,"familyMemberSex":null,"familyMemberDeaddate":null,"familyId":"0c602565-69b6-460a-9a45-acdccdff0f26","familyMemberEducational":null,"familyMemberBirthdate":null,"familyMemberId":null}'),
+	('8ac388f1347d9abb01347e6171f40006', 'swpigris81', 'admin', '2011-12-27 15:17:22', '2011-12-27 15:18:13', '2', '4028878734566e2c01345670ac6a0001', '1', '用户 swpigris81 邀请您加入他的家庭：【测试家庭】', NULL, '/family_manage/familyProcessInvition.action?method=familyProcessInvition', '{"familyMemberCard":null,"systemMemberId":"admin","familyName":"测试家庭","familyMemberName":null,"familyMemberProfession":null,"familyMemberBirthplace":null,"familyMemberHeight":null,"familyMemberSex":null,"familyMemberDeaddate":null,"familyId":"0c602565-69b6-460a-9a45-acdccdff0f26","familyMemberEducational":null,"familyMemberBirthdate":null,"familyMemberId":null}'),
+	('8ac388f1347e65df01347e68ae280002', 'swpigris81', 'admin', '2011-12-27 15:25:16', '2011-12-27 15:25:52', '2', '4028878734566e2c01345670ac6a0001', '1', '用户 swpigris81 邀请您加入他的家庭：【测试家庭1】', NULL, '/family_manage/familyProcessInvition.action?method=familyProcessInvition', '{"familyMemberCard":null,"systemMemberId":"admin","familyName":"测试家庭1","familyMemberName":null,"familyMemberProfession":null,"familyMemberBirthplace":null,"familyMemberHeight":null,"familyMemberSex":null,"familyMemberDeaddate":null,"familyId":"d5cd2738-d754-43de-879b-106dd9dd09a4","familyMemberEducational":null,"familyMemberBirthdate":null,"familyMemberId":null}'),
+	('8ac388f1347e65df01347e68b9e00003', 'swpigris81', 'admin', '2011-12-27 15:25:19', '2011-12-27 15:25:52', '2', '4028878734566e2c01345670ac6a0001', '1', '用户 swpigris81 邀请您加入他的家庭：【测试家庭1】', NULL, '/family_manage/familyProcessInvition.action?method=familyProcessInvition', '{"familyMemberCard":null,"systemMemberId":"admin","familyName":"测试家庭1","familyMemberName":null,"familyMemberProfession":null,"familyMemberBirthplace":null,"familyMemberHeight":null,"familyMemberSex":null,"familyMemberDeaddate":null,"familyId":"d5cd2738-d754-43de-879b-106dd9dd09a4","familyMemberEducational":null,"familyMemberBirthdate":null,"familyMemberId":null}'),
+	('8ac388f1347e65df01347e68c3560004', 'swpigris81', 'admin', '2011-12-27 15:25:22', '2011-12-27 15:25:52', '2', '4028878734566e2c01345670ac6a0001', '1', '用户 swpigris81 邀请您加入他的家庭：【测试家庭1】', NULL, '/family_manage/familyProcessInvition.action?method=familyProcessInvition', '{"familyMemberCard":null,"systemMemberId":"admin","familyName":"测试家庭1","familyMemberName":null,"familyMemberProfession":null,"familyMemberBirthplace":null,"familyMemberHeight":null,"familyMemberSex":null,"familyMemberDeaddate":null,"familyId":"d5cd2738-d754-43de-879b-106dd9dd09a4","familyMemberEducational":null,"familyMemberBirthdate":null,"familyMemberId":null}');
 /*!40000 ALTER TABLE `system_invite_process` ENABLE KEYS */;
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
