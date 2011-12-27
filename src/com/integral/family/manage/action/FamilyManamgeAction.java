@@ -417,6 +417,8 @@ public class FamilyManamgeAction extends BaseAction implements ServletRequestAwa
                         String nextAction = "/family_manage/familyProcessInvition.action?method=familyProcessInvition";
                         process.setNextaction(nextAction);
                         
+                        process.setRelationEntityName(FamilyMember.class.getName());
+                        
                         JsonFormat jf1 = new JsonFormat(true);
                         process.setRelationData(Json.toJson(member, jf1));
                         processList.add(process);
@@ -461,7 +463,6 @@ public class FamilyManamgeAction extends BaseAction implements ServletRequestAwa
         PrintWriter out = null;
         try{
             out = super.getPrintWriter(request, response);
-            String familyNames = (String) request.getSession().getAttribute("familyNames");
             List<FamilyMember> relationDataList = (List<FamilyMember>) request.getSession().getAttribute("relationDataList");
             List<FamilyMember> memberList = new ArrayList<FamilyMember>();
             StringBuffer sb = new StringBuffer();

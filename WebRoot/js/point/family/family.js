@@ -413,12 +413,15 @@ function family(){
 		}
 		var dataIdArray = new Array();
 		var holder = new Array();
+		var fname = new Array();
 		for(var i=0; i < gridSelection.length; i++){
 			dataIdArray.push(gridSelection[i].get("familyId"));
 			holder.push(gridSelection[i].get("familyHouseHolder"));
+			fname.push(gridSelection[i].get("familyName"));
 		}
 		var familyIds = dataIdArray.join(",");
 		var holderNames = holder.join(",");
+		var familyName = fname.join(",");
 		
 		Ext.MessageBox.show({
 		    msg: '正在提交您的请求, 请稍侯...',
@@ -430,7 +433,7 @@ function family(){
 		});
 		
 		Ext.Ajax.request({
-			params:{sponsor:userName,recipient:holderNames, menuId: currentMenuId, familyId:familyIds},
+			params:{sponsor:userName,recipient:holderNames, menuId: currentMenuId, familyId:familyIds, familyName: familyName},
 			timeout:60000,
 			url:url,
 			success:function(response, options){

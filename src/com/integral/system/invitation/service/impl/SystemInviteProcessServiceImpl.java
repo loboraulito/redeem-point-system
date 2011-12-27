@@ -35,7 +35,8 @@ public class SystemInviteProcessServiceImpl implements ISystemInviteProcessServi
     public List<SystemInviteProcess> findByUserId(String userId, String fromUserId, String menuId, String status, int start, int limit) {
         //String sql = "from SystemInviteProcess model  JOIN MenuInfo menu where model.invitationMenu = menu.menuId and model.recipient = :userId";
         String sql = "SELECT ps.id, ps.sponsor, ps.recipient, ps.sponsor_time, ps.process_time, ps.process_status, ps.invitation_menu," +
-        		" m.menu_name, ps.process_result_code, ps.invitation_event, ps.invitation_reason, ps.nextaction, ps.relation_data FROM system_invite_process AS ps" +
+        		" m.menu_name, ps.process_result_code, ps.invitation_event, ps.invitation_reason, ps.nextaction, ps.relation_data, ps.ralation_entity_name" +
+        		" FROM system_invite_process AS ps" +
         		" LEFT JOIN menu_info AS m ON ps.invitation_menu = m.menu_id where 1 = 1 "; 
         Map<String, Object> params = new HashMap<String, Object>();
         if(fromUserId != null && !"".equals(fromUserId.trim())){
@@ -75,6 +76,7 @@ public class SystemInviteProcessServiceImpl implements ISystemInviteProcessServi
                 process.setInvitationReason(obj[10] == null ? "" : obj[10].toString());
                 process.setNextaction(obj[11] == null ? "" : obj[11].toString());
                 process.setRelationData(obj[12] == null ? "" : obj[12].toString());
+                process.setRelationEntityName(obj[13] == null ? "" : obj[13].toString());
                 processList.add(process);
             }
         }

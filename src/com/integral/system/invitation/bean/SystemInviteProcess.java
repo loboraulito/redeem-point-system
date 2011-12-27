@@ -23,6 +23,7 @@ public class SystemInviteProcess  implements java.io.Serializable {
      private String invitationReason;
      private String nextaction;
      private String relationData;
+     private String relationEntityName;
 
     public SystemInviteProcess() {
     }
@@ -31,7 +32,7 @@ public class SystemInviteProcess  implements java.io.Serializable {
     public SystemInviteProcess(String id) {
         this.id = id;
     }
-    public SystemInviteProcess(String id, String sponsor, String recipient, Date sponsorTime, Date processTime, String processStatus, String invitationMenu, String processResultCode, String invitationEvent, String invitationReason, String nextaction, String invitationMenuName, String relationData) {
+    public SystemInviteProcess(String id, String sponsor, String recipient, Date sponsorTime, Date processTime, String processStatus, String invitationMenu, String processResultCode, String invitationEvent, String invitationReason, String nextaction, String invitationMenuName, String relationData, String relationEntityName) {
        this.id = id;
        this.sponsor = sponsor;
        this.recipient = recipient;
@@ -45,8 +46,19 @@ public class SystemInviteProcess  implements java.io.Serializable {
        this.invitationReason = invitationReason;
        this.nextaction = nextaction;
        this.relationData = relationData;
+       this.relationEntityName = relationEntityName;
     }
    
+    public String getRelationEntityName() {
+        return relationEntityName;
+    }
+
+
+    public void setRelationEntityName(String relationEntityName) {
+        this.relationEntityName = relationEntityName;
+    }
+
+
     public String getRelationData() {
         return relationData;
     }

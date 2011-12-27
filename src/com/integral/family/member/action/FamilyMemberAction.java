@@ -1,6 +1,8 @@
 package com.integral.family.member.action;
 
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,6 +23,9 @@ import org.springframework.transaction.support.DefaultTransactionDefinition;
 import com.integral.common.action.BaseAction;
 import com.integral.family.member.bean.FamilyMember;
 import com.integral.family.member.service.IFamilyMemberService;
+import com.integral.system.invitation.bean.SystemInviteProcess;
+import com.integral.system.invitation.service.ISystemInviteProcessService;
+import com.integral.util.ListUtils;
 
 /** 
  * <p>Description: [家庭成员管理]</p>
@@ -32,7 +37,20 @@ public class FamilyMemberAction extends BaseAction implements ServletRequestAwar
     private HttpServletRequest request;
     private HttpServletResponse response;
     private IFamilyMemberService familyMemberService;
+    
+    private ISystemInviteProcessService systemInviteProcessService;
     private DataSourceTransactionManager transactionManager;
+    
+    
+    
+    public ISystemInviteProcessService getSystemInviteProcessService() {
+        return systemInviteProcessService;
+    }
+
+    public void setSystemInviteProcessService(ISystemInviteProcessService systemInviteProcessService) {
+        this.systemInviteProcessService = systemInviteProcessService;
+    }
+
     /**
      * <p>Discription:[方法功能中文描述]</p>
      * @return IFamilyMemberService familyMemberService.
@@ -145,6 +163,7 @@ public class FamilyMemberAction extends BaseAction implements ServletRequestAwar
         String recipient = request.getParameter("recipient");
         String menuId = request.getParameter("menuId");
         String familyId = request.getParameter("familyId");
+        String familyName = request.getParameter("familyName");
         // 定义TransactionDefinition并设置好事务的隔离级别和传播方式。
         DefaultTransactionDefinition definition = new DefaultTransactionDefinition();
         // 代价最大、可靠性最高的隔离级别，所有的事务都是按顺序一个接一个地执行
@@ -163,7 +182,35 @@ public class FamilyMemberAction extends BaseAction implements ServletRequestAwar
             }else{
                 String holderIds[] = recipient.split(",");
                 String familyIds[] = familyId.split(",");
-                
+                String familyNames[] = familyName.split(",");
+                List<SystemInviteProcess> processList = new ArrayList<SystemInviteProcess>();
+                for(int i=0; i< familyIds.length; i++){
+                    FamilyMember member = new FamilyMember();
+                    member.setFamilyId(familyIds[i]);
+                    member.setFamilyName(familyNames[i]);
+                    member.setSystemMemberId(sponsor);
+                    SystemInviteProcess process = new SystemInviteProcess();
+                    
+                    process.setSponsor(sponsor);
+                    process.setSponsorTime(new Date());
+                    process.setRecipient(holderIds[i]);
+                    process.setInvitationMenu(menuId);
+                    //未处理
+                    process.setProcessStatus("1");
+                    String event = "用户 "+sponsor+" 请求加入您的家庭：【"+familyNames[i] +"】";
+                    process.setInvitationEvent(event);
+                    String nextAction = "/family_member/familyMemberApplyProcess.action?method=familyMemberApplyProcess";
+                    process.setNextaction(nextAction);
+                    
+                    process.setRelationEntityName(FamilyMember.class.getName());
+                    
+                    JsonFormat jf1 = new JsonFormat(true);
+                    process.setRelationData(Json.toJson(member, jf1));
+                    processList.add(process);
+                }
+                this.systemInviteProcessService.saveOrUpdateAll(processList);
+                resultMap.put("success", true);
+                resultMap.put("msg", "已向所选家庭户主发出请求，请等待户主回应！");
             }
         }catch(Exception e){
             status.setRollbackOnly();
@@ -187,7 +234,59 @@ public class FamilyMemberAction extends BaseAction implements ServletRequestAwar
      * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
      */
     public String familyMemberApplyProcess(){
-        
+        // 定义TransactionDefinition并设置好事务的隔离级别和传播方式。
+        DefaultTransactionDefinition definition = new DefaultTransactionDefinition();
+        // 代价最大、可靠性最高的隔离级别，所有的事务都是按顺序一个接一个地执行
+        definition.setIsolationLevel(TransactionDefinition.ISOLATION_SERIALIZABLE);
+        // 开始事务
+        TransactionStatus status = transactionManager.getTransaction(definition);
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        JsonFormat jf = new JsonFormat(true);
+        jf.setAutoUnicode(true);
+        PrintWriter out = null;
+        try{
+            out = super.getPrintWriter(request, response);
+            List<FamilyMember> relationDataList = (List<FamilyMember>) request.getSession().getAttribute("relationDataList");
+            List<FamilyMember> memberList = new ArrayList<FamilyMember>();
+            StringBuffer sb = new StringBuffer();
+            
+            if(relationDataList != null){
+                //剔除重复的
+                List<FamilyMember> ll = ListUtils.removeDuplication(relationDataList, "familyId", "systemMemberId");
+                
+                for(FamilyMember m : ll){
+                    List l = this.familyMemberService.findByExample(m);
+                    if(l != null && l.size() >0){
+                        sb.append("用户【"+m.getSystemMemberId()+"】已经是【"+m.getFamilyName()+"】的成员，无需重复加入！<br><br>");
+                        continue;
+                    }else{
+                        memberList.add(m);
+                        sb.append("您已成功接受【"+m.getSystemMemberId()+"】的请求，成为【"+m.getFamilyName()+"】的成员！<br><br>");
+                    }
+                }
+                if(memberList != null && memberList.size() >0){
+                    this.familyMemberService.saveOrUpdateAll(memberList);
+                }
+                
+                resultMap.put("success", true);
+                resultMap.put("msg", sb.substring(0, sb.lastIndexOf("<br><br>")).toString());
+            }else{
+                resultMap.put("success", false);
+                resultMap.put("msg", "用户信息不完整，无法处理！");
+            }
+        }catch(Exception e){
+            status.setRollbackOnly();
+            resultMap.put("success", false);
+            resultMap.put("msg", "系统错误！错误代码："+e.getMessage());
+            LOG.info(e.getMessage());
+        }finally{
+            this.transactionManager.commit(status);
+            if(out != null){
+                out.print(Json.toJson(resultMap, jf));
+                out.flush();
+                out.close();
+            }
+        }
         return null;
     }
 }
