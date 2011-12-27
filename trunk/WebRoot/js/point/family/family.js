@@ -212,6 +212,7 @@ function family(){
 	 * @param {} url
 	 */
 	this.familyApply = function(url){
+		
 		/**
 		 * 家庭基本信息数据解析
 		 */
@@ -395,13 +396,76 @@ function family(){
 				iconCls:"table_gear",
 				tooltip:"申请加入所选家庭",
 				handler:function(){
-					
+					doApplyFamily(familyListDataGrid, "applyFamilyWindow", url);
 				}
 			}]
 		});
 		showFamilyMemberWindow("applyFamilyWindow","申请加入家庭",560, 320, familyListDataGrid);
 		familyListStore.load();
 	};
+	
+	function doApplyFamily(grid, windowId, url){
+		var gridSelectionModel = grid.getSelectionModel();
+		var gridSelection = gridSelectionModel.getSelections();
+		if(gridSelection.length < 1){
+			Ext.MessageBox.alert('提示','请至少选择一个家庭！');
+		    return false;
+		}
+		var dataIdArray = new Array();
+		var holder = new Array();
+		for(var i=0; i < gridSelection.length; i++){
+			dataIdArray.push(gridSelection[i].get("familyId"));
+			holder.push(gridSelection[i].get("familyHouseHolder"));
+		}
+		var familyIds = dataIdArray.join(",");
+		var holderNames = holder.join(",");
+		
+		Ext.MessageBox.show({
+		    msg: '正在提交您的请求, 请稍侯...',
+		    progressText: '正在提交您的请求',
+		    width:300,
+		    wait:true,
+		    waitConfig: {interval:200},
+		    icon:Ext.Msg.INFO
+		});
+		
+		Ext.Ajax.request({
+			params:{sponsor:userName,recipient:holderNames, menuId: currentMenuId, familyId:familyIds},
+			timeout:60000,
+			url:url,
+			success:function(response, options){
+				Ext.Msg.hide();
+				var msg = Ext.util.JSON.decode(response.responseText);
+				if(msg.success){
+					if(msg.msg){
+						Ext.Msg.alert("系统提示",msg.msg);
+					}else{
+						Ext.Msg.alert("系统提示","已向所选家庭户主发出请求，请等待请求结果！");
+					}
+					//familyListStore.reload();
+					Ext.getCmp(windowId).close();
+				}else{
+					if(msg.msg){
+						Ext.Msg.alert("系统提示",msg.msg);
+					}else{
+						Ext.Msg.alert("系统提示","向所选家庭户主发出请求失败！");
+					}
+				}
+			},failure: function(response, options){
+				Ext.Msg.hide();
+				try{
+					var msg = Ext.util.JSON.decode(response.responseText);
+					if(msg.msg){
+						Ext.Msg.alert("系统提示",msg.msg);
+					}else{
+						Ext.Msg.alert("系统提示","向所选家庭户主发出请求失败！");
+					}
+				}catch(e){
+					Ext.Msg.alert("系统提示","系统错误！错误代码：" + e);
+				}
+			}
+		});
+	}
 	
 	
 	/**

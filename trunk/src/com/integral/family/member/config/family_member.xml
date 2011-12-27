@@ -13,5 +13,13 @@
 			 <result name="success">/jsp/family/family.jsp</result>
 			 <result name="input">/index.jsp</result>
 		</action>
+		<action name="familyMemberApply" class="com.integral.family.member.action.FamilyMemberAction" method="familyMemberApply">
+			 <result name="success">/jsp/family/family.jsp</result>
+			 <result name="input">/index.jsp</result>
+		</action>
+		<action name="familyMemberApplyProcess" class="com.integral.family.member.action.FamilyMemberAction" method="familyMemberApplyProcess">
+			 <result name="success">/jsp/family/family.jsp</result>
+			 <result name="input">/index.jsp</result>
+		</action>
 	</package>
 </struts>
