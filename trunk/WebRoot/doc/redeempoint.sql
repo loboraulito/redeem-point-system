@@ -1,9 +1,9 @@
 # --------------------------------------------------------
 # Host:                         127.0.0.1
-# Server version:               5.0.45-community-nt
+# Server version:               5.0.22-community-nt
 # Server OS:                    Win32
 # HeidiSQL version:             6.0.0.3918
-# Date/time:                    2011-12-27 17:22:53
+# Date/time:                    2011-12-27 22:06:45
 # --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -60,13 +60,12 @@ CREATE TABLE IF NOT EXISTS `family_info` (
   PRIMARY KEY  (`family_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-# Dumping data for table redeempoint.family_info: ~6 rows (approximately)
+# Dumping data for table redeempoint.family_info: ~4 rows (approximately)
 /*!40000 ALTER TABLE `family_info` DISABLE KEYS */;
 INSERT INTO `family_info` (`family_id`, `family_name`, `family_create_date`, `family_house_holder`, `family_address`, `family_tel`, `family_comment`) VALUES
+	('09552686-4f59-4d61-9f5c-c88fb35b3acd', '测试家庭3', '2011-12-27', 'admin', '22', '8888', '22'),
 	('0c602565-69b6-460a-9a45-acdccdff0f26', '测试家庭', '2011-12-26', 'swpigris81', '天朝', '123456789', '天朝'),
-	('1', '测试1', '2011-12-20', 'abcd', NULL, NULL, NULL),
-	('2', '测试2', '2011-12-20', 'abcde', NULL, NULL, NULL),
-	('3', '测试3', '2011-12-19', 'abcdef', NULL, NULL, NULL),
+	('2217dab0-eda2-490f-987a-c75fb1c20c63', '测试家庭2', '2011-12-27', 'admin', '12', '11', '12'),
 	('9ab70fea-75c1-44a7-8f77-a13e280e81e8', 'admin的家庭', '2011-12-22', 'admin', '广州天河上社中和里22号', '15975514537', '常德市常德市常德市常德市常德市常德市常德市常德市常德市常德市常德市常德市常德市常德市常德市常德市常德市常德市常德市常德市常德市常德市常德市常德市常德市常德市常德市常德市常德市常德市'),
 	('d5cd2738-d754-43de-879b-106dd9dd09a4', '测试家庭1', '2011-12-27', 'swpigris81', '1', '11', '11');
 /*!40000 ALTER TABLE `family_info` ENABLE KEYS */;
@@ -90,13 +89,17 @@ CREATE TABLE IF NOT EXISTS `family_member` (
   PRIMARY KEY  (`family_member_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-# Dumping data for table redeempoint.family_member: ~14 rows (approximately)
+# Dumping data for table redeempoint.family_member: ~15 rows (approximately)
 /*!40000 ALTER TABLE `family_member` DISABLE KEYS */;
 INSERT INTO `family_member` (`family_member_id`, `family_id`, `family_member_name`, `system_member_id`, `family_member_card`, `family_member_birthdate`, `family_member_birthplace`, `family_member_sex`, `family_member_height`, `family_member_educational`, `family_member_profession`, `family_member_deaddate`) VALUES
 	('1', '1', 'avc', 'swpigris81', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 	('2', '1', 'bbb', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 	('3', '1', 'aaa', 'aaa', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 	('4', '2', '123', 'asd', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	('40288787347f969201347f9d59790004', '2217dab0-eda2-490f-987a-c75fb1c20c63', NULL, 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	('40288787347fc46e01347fca1f9e0004', '2217dab0-eda2-490f-987a-c75fb1c20c63', NULL, 'swpigris81', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	('40288787347fc46e01347fced3ff0005', '09552686-4f59-4d61-9f5c-c88fb35b3acd', NULL, 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	('40288787347fc46e01347fd277ee0054', '09552686-4f59-4d61-9f5c-c88fb35b3acd', NULL, 'swpigris81', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 	('5', '3', '112', '112', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 	('6', '3', 'avc', 'swpigris81', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 	('8ac388f134644dc80134649e8bec0001', '9ab70fea-75c1-44a7-8f77-a13e280e81e8', NULL, 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
@@ -313,18 +316,21 @@ CREATE TABLE IF NOT EXISTS `persistent_logins` (
   PRIMARY KEY  (`series`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-# Dumping data for table redeempoint.persistent_logins: ~9 rows (approximately)
+# Dumping data for table redeempoint.persistent_logins: ~11 rows (approximately)
 /*!40000 ALTER TABLE `persistent_logins` DISABLE KEYS */;
 INSERT INTO `persistent_logins` (`username`, `series`, `token`, `last_used`) VALUES
 	('swpigris81', 'AZsvjkS8jRttEghMSBYWEA==', 'u6NUePolUPnrImMx/DEbcw==', '2011-12-27 15:24:26'),
 	('test7', 'CeNdmlqXVyRYvZwKcmUV7w==', '2OBecJqdheuz3twVOxSsnA==', '2011-12-19 22:40:07'),
 	('test', 'G2FVauqxspI+kKZdf33Q9A==', 'IzNMi/Wzgm4niwQ74RWQCQ==', '2011-12-19 22:32:56'),
+	('swpigris81', 'gi7P6vkftyigLpwgHgboXQ==', 'Npsi+FX5RnYGWc381mlWGA==', '2011-12-27 21:46:10'),
 	('admin', 'nbqKVqxdHYuQi5QxLwqjZg==', 'jk/P/jFsHJbzEL6QXCEWpg==', '2011-12-27 15:24:06'),
 	('test5', 'oSbmTPwPzTHWhOqdvx9tmQ==', 'NNW4cnPzcZ+sn7UmpTCABA==', '2011-12-19 22:35:42'),
 	('test', 'Q4U70XT7icCjga71waR/Cg==', 'R+GL0zfonv3EjIKBA+BMlA==', '2011-12-19 22:30:13'),
+	('admin', 'qQFO56UFHCcud86yGwRtbw==', 'MTctq2+5wKuartfRSZ4Wfw==', '2011-12-27 21:59:13'),
 	('test4', 'RSXcsp+hCeYaezaQ14m+AA==', 'WWCpPc7FRMZi4m9C+0GpBw==', '2011-12-19 22:34:12'),
 	('test2', 'w4jhOS+iW4lyvcQkMZcKMg==', '5rRdtvt8pmP92f0vF3+udw==', '2011-12-19 22:33:19'),
-	('admin', 'yw90E8vHV6P8lHML+LJ6Lw==', '4Xejbq293e/4CdJtZ52Esg==', '2011-12-27 15:17:35');
+	('admin', 'yw90E8vHV6P8lHML+LJ6Lw==', '4Xejbq293e/4CdJtZ52Esg==', '2011-12-27 15:17:35'),
+	('admin', 'ywjIXV3mtNTlX0AJtWY5Cw==', '/Siu5G78IIRDg0CVvD+Y4Q==', '2011-12-27 21:45:17');
 /*!40000 ALTER TABLE `persistent_logins` ENABLE KEYS */;
 
 
@@ -366,7 +372,7 @@ CREATE TABLE IF NOT EXISTS `point_system_codelist_data` (
   KEY `Index 4` (`dataid`,`codeid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AVG_ROW_LENGTH=3276 COMMENT='系统数据标准数据表';
 
-# Dumping data for table redeempoint.point_system_codelist_data: ~3,941 rows (approximately)
+# Dumping data for table redeempoint.point_system_codelist_data: ~3,732 rows (approximately)
 /*!40000 ALTER TABLE `point_system_codelist_data` DISABLE KEYS */;
 INSERT INTO `point_system_codelist_data` (`dataid`, `codeid`, `datakey`, `datavalue`, `parentdatakey`, `remark`) VALUES
 	('4af4953627d6f4ff0127d6fbe877000c', '4af4953627d6f4ff0127d6fbc935000a', '1', '男', NULL, '不要删除'),
@@ -4279,63 +4285,64 @@ CREATE TABLE IF NOT EXISTS `right_info` (
 /*!40000 ALTER TABLE `right_info` DISABLE KEYS */;
 INSERT INTO `right_info` (`right_id`, `right_name`, `role_id`, `menu_id`, `button_id`) VALUES
 	('402887873456af4e013456babd110013', NULL, '402887873456af4e013456b938500005', NULL, '8ac388f134220b830134220fb3cf0003'),
-	('8ac388eb31402e2001314059cf0c0006', NULL, '2', NULL, 'ff80808129e37c8b0129e37dbe0c0005'),
-	('8ac388f1347995cb0134799c64040014', NULL, '1', NULL, '4af4953627d6f4ff0127d708d95b0019'),
-	('8ac388f1347995cb0134799c64040015', NULL, '1', NULL, '4af495362813e685012813f3ec120003'),
-	('8ac388f1347995cb0134799c64040016', NULL, '1', NULL, '4af495362813e685012813f4f53f0005'),
-	('8ac388f1347995cb0134799c64040017', NULL, '1', NULL, '4af49536281a5f0301281a6032640003'),
-	('8ac388f1347995cb0134799c64040018', NULL, '1', NULL, '402880e430e992d60130e9d0267b0039'),
-	('8ac388f1347995cb0134799c64040019', NULL, '1', NULL, '4af49536275fac9401275faf59c30008'),
-	('8ac388f1347995cb0134799c6404001a', NULL, '1', NULL, '4af49536275fac9401275fb06f00000a'),
-	('8ac388f1347995cb0134799c6404001b', NULL, '1', NULL, '4af49536276143d301276145131d0003'),
-	('8ac388f1347995cb0134799c6404001c', NULL, '1', NULL, '402880e430eb58470130eb5d5f880001'),
-	('8ac388f1347995cb0134799c6404001d', NULL, '1', NULL, '402880e430eb58470130eb5e584e0002'),
-	('8ac388f1347995cb0134799c6404001e', NULL, '1', NULL, '402880e430eb58470130eb5f22870003'),
-	('8ac388f1347995cb0134799c6404001f', NULL, '1', NULL, 'ff808081297247bf0129724a54300004'),
-	('8ac388f1347995cb0134799c64040020', NULL, '1', NULL, '402880e430eb58470130eb6112ea0004'),
-	('8ac388f1347995cb0134799c64040021', NULL, '1', NULL, '402880e430eb58470130eb61cf4a0005'),
-	('8ac388f1347995cb0134799c64040022', NULL, '1', NULL, '402880e430eb58470130eb62d0f70006'),
-	('8ac388f1347995cb0134799c64040023', NULL, '1', NULL, 'ff80808129a30cbc0129a30e45860005'),
-	('8ac388f1347995cb0134799c64040024', NULL, '1', NULL, '402881e423cdce810123cdd2c2bc0004'),
-	('8ac388f1347995cb0134799c64040025', NULL, '1', NULL, '402881e82505b3a5012505b666990004'),
-	('8ac388f1347995cb0134799c64040026', NULL, '1', NULL, 'ff80808129de49ac0129de4b3ecc0005'),
-	('8ac388f1347995cb0134799c64040027', NULL, '1', NULL, 'ff80808129e37c8b0129e37dbe0c0005'),
-	('8ac388f1347995cb0134799c64040028', NULL, '1', NULL, 'ff8080812c487f3a012c48e306290007'),
-	('8ac388f1347995cb0134799c64040029', NULL, '1', NULL, 'ff8080812c487f3a012c48e3c02c0009'),
-	('8ac388f1347995cb0134799c6404002a', NULL, '1', NULL, '402880e431b3e2c40131b3e59b960001'),
-	('8ac388f1347995cb0134799c6404002b', NULL, '1', NULL, '402880e431b3e2c40131b3e63d700002'),
-	('8ac388f1347995cb0134799c6404002c', NULL, '1', NULL, '402880e431b3e2c40131b3ea37b7002b'),
-	('8ac388f1347995cb0134799c6404002d', NULL, '1', NULL, '402880e431b3e2c40131b3eaff23002c'),
-	('8ac388f1347995cb0134799c6404002e', NULL, '1', NULL, '402880e431b3e2c40131b3ebadc8002d'),
-	('8ac388f1347995cb0134799c6404002f', NULL, '1', NULL, '402880e531c753e10131c76f2aea0009'),
-	('8ac388f1347995cb0134799c64040030', NULL, '1', NULL, '402880e531c753e10131c7725de5003b'),
-	('8ac388f1347995cb0134799c64040031', NULL, '1', NULL, '402880e531c753e10131c7734d56003c'),
-	('8ac388f1347995cb0134799c64040032', NULL, '1', NULL, '402880e431b918cd0131b9238775002d'),
-	('8ac388f1347995cb0134799c64040033', NULL, '1', NULL, '402880e431b918cd0131b924901f002e'),
-	('8ac388f1347995cb0134799c64040034', NULL, '1', NULL, '402880e431b918cd0131b9257a55002f'),
-	('8ac388f1347995cb0134799c64040035', NULL, '1', NULL, '402887873470150601347040e7630002'),
-	('8ac388f1347995cb0134799c64040036', NULL, '1', NULL, '8ac388f134783fcc013478431f040001'),
-	('8ac388f1347995cb0134799c64040037', NULL, '1', NULL, '8ac388f134783fcc0134784446da0002'),
-	('8ac388f1347995cb0134799c64140038', NULL, '1', NULL, '8ac388f134783fcc01347845f4520003'),
-	('8ac388f1347995cb0134799c64140039', NULL, '1', NULL, '8ac388f134783fcc0134784746360004'),
-	('8ac388f1347995cb0134799c6414003a', NULL, '1', NULL, '8ac388f134783fcc0134784991cb004d'),
-	('8ac388f1347995cb0134799c6414003b', NULL, '1', NULL, '8ac388f134798c600134798d83820001'),
-	('8ac388f1347995cb0134799c6414003c', NULL, '1', NULL, '8ac388eb314562a601314566b0b10024'),
-	('8ac388f1347995cb0134799c6414003d', NULL, '1', NULL, '8ac388eb314562a601314567a5e90025'),
-	('8ac388f1347995cb0134799c6414003e', NULL, '1', NULL, '8ac388eb314aae6401314bfdb3680035'),
-	('8ac388f1347995cb0134799c6414003f', NULL, '1', NULL, '8ac388eb314aae6401314bfe88a80036'),
-	('8ac388f1347995cb0134799c64140040', NULL, '1', NULL, '4028878734566e2c013456718c000002'),
-	('8ac388f1347995cb0134799c64140041', NULL, '1', NULL, '4028878734586d61013458726cac0002'),
-	('8ac388f1347995cb0134799c64140042', NULL, '1', NULL, '8ac388f1345fbdfd01345fd07cae0003'),
-	('8ac388f1347995cb0134799c64140043', NULL, '1', NULL, '8ac388f13463cbde013463cdfb540001'),
-	('8ac388f1347995cb0134799c64140044', NULL, '1', NULL, '8ac388f13463cbde013463cf1b730002'),
-	('8ac388f1347995cb0134799c64140045', NULL, '1', NULL, '8ac388f13463cbde013463d3bd900040'),
-	('8ac388f1347995cb0134799c64140046', NULL, '1', NULL, '8ac388f1346874920134694ff1ad0001'),
-	('8ac388f1347995cb0134799c64140047', NULL, '1', NULL, '8ac388f13477e6b2013477ea00960001'),
-	('8ac388f1347995cb0134799c64140048', NULL, '1', NULL, '8ac388f134783fcc013478587450009e'),
-	('8ac388f1347995cb0134799c64140049', NULL, '1', NULL, '4028878734586d6101345871800b0001'),
-	('8ac388f1347995cb0134799c6414004a', NULL, '1', NULL, '4028878734586d6101345873d98f0003'),
-	('8ac388f1347995cb0134799c6414004b', NULL, '1', NULL, '8ac388f134220b830134220fb3cf0003');
+	('40288787347fc46e01347fd1a012001b', NULL, '1', NULL, '4af4953627d6f4ff0127d708d95b0019'),
+	('40288787347fc46e01347fd1a012001c', NULL, '1', NULL, '4af495362813e685012813f3ec120003'),
+	('40288787347fc46e01347fd1a012001d', NULL, '1', NULL, '4af495362813e685012813f4f53f0005'),
+	('40288787347fc46e01347fd1a012001e', NULL, '1', NULL, '4af49536281a5f0301281a6032640003'),
+	('40288787347fc46e01347fd1a012001f', NULL, '1', NULL, '402880e430e992d60130e9d0267b0039'),
+	('40288787347fc46e01347fd1a0130020', NULL, '1', NULL, '4af49536275fac9401275faf59c30008'),
+	('40288787347fc46e01347fd1a0130021', NULL, '1', NULL, '4af49536275fac9401275fb06f00000a'),
+	('40288787347fc46e01347fd1a0130022', NULL, '1', NULL, '4af49536276143d301276145131d0003'),
+	('40288787347fc46e01347fd1a0130023', NULL, '1', NULL, '402880e430eb58470130eb5d5f880001'),
+	('40288787347fc46e01347fd1a0130024', NULL, '1', NULL, '402880e430eb58470130eb5e584e0002'),
+	('40288787347fc46e01347fd1a0130025', NULL, '1', NULL, '402880e430eb58470130eb5f22870003'),
+	('40288787347fc46e01347fd1a0130026', NULL, '1', NULL, 'ff808081297247bf0129724a54300004'),
+	('40288787347fc46e01347fd1a0130027', NULL, '1', NULL, '402880e430eb58470130eb6112ea0004'),
+	('40288787347fc46e01347fd1a0130028', NULL, '1', NULL, '402880e430eb58470130eb61cf4a0005'),
+	('40288787347fc46e01347fd1a0130029', NULL, '1', NULL, '402880e430eb58470130eb62d0f70006'),
+	('40288787347fc46e01347fd1a013002a', NULL, '1', NULL, 'ff80808129a30cbc0129a30e45860005'),
+	('40288787347fc46e01347fd1a013002b', NULL, '1', NULL, '402881e423cdce810123cdd2c2bc0004'),
+	('40288787347fc46e01347fd1a013002c', NULL, '1', NULL, '402881e82505b3a5012505b666990004'),
+	('40288787347fc46e01347fd1a013002d', NULL, '1', NULL, 'ff80808129de49ac0129de4b3ecc0005'),
+	('40288787347fc46e01347fd1a013002e', NULL, '1', NULL, 'ff80808129e37c8b0129e37dbe0c0005'),
+	('40288787347fc46e01347fd1a013002f', NULL, '1', NULL, 'ff8080812c487f3a012c48e306290007'),
+	('40288787347fc46e01347fd1a0130030', NULL, '1', NULL, 'ff8080812c487f3a012c48e3c02c0009'),
+	('40288787347fc46e01347fd1a0130031', NULL, '1', NULL, '402880e431b3e2c40131b3e59b960001'),
+	('40288787347fc46e01347fd1a0130032', NULL, '1', NULL, '402880e431b3e2c40131b3e63d700002'),
+	('40288787347fc46e01347fd1a0130033', NULL, '1', NULL, '402880e431b3e2c40131b3ea37b7002b'),
+	('40288787347fc46e01347fd1a0130034', NULL, '1', NULL, '402880e431b3e2c40131b3eaff23002c'),
+	('40288787347fc46e01347fd1a0140035', NULL, '1', NULL, '402880e431b3e2c40131b3ebadc8002d'),
+	('40288787347fc46e01347fd1a0140036', NULL, '1', NULL, '402880e531c753e10131c76f2aea0009'),
+	('40288787347fc46e01347fd1a0140037', NULL, '1', NULL, '402880e531c753e10131c7725de5003b'),
+	('40288787347fc46e01347fd1a0140038', NULL, '1', NULL, '402880e531c753e10131c7734d56003c'),
+	('40288787347fc46e01347fd1a0140039', NULL, '1', NULL, '402880e431b918cd0131b9238775002d'),
+	('40288787347fc46e01347fd1a014003a', NULL, '1', NULL, '402880e431b918cd0131b924901f002e'),
+	('40288787347fc46e01347fd1a014003b', NULL, '1', NULL, '402880e431b918cd0131b9257a55002f'),
+	('40288787347fc46e01347fd1a014003c', NULL, '1', NULL, '402887873470150601347040e7630002'),
+	('40288787347fc46e01347fd1a014003d', NULL, '1', NULL, '8ac388f134783fcc013478431f040001'),
+	('40288787347fc46e01347fd1a014003e', NULL, '1', NULL, '8ac388f134783fcc0134784446da0002'),
+	('40288787347fc46e01347fd1a014003f', NULL, '1', NULL, '8ac388f134783fcc01347845f4520003'),
+	('40288787347fc46e01347fd1a0140040', NULL, '1', NULL, '8ac388f134783fcc0134784746360004'),
+	('40288787347fc46e01347fd1a0140041', NULL, '1', NULL, '8ac388f134783fcc0134784991cb004d'),
+	('40288787347fc46e01347fd1a0140042', NULL, '1', NULL, '8ac388f134798c600134798d83820001'),
+	('40288787347fc46e01347fd1a0140043', NULL, '1', NULL, '8ac388eb314562a601314566b0b10024'),
+	('40288787347fc46e01347fd1a0140044', NULL, '1', NULL, '8ac388eb314562a601314567a5e90025'),
+	('40288787347fc46e01347fd1a0140045', NULL, '1', NULL, '8ac388eb314aae6401314bfdb3680035'),
+	('40288787347fc46e01347fd1a0140046', NULL, '1', NULL, '8ac388eb314aae6401314bfe88a80036'),
+	('40288787347fc46e01347fd1a0140047', NULL, '1', NULL, '4028878734566e2c013456718c000002'),
+	('40288787347fc46e01347fd1a0140048', NULL, '1', NULL, '4028878734586d61013458726cac0002'),
+	('40288787347fc46e01347fd1a0150049', NULL, '1', NULL, '8ac388f1345fbdfd01345fd07cae0003'),
+	('40288787347fc46e01347fd1a015004a', NULL, '1', NULL, '8ac388f13463cbde013463cdfb540001'),
+	('40288787347fc46e01347fd1a015004b', NULL, '1', NULL, '8ac388f13463cbde013463cf1b730002'),
+	('40288787347fc46e01347fd1a015004c', NULL, '1', NULL, '8ac388f13463cbde013463d3bd900040'),
+	('40288787347fc46e01347fd1a015004d', NULL, '1', NULL, '8ac388f1346874920134694ff1ad0001'),
+	('40288787347fc46e01347fd1a015004e', NULL, '1', NULL, '8ac388f13477e6b2013477ea00960001'),
+	('40288787347fc46e01347fd1a015004f', NULL, '1', NULL, '8ac388f134783fcc013478587450009e'),
+	('40288787347fc46e01347fd1a0150050', NULL, '1', NULL, '4028878734586d6101345871800b0001'),
+	('40288787347fc46e01347fd1a0150051', NULL, '1', NULL, '4028878734586d6101345873d98f0003'),
+	('40288787347fc46e01347fd1a0150052', NULL, '1', NULL, '8ac388f134220b830134220fb3cf0003'),
+	('40288787347fc46e01347fd1a0150053', NULL, '1', NULL, '8ac388f1347e65df01347ebc4f740006'),
+	('8ac388eb31402e2001314059cf0c0006', NULL, '2', NULL, 'ff80808129e37c8b0129e37dbe0c0005');
 /*!40000 ALTER TABLE `right_info` ENABLE KEYS */;
 
 
@@ -4353,30 +4360,30 @@ CREATE TABLE IF NOT EXISTS `rolemenu` (
 INSERT INTO `rolemenu` (`ID`, `roleId`, `menuId`) VALUES
 	('402887873456af4e013456babd110011', '402887873456af4e013456b938500005', '8ac388f134220b830134220e2a930001'),
 	('402887873456af4e013456babd110012', '402887873456af4e013456b938500005', '8ac388f134220b830134220ed8e20002'),
+	('40288787347fc46e01347fd1a0110008', '1', '402880e430e992d60130e9c8b54d0001'),
+	('40288787347fc46e01347fd1a0110009', '1', '402880e430e992d60130e9cab80b0002'),
+	('40288787347fc46e01347fd1a011000a', '1', '402880e4270e8f7c01270ea42f020004'),
+	('40288787347fc46e01347fd1a011000b', '1', '402880e4270e8f7c01270ea9ff4c0025'),
+	('40288787347fc46e01347fd1a011000c', '1', '402880e4270e8f7c01270eaaa5730041'),
+	('40288787347fc46e01347fd1a011000d', '1', '402881eb2452211b012452264ad70049'),
+	('40288787347fc46e01347fd1a011000e', '1', '402880e428befea20128bf01b8300003'),
+	('40288787347fc46e01347fd1a011000f', '1', '402880e428befea20128bf029c1a0005'),
+	('40288787347fc46e01347fd1a0120010', '1', '402880e428befea20128bf04ae450021'),
+	('40288787347fc46e01347fd1a0120011', '1', '402880e430e992d60130e9cca8980003'),
+	('40288787347fc46e01347fd1a0120012', '1', '402880e431b908780131b90d33dd0001'),
+	('40288787347fc46e01347fd1a0120013', '1', '40288787347015060134703dcf590001'),
+	('40288787347fc46e01347fd1a0120014', '1', '40288787347538e10134756b664f0001'),
+	('40288787347fc46e01347fd1a0120015', '1', '40288787347538e10134756d88cd0002'),
+	('40288787347fc46e01347fd1a0120016', '1', '8ac388eb314562a601314564ea0f0001'),
+	('40288787347fc46e01347fd1a0120017', '1', '8ac388eb311df21701311df3d9190001'),
+	('40288787347fc46e01347fd1a0120018', '1', '8ac388f134220b830134220e2a930001'),
+	('40288787347fc46e01347fd1a0120019', '1', '4028878734566e2c01345670ac6a0001'),
+	('40288787347fc46e01347fd1a012001a', '1', '8ac388f134220b830134220ed8e20002'),
 	('8ac388eb31402e2001314059cf0c0001', '2', '402880e430e992d60130e9c8b54d0001'),
 	('8ac388eb31402e2001314059cf0c0002', '2', '402880e430e992d60130e9cab80b0002'),
 	('8ac388eb31402e2001314059cf0c0003', '2', '402880e4270e8f7c01270ea42f020004'),
 	('8ac388eb31402e2001314059cf0c0004', '2', '402880e428befea20128bf04ae450021'),
-	('8ac388eb31402e2001314059cf0c0005', '2', '8ac388eb311df21701311df3d9190001'),
-	('8ac388f1347995cb0134799c64040001', '1', '402880e430e992d60130e9c8b54d0001'),
-	('8ac388f1347995cb0134799c64040002', '1', '402880e430e992d60130e9cab80b0002'),
-	('8ac388f1347995cb0134799c64040003', '1', '402880e4270e8f7c01270ea42f020004'),
-	('8ac388f1347995cb0134799c64040004', '1', '402880e4270e8f7c01270ea9ff4c0025'),
-	('8ac388f1347995cb0134799c64040005', '1', '402880e4270e8f7c01270eaaa5730041'),
-	('8ac388f1347995cb0134799c64040006', '1', '402881eb2452211b012452264ad70049'),
-	('8ac388f1347995cb0134799c64040007', '1', '402880e428befea20128bf01b8300003'),
-	('8ac388f1347995cb0134799c64040008', '1', '402880e428befea20128bf029c1a0005'),
-	('8ac388f1347995cb0134799c64040009', '1', '402880e428befea20128bf04ae450021'),
-	('8ac388f1347995cb0134799c6404000a', '1', '402880e430e992d60130e9cca8980003'),
-	('8ac388f1347995cb0134799c6404000b', '1', '402880e431b908780131b90d33dd0001'),
-	('8ac388f1347995cb0134799c6404000c', '1', '40288787347015060134703dcf590001'),
-	('8ac388f1347995cb0134799c6404000d', '1', '40288787347538e10134756b664f0001'),
-	('8ac388f1347995cb0134799c6404000e', '1', '40288787347538e10134756d88cd0002'),
-	('8ac388f1347995cb0134799c6404000f', '1', '8ac388eb314562a601314564ea0f0001'),
-	('8ac388f1347995cb0134799c64040010', '1', '8ac388eb311df21701311df3d9190001'),
-	('8ac388f1347995cb0134799c64040011', '1', '8ac388f134220b830134220e2a930001'),
-	('8ac388f1347995cb0134799c64040012', '1', '4028878734566e2c01345670ac6a0001'),
-	('8ac388f1347995cb0134799c64040013', '1', '8ac388f134220b830134220ed8e20002');
+	('8ac388eb31402e2001314059cf0c0005', '2', '8ac388eb311df21701311df3d9190001');
 /*!40000 ALTER TABLE `rolemenu` ENABLE KEYS */;
 
 
@@ -4439,21 +4446,28 @@ CREATE TABLE IF NOT EXISTS `system_invite_process` (
   `invitation_reason` varchar(500) default NULL COMMENT '请求理由',
   `nextaction` varchar(500) default NULL COMMENT '下一步',
   `relation_data` varchar(1000) default NULL COMMENT '相关数据(json格式)',
+  `ralation_entity_name` varchar(200) default NULL COMMENT '相关实体名',
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='系统请求处理';
 
-# Dumping data for table redeempoint.system_invite_process: ~9 rows (approximately)
+# Dumping data for table redeempoint.system_invite_process: ~10 rows (approximately)
 /*!40000 ALTER TABLE `system_invite_process` DISABLE KEYS */;
-INSERT INTO `system_invite_process` (`id`, `sponsor`, `recipient`, `sponsor_time`, `process_time`, `process_status`, `invitation_menu`, `process_result_code`, `invitation_event`, `invitation_reason`, `nextaction`, `relation_data`) VALUES
-	('8ac388f1347d9abb01347e5a756a0001', 'admin', 'admin', '2011-12-27 15:09:44', '2011-12-27 15:14:52', '2', '4028878734566e2c01345670ac6a0001', '1', '用户 admin 邀请您加入他的家庭：【admin的家庭】', NULL, '/family_manage/familyProcessInvition.action?method=familyProcessInvition', '{"familyMemberCard":null,"systemMemberId":"swpigris81","familyName":"admin的家庭","familyMemberName":null,"familyMemberProfession":null,"familyMemberBirthplace":null,"familyMemberHeight":null,"familyMemberSex":null,"familyMemberDeaddate":null,"familyId":"9ab70fea-75c1-44a7-8f77-a13e280e81e8","familyMemberEducational":null,"familyMemberBirthdate":null,"familyMemberId":null}'),
-	('8ac388f1347d9abb01347e5a75a90002', 'admin', '代超', '2011-12-27 15:09:44', NULL, '1', '4028878734566e2c01345670ac6a0001', NULL, '用户 admin 邀请您加入他的家庭：【admin的家庭】', NULL, '/family_manage/familyProcessInvition.action?method=familyProcessInvition', '{"familyMemberCard":null,"systemMemberId":"代超","familyName":"admin的家庭","familyMemberName":null,"familyMemberProfession":null,"familyMemberBirthplace":null,"familyMemberHeight":null,"familyMemberSex":null,"familyMemberDeaddate":null,"familyId":"9ab70fea-75c1-44a7-8f77-a13e280e81e8","familyMemberEducational":null,"familyMemberBirthdate":null,"familyMemberId":null}'),
-	('8ac388f1347d9abb01347e5a75a90003', 'admin', 'admin', '2011-12-27 15:09:44', '2011-12-27 15:14:52', '2', '4028878734566e2c01345670ac6a0001', '1', '用户 admin 邀请您加入他的家庭：【admin的家庭】', NULL, '/family_manage/familyProcessInvition.action?method=familyProcessInvition', '{"familyMemberCard":null,"systemMemberId":"111","familyName":"admin的家庭","familyMemberName":null,"familyMemberProfession":null,"familyMemberBirthplace":null,"familyMemberHeight":null,"familyMemberSex":null,"familyMemberDeaddate":null,"familyId":"9ab70fea-75c1-44a7-8f77-a13e280e81e8","familyMemberEducational":null,"familyMemberBirthdate":null,"familyMemberId":null}'),
-	('8ac388f1347d9abb01347e61590d0004', 'swpigris81', 'admin', '2011-12-27 15:17:16', '2011-12-27 15:18:13', '2', '4028878734566e2c01345670ac6a0001', '1', '用户 swpigris81 邀请您加入他的家庭：【测试家庭】', NULL, '/family_manage/familyProcessInvition.action?method=familyProcessInvition', '{"familyMemberCard":null,"systemMemberId":"admin","familyName":"测试家庭","familyMemberName":null,"familyMemberProfession":null,"familyMemberBirthplace":null,"familyMemberHeight":null,"familyMemberSex":null,"familyMemberDeaddate":null,"familyId":"0c602565-69b6-460a-9a45-acdccdff0f26","familyMemberEducational":null,"familyMemberBirthdate":null,"familyMemberId":null}'),
-	('8ac388f1347d9abb01347e61668a0005', 'swpigris81', 'admin', '2011-12-27 15:17:19', '2011-12-27 15:18:13', '2', '4028878734566e2c01345670ac6a0001', '1', '用户 swpigris81 邀请您加入他的家庭：【测试家庭】', NULL, '/family_manage/familyProcessInvition.action?method=familyProcessInvition', '{"familyMemberCard":null,"systemMemberId":"admin","familyName":"测试家庭","familyMemberName":null,"familyMemberProfession":null,"familyMemberBirthplace":null,"familyMemberHeight":null,"familyMemberSex":null,"familyMemberDeaddate":null,"familyId":"0c602565-69b6-460a-9a45-acdccdff0f26","familyMemberEducational":null,"familyMemberBirthdate":null,"familyMemberId":null}'),
-	('8ac388f1347d9abb01347e6171f40006', 'swpigris81', 'admin', '2011-12-27 15:17:22', '2011-12-27 15:18:13', '2', '4028878734566e2c01345670ac6a0001', '1', '用户 swpigris81 邀请您加入他的家庭：【测试家庭】', NULL, '/family_manage/familyProcessInvition.action?method=familyProcessInvition', '{"familyMemberCard":null,"systemMemberId":"admin","familyName":"测试家庭","familyMemberName":null,"familyMemberProfession":null,"familyMemberBirthplace":null,"familyMemberHeight":null,"familyMemberSex":null,"familyMemberDeaddate":null,"familyId":"0c602565-69b6-460a-9a45-acdccdff0f26","familyMemberEducational":null,"familyMemberBirthdate":null,"familyMemberId":null}'),
-	('8ac388f1347e65df01347e68ae280002', 'swpigris81', 'admin', '2011-12-27 15:25:16', '2011-12-27 15:25:52', '2', '4028878734566e2c01345670ac6a0001', '1', '用户 swpigris81 邀请您加入他的家庭：【测试家庭1】', NULL, '/family_manage/familyProcessInvition.action?method=familyProcessInvition', '{"familyMemberCard":null,"systemMemberId":"admin","familyName":"测试家庭1","familyMemberName":null,"familyMemberProfession":null,"familyMemberBirthplace":null,"familyMemberHeight":null,"familyMemberSex":null,"familyMemberDeaddate":null,"familyId":"d5cd2738-d754-43de-879b-106dd9dd09a4","familyMemberEducational":null,"familyMemberBirthdate":null,"familyMemberId":null}'),
-	('8ac388f1347e65df01347e68b9e00003', 'swpigris81', 'admin', '2011-12-27 15:25:19', '2011-12-27 15:25:52', '2', '4028878734566e2c01345670ac6a0001', '1', '用户 swpigris81 邀请您加入他的家庭：【测试家庭1】', NULL, '/family_manage/familyProcessInvition.action?method=familyProcessInvition', '{"familyMemberCard":null,"systemMemberId":"admin","familyName":"测试家庭1","familyMemberName":null,"familyMemberProfession":null,"familyMemberBirthplace":null,"familyMemberHeight":null,"familyMemberSex":null,"familyMemberDeaddate":null,"familyId":"d5cd2738-d754-43de-879b-106dd9dd09a4","familyMemberEducational":null,"familyMemberBirthdate":null,"familyMemberId":null}'),
-	('8ac388f1347e65df01347e68c3560004', 'swpigris81', 'admin', '2011-12-27 15:25:22', '2011-12-27 15:25:52', '2', '4028878734566e2c01345670ac6a0001', '1', '用户 swpigris81 邀请您加入他的家庭：【测试家庭1】', NULL, '/family_manage/familyProcessInvition.action?method=familyProcessInvition', '{"familyMemberCard":null,"systemMemberId":"admin","familyName":"测试家庭1","familyMemberName":null,"familyMemberProfession":null,"familyMemberBirthplace":null,"familyMemberHeight":null,"familyMemberSex":null,"familyMemberDeaddate":null,"familyId":"d5cd2738-d754-43de-879b-106dd9dd09a4","familyMemberEducational":null,"familyMemberBirthdate":null,"familyMemberId":null}');
+INSERT INTO `system_invite_process` (`id`, `sponsor`, `recipient`, `sponsor_time`, `process_time`, `process_status`, `invitation_menu`, `process_result_code`, `invitation_event`, `invitation_reason`, `nextaction`, `relation_data`, `ralation_entity_name`) VALUES
+	('40288787347f969201347f9e7b330005', 'swpigris81', 'admin', '2011-12-27 21:03:39', '2011-12-27 21:59:42', '2', '8ac388f134220b830134220ed8e20002', '1', '用户 swpigris81 请求加入您的家庭：【测试家庭2】', NULL, '/family_member/familyMemberApplyProcess.action?method=familyMemberApplyProcess', '{"familyMemberCard":null,"systemMemberId":"swpigris81","familyName":"测试家庭2","familyMemberName":null,"familyMemberProfession":null,"familyMemberBirthplace":null,"familyMemberHeight":null,"familyMemberSex":null,"familyMemberDeaddate":null,"familyId":"2217dab0-eda2-490f-987a-c75fb1c20c63","familyMemberEducational":null,"familyMemberBirthdate":null,"familyMemberId":null}', 'com.integral.family.member.bean.FamilyMember'),
+	('40288787347f969201347fa0db500006', 'swpigris81', 'admin', '2011-12-27 21:06:15', '2011-12-27 21:59:42', '2', '8ac388f134220b830134220ed8e20002', '1', '用户 swpigris81 请求加入您的家庭：【测试家庭2】', NULL, '/family_member/familyMemberApplyProcess.action?method=familyMemberApplyProcess', '{"familyMemberCard":null,"systemMemberId":"swpigris81","familyName":"测试家庭2","familyMemberName":null,"familyMemberProfession":null,"familyMemberBirthplace":null,"familyMemberHeight":null,"familyMemberSex":null,"familyMemberDeaddate":null,"familyId":"2217dab0-eda2-490f-987a-c75fb1c20c63","familyMemberEducational":null,"familyMemberBirthdate":null,"familyMemberId":null}', 'com.integral.family.member.bean.FamilyMember'),
+	('40288787347fc46e01347fc499e80001', 'admin', 'user', '2011-12-27 21:45:17', NULL, '1', '4028878734566e2c01345670ac6a0001', NULL, '用户 admin 邀请您加入他的家庭：【admin的家庭】', NULL, '/family_manage/familyProcessInvition.action?method=familyProcessInvition', '{"familyMemberCard":null,"systemMemberId":"user","familyName":"admin的家庭","familyMemberName":null,"familyMemberProfession":null,"familyMemberBirthplace":null,"familyMemberHeight":null,"familyMemberSex":null,"familyMemberDeaddate":null,"familyId":"9ab70fea-75c1-44a7-8f77-a13e280e81e8","familyMemberEducational":null,"familyMemberBirthdate":null,"familyMemberId":null}', 'com.integral.family.member.bean.FamilyMember'),
+	('40288787347fc46e01347fc499f80002', 'admin', '代超', '2011-12-27 21:45:17', NULL, '1', '4028878734566e2c01345670ac6a0001', NULL, '用户 admin 邀请您加入他的家庭：【admin的家庭】', NULL, '/family_manage/familyProcessInvition.action?method=familyProcessInvition', '{"familyMemberCard":null,"systemMemberId":"代超","familyName":"admin的家庭","familyMemberName":null,"familyMemberProfession":null,"familyMemberBirthplace":null,"familyMemberHeight":null,"familyMemberSex":null,"familyMemberDeaddate":null,"familyId":"9ab70fea-75c1-44a7-8f77-a13e280e81e8","familyMemberEducational":null,"familyMemberBirthdate":null,"familyMemberId":null}', 'com.integral.family.member.bean.FamilyMember'),
+	('40288787347fc46e01347fc63bfe0003', 'admin', 'swpigris81', '2011-12-27 21:47:05', '2011-12-27 21:50:59', '2', '4028878734566e2c01345670ac6a0001', '1', '用户 admin 邀请您加入他的家庭：【测试家庭2】', NULL, '/family_manage/familyProcessInvition.action?method=familyProcessInvition', '{"familyMemberCard":null,"systemMemberId":"swpigris81","familyName":"测试家庭2","familyMemberName":null,"familyMemberProfession":null,"familyMemberBirthplace":null,"familyMemberHeight":null,"familyMemberSex":null,"familyMemberDeaddate":null,"familyId":"2217dab0-eda2-490f-987a-c75fb1c20c63","familyMemberEducational":null,"familyMemberBirthdate":null,"familyMemberId":null}', 'com.integral.family.member.bean.FamilyMember'),
+	('40288787347fc46e01347fcf75900006', 'swpigris81', 'admin', '2011-12-27 21:57:09', '2011-12-27 21:59:42', '2', '8ac388f134220b830134220ed8e20002', '1', '用户 swpigris81 请求加入您的家庭：【测试家庭3】', NULL, '/family_member/familyMemberApplyProcess.action?method=familyMemberApplyProcess', '{"familyMemberCard":null,"systemMemberId":"swpigris81","familyName":"测试家庭3","familyMemberName":null,"familyMemberProfession":null,"familyMemberBirthplace":null,"familyMemberHeight":null,"familyMemberSex":null,"familyMemberDeaddate":null,"familyId":"09552686-4f59-4d61-9f5c-c88fb35b3acd","familyMemberEducational":null,"familyMemberBirthdate":null,"familyMemberId":null}', 'com.integral.family.member.bean.FamilyMember'),
+	('40288787347fc46e01347fcf75900007', 'swpigris81', 'admin', '2011-12-27 21:57:09', '2011-12-27 21:59:42', '2', '8ac388f134220b830134220ed8e20002', '1', '用户 swpigris81 请求加入您的家庭：【测试家庭2】', NULL, '/family_member/familyMemberApplyProcess.action?method=familyMemberApplyProcess', '{"familyMemberCard":null,"systemMemberId":"swpigris81","familyName":"测试家庭2","familyMemberName":null,"familyMemberProfession":null,"familyMemberBirthplace":null,"familyMemberHeight":null,"familyMemberSex":null,"familyMemberDeaddate":null,"familyId":"2217dab0-eda2-490f-987a-c75fb1c20c63","familyMemberEducational":null,"familyMemberBirthdate":null,"familyMemberId":null}', 'com.integral.family.member.bean.FamilyMember'),
+	('8ac388f1347d9abb01347e5a756a0001', 'admin', 'admin', '2011-12-27 15:09:44', '2011-12-27 15:14:52', '2', '4028878734566e2c01345670ac6a0001', '1', '用户 admin 邀请您加入他的家庭：【admin的家庭】', NULL, '/family_manage/familyProcessInvition.action?method=familyProcessInvition', '{"familyMemberCard":null,"systemMemberId":"swpigris81","familyName":"admin的家庭","familyMemberName":null,"familyMemberProfession":null,"familyMemberBirthplace":null,"familyMemberHeight":null,"familyMemberSex":null,"familyMemberDeaddate":null,"familyId":"9ab70fea-75c1-44a7-8f77-a13e280e81e8","familyMemberEducational":null,"familyMemberBirthdate":null,"familyMemberId":null}', 'com.integral.family.member.bean.FamilyMember'),
+	('8ac388f1347d9abb01347e5a75a90003', 'admin', 'admin', '2011-12-27 15:09:44', '2011-12-27 15:14:52', '2', '4028878734566e2c01345670ac6a0001', '1', '用户 admin 邀请您加入他的家庭：【admin的家庭】', NULL, '/family_manage/familyProcessInvition.action?method=familyProcessInvition', '{"familyMemberCard":null,"systemMemberId":"111","familyName":"admin的家庭","familyMemberName":null,"familyMemberProfession":null,"familyMemberBirthplace":null,"familyMemberHeight":null,"familyMemberSex":null,"familyMemberDeaddate":null,"familyId":"9ab70fea-75c1-44a7-8f77-a13e280e81e8","familyMemberEducational":null,"familyMemberBirthdate":null,"familyMemberId":null}', 'com.integral.family.member.bean.FamilyMember'),
+	('8ac388f1347d9abb01347e61590d0004', 'swpigris81', 'admin', '2011-12-27 15:17:16', '2011-12-27 15:18:13', '2', '4028878734566e2c01345670ac6a0001', '1', '用户 swpigris81 邀请您加入他的家庭：【测试家庭】', NULL, '/family_manage/familyProcessInvition.action?method=familyProcessInvition', '{"familyMemberCard":null,"systemMemberId":"admin","familyName":"测试家庭","familyMemberName":null,"familyMemberProfession":null,"familyMemberBirthplace":null,"familyMemberHeight":null,"familyMemberSex":null,"familyMemberDeaddate":null,"familyId":"0c602565-69b6-460a-9a45-acdccdff0f26","familyMemberEducational":null,"familyMemberBirthdate":null,"familyMemberId":null}', 'com.integral.family.member.bean.FamilyMember'),
+	('8ac388f1347d9abb01347e61668a0005', 'swpigris81', 'admin', '2011-12-27 15:17:19', '2011-12-27 15:18:13', '2', '4028878734566e2c01345670ac6a0001', '1', '用户 swpigris81 邀请您加入他的家庭：【测试家庭】', NULL, '/family_manage/familyProcessInvition.action?method=familyProcessInvition', '{"familyMemberCard":null,"systemMemberId":"admin","familyName":"测试家庭","familyMemberName":null,"familyMemberProfession":null,"familyMemberBirthplace":null,"familyMemberHeight":null,"familyMemberSex":null,"familyMemberDeaddate":null,"familyId":"0c602565-69b6-460a-9a45-acdccdff0f26","familyMemberEducational":null,"familyMemberBirthdate":null,"familyMemberId":null}', 'com.integral.family.member.bean.FamilyMember'),
+	('8ac388f1347d9abb01347e6171f40006', 'swpigris81', 'admin', '2011-12-27 15:17:22', '2011-12-27 15:18:13', '2', '4028878734566e2c01345670ac6a0001', '1', '用户 swpigris81 邀请您加入他的家庭：【测试家庭】', NULL, '/family_manage/familyProcessInvition.action?method=familyProcessInvition', '{"familyMemberCard":null,"systemMemberId":"admin","familyName":"测试家庭","familyMemberName":null,"familyMemberProfession":null,"familyMemberBirthplace":null,"familyMemberHeight":null,"familyMemberSex":null,"familyMemberDeaddate":null,"familyId":"0c602565-69b6-460a-9a45-acdccdff0f26","familyMemberEducational":null,"familyMemberBirthdate":null,"familyMemberId":null}', 'com.integral.family.member.bean.FamilyMember'),
+	('8ac388f1347e65df01347e68ae280002', 'swpigris81', 'admin', '2011-12-27 15:25:16', '2011-12-27 15:25:52', '2', '4028878734566e2c01345670ac6a0001', '1', '用户 swpigris81 邀请您加入他的家庭：【测试家庭1】', NULL, '/family_manage/familyProcessInvition.action?method=familyProcessInvition', '{"familyMemberCard":null,"systemMemberId":"admin","familyName":"测试家庭1","familyMemberName":null,"familyMemberProfession":null,"familyMemberBirthplace":null,"familyMemberHeight":null,"familyMemberSex":null,"familyMemberDeaddate":null,"familyId":"d5cd2738-d754-43de-879b-106dd9dd09a4","familyMemberEducational":null,"familyMemberBirthdate":null,"familyMemberId":null}', 'com.integral.family.member.bean.FamilyMember'),
+	('8ac388f1347e65df01347e68b9e00003', 'swpigris81', 'admin', '2011-12-27 15:25:19', '2011-12-27 15:25:52', '2', '4028878734566e2c01345670ac6a0001', '1', '用户 swpigris81 邀请您加入他的家庭：【测试家庭1】', NULL, '/family_manage/familyProcessInvition.action?method=familyProcessInvition', '{"familyMemberCard":null,"systemMemberId":"admin","familyName":"测试家庭1","familyMemberName":null,"familyMemberProfession":null,"familyMemberBirthplace":null,"familyMemberHeight":null,"familyMemberSex":null,"familyMemberDeaddate":null,"familyId":"d5cd2738-d754-43de-879b-106dd9dd09a4","familyMemberEducational":null,"familyMemberBirthdate":null,"familyMemberId":null}', 'com.integral.family.member.bean.FamilyMember'),
+	('8ac388f1347e65df01347e68c3560004', 'swpigris81', 'admin', '2011-12-27 15:25:22', '2011-12-27 15:25:52', '2', '4028878734566e2c01345670ac6a0001', '1', '用户 swpigris81 邀请您加入他的家庭：【测试家庭1】', NULL, '/family_manage/familyProcessInvition.action?method=familyProcessInvition', '{"familyMemberCard":null,"systemMemberId":"admin","familyName":"测试家庭1","familyMemberName":null,"familyMemberProfession":null,"familyMemberBirthplace":null,"familyMemberHeight":null,"familyMemberSex":null,"familyMemberDeaddate":null,"familyId":"d5cd2738-d754-43de-879b-106dd9dd09a4","familyMemberEducational":null,"familyMemberBirthdate":null,"familyMemberId":null}', 'com.integral.family.member.bean.FamilyMember');
 /*!40000 ALTER TABLE `system_invite_process` ENABLE KEYS */;
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;

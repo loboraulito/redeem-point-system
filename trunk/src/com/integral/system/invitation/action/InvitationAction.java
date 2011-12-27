@@ -163,25 +163,25 @@ public class InvitationAction extends BaseAction implements ServletRequestAware,
                 String [] invitationIds = invitationId.split(",");
                 String [] datas = data.split("@");
                 List<SystemInviteProcess> list = new ArrayList<SystemInviteProcess>();
-                List<FamilyMember> relationDataList = new ArrayList<FamilyMember>();
-                StringBuffer fl = new StringBuffer();
+                List relationDataList = new ArrayList();
                 for(int i=0; i<invitationIds.length; i++){
                     SystemInviteProcess process = this.systemInviteProcessService.findById(invitationIds[i]);
+                    String className = "";
                     if(process != null){
+                        className = process.getRelationEntityName();
                         process.setProcessTime(new Date());
                         process.setProcessStatus("2");
                         process.setProcessResultCode("1");
                         list.add(process);
                     }
-                    FamilyMember relationData = Json.fromJson(FamilyMember.class, Lang.inr(datas[i]));
+                    Class c = Class.forName(className);
+                    Object relationData = Json.fromJson(c, Lang.inr(datas[i]));
                     relationDataList.add(relationData);
-                    fl.append(relationData.getFamilyName()).append(",");
                     //转发只能转发一次, 不能带参数：如abc.action?method=abc
                     //request.getRequestDispatcher(urls[i]).forward(request, response);
                 }
                 this.systemInviteProcessService.saveOrUpdateAll(list);
                 
-                request.getSession().setAttribute("familyNames", fl.substring(0, fl.lastIndexOf(",")));
                 request.getSession().setAttribute("relationDataList", relationDataList);
                 //重定向无法使用request传递参数，只能在url上传递
                 response.sendRedirect(url);

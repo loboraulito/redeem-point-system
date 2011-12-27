@@ -63,5 +63,10 @@
     <comment>相关数据(json格式)</comment>
    </column>
   </property>
+  <property name="relationEntityName" type="string">
+   <column length="200" name="ralation_entity_name">
+    <comment>相关实体名</comment>
+   </column>
+  </property>
  </class>
 </hibernate-mapping>

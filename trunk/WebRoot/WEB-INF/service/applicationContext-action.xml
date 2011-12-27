@@ -90,6 +90,7 @@
 	<bean class="com.integral.family.member.action.FamilyMemberAction" scope="prototype">
 		<property name="familyMemberService" ref="familyMemberService"></property>
 		<!-- <property name="userService" ref="userService"></property> -->
+		<property name="systemInviteProcessService" ref="systemInviteProcessService"></property>
 		<property name="transactionManager" ref="transactionManager"></property>
 	</bean>
 	<!-- 家庭关系 -->
