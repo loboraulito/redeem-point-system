@@ -1,12 +1,15 @@
 package com.integral.util;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * List Utilities
@@ -15,6 +18,7 @@ import org.apache.commons.lang.StringUtils;
  * @since 2010/05/20
  */
 public class ListUtils {
+    private static Log log = LogFactory.getLog(ListUtils.class);
     private static final char SEPARATOR = '|';
 
     /**
@@ -66,10 +70,10 @@ public class ListUtils {
                 newList.add(t);
             }
             else {
-                System.err.println(logicKey + " has duplicated.");
+                log.info("Removing the duplicate element which has [" + logicKey + "] for key");
+                //System.err.println(logicKey + " has duplicated.");
             }
         }
-
         return newList;
     }
 
@@ -96,9 +100,12 @@ public class ListUtils {
         list.add(tb2);
         list.add(tb3);
         list.add(tb4);
-
+        Date d1 = new Date();
+        System.out.println(d1.getTime());
         List<TestBean> list2 = removeDuplication(list, "field1", "field3");
-
+        Date d2 = new Date();
+        System.out.println(d2.getTime());
+        System.out.println(d2.getTime() - d1.getTime());
         for (TestBean b : list) {
             System.out.println(b);
         }
