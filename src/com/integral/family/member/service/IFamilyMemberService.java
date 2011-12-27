@@ -44,6 +44,14 @@ public interface IFamilyMemberService {
      * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
      */
     public List<FamilyMember> findByProperty(String propertyName, Object value);
+    /**
+     * <p>Discription:[以家庭成员信息查询成员信息]</p>
+     * @param instance
+     * @return
+     * @author:[代超]
+     * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
+     */
+    public List<FamilyMember> findByExample(FamilyMember instance);
     
     /**
      * <p>Discription:[批量删除家庭成员信息]</p>
