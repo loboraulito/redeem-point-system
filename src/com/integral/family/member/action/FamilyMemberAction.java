@@ -14,6 +14,9 @@ import org.apache.struts2.interceptor.ServletResponseAware;
 import org.nutz.json.Json;
 import org.nutz.json.JsonFormat;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.transaction.TransactionDefinition;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 import com.integral.common.action.BaseAction;
 import com.integral.family.member.bean.FamilyMember;
@@ -131,5 +134,60 @@ public class FamilyMemberAction extends BaseAction implements ServletRequestAwar
         }
         return null;
     }
-
+    /**
+     * <p>Discription:[申请加入家庭]</p>
+     * @return
+     * @author:[代超]
+     * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
+     */
+    public String familyMemberApply(){
+        String sponsor = request.getParameter("sponsor");
+        String recipient = request.getParameter("recipient");
+        String menuId = request.getParameter("menuId");
+        String familyId = request.getParameter("familyId");
+        // 定义TransactionDefinition并设置好事务的隔离级别和传播方式。
+        DefaultTransactionDefinition definition = new DefaultTransactionDefinition();
+        // 代价最大、可靠性最高的隔离级别，所有的事务都是按顺序一个接一个地执行
+        definition.setIsolationLevel(TransactionDefinition.ISOLATION_SERIALIZABLE);
+        // 开始事务
+        TransactionStatus status = transactionManager.getTransaction(definition);
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        JsonFormat jf = new JsonFormat(true);
+        jf.setAutoUnicode(true);
+        PrintWriter out = null;
+        try{
+            out = super.getPrintWriter(request, response);
+            if(familyId == null || "".equals(familyId.trim())){
+                resultMap.put("success", false);
+                resultMap.put("msg", "所选家庭为空，请重新选择！");
+            }else{
+                String holderIds[] = recipient.split(",");
+                String familyIds[] = familyId.split(",");
+                
+            }
+        }catch(Exception e){
+            status.setRollbackOnly();
+            resultMap.put("success", false);
+            resultMap.put("msg", "系统错误！错误代码：" + e.getMessage());
+            LOG.error(e.getMessage());
+        }finally{
+            this.transactionManager.commit(status);
+            if(out != null){
+                out.print(Json.toJson(resultMap, jf));
+                out.flush();
+                out.close();
+            }
+        }
+        return null;
+    }
+    /**
+     * <p>Discription:[处理申请]</p>
+     * @return
+     * @author:[代超]
+     * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
+     */
+    public String familyMemberApplyProcess(){
+        
+        return null;
+    }
 }
