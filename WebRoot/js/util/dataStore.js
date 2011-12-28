@@ -16,6 +16,8 @@
  */
 //加载性别下拉框
 var sexStore = getCodeListCombo();
+//加载学历下拉框
+var educationalStore = getCodeListCombo();
 //加载相册分类下拉框
 var albumTypeStore = getCodeListCombo();
 //加载警报点分类下拉框
