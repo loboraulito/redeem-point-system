@@ -206,7 +206,7 @@ function invitation(){
         	Ext.grid.GridPanel.prototype.onRender.apply(this, arguments);
         	this.addEvents("beforetooltipshow");
 	        this.tooltip = new Ext.ToolTip({
-	        	id:"rowTip",
+	        	id:"ro_wTip",
 	        	title:"处理事件内容",
 	        	border:true,
 	        	minWidth:300,
@@ -216,7 +216,7 @@ function invitation(){
 		        //closable: true,
 	        	items:[{
 	        		xtype:"textarea",
-	        		id:"invitationEventArea",
+	        		id:"invitation_EventArea",
 	        		width:287,
 	        		readOnly:true
 	        	}],
@@ -252,7 +252,7 @@ function invitation(){
 					//grid.tooltip.body.update("Tooltip for (" + row + ", " + col + ")");
 					//grid.tooltip.body.update(this.store.getAt(row).get("familyComment"));
 					//Ext.getCmp("familyCommentArea").setWidth(Ext.getCmp("rowTip").getInnerWidth());
-					Ext.getCmp("invitationEventArea").setValue(this.store.getAt(row).get("invitationEvent"));
+					Ext.getCmp("invitation_EventArea").setValue(this.store.getAt(row).get("invitationEvent"));
 				});
 			}
 		},

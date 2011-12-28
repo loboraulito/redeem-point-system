@@ -130,7 +130,7 @@ function family_manage(){
         	Ext.grid.GridPanel.prototype.onRender.apply(this, arguments);
         	this.addEvents("beforetooltipshow");
 	        this.tooltip = new Ext.ToolTip({
-	        	id:"rowTip",
+	        	id:"rowTip_a",
 	        	title:"家庭简介",
 	        	border:true,
 	        	minWidth:300,
@@ -140,7 +140,7 @@ function family_manage(){
 		        //closable: true,
 	        	items:[{
 	        		xtype:"textarea",
-	        		id:"familyCommentArea",
+	        		id:"familyCommentArea_a",
 	        		width:287,
 	        		readOnly:true
 	        	}],
@@ -176,7 +176,7 @@ function family_manage(){
 					//grid.tooltip.body.update("Tooltip for (" + row + ", " + col + ")");
 					//grid.tooltip.body.update(this.store.getAt(row).get("familyComment"));
 					//Ext.getCmp("familyCommentArea").setWidth(Ext.getCmp("rowTip").getInnerWidth());
-					Ext.getCmp("familyCommentArea").setValue(this.store.getAt(row).get("familyComment"));
+					Ext.getCmp("familyCommentArea_a").setValue(this.store.getAt(row).get("familyComment"));
 				});
 			}
 		},

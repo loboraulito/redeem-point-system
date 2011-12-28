@@ -341,7 +341,7 @@ function family(){
 	        	Ext.grid.GridPanel.prototype.onRender.apply(this, arguments);
 	        	this.addEvents("beforetooltipshow");
 		        this.tooltip = new Ext.ToolTip({
-		        	id:"rowTip",
+		        	id:"row_Tip",
 		        	title:"家庭简介",
 		        	border:true,
 		        	minWidth:300,
@@ -351,7 +351,7 @@ function family(){
 			        //closable: true,
 		        	items:[{
 		        		xtype:"textarea",
-		        		id:"familyCommentArea",
+		        		id:"family_CommentArea",
 		        		width:287,
 		        		readOnly:true
 		        	}],
@@ -387,7 +387,7 @@ function family(){
 						//grid.tooltip.body.update("Tooltip for (" + row + ", " + col + ")");
 						//grid.tooltip.body.update(this.store.getAt(row).get("familyComment"));
 						//Ext.getCmp("familyCommentArea").setWidth(Ext.getCmp("rowTip").getInnerWidth());
-						Ext.getCmp("familyCommentArea").setValue(this.store.getAt(row).get("familyComment"));
+						Ext.getCmp("family_CommentArea").setValue(this.store.getAt(row).get("familyComment"));
 					});
 				}
 			},
@@ -416,7 +416,12 @@ function family(){
 		var fname = new Array();
 		for(var i=0; i < gridSelection.length; i++){
 			dataIdArray.push(gridSelection[i].get("familyId"));
-			holder.push(gridSelection[i].get("familyHouseHolder"));
+			if(gridSelection[i].get("familyHouseHolder") != userName){
+				holder.push(gridSelection[i].get("familyHouseHolder"));
+			}else{
+				Ext.MessageBox.alert('系统提示','您已是家庭【'+gridSelection[i].get("familyName")+'】的户主，无需申请！');
+		    	return false;
+			}
 			fname.push(gridSelection[i].get("familyName"));
 		}
 		var familyIds = dataIdArray.join(",");
