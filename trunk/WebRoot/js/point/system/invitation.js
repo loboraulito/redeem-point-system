@@ -30,7 +30,7 @@ function invitation(){
 		start : 0,
 		limit : 50,
 		viewAll : "no",
-		status: "",
+		status: "1",
 		userId : userName,
 		fromUserId:"",
 		menuId : parent.fromMenuId
