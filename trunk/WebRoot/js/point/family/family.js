@@ -5,6 +5,9 @@ function family(){
 	//加载性别下拉框
 	var sexs = parent.sexStore;
 	sexs.load({params:{codeId:"4af4953627d6f4ff0127d6fbc935000a"}});
+	var educational = parent.educationalStore;
+	educational.load({params:{codeId:"8ac388f134837dd6013483a54f85004f"}});
+	
 	/**
 	 * 家庭成员数据解析
 	 */
@@ -588,7 +591,7 @@ function family(){
 						displayField:"dataValue",
 						hiddenName:"familyMemberEducational",//这个值就是传递给后台获取的值
 						mode: "local",
-						store:sexs
+						store:educational
 					}]
 				}]
 			},{
