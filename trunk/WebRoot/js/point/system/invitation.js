@@ -36,6 +36,17 @@ function invitation(){
 		menuId : parent.fromMenuId
 	};
 	/**
+	 * 数据标准分组显示
+	 */
+	var groupView = new Ext.grid.GroupingView({
+		forceFit:true,
+		showGroupName: false,//是否在分组行上显示分组字段的名字
+		enableNoGroups:false, //是否允许用户关闭分组功能REQUIRED!
+		hideGroupedColumn: false,//是否隐藏分组列
+		enableGroupingMenu:false,//是否在表头菜单中进行分组控制
+		groupTextTpl: '{text} 有 {[values.rs.length]} 条请求信息'//用于渲染分组信息的模板，默认为'{text}'
+	});
+	/**
 	 * 空数据
 	 * @type 
 	 */
@@ -79,10 +90,10 @@ function invitation(){
 	/**
 	 * 数据存储
 	 */
-	var invitationListStore = new Ext.data.Store({
-		proxy:new Ext.data.HttpProxy({
-			url:path+"/invitation/invitationList.action?method=invitationList"
-		}),
+	var invitationListStore = new Ext.data.GroupingStore({
+		url:path+"/invitation/invitationList.action?method=invitationList",
+		groupField:"invitationMenuName",
+		sortInfo:{field: 'sponsorTime', direction: "ASC"},
 		baseParams: loadParam,
 		reader:invitationListReader,
 		listeners:{
@@ -191,6 +202,7 @@ function invitation(){
 		cm:cm,
 		sm:sm,
 		viewConfig:{forceFit:true},//若父容器的layout为fit，那么强制本grid充满该父容器
+		view:groupView,
 		split: true,
 		bbar:new Ext.PagingToolbar({
 			pageSize:50,//每页显示数
@@ -252,7 +264,9 @@ function invitation(){
 					//grid.tooltip.body.update("Tooltip for (" + row + ", " + col + ")");
 					//grid.tooltip.body.update(this.store.getAt(row).get("familyComment"));
 					//Ext.getCmp("familyCommentArea").setWidth(Ext.getCmp("rowTip").getInnerWidth());
-					Ext.getCmp("invitation_EventArea").setValue(this.store.getAt(row).get("invitationEvent"));
+					if(this.store.getAt(row) && this.store.getAt(row).get("invitationEvent")){
+						Ext.getCmp("invitation_EventArea").setValue(this.store.getAt(row).get("invitationEvent"));
+					}
 				});
 			}
 		},
