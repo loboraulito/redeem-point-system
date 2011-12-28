@@ -45,7 +45,10 @@
 			 <result name="success">/jsp/system/codelist/codelist.jsp</result>
 			 <result name="input">/index.jsp</result>
 		</action>
-		
+		<action name="codeListDataQuery" class="com.integral.system.codelist.action.CodeListAction" method="codeListDataQuery">
+			 <result name="success">/jsp/system/codelist/codelist.jsp</result>
+			 <result name="input">/index.jsp</result>
+		</action>
 		<action name="exportCodeDataList" class="com.integral.system.codelist.action.CodeListAction" method="exportCodeDataList">
 			 <result name="success">/jsp/system/codelist/codelist.jsp</result>
 			 <result name="input">/index.jsp</result>
