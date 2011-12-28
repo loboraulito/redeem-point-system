@@ -117,7 +117,7 @@ public class CodeListDataServiceImpl implements ICodeListDataService {
                 param.append(paramMap.get("parentDataKey").toString()).append(",");
             }
             if(paramMap.get("remark") != null && !"".equals(paramMap.get("remark").toString().trim())){
-                sql.append(" and remark = ? ");
+                sql.append(" and binary ucase(remark) like concat('%',ucase(?),'%') ");
                 param.append(paramMap.get("remark").toString());
             }
         }
@@ -170,7 +170,7 @@ public class CodeListDataServiceImpl implements ICodeListDataService {
                 param.append(paramMap.get("parentDataKey").toString()).append(",");
             }
             if(paramMap.get("remark") != null && !"".equals(paramMap.get("remark").toString().trim())){
-                sql.append(" and remark = ? ");
+                sql.append(" and binary ucase(remark) like concat('%',ucase(?),'%') ");
                 param.append(paramMap.get("remark").toString());
             }
         }
