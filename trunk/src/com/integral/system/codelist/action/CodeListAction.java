@@ -365,7 +365,10 @@ public class CodeListAction extends BaseAction implements ServletRequestAware, S
     public String codeDataList(){
         int start = NumberUtils.toInt(request.getParameter("start"), 0);
         int limit = NumberUtils.toInt(request.getParameter("limit"), 50);
-        long dataSize = this.codeListDataService.getCodeListDataSize();
+        
+        Map<String, Object> paramMap = RequestUtil.getRequestMap(request);
+        
+        long dataSize = this.codeListDataService.getCodeListDataSize(paramMap);
         List <CodeListData> list = null;
         Map<String, Object> resultMap = new HashMap<String, Object>();
         PrintWriter out = null;
@@ -375,7 +378,7 @@ public class CodeListAction extends BaseAction implements ServletRequestAware, S
         jf.setAutoUnicode(true);
         try{
             out = super.getPrintWriter(request, response);
-            list = this.codeListDataService.getCodeListDataByPage(start, limit);
+            list = this.codeListDataService.getCodeListDataByPage(start, limit, paramMap);
             resultMap.put("success", true);
             resultMap.put("totalCount", dataSize);
             resultMap.put("codeListData", list);
