@@ -193,7 +193,8 @@ function codeListDataManage(){
 		}];
 		//codeListStoreClon.load({params:{start:0,limit:99999}});
 		showCodeListWindow("addCodeDataWindow","添加数据标准值",500,270,dataForm,"",buttons);
-	}
+	};
+	
 	/**
 	 * 修改数据标准值
 	 * @param {Object} url
@@ -261,7 +262,8 @@ function codeListDataManage(){
 			var dataIds = dataIdArray.join(",");
 			deleteCodeDataList(url, dataIds);
 		});
-	}
+	};
+	
 	///////////////////////////////////////////////////////////////////////////
 	//////////////////////////数据标准值管理////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////
@@ -345,7 +347,8 @@ function codeListDataManage(){
 		});
 		
 		//codeListStore.load({params:{start:0,limit:50}});
-	}
+	};
+	
 	/**
 	 * 添加数据标准
 	 * @param {Object} url
@@ -356,7 +359,7 @@ function codeListDataManage(){
 				saveCodeList(url, null, text);
 			}
 		});
-	}
+	};
 	
 	/**
 	 * 修改数据标准
@@ -385,7 +388,7 @@ function codeListDataManage(){
 				}
 			},null,false,codeName);
 		}
-	}
+	};
 	
 	/**
 	 * 删除数据标准
@@ -411,7 +414,8 @@ function codeListDataManage(){
 				}
 			}
 		});
-	}
+	};
+	
 	/**
 	 * 导出数据标准值
 	 * @param {Object} url
@@ -437,7 +441,8 @@ function codeListDataManage(){
 		}];
 		showCodeListWindow("exportCodeDataWindow","导出数据标准",370, 230, exportForm, "", buttons);
 		//document.getElementById("export2excel").src = url;
-	}
+	};
+	
 	/**
 	 * 导出数据标准值模板
 	 * @param {Object} url
@@ -463,7 +468,8 @@ function codeListDataManage(){
 		}];
 		showCodeListWindow("exportCodeDataDemoWindow","导出数据标准模板",370, 230, exportForm, "", buttons);
 		//document.getElementById("export2excel").src = url;
-	}
+	};
+	
 	/**
 	 * 导入数据标准
 	 * @param {Object} url
@@ -523,7 +529,32 @@ function codeListDataManage(){
 			}
 		}];
 		showCodeListWindow("importCodeDataWindow","导入数据标准",350, 110, importForm, "", buttons);
-	}
+	};
+	/**
+	 * 查询数据标准
+	 * @param {} url
+	 */
+	this.queryCodeData = function(url){
+		var dataForm = getCodeDataForm(url, true, false);
+		var buttons = [{
+			text:"开始查询",
+			handler:function(){
+				if(dataForm.form.isValid()){
+					queryCodeDataList("queryCodeDataWindow", dataForm);
+				}
+			}
+		},{
+			text:"关闭窗口",
+			handler:function(){
+				var w = Ext.getCmp("queryCodeDataWindow");
+				if(w){
+					w.close();
+				}
+			}
+		}];
+		//codeListStoreClon.load({params:{start:0,limit:99999}});
+		showCodeListWindow("queryCodeDataWindow","查询数据标准值",500,270,dataForm,"",buttons);
+	};
 	
 	///////////////////////////////////////////////////////////////////////////
 	//////////////////////////数据标准管理//////////////////////////////////////
@@ -918,6 +949,7 @@ function codeListDataManage(){
 			}
 		});
 	}
+	
 	/**
 	 * 删除数据标准值信息
 	 * @param {Object} url
@@ -963,6 +995,37 @@ function codeListDataManage(){
 				}
 			}
 		});
+	}
+	/**
+	 * 查询数据标准
+	 * @param {} windowId
+	 * @param {} form
+	 */
+	function queryCodeDataList(windowId, form){
+		var loadParam = codeListDataStore.lastOptions.params;
+		if(form.form.findField("dataKey") && form.form.findField("dataKey").getValue()){
+			var dataKey = form.form.findField("dataKey").getValue();
+			codeListDataStore.baseParams.dataKey = dataKey;
+		}
+		if(form.form.findField("dataValue") && form.form.findField("dataValue").getValue()){
+			var dataValue = form.form.findField("dataValue").getValue();
+			codeListDataStore.baseParams.dataValue = dataValue;
+		}
+		if(form.form.findField("codeId") && form.form.findField("codeId").getValue()){
+			var codeId = form.form.findField("codeId").getValue();
+			codeListDataStore.baseParams.codeId = codeId;
+		}
+		if(form.form.findField("parentDataKey") && form.form.findField("parentDataKey").getValue()){
+			var parentDataKey = form.form.findField("parentDataKey").getValue();
+			codeListDataStore.baseParams.parentDataKey = parentDataKey;
+		}
+		if(form.form.findField("remark") && form.form.findField("remark").getValue()){
+			var remark = form.form.findField("remark").getValue();
+			codeListDataStore.baseParams.remark = remark;
+		}
+		
+		codeListDataStore.reload(codeListDataStore.lastOptions);
+		Ext.getCmp(windowId).close();
 	}
 }
 

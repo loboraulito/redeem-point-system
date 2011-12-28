@@ -2,6 +2,9 @@
  * 家庭管理入口
  */
 function family(){
+	//加载性别下拉框
+	var sexs = parent.sexStore;
+	sexs.load({params:{codeId:"4af4953627d6f4ff0127d6fbc935000a"}});
 	/**
 	 * 家庭成员数据解析
 	 */
@@ -312,7 +315,7 @@ function family(){
 			}
 		});
 		
-		var familyListDataGrid = new Ext.grid.GridPanel({
+		var family_ListDataGrid = new Ext.grid.GridPanel({
 			collapsible:true,//是否可以展开
 			animCollapse:true,//展开时是否有动画效果
 			autoScroll:true,
@@ -341,7 +344,7 @@ function family(){
 	        	Ext.grid.GridPanel.prototype.onRender.apply(this, arguments);
 	        	this.addEvents("beforetooltipshow");
 		        this.tooltip = new Ext.ToolTip({
-		        	id:"row_Tip",
+		        	id:"row__Tip",
 		        	title:"家庭简介",
 		        	border:true,
 		        	minWidth:300,
@@ -351,7 +354,7 @@ function family(){
 			        //closable: true,
 		        	items:[{
 		        		xtype:"textarea",
-		        		id:"family_CommentArea",
+		        		id:"family__CommentArea",
 		        		width:287,
 		        		readOnly:true
 		        	}],
@@ -387,7 +390,7 @@ function family(){
 						//grid.tooltip.body.update("Tooltip for (" + row + ", " + col + ")");
 						//grid.tooltip.body.update(this.store.getAt(row).get("familyComment"));
 						//Ext.getCmp("familyCommentArea").setWidth(Ext.getCmp("rowTip").getInnerWidth());
-						Ext.getCmp("family_CommentArea").setValue(this.store.getAt(row).get("familyComment"));
+						Ext.getCmp("family__CommentArea").setValue(this.store.getAt(row).get("familyComment"));
 					});
 				}
 			},
@@ -396,11 +399,11 @@ function family(){
 				iconCls:"table_gear",
 				tooltip:"申请加入所选家庭",
 				handler:function(){
-					doApplyFamily(familyListDataGrid, "applyFamilyWindow", url);
+					doApplyFamily(family_ListDataGrid, "applyFamilyWindow", url);
 				}
 			}]
 		});
-		showFamilyMemberWindow("applyFamilyWindow","申请加入家庭",560, 320, familyListDataGrid);
+		showFamilyMemberWindow("applyFamilyWindow","申请加入家庭",560, 320, family_ListDataGrid);
 		familyListStore.load();
 	};
 	
@@ -475,6 +478,155 @@ function family(){
 		});
 	}
 	
+	/**
+	 * 完善个人信息
+	 * @param {} url
+	 */
+	this.finishMemberInfo = function(url){
+		var memberInfoFrom = getMemberInfoForm(url, false, true);
+		showFamilyMemberWindow("editFamilyMemberInfo","完善个人信息",500, 350, memberInfoFrom);
+	};
+	
+	function getMemberInfoForm(url, isNull, readOnly){
+		var familyMemberForm = new Ext.form.FormPanel({
+			url:url,
+			frame: true,
+			labelAlign: 'right',
+			labelWidth:70,
+			autoScroll:false,
+			waitMsgTarget:true,
+			viewConfig:{forceFit:true},
+			items:[{
+				layout:"column",
+				border:false,
+				labelSeparator:'：',
+				items:[{
+					layout:"form",
+					columnWidth:0.5,
+					height:50,
+					items:[{
+						xtype: 'textfield',
+						name:"familyMemberName",
+						anchor:"90%",
+						fieldLabel:"姓名",
+						maxLength:50,
+						allowBlank:isNull
+					}]
+				},{
+					layout:"form",
+					columnWidth:0.5,
+					height:50,
+					items:[{
+						xtype: 'textfield',
+						name:"familyMemberCard",
+						anchor:"90%",
+						fieldLabel:"身份证",
+						maxLength:50
+					}]
+				}]
+			},{
+				layout:"column",
+				border:false,
+				labelSeparator:'：',
+				items:[{
+					layout:"form",
+					columnWidth:0.5,
+					height:50,
+					items:[{
+						xtype: 'datefield',
+						format:"Y-m-d",
+						name:"familyMemberBirthdate",
+						anchor:"90%",
+						fieldLabel:"生日",
+						maxLength:50
+					}]
+				},{
+					layout:"form",
+					columnWidth:0.5,
+					height:50,
+					items:[{
+						xtype: 'combo',
+						name:"familyMemberSex",
+						anchor:"90%",
+						fieldLabel:"性别",
+						editable:false,//false：不可编辑
+						triggerAction:"all",//避免选定了一个值之后，再选的时候只显示刚刚选择的那个值
+						valueField:"dataKey",//将codeid设置为传递给后台的值
+						displayField:"dataValue",
+						hiddenName:"familyMemberSex",//这个值就是传递给后台获取的值
+						mode: "local",
+						store:sexs
+					}]
+				}]
+			},{
+				layout:"column",
+				border:false,
+				labelSeparator:'：',
+				items:[{
+					layout:"form",
+					columnWidth:0.5,
+					height:50,
+					items:[{
+						xtype: 'numberfield',
+						name:"familyMemberHeight",
+						anchor:"90%",
+						fieldLabel:"身高(CM)",
+						maxLength:50
+					}]
+				},{
+					layout:"form",
+					columnWidth:0.5,
+					height:50,
+					items:[{
+						xtype: 'combo',
+						name:"familyMemberEducational",
+						anchor:"90%",
+						fieldLabel:"学历",
+						editable:false,//false：不可编辑
+						triggerAction:"all",//避免选定了一个值之后，再选的时候只显示刚刚选择的那个值
+						valueField:"dataKey",//将codeid设置为传递给后台的值
+						displayField:"dataValue",
+						hiddenName:"familyMemberEducational",//这个值就是传递给后台获取的值
+						mode: "local",
+						store:sexs
+					}]
+				}]
+			},{
+				layout:"column",
+				border:false,
+				labelSeparator:'：',
+				items:[{
+					layout:"form",
+					columnWidth:0.9,
+					height:50,
+					items:[{
+						xtype: 'textfield',
+						name:"familyMemberProfession",
+						anchor:"90%",
+						fieldLabel:"职业",
+						maxLength:500
+					}]
+				}]
+			},{
+				layout:"column",
+				border:false,
+				labelSeparator:'：',
+				items:[{
+					layout:"form",
+					columnWidth:0.9,
+					height:50,
+					items:[{
+						xtype: 'textfield',
+						name:"familyMemberBirthplace",
+						anchor:"90%",
+						fieldLabel:"出生地",
+						maxLength:500
+					}]
+				}]
+			}]
+		});
+		return familyMemberForm;
+	}
 	
 	/**
 	 * 公用窗口
