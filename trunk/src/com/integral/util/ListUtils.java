@@ -34,18 +34,18 @@ public class ListUtils {
      */
     public static <T> List<T> removeDuplication(List<T> list, String... keys) {
         if (list == null || list.isEmpty()) {
-            System.err.println("List is empty.");
+            log.error("List is empty.");
             return list;
         }
 
         if (keys == null || keys.length < 1) {
-            System.err.println("Missing parameters.");
+            log.error("Missing parameters.");
             return list;
         }
 
         for (String key : keys) {
             if (StringUtils.isBlank(key)) {
-                System.err.println("Key is empty.");
+                log.error("Key is empty.");
                 return list;
             }
         }
