@@ -238,11 +238,12 @@ function codeListDataManage(){
 		loader.baseParams.codeId = gridSelection[0].get("codeId");
 		root.reload(
 			function(){
-				formTree.expandAll();
+				//使用expandAll会导致首次加载时间过长！
+				//formTree.expandAll();
 			}
 		);
 		//dataForm.form.findField("parentDataKey").tree.expandAll();
-	}
+	};
 	/**
 	 * 删除数据标准值
 	 * @param {Object} url
@@ -645,7 +646,8 @@ function codeListDataManage(){
 								
 								root.reload(
 									function(){
-										tree.expandAll();
+										//使用expandAll会导致首次加载时间过长！
+										//tree.expandAll();
 									}
 								);
 							},
@@ -1006,25 +1008,35 @@ function codeListDataManage(){
 		if(form.form.findField("dataKey") && form.form.findField("dataKey").getValue()){
 			var dataKey = form.form.findField("dataKey").getValue();
 			codeListDataStore.baseParams.dataKey = dataKey;
+		}else{
+			codeListDataStore.baseParams.dataKey = "";
 		}
 		if(form.form.findField("dataValue") && form.form.findField("dataValue").getValue()){
 			var dataValue = form.form.findField("dataValue").getValue();
 			codeListDataStore.baseParams.dataValue = dataValue;
+		}else{
+			codeListDataStore.baseParams.dataValue = "";
 		}
 		if(form.form.findField("codeId") && form.form.findField("codeId").getValue()){
 			var codeId = form.form.findField("codeId").getValue();
 			codeListDataStore.baseParams.codeId = codeId;
+		}else{
+			codeListDataStore.baseParams.codeId = "";
 		}
 		if(form.form.findField("parentDataKey") && form.form.findField("parentDataKey").getValue()){
 			var parentDataKey = form.form.findField("parentDataKey").getValue();
 			codeListDataStore.baseParams.parentDataKey = parentDataKey;
+		}else{
+			codeListDataStore.baseParams.parentDataKey = "";
 		}
 		if(form.form.findField("remark") && form.form.findField("remark").getValue()){
 			var remark = form.form.findField("remark").getValue();
 			codeListDataStore.baseParams.remark = remark;
+		}else{
+			codeListDataStore.baseParams.remark = "";
 		}
-		
-		codeListDataStore.reload(codeListDataStore.lastOptions);
+		codeListDataStore.reload();
+		//codeListDataStore.reload(codeListDataStore.lastOptions);
 		Ext.getCmp(windowId).close();
 	}
 }
