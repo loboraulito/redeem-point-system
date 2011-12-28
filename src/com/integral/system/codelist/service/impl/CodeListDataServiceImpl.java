@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.math.NumberUtils;
@@ -32,12 +33,13 @@ public class CodeListDataServiceImpl implements ICodeListDataService {
      * 查找所有数据标准，并且以codeid,dataid排序
      * 经过优化之后的sql语句，查询速度大大增加, 使用子查询利用表中的索引,更新表结构
      */
-    private static String ALLCODELISTDATASQL = "SELECT child.dataid, child.codeid, ( SELECT codelist.codename FROM point_system_codelist AS codelist" +
+    private static String ALLCODELISTDATASQL = "SELECT dataid, codeid, codename, datakey, datavalue, parentdatakey, parentvalue, remark" +
+    		" FROM (SELECT child.dataid, child.codeid, ( SELECT codelist.codename FROM point_system_codelist AS codelist" +
     		" WHERE child.codeid = codelist.codeid) codename, child.datakey, child.datavalue, child.parentdatakey, parent.datavalue AS parentvalue, child.remark" +
     		" FROM point_system_codelist_data AS parent JOIN point_system_codelist_data AS child ON child.parentdatakey = parent.datakey UNION" +
     		" SELECT child.dataid, child.codeid, ( SELECT codelist.codename FROM point_system_codelist AS codelist WHERE child.codeid = codelist.codeid) codename," +
     		" child.datakey,child.datavalue, child.parentdatakey, NULL AS parentvalue, child.remark FROM point_system_codelist_data child " +
-    		" WHERE child.parentdatakey IS NULL ORDER BY codeid, dataid ";
+    		" WHERE child.parentdatakey IS NULL ORDER BY codeid, dataid ) AS codetable where 1=1";
     
     /**
      * <p>Discription:[方法功能中文描述]</p>
@@ -82,9 +84,9 @@ public class CodeListDataServiceImpl implements ICodeListDataService {
         this.baseDao = baseDao;
     }
     @Override
-    public List<CodeListData> getCodeListDataByPage(int start, int limit) throws SQLException {
+    public List<CodeListData> getCodeListDataByPage(int start, int limit, Map<String, Object> paramMap) throws SQLException {
         
-        String sql = ALLCODELISTDATASQL;
+        StringBuffer sql = new StringBuffer(ALLCODELISTDATASQL);
         /*
         sql = "SELECT child.dataid AS dataid, child.codeid AS codeid, codelist.codename AS codename," +
         		" child.datakey AS datakey, child.datavalue AS datavalue, child.parentdatakey AS parentdatakey," +
@@ -95,9 +97,38 @@ public class CodeListDataServiceImpl implements ICodeListDataService {
         BaseHibernateJDBCDao jdbcDao = new BaseHibernateJDBCDao();
         */
         //List list = this.codeListDataDao.findCodeListDataByPage(true, sql, start, limit, null);
+        
+        StringBuffer param = new StringBuffer();
+        if(paramMap != null && paramMap.size() > 0 && !paramMap.isEmpty()){
+            if(paramMap.get("dataKey") != null && !"".equals(paramMap.get("dataKey").toString().trim())){
+                sql.append(" and datakey = ? ");
+                param.append(paramMap.get("dataKey").toString()).append(",");
+            }
+            if(paramMap.get("dataValue") != null && !"".equals(paramMap.get("dataValue").toString().trim())){
+                sql.append(" and datavalue = ? ");
+                param.append(paramMap.get("dataValue").toString()).append(",");
+            }
+            if(paramMap.get("codeId") != null && !"".equals(paramMap.get("codeId").toString().trim())){
+                sql.append(" and codeid = ? ");
+                param.append(paramMap.get("codeId").toString()).append(",");
+            }
+            if(paramMap.get("parentDataKey") != null && !"".equals(paramMap.get("parentDataKey").toString().trim())){
+                sql.append(" and parentdatakey = ? ");
+                param.append(paramMap.get("parentDataKey").toString()).append(",");
+            }
+            if(paramMap.get("remark") != null && !"".equals(paramMap.get("remark").toString().trim())){
+                sql.append(" and remark = ? ");
+                param.append(paramMap.get("remark").toString());
+            }
+        }
+        String []params = null;
+        if(param != null && param.toString().length() > 0){
+            params = param.toString().split(",");
+        }
+        
         List<CodeListData> codeDataList = new ArrayList<CodeListData>();
         log.info( new Date() + "find codeListdata by page : ");
-        List list = this.baseDao.queryListByPageByJDBC(sql, start, limit, null);
+        List list = this.baseDao.queryListByPageByJDBC(sql.toString(), start, limit, params);
         log.info(new Date() + "find codeListdata by page : " + list);
         if(list != null){
             for(int i=0, j = list.size(); i < j; i++){
@@ -117,10 +148,38 @@ public class CodeListDataServiceImpl implements ICodeListDataService {
         return codeDataList;
     }
     @Override
-    public long getCodeListDataSize() {
+    public long getCodeListDataSize(Map<String, Object> paramMap) {
         long size = 0L;
-        String sql = "select count(dataid) codesize from point_system_codelist_data";
-        List list = this.baseDao.queryBySQL(sql, null);
+        StringBuffer sql = new StringBuffer("select count(dataid) codesize from point_system_codelist_data where 1 = 1");
+        StringBuffer param = new StringBuffer();
+        if(paramMap != null && paramMap.size() > 0 && !paramMap.isEmpty()){
+            if(paramMap.get("dataKey") != null && !"".equals(paramMap.get("dataKey").toString().trim())){
+                sql.append(" and datakey = ? ");
+                param.append(paramMap.get("dataKey").toString()).append(",");
+            }
+            if(paramMap.get("dataValue") != null && !"".equals(paramMap.get("dataValue").toString().trim())){
+                sql.append(" and datavalue = ? ");
+                param.append(paramMap.get("dataValue").toString()).append(",");
+            }
+            if(paramMap.get("codeId") != null && !"".equals(paramMap.get("codeId").toString().trim())){
+                sql.append(" and codeid = ? ");
+                param.append(paramMap.get("codeId").toString()).append(",");
+            }
+            if(paramMap.get("parentDataKey") != null && !"".equals(paramMap.get("parentDataKey").toString().trim())){
+                sql.append(" and parentdatakey = ? ");
+                param.append(paramMap.get("parentDataKey").toString()).append(",");
+            }
+            if(paramMap.get("remark") != null && !"".equals(paramMap.get("remark").toString().trim())){
+                sql.append(" and remark = ? ");
+                param.append(paramMap.get("remark").toString());
+            }
+        }
+        String []params = null;
+        if(param != null && param.toString().length() > 0){
+            params = param.toString().split(",");
+        }
+        
+        List list = this.baseDao.queryBySQL(sql.toString(), params);
         if(list!=null){
             size = NumberUtils.toLong((String.valueOf(list.get(0))), 0L);
         }
@@ -203,7 +262,7 @@ public class CodeListDataServiceImpl implements ICodeListDataService {
     }
     @Override
     public List findAllOrderByDataCode() throws SQLException {
-        return this.getCodeListDataByPage(0, 999999999);
+        return this.getCodeListDataByPage(0, 999999999, null);
     }
     
     /**

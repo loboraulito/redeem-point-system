@@ -3,6 +3,7 @@ package com.integral.system.codelist.service;
 import java.sql.SQLException;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 import com.integral.system.codelist.bean.CodeListData;
 
@@ -18,7 +19,7 @@ public interface ICodeListDataService {
      * @author:[代超]
      * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
      */
-    public long getCodeListDataSize();
+    public long getCodeListDataSize(Map<String, Object> paramMap);
     /**
      * <p>Discription:[分页查询数据标准值]</p>
      * @param start
@@ -28,7 +29,7 @@ public interface ICodeListDataService {
      * @throws SQLException 
      * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
      */
-    public List<CodeListData> getCodeListDataByPage(int start, int limit) throws SQLException;
+    public List<CodeListData> getCodeListDataByPage(int start, int limit, Map<String, Object> paramMap) throws SQLException;
     
     /**
      * <p>Discription:[增加或修改数据标准值]</p>
