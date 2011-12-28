@@ -5,8 +5,7 @@ function family(){
 	//加载性别下拉框
 	var sexs = parent.sexStore;
 	sexs.load({params:{codeId:"4af4953627d6f4ff0127d6fbc935000a"}});
-	var educational = parent.educationalStore;
-	educational.load({params:{codeId:"8ac388f134837dd6013483a54f85004f"}});
+	
 	
 	/**
 	 * 家庭成员数据解析
@@ -487,7 +486,14 @@ function family(){
 	 */
 	this.finishMemberInfo = function(url){
 		var memberInfoFrom = getMemberInfoForm(url, false, true);
-		showFamilyMemberWindow("editFamilyMemberInfo","完善个人信息",500, 350, memberInfoFrom);
+		var button = [{
+			text:"保存"
+		},{
+			text:"取消"
+		}];
+		showFamilyMemberWindow("editFamilyMemberInfo","完善个人信息",500, 350, memberInfoFrom, null, button);
+		//var educational = parent.educationalStore;
+		//educational.load({params:{codeId:"8ac388f134837dd6013483a54f85004f"}});
 	};
 	
 	function getMemberInfoForm(url, isNull, readOnly){
