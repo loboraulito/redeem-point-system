@@ -91,7 +91,7 @@ function userLoginForm(username,password){
 //Submit login and handler response
 function fnLoginForm(theForm)
 {	
-	document.getElementById("loadMarskDiv").style.display = "block"
+	document.getElementById("loadMarskDiv").style.display = "block";
 	var loadMask = new Ext.LoadMask("loadMarskDiv",{
 		msg:"正在登陆系统，请稍候...",
 		removeMask:true
