@@ -121,23 +121,23 @@ function family(){
 	},{
 		header:"家庭",
 		dataIndex:"familyName",
-		width:150
+		width:70
 	},{
 		header:"成员姓名",
 		dataIndex:"familyMemberName",
-		width:150
+		width:70
 	},{
 		header:"系统用户ID",
 		dataIndex:"systemMemberId",
-		width:150
+		width:70
 	},{
 		header:"身份证",
 		dataIndex:"familyMemberCard",
-		width:150
+		width:110
 	},{
 		header:"生日",
 		dataIndex:"familyMemberBirthdate",
-		width:150
+		width:70
 	},{
 		header:"出生地",
 		dataIndex:"familyMemberBirthplace",
@@ -145,19 +145,21 @@ function family(){
 	},{
 		header:"性别",
 		dataIndex:"familyMemberSex",
-		width:150
+		renderer:showSexCode,
+		width:30
 	},{
-		header:"身高",
+		header:"身高(CM)",
 		dataIndex:"familyMemberHeight",
-		width:150
+		width:50
 	},{
 		header:"学历",
 		dataIndex:"familyMemberEducational",
-		width:150
+		renderer:showEducationCode,
+		width:70
 	},{
 		header:"职业",
 		dataIndex:"familyMemberProfession",
-		width:150
+		width:70
 	},{
 		dataIndex:"familyMemberDeaddate",
 		hidden:true,
@@ -193,6 +195,14 @@ function family(){
 		}),
 		tbar:[]
 	});
+	
+	function showSexCode(value,metadata,record,rowIndex,colIndex,store){
+		return parent.getCodeNameFromStore(value,sexs,"dataKey","dataValue");
+	}
+	
+	function showEducationCode(value,metadata,record,rowIndex,colIndex,store){
+		return parent.getCodeNameFromStore(value,educational,"dataKey","dataValue");
+	}
 	
 	/**
 	 * 按钮存储器，尚未执行查询
@@ -485,7 +495,6 @@ function family(){
 	 * @param {} url
 	 */
 	this.finishMemberInfo = function(url){
-		
 		var memberInfoFrom = getMemberInfoForm(url, false, true, educational);
 		var button = [{
 			text:"保存",
@@ -503,7 +512,15 @@ function family(){
 				}
 			}
 		}];
+		
 		showFamilyMemberWindow("editFamilyMemberInfo","完善个人信息",500, 350, memberInfoFrom, null, button);
+		
+		memberListStore.findBy(function(record, id){
+			if(record.get("systemMemberId") == userName){
+				memberInfoFrom.getForm().loadRecord(record);
+				return true;
+			}
+		});
 	};
 	
 	/**
@@ -592,6 +609,10 @@ function family(){
 						fieldLabel:"姓名",
 						maxLength:50,
 						allowBlank:isNull
+					},{
+						xtype:"hidden",
+						name:"systemMemberId",
+						value:userName
 					}]
 				},{
 					layout:"form",
@@ -602,7 +623,31 @@ function family(){
 						name:"familyMemberCard",
 						anchor:"90%",
 						fieldLabel:"身份证",
-						maxLength:50
+						maxLength:50,
+						listeners:{
+							"blur":function(field){
+								var card = field.getValue();
+								var address = card.substr(0,6);
+								parent.getAddressFromCodeList(address, function(data){
+									if(data && data != "" && data.trim() != ""){
+										familyMemberForm.form.findField("familyMemberBirthplace").setValue(data);
+									}
+								});
+								if(card.length == 15){
+									//将15位的身份证转换为18位
+									card = parent.updateIDCard(card);
+								}
+								if(card.length == 18){
+									var dt = card.substr(6,8);
+									dt = parent.dateFormat(dt,"Ymd");
+									familyMemberForm.form.findField("familyMemberBirthdate").setValue(dt);
+									var sexv = card.substr(16,1)%2 ? "1" : "2";
+									familyMemberForm.form.findField("familyMemberSex").setValue(sexv);
+								}else{
+									Ext.Msg.alert("系统提示","您的身份证号码输入非法，请确认！");
+								}
+							}
+						}
 					}]
 				}]
 			},{
@@ -619,7 +664,7 @@ function family(){
 						name:"familyMemberBirthdate",
 						anchor:"90%",
 						fieldLabel:"生日",
-						maxLength:50
+						maxLength:50						
 					}]
 				},{
 					layout:"form",
@@ -678,7 +723,7 @@ function family(){
 				labelSeparator:'：',
 				items:[{
 					layout:"form",
-					columnWidth:0.9,
+					columnWidth:0.5,
 					height:50,
 					items:[{
 						xtype: 'textfield',
@@ -686,6 +731,18 @@ function family(){
 						anchor:"90%",
 						fieldLabel:"职业",
 						maxLength:500
+					}]
+				},{
+					layout:"form",
+					columnWidth:0.5,
+					height:50,
+					items:[{
+						xtype: 'datefield',
+						format:"Y-m-d",
+						name:"familyMemberDeaddate",
+						anchor:"90%",
+						fieldLabel:"死亡日期",
+						maxLength:50
 					}]
 				}]
 			},{

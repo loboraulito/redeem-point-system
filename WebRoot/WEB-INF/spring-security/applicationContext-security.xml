@@ -44,6 +44,7 @@
 		<security:intercept-url pattern="/codelist/codeDataManageTree.action/**" filters="none"/>
 		<!-- 系统公共模块 -->
 		<security:intercept-url pattern="/common/codeListCombo.action/**" filters="none"/>
+		<security:intercept-url pattern="/common/codeListAddress.action/**" filters="none"/>
 		<!-- 获取有权限访问的按钮 -->
 		<security:intercept-url pattern="/right/showButtons.action/**" filters="none"/>
 		<!-- 获取所有用户以及角色 -->

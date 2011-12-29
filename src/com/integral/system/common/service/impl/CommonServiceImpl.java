@@ -1,5 +1,7 @@
 package com.integral.system.common.service.impl;
 
+import java.util.List;
+
 import com.integral.common.dao.impl.BaseDao;
 import com.integral.system.common.service.ICommonService;
 
@@ -19,4 +21,23 @@ public class CommonServiceImpl implements ICommonService {
         this.baseDao = baseDao;
     }
     
+    public List getAddressFromCodeData(String codeId, String ... dataKey) throws Exception{
+        String sql = "SELECT CONCAT(IFNULL((SELECT codelist.datavalue FROM point_system_codelist_data codelist" +
+        		" WHERE codelist.codeid=? AND codelist.datakey = ?)," +
+        		" ''), IFNULL((SELECT codelist.datavalue FROM point_system_codelist_data codelist" +
+        		" WHERE codelist.codeid=? AND codelist.datakey = ?)," +
+        		" ''), IFNULL((SELECT codelist.datavalue FROM point_system_codelist_data codelist" +
+        		" WHERE codelist.codeid=? AND codelist.datakey = ?),'')" +
+        		" ) AS address";
+        try{
+            if(dataKey != null && codeId != null && !"".equals(codeId)){
+                Object [] obj = new Object[]{codeId, dataKey[0], codeId, dataKey[1], codeId, dataKey[2]};
+                return this.baseDao.queryBySQL(sql, obj);
+            }else{
+                return null;
+            }
+        }catch(Exception e){
+            throw e;
+        }
+    }
 }

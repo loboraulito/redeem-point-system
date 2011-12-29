@@ -9,5 +9,9 @@
 			 <result name="success">/index.jsp</result>
 			 <result name="input">/index.jsp</result>
 		</action>
+		<action name="codeListAddress" class="com.integral.system.common.action.CommonAction" method="getAddressFromCodeData">
+			 <result name="success">/index.jsp</result>
+			 <result name="input">/index.jsp</result>
+		</action>
 	</package>
 </struts>
