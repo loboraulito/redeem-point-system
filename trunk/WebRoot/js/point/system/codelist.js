@@ -1004,7 +1004,6 @@ function codeListDataManage(){
 	 * @param {} form
 	 */
 	function queryCodeDataList(windowId, form){
-		var loadParam = codeListDataStore.lastOptions.params;
 		if(form.form.findField("dataKey") && form.form.findField("dataKey").getValue()){
 			var dataKey = form.form.findField("dataKey").getValue();
 			codeListDataStore.baseParams.dataKey = dataKey;
