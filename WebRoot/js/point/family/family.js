@@ -5,8 +5,8 @@ function family(){
 	//加载性别下拉框
 	var sexs = parent.sexStore;
 	sexs.load({params:{codeId:"4af4953627d6f4ff0127d6fbc935000a"}});
-	
-	
+	var educational = parent.educationalStore;
+	educational.load({params:{codeId:"8ac388f134837dd6013483a54f85004f"}});
 	/**
 	 * 家庭成员数据解析
 	 */
@@ -485,18 +485,90 @@ function family(){
 	 * @param {} url
 	 */
 	this.finishMemberInfo = function(url){
-		var memberInfoFrom = getMemberInfoForm(url, false, true);
+		
+		var memberInfoFrom = getMemberInfoForm(url, false, true, educational);
 		var button = [{
-			text:"保存"
+			text:"保存",
+			handler:function(){
+				if(memberInfoFrom.form.isValid()){
+					doSaveMemberInfo("editFamilyMemberInfo", memberInfoFrom);
+				}
+			}
 		},{
-			text:"取消"
+			text:"取消",
+			handler:function(){
+				var win = Ext.getCmp("editFamilyMemberInfo");
+				if(win){
+					win.close();
+				}
+			}
 		}];
 		showFamilyMemberWindow("editFamilyMemberInfo","完善个人信息",500, 350, memberInfoFrom, null, button);
-		//var educational = parent.educationalStore;
-		//educational.load({params:{codeId:"8ac388f134837dd6013483a54f85004f"}});
 	};
 	
-	function getMemberInfoForm(url, isNull, readOnly){
+	/**
+	 * 完善个人信息提交
+	 * @param {} windowId
+	 * @param {} form
+	 */
+	function doSaveMemberInfo(windowId, form){
+		Ext.MessageBox.show({
+		    msg: '正在提交您的请求, 请稍侯...',
+		    progressText: '正在提交您的请求',
+		    width:300,
+		    wait:true,
+		    waitConfig: {interval:200},
+		    icon:Ext.Msg.INFO
+		});
+		form.getForm().submit({
+			timeout:60000,
+			success: function(form, action) {
+				Ext.Msg.hide();
+				var result = Ext.decode(action.response.responseText);
+				if(result && result.success){
+					var msg = "您的个人信息已经成功保存！";
+					if(result.msg){
+						msg = result.msg;
+					}
+					Ext.Msg.alert('系统提示信息', msg, function(btn, text) {
+						if (btn == 'ok') {
+							memberListStore.reload();
+							Ext.getCmp(windowId).close();
+						}
+					});
+				}else if(!result.success){
+					var msg = "您的个人信息保存失败，请检查您所填信息是否完整无误！";
+					if(result.msg){
+						msg = result.msg;
+					}
+					Ext.Msg.alert('系统提示信息', msg);
+				}
+			},
+			failure: function(form, action) {//action.result.errorMessage
+				Ext.Msg.hide();
+				var msg = "您的个人信息保存失败，请检查您的网络连接或者联系管理员！";
+				try{
+					var result = Ext.decode(action.response.responseText);
+					if(result.msg){
+						msg = result.msg;
+					}
+				}catch(e){
+					msg = "系统错误：" + e;
+				}
+				Ext.Msg.alert('系统提示信息', msg);
+			}
+		});
+	}
+	
+	/**
+	 * 完善个人信息表单
+	 * @param {} url
+	 * @param {} isNull
+	 * @param {} readOnly
+	 * @param {} educational
+	 * @return {}
+	 */
+	function getMemberInfoForm(url, isNull, readOnly, educational){
 		var familyMemberForm = new Ext.form.FormPanel({
 			url:url,
 			frame: true,
