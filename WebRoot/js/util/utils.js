@@ -222,3 +222,51 @@ function getCodeNameFromStore(value,store,codeid,codename){
 	}
 	return value;
 }
+
+
+/**
+ * 查看我的邀请信息
+ */
+function viewInvitation(userName, currentMenuId){
+	var url = path + "/invitation/invitationList.action?method=invitationList";
+	Ext.Ajax.request({
+		params:{userId:userName, menuId:currentMenuId, status:"1"},
+		timeout:60000,
+		url:url,
+		success:function(response, options){
+			var msg = Ext.util.JSON.decode(response.responseText);
+			if(msg.success){
+				if(msg.msg){
+					Ext.Msg.alert("系统提示",msg.msg);
+					family_manage();
+				}else{
+					if(msg.totalCount > 0){
+						Ext.Msg.confirm("系统提示","您有未处理的系统邀请信息，现在处理？",function(btn){
+							if(btn == "yes" || btn == "ok"){
+								parent.fromMenuId = currentMenuId;
+								parent.goToTabPanel("/invitation/invitation.action?method=begin", null, true);
+							}else{
+								//family_manage();
+							}
+						});
+					}else{
+						//family_manage();
+					}
+				}
+			}else{
+				//family_manage();
+			}
+		},failure: function(response, options){
+			try{
+				var msg = Ext.util.JSON.decode(response.responseText);
+				if(msg.msg){
+					Ext.Msg.alert("系统提示",msg.msg);
+				}else{
+					Ext.Msg.alert("系统提示","系统错误，请联系管理员！");
+				}
+			}catch(e){
+				Ext.Msg.alert("系统提示","系统错误！错误代码：" + e);
+			}
+		}
+	});
+}
