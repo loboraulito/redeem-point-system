@@ -444,6 +444,20 @@ public class Tools {
             return false;
         }
     }
+    /**
+     * <p>Discription:[某日期加几天]</p>
+     * @param date
+     * @param day
+     * @return
+     * @author:[代超]
+     * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
+     */
+    public static Date addDayToDate(Date date, int day){
+        Calendar c = Calendar.getInstance();
+        c.setTime(date);
+        c.add(Calendar.DATE, day);
+        return c.getTime();
+    }
 
     public static void main(String[] args) throws ParseException {
         Date from = StringToDate("2011-09-20");
@@ -461,6 +475,7 @@ public class Tools {
         System.out.println(getWeekDate(from, 6));
         System.out.println(getWeekFromDate(from1));
         System.out.println(getDateFromWeek(to, -1, 5));
+        System.out.println(addDayToDate(to, -3));
         
         // GregorianCalendar c = new GregorianCalendar();
         // c.setTime(d);
