@@ -10,6 +10,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang.math.NumberUtils;
 import org.apache.struts2.interceptor.ServletRequestAware;
 import org.apache.struts2.interceptor.ServletResponseAware;
@@ -26,6 +27,7 @@ import com.integral.family.member.service.IFamilyMemberService;
 import com.integral.system.invitation.bean.SystemInviteProcess;
 import com.integral.system.invitation.service.ISystemInviteProcessService;
 import com.integral.util.ListUtils;
+import com.integral.util.RequestUtil;
 
 /** 
  * <p>Description: [家庭成员管理]</p>
@@ -287,6 +289,65 @@ public class FamilyMemberAction extends BaseAction implements ServletRequestAwar
                 out.close();
             }
         }
+        return null;
+    }
+    /**
+     * <p>Discription:[完善个人信息]</p>
+     * @return
+     * @author:[代超]
+     * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
+     */
+    public String familyMemberInfoEdit(){
+        // 定义TransactionDefinition并设置好事务的隔离级别和传播方式。
+        DefaultTransactionDefinition definition = new DefaultTransactionDefinition();
+        // 代价最大、可靠性最高的隔离级别，所有的事务都是按顺序一个接一个地执行
+        definition.setIsolationLevel(TransactionDefinition.ISOLATION_SERIALIZABLE);
+        // 开始事务
+        TransactionStatus status = transactionManager.getTransaction(definition);
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        JsonFormat jf = new JsonFormat(true);
+        jf.setAutoUnicode(true);
+        PrintWriter out = null;
+        try{
+            out = super.getPrintWriter(request, response);
+            Map<String, Object> paramMap = RequestUtil.getRequestMap(request);
+            RequestUtil.repalceAsDate(paramMap, "familyMemberBirthdate", "yyyy-MM-dd");
+            RequestUtil.repalceAsDate(paramMap, "familyMemberDeaddate", "yyyy-MM-dd");
+            FamilyMember member = new FamilyMember();
+            if(paramMap.get("systemMemberId") == null){
+                resultMap.put("success", false);
+                resultMap.put("msg", "用户信息不完整，无法完善您的个人信息！");
+            }else{
+                member.setSystemMemberId(paramMap.get("systemMemberId").toString());
+                List<FamilyMember> members = this.familyMemberService.findByExample(member);
+                if(members == null){
+                    resultMap.put("success", false);
+                    resultMap.put("msg", "用户信息不存在，无法完善您的个人信息 ！");
+                }else{
+                    List<FamilyMember> fm = new ArrayList<FamilyMember>();
+                    for(FamilyMember m : members){
+                        BeanUtils.populate(m, paramMap);
+                        fm.add(m);
+                    }
+                    this.familyMemberService.saveOrUpdateAll(fm);
+                    resultMap.put("success", true);
+                    resultMap.put("msg", "已成功完善您的个人信息！");
+                }
+            }
+        }catch(Exception e){
+            status.setRollbackOnly();
+            resultMap.put("success", false);
+            resultMap.put("msg", "系统错误！错误代码：" + e.getMessage());
+            LOG.error(e.getMessage());
+        }finally{
+            transactionManager.commit(status);
+            if(out != null){
+                out.print(Json.toJson(resultMap, jf));
+                out.flush();
+                out.close();
+            }
+        }
+        
         return null;
     }
 }
