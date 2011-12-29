@@ -513,7 +513,7 @@ function family(){
 			}
 		}];
 		
-		showFamilyMemberWindow("editFamilyMemberInfo","完善个人信息",500, 350, memberInfoFrom, null, button);
+		showFamilyMemberWindow("editFamilyMemberInfo","完善【"+userName+"】的个人信息",500, 350, memberInfoFrom, null, button);
 		
 		memberListStore.findBy(function(record, id){
 			if(record.get("systemMemberId") == userName){
