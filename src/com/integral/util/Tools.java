@@ -513,31 +513,10 @@ public class Tools {
     }
 
     public static void main(String[] args) throws ParseException {
-        Date from = StringToDate("2011-09-20");
-        Date to = StringToDate("2011-12-29");
+        Date today = new Date();
+        Date to = StringToDate("2012-02-29");
         
-        Date from1 = getWeekDate(from, 6);
-        Date to1 = getWeekDate(to, 1);
+        System.out.println(getDaysBetweenDates(today, to));
         
-        int from11 = getDaysBetweenDates(from, from1);
-        int to11 = getDaysBetweenDates(to1, to);
-        
-        System.out.println(from11 + to11);
-        
-        System.out.println(getDaysBetweenDates(from, to));
-        System.out.println(getWorkDayBetweenDates(from, to));
-        
-        
-        System.out.println(getWeekDate(from, 6));
-        System.out.println(getWeekFromDate(from1));
-        System.out.println(getDateFromWeek(to, -1, 6));
-        System.out.println(addDayToDate(to, -3));
-        System.out.println(isLeapYear(from));
-        
-        // GregorianCalendar c = new GregorianCalendar();
-        // c.setTime(d);
-        // c.setGregorianChange(d);
-        //System.out.println(dateToString(getLastDateOfMonth(d, null)));
-        System.out.println(checkDate(("2011-02-29")));
     }
 }
