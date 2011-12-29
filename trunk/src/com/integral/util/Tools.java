@@ -1,6 +1,7 @@
 package com.integral.util;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.DateFormat;
 import java.text.Format;
 import java.text.ParseException;
@@ -309,10 +310,158 @@ public class Tools {
         }
         return bool;
     }
+    /**
+     * <p>Discription:[获取两个日期相隔天数]</p>
+     * @param from
+     * @param to
+     * @return
+     * @author:[代超]
+     * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
+     */
+    public static int getDaysBetweenDates(Date from, Date to){
+        if(from.after(to)){
+            Date swap = from;
+            from = to;
+            to = swap;
+        }
+        BigDecimal bd = new BigDecimal(getTimeFromTwoDate(from, to));
+        return bd.divide(new BigDecimal(""+ 24 * 3600 * 1000), RoundingMode.DOWN).intValue();
+    }
+    /**
+     * <p>Discription:[获取某天所在周的星期几的日期]</p>
+     * @param date
+     * @param week 星期(0 ~ 6), 0: SUN, 1: MON,... 6: SAT
+     * @return
+     * @author:[代超]
+     * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
+     */
+    public static Date getWeekDate(Date date, int week){
+        Calendar c = Calendar.getInstance();
+        c.setTime(date);
+        switch(week){
+            case 0:
+                c.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+                break;
+            case 1:
+                c.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+                break;
+            case 2:
+                c.set(Calendar.DAY_OF_WEEK, Calendar.TUESDAY);
+                break;
+            case 3:
+                c.set(Calendar.DAY_OF_WEEK, Calendar.WEDNESDAY);
+                break;
+            case 4:
+                c.set(Calendar.DAY_OF_WEEK, Calendar.THURSDAY);
+                break;
+            case 5:
+                c.set(Calendar.DAY_OF_WEEK, Calendar.FRIDAY);
+                break;
+            case 6:
+                c.set(Calendar.DAY_OF_WEEK, Calendar.SATURDAY);
+                break;
+            default:
+                break;
+        }
+        return c.getTime();
+    }
+    /**
+     * <p>Discription:[获取某日期所在星期几]</p>
+     * @param date
+     * @return 0 ~ 6 (0: SUN, 1: MON, 6: SAT)
+     * @author:[代超]
+     * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
+     */
+    public static int getWeekFromDate(Date date){
+        Calendar c = Calendar.getInstance();
+        c.setTime(date);
+        return c.get(Calendar.DAY_OF_WEEK) - 1;
+    }
+    /**
+     * <p>Discription:[获取某日期所在周]</p>
+     * @param date
+     * @return 0 ~ 52
+     * @author:[代超]
+     * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
+     */
+    public static int getWeekNumFromDate(Date date){
+        Calendar c = Calendar.getInstance();
+        c.setTime(date);
+        return c.get(Calendar.WEEK_OF_YEAR) - 1;
+    }
+    /**
+     * <p>Discription:[获取相对于指定日期的上/下几周的星期几的日期]</p>
+     * @param date
+     * @param week 相对于date所在周的上/下几周(-1：上一周，-2：上两周，1：下一周，2：下两周)
+     * @param day 星期几(0 ~ 6) 0: SUN, 1: MON, 6: SAT
+     * @return
+     * @author:[代超]
+     * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
+     */
+    public static Date getDateFromWeek(Date date, int week, int day){
+        Calendar c = Calendar.getInstance();
+        c.setTime(date);
+        c.add(Calendar.WEEK_OF_YEAR, week);
+        switch(day){
+            case 0:
+                c.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+                break;
+            case 1:
+                c.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+                break;
+            case 2:
+                c.set(Calendar.DAY_OF_WEEK, Calendar.TUESDAY);
+                break;
+            case 3:
+                c.set(Calendar.DAY_OF_WEEK, Calendar.WEDNESDAY);
+                break;
+            case 4:
+                c.set(Calendar.DAY_OF_WEEK, Calendar.THURSDAY);
+                break;
+            case 5:
+                c.set(Calendar.DAY_OF_WEEK, Calendar.FRIDAY);
+                break;
+            case 6:
+                c.set(Calendar.DAY_OF_WEEK, Calendar.SATURDAY);
+                break;
+            default:
+                break;
+        }
+        return c.getTime();
+    }
+    
+    /**
+     * <p>Discription:[判断某日期是否周末]</p>
+     * @param date
+     * @return true: 周末, false: 非周末
+     * @author:[代超]
+     * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
+     */
+    public static boolean isWeekendDay(Date date){
+        if(getWeekFromDate(date) == 0 || getWeekFromDate(date) == 1){
+            return true;
+        }else{
+            return false;
+        }
+    }
 
     public static void main(String[] args) throws ParseException {
-        Date d = new Date();
-        System.out.println(dateToString2(d));
+        Date from = StringToDate("2011-09-20");
+        Date to = StringToDate("2011-12-29");
+        
+        Date from1 = getWeekDate(from, 6);
+        Date to1 = getWeekDate(to, 1);
+        
+        int from11 = getDaysBetweenDates(from, from1);
+        int to11 = getDaysBetweenDates(to1, to);
+        
+        System.out.println(from11 + to11);
+        
+        System.out.println(getDaysBetweenDates(from, to));
+        System.out.println(getWeekDate(from, 6));
+        System.out.println(getWeekFromDate(from1));
+        System.out.println(getDateFromWeek(to, -1, 5));
+        
         // GregorianCalendar c = new GregorianCalendar();
         // c.setTime(d);
         // c.setGregorianChange(d);
