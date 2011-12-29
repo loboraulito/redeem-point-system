@@ -233,7 +233,9 @@ public class Tools {
     public static boolean isLeapYear(Date date) {
         boolean leapYear = false;
         GregorianCalendar c = new GregorianCalendar();
-        leapYear = c.isLeapYear(date.getYear());
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        leapYear = c.isLeapYear(cal.get(Calendar.YEAR));
         return leapYear;
     }
 
@@ -530,6 +532,7 @@ public class Tools {
         System.out.println(getWeekFromDate(from1));
         System.out.println(getDateFromWeek(to, -1, 6));
         System.out.println(addDayToDate(to, -3));
+        System.out.println(isLeapYear(from));
         
         // GregorianCalendar c = new GregorianCalendar();
         // c.setTime(d);
