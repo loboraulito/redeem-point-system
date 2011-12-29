@@ -458,6 +458,57 @@ public class Tools {
         c.add(Calendar.DATE, day);
         return c.getTime();
     }
+    /**
+     * <p>Discription:[获取两个日期间的工作日(包括国定假日)的天数]</p>
+     * @param from
+     * @param to
+     * @return
+     * @author:[代超]
+     * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
+     */
+    public static int getWorkDayBetweenDates(Date from, Date to){
+        if(from.after(to)){
+            Date swap = from;
+            from = to;
+            to = swap;
+        }
+        int dates = 0;
+        //开始日期所在周的周末天数
+        int startWeekend = 0;
+        //结束日期所在周的周末天数
+        int endWeekend = 0;
+        //判断两个日期是否是周末
+        if(isWeekendDay(from)){
+            //如果是周末，则从下周星期天开始(星期天为第一天)
+            Date temp = from;
+            from = getDateFromWeek(from, 1, 0);
+            startWeekend = getDaysBetweenDates(temp, from);
+        }else{
+            //不是周末，开始日期到周末的工作日天数
+            Date temp = from;
+            Date temp1 = getDateFromWeek(from, 0, 6);
+            dates += getDaysBetweenDates(temp, temp1);
+            //从本周星期天星期天开始(下周第一天)
+            from = getDateFromWeek(from, 1, 0);
+        }
+        if(isWeekendDay(to)){
+            Date temp = to;
+            //如果是周末，则计算截止到上周六(周六为最后一天)
+            to = getDateFromWeek(to, -1, 6);
+            endWeekend = getDaysBetweenDates(temp, to);
+        }else{
+            //不是周末，周末到结束日期的工作日天数
+            Date temp = to;
+            Date temp1 = getDateFromWeek(to, 0, 1);
+            dates += getDaysBetweenDates(temp, temp1);
+            //到上周星期天结束(本周第一天)
+            to = getDateFromWeek(to, 0, 0);
+        }
+        //剩下的天数实际上是周的倍数
+        int workDate = getDaysBetweenDates(from, to) / 7 * 5;
+        dates = dates + workDate - startWeekend - endWeekend;
+        return dates;
+    }
 
     public static void main(String[] args) throws ParseException {
         Date from = StringToDate("2011-09-20");
@@ -472,9 +523,12 @@ public class Tools {
         System.out.println(from11 + to11);
         
         System.out.println(getDaysBetweenDates(from, to));
+        System.out.println(getWorkDayBetweenDates(from, to));
+        
+        
         System.out.println(getWeekDate(from, 6));
         System.out.println(getWeekFromDate(from1));
-        System.out.println(getDateFromWeek(to, -1, 5));
+        System.out.println(getDateFromWeek(to, -1, 6));
         System.out.println(addDayToDate(to, -3));
         
         // GregorianCalendar c = new GregorianCalendar();
