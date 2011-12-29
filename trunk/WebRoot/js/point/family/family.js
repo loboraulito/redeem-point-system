@@ -736,8 +736,10 @@ function family(){
 		codeListWindow.show();
 	}
 }
+
 Ext.onReady(function(){
 	Ext.QuickTips.init();
 	Ext.form.Field.prototype.msgTarget = "under";
+	parent.viewInvitation(userName, currentMenuId);
 	family();
 });
