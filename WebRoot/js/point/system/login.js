@@ -99,6 +99,7 @@ function fnLoginForm(theForm)
 	loadMask.show();
 	//清除菜单信息
 	resetMenu();
+	closeAllTab();
 	if(theForm.form.isValid()){
 		theForm.getForm().submit({
 			timeout:60000,
