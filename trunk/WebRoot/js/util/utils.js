@@ -190,6 +190,49 @@ function getCodeListCombo(){
 	});
 	return codeStore;
 }
+/**
+ * 查询地址
+ * @param {} dataKey
+ * @param {} fn 回调函数
+ */
+function getAddressFromCodeList(dataKey, fn){
+	if(dataKey == null || dataKey == "" || dataKey.length != 6){
+		return;
+	}
+	var url = path + "/common/codeListAddress.action?method=getAddressFromCodeData";
+	Ext.Ajax.request({
+		params:{codeId:"8ac388c529a607730129a608c52f0004", datakey:dataKey},
+		timeout:60000,
+		url:url,
+		success:function(response, options){
+			var msg = Ext.util.JSON.decode(response.responseText);
+			if(msg.success){
+				if(typeof fn == "function"){
+					if(msg.codeList && msg.codeList.length > 0){
+						fn(msg.codeList[0]);
+					}
+				}
+			}else{
+				if(msg.msg){
+					Ext.Msg.alert("系统提示",msg.msg);
+				}else{
+					Ext.Msg.alert("系统提示","系统错误，请联系管理员！");
+				}
+			}
+		},failure: function(response, options){
+			try{
+				var msg = Ext.util.JSON.decode(response.responseText);
+				if(msg.msg){
+					Ext.Msg.alert("系统提示",msg.msg);
+				}else{
+					Ext.Msg.alert("系统提示","系统错误，请联系管理员！");
+				}
+			}catch(e){
+				Ext.Msg.alert("系统提示","系统错误！错误代码：" + e);
+			}
+		}
+	});
+}
 
 /**
  * 根据数据标准的具体值，找到其对应的数据标准值。
@@ -269,4 +312,64 @@ function viewInvitation(userName, currentMenuId){
 			}
 		}
 	});
+}
+/**
+ * 将15位的身份证转为18位
+ * @param {} idcard
+ */
+function updateIDCard(idcard){
+	if(!idcard || idcard.length != 15){
+		return;
+	}
+	var zone = idcard.substring(0,6);
+	var year = "19" + idcard.substring(6,8);
+	var mdo = idcard.substring(8,15);
+	var tempId = zone + year + mdo;
+	/**
+	 * 获取最后一位校验码
+	 * @param {} id
+	 * @return {}
+	 */
+	function getVerifyCode(id){
+		var getNum=eval(id.charAt(0)*7+id.charAt(1)*9+id.charAt(2)*10+id.charAt(3)*5+id.charAt(4)*8+id.charAt(5)*4+id.charAt(6)*2+id.charAt(7)*1+id.charAt(8)*6+id.charAt(9)*3+id.charAt(10)*7+id.charAt(11)*9+id.charAt(12)*10+id.charAt(13)*5+id.charAt(14)*8+id.charAt(15)*4+id.charAt(16)*2);
+		getNum = getNum % 11;
+		switch (getNum) {
+		case 0 :
+		  lastNumber="1";
+		  break;
+		case 1 :
+		  lastNumber="0";
+		  break;
+		case 2 :
+		  lastNumber="X";
+		  break;
+		case 3 :
+		  lastNumber="9";
+		  break;
+		case 4 :
+		  lastNumber="8";
+		  break;
+		case 5 :
+		  lastNumber="7";
+		  break;
+		case 6 :
+		  lastNumber="6";
+		  break;
+		case 7 :
+		  lastNumber="5";
+		  break;
+		case 8 :
+		  lastNumber="4";
+		  break;
+		case 9 :
+		  lastNumber="3";
+		  break;
+		case 10 :
+		  lastNumber="2";
+		  break;
+		}
+		return lastNumber;
+	}
+	var card = tempId + getVerifyCode(tempId);
+	return card;
 }
