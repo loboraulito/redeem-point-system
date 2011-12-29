@@ -208,6 +208,19 @@ function resetMenu(){
 	menuPanel.removeAll();
 	menuPanel.doLayout();
 }
+/**
+ * 关闭所有标签
+ */
+function closeAllTab(){
+	var tab = Ext.getCmp("mainTabPanel");
+	if(tab){
+		tab.items.each(function(item){
+            if(item.closable){
+                tab.remove(item);
+            }
+        });
+	}
+}
 
 /**
  * 显示日历
