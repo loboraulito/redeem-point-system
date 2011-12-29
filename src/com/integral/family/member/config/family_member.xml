@@ -25,5 +25,9 @@
 			 <result name="success">/jsp/family/family.jsp</result>
 			 <result name="input">/index.jsp</result>
 		</action>
+		<action name="familyMemberRemove" class="com.integral.family.member.action.FamilyMemberAction" method="familyMemberRemove">
+			 <result name="success">/jsp/family/family.jsp</result>
+			 <result name="input">/index.jsp</result>
+		</action>
 	</package>
 </struts>
