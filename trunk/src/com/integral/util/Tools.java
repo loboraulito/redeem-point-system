@@ -440,7 +440,7 @@ public class Tools {
      * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
      */
     public static boolean isWeekendDay(Date date){
-        if(getWeekFromDate(date) == 0 || getWeekFromDate(date) == 1){
+        if(getWeekFromDate(date) == 0 || getWeekFromDate(date) == 6){
             return true;
         }else{
             return false;
@@ -511,12 +511,47 @@ public class Tools {
         dates = dates + workDate - startWeekend - endWeekend;
         return dates;
     }
+    /**
+     * <p>Discription:[计算从from日期之后days天之后的日期(如果遇到周末则往后延周末的天数)]</p>
+     * @param from
+     * @param days N天后
+     * @param Date[] holidays: 节假日
+     * @return N天后非周末日期
+     * @author:[代超]
+     * @throws ParseException 
+     * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
+     */
+    public static Date getDateAfterDays(Date from, int days, Date[] holidays) throws ParseException{
+        Date end = from;
+        int i=0;
+        while(i < days){
+            end = addDayToDate(end, 1);
+            if(holidays != null){
+                for(Date date : holidays){
+                    if(end.compareTo(date) == 0){
+                        end = addDayToDate(end, 1);
+                    }
+                }
+            }
+            if(!isWeekendDay(end)){
+                i++;
+            }
+        }
+        return end;
+    }
 
     public static void main(String[] args) throws ParseException {
-        Date today = new Date();
-        Date to = StringToDate("2012-02-29");
+        Date today = StringToDate(dateToString(new Date(),"yyyy-MM-dd"));
+        Date to = StringToDate("2012-01-20");
         
-        System.out.println(getDaysBetweenDates(today, to));
+        //System.out.println(getDaysBetweenDates(today, to));
         
+        //System.out.println(getDateAfterDays(today, 15));
+        //System.out.println(getDateAfterDays(today, 15));
+        Date newYear = StringToDate("2012-01-25");
+        Date newYear2 = StringToDate("2012-02-14");
+        Date hd[] = new Date[]{newYear, newYear2};
+        System.out.println(getDateAfterDays(today, 28, hd));
+        //System.out.println(getDateAfterDays(to, 13));
     }
 }
