@@ -154,6 +154,45 @@ public class FamilyMemberAction extends BaseAction implements ServletRequestAwar
         }
         return null;
     }
+    
+    /**
+     * <p>Discription:[查询家庭成员]</p>
+     * @return
+     * @author:[代超]
+     * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
+     */
+    public String getFamilyMemberList(){
+        String familyId = request.getParameter("familyId");
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        JsonFormat jf = new JsonFormat(true);
+        jf.setAutoUnicode(true);
+        PrintWriter out = null;
+        if(familyId == null || "".equals(familyId)){
+            resultMap.put("success", false);
+            resultMap.put("msg", "家庭ID为空，不能查询该家庭成员信息！");
+        }
+        try{
+            out = super.getPrintWriter(request, response);
+            List<FamilyMember> list = this.familyMemberService.findByProperty("familyId", familyId);
+            if(list.size() < 1){
+                resultMap.put("success", false);
+                resultMap.put("msg", "未查询到相关家庭成员信息，该家庭无家庭成员！");
+            }else{
+                resultMap.put("success", true);
+                resultMap.put("memberList", list);
+            }
+        }catch(Exception e){
+            LOG.error(e.getMessage());
+        }finally{
+            if(out != null){
+                out.print(Json.toJson(resultMap, jf));
+                out.flush();
+                out.close();
+            }
+        }
+        return null;
+    }
+    
     /**
      * <p>Discription:[申请加入家庭]</p>
      * @return

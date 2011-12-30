@@ -19,6 +19,58 @@ function family_manage(){
 		{name:"familyTel"}//联系电话
 	]);
 	
+	/**
+	 * 家庭成员数据解析
+	 */
+	var memberListReader = new Ext.data.JsonReader({
+		totalProperty : "totalCount",
+		root : "memberList",
+		successProperty:"success"
+	},[
+		{name:"familyMemberId"},//家庭成员ID
+		{name:"familyId"},//家庭ID
+		{name:"familyName"},//家庭
+		{name:"familyMemberName"},//成员姓名
+		{name:"systemMemberId"},//对应系统用户ID
+		{name:"familyMemberCard"},//身份证
+		{name:"familyMemberBirthdate"},//生日
+		{name:"familyMemberBirthplace"},//出生地
+		{name:"familyMemberSex"},//性别
+		{name:"familyMemberHeight"},//身高
+		{name:"familyMemberEducational"},//学历
+		{name:"familyMemberProfession"},//职业
+		{name:"familyMemberDeaddate"},//死亡日期
+		{name:"familyHolder"}//家庭户主
+	]);
+	
+	var simpleMemberData = {"totalCount":0,"memberList":[],"success":true};
+	
+	/**
+	 * 家庭成员数据存储
+	 * 是否需要分组显示？
+	 */
+	var memberListStore = new Ext.data.GroupingStore({
+		url:path+"/family_member/familyMemberQuery.action?method=getFamilyMemberList",
+		groupField:"familyName",
+		sortInfo:{field: 'systemMemberId', direction: "ASC"},
+		reader:memberListReader,
+		listeners:{
+			loadexception:function(dataProxy, type, action, options, response, arg) { 
+				try{
+					var o = Ext.util.JSON.decode(action.responseText);
+					if(!o.success){
+						Ext.Msg.alert('错误提示',o.msg, function(btn){
+							memberListStore.loadData(simpleMemberData);
+						});
+					}
+				}catch(e){
+					Ext.Msg.alert('错误提示',"系统错误！错误代码："+e);
+					memberListStore.loadData(simpleMemberData);
+				}
+			}
+		}
+	});
+	
 	var loadParam = {
 		start : 0,
 		limit : 50,
@@ -528,7 +580,77 @@ function family_manage(){
 		parent.fromMenuId = currentMenuId;
 		parent.goToTabPanel(url, null, true);
 	};
-	
+	/**
+	 * 申请户主
+	 * @param {} url
+	 */
+	this.applyFamilyHolder = function(url){
+		var gridSelectionModel = familyListDataGrid.getSelectionModel();
+		var gridSelection = gridSelectionModel.getSelections();
+		if(gridSelection.length != 1){
+			Ext.MessageBox.alert('提示','请选择一个家庭！');
+		    return false;
+		}
+		
+		var holder = gridSelection[0].get("familyHouseHolder");
+		var familyId = gridSelection[0].get("familyId");
+		var familyName = gridSelection[0].get("familyName");
+		
+		if(userName == holder){
+			Ext.MessageBox.alert('提示','您已经是该家庭的户主，无需申请！');
+			return false;
+		}
+		
+		Ext.MessageBox.show({
+		    msg: '正在提交您的请求, 请稍侯...',
+		    progressText: '正在提交您的请求',
+		    width:300,
+		    wait:true,
+		    waitConfig: {interval:200},
+		    icon:Ext.Msg.INFO
+		});
+		Ext.Ajax.request({
+			params:{familyId:familyId, familyName:familyName, holder:holder, sponsor:userName, menuId: currentMenuId},
+			timeout:60000,
+			url:url,
+			success:function(response, options){
+				Ext.Msg.hide();
+				var msg = Ext.util.JSON.decode(response.responseText);
+				if(msg.success){
+					if(msg.msg){
+						Ext.Msg.alert("系统提示",msg.msg);
+					}else{
+						Ext.Msg.alert("系统提示","已向家庭【"+familyName+"】的户主发出请求，请等待请求结果！");
+					}
+				}else{
+					if(msg.msg){
+						Ext.Msg.alert("系统提示",msg.msg);
+					}else{
+						Ext.Msg.alert("系统提示","向家庭【"+familyName+"】的户主发出请求失败！");
+					}
+				}
+			},failure: function(response, options){
+				Ext.Msg.hide();
+				try{
+					var msg = Ext.util.JSON.decode(response.responseText);
+					if(msg.msg){
+						Ext.Msg.alert("系统提示",msg.msg);
+					}else{
+						Ext.Msg.alert("系统提示","向家庭【"+familyName+"】的户主发出请求失败！");
+					}
+				}catch(e){
+					Ext.Msg.alert("系统提示","系统错误！错误代码：" + e);
+				}
+			}
+		});
+	};
+	/**
+	 * 户主调整
+	 * @param {} url
+	 */
+	this.familyHolderUpdate = function(url){
+		
+	};
 	
 	/**
 	 * 保存数据

@@ -80,6 +80,7 @@
 	
 	<!-- 家庭管理 -->
 	<bean class="com.integral.family.manage.action.FamilyManamgeAction" scope="prototype">
+		<property name="manegerRole" value="1"></property>
 		<property name="familyManageService" ref="familyManageService"></property>
 		<property name="familyMemberService" ref="familyMemberService"></property>
 		<property name="systemInviteProcessService" ref="systemInviteProcessService"></property>

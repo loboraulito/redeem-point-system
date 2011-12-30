@@ -1,6 +1,7 @@
 package com.integral.family.manage.service.impl;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -67,6 +68,25 @@ public class FamilyInfoServiceImpl implements IFamilyInfoService {
         return this.familyInfoDao.findByParams(hql, true, start, limit, null);
     }
     
+    public List<FamilyInfo> findFamilyListByParam(int start, int limit, Map<String, Object> paramMap){
+        StringBuffer hql = new StringBuffer("FROM FamilyInfo where 1=1 ");
+        Object []p = null;
+        if(paramMap != null){
+            Iterator iter = paramMap.entrySet().iterator();
+            p = new Object[paramMap.size()];
+            int i=0;
+            while (iter.hasNext()) {
+                Map.Entry entry = (Map.Entry) iter.next();
+                Object key = entry.getKey();
+                Object val = entry.getValue();
+                p[i] = val;
+                hql.append(" and ").append(key).append(" = :").append(key).append(" ");
+                i++;
+            }
+        }
+        return this.familyInfoDao.findByParams(hql.toString(), true, start, limit, paramMap);
+    }
+    
     public int findAllFamilyListSize(){
         String hql = "FROM FamilyInfo ";
         return this.familyInfoDao.findCountByParams(hql, true, -1, -1, null);
@@ -82,5 +102,17 @@ public class FamilyInfoServiceImpl implements IFamilyInfoService {
 
     public void deleteAll(List<FamilyInfo> persistentInstances){
         this.familyInfoDao.deleteAll(persistentInstances);
+    }
+    
+    public List<FamilyInfo> findByExample(FamilyInfo instance){
+        return this.familyInfoDao.findByExample(instance);
+    }
+    
+    public FamilyInfo findById(java.lang.String id){
+        return this.familyInfoDao.findById(id);
+    }
+    
+    public void saveOrUpdateAll(List<FamilyInfo> persistentInstances){
+        this.familyInfoDao.saveOrUpdateAll(persistentInstances);
     }
 }

@@ -129,20 +129,20 @@ function invitation(){
 	},{
 		header:"接收人",
 		dataIndex:"recipient",
-		width:70
+		width:150
 	},{
 		header:"相关菜单链接",
 		dataIndex:"invitationMenuName",
 		renderer:showMenuLink,
-		width:150
+		width:130
 	},{
 		header:"发起时间",
 		dataIndex:"sponsorTime",
-		width:150
+		width:130
 	},{
 		header:"处理时间",
 		dataIndex:"processTime",
-		width:150
+		width:130
 	},{
 		header:"处理状态",
 		dataIndex:"processStatus",
@@ -164,7 +164,7 @@ function invitation(){
 	},{
 		header:"理由",
 		dataIndex:"invitationReason",
-		width:250
+		width:150
 	},{
 		dataIndex:"nextaction",
 		hidden:true,
@@ -387,7 +387,7 @@ function invitation(){
 			}
 			
 			var recipient = gridSelection[i].get("recipient");
-			if(recipient != userName){
+			if(recipient.indexOf(userName) < 0){
 				Ext.MessageBox.alert('提示','您无权处理发给别人的请求！');
 				return false;
 			}

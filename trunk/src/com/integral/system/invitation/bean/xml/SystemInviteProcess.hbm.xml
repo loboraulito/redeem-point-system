@@ -14,7 +14,7 @@
    </column>
   </property>
   <property generated="never" lazy="false" name="recipient" type="string">
-   <column length="50" name="recipient">
+   <column length="500" name="recipient">
     <comment>请求接收人</comment>
    </column>
   </property>
