@@ -542,14 +542,16 @@ public class Tools {
 
     public static void main(String[] args) throws ParseException {
         Date today = StringToDate(dateToString(new Date(),"yyyy-MM-dd"));
-        Date to = StringToDate("2012-01-20");
+        Date to = StringToDate("2012-02-29");
+        Date from = StringToDate("2011-09-20");
+        System.out.println("I love baby : "+getDaysBetweenDates(from, today));
         
-        //System.out.println(getDaysBetweenDates(today, to));
+        System.out.println("company time : "+getDaysBetweenDates(today, to));
         
         //System.out.println(getDateAfterDays(today, 15));
         //System.out.println(getDateAfterDays(today, 15));
-        Date newYear = StringToDate("2012-01-25");
-        Date newYear2 = StringToDate("2012-02-14");
+        Date newYear = StringToDate("2012-01-01");
+        Date newYear2 = StringToDate("2012-01-04");
         Date hd[] = new Date[]{newYear, newYear2};
         System.out.println(getDateAfterDays(today, 28, hd));
         //System.out.println(getDateAfterDays(to, 13));
