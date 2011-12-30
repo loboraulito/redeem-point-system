@@ -381,32 +381,38 @@ function family_manage(){
 		},{
 			header:"电话号码",
 			dataIndex:"telphoneNo",
-			width:150
+			hidden:true,
+			hideable:false
 		},{
 			header:"手机号码",
 			dataIndex:"phoneNo",
-			width:180
+			hidden:true,
+			hideable:false
 		},{
 			header:"省",
 			dataIndex:"privence",
-			sortable:true,
-			width:80
+			hidden:true,
+			hideable:false
 		},{
 			header:"市",
 			dataIndex:"city",
-			width:130
+			hidden:true,
+			hideable:false
 		},{
 			header:"具体地址",
 			dataIndex:"address",
-			width:130
+			hidden:true,
+			hideable:false
 		},{
 			header:"邮编号码",
 			dataIndex:"zip",
-			width:130
+			hidden:true,
+			hideable:false
 		},{
 			header:"电子邮件",
 			dataIndex:"email",
-			width:130
+			hidden:true,
+			hideable:false
 		}]);
 		
 		/**
@@ -446,7 +452,7 @@ function family_manage(){
 			}]
 		});
 		
-		showFamilyManageWindow("inviteFamilyMemberWindow","邀请用户加入我的家庭",450, 320, userGrid);
+		showFamilyManageWindow("inviteFamilyMemberWindow","邀请系统用户加入我的家庭",420, 320, userGrid);
 		userStore.load();
 	};
 	/**
