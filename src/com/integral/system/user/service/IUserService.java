@@ -62,4 +62,12 @@ public interface IUserService {
      * @update: 2011-6-11 代超[变更描述]
      */
     public List getUserByName(String userName);
+    /**
+     * <p>Discription:[查询某角色的所有用户]</p>
+     * @param roleId
+     * @return
+     * @author:[代超]
+     * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
+     */
+    public List getUserByRole(String roleId);
 }

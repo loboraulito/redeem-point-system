@@ -29,5 +29,9 @@
 			 <result name="success">/jsp/family/family.jsp</result>
 			 <result name="input">/index.jsp</result>
 		</action>
+		<action name="familyMemberQuery" class="com.integral.family.member.action.FamilyMemberAction" method="getFamilyMemberList">
+			 <result name="success">/jsp/family/family.jsp</result>
+			 <result name="input">/index.jsp</result>
+		</action>
 	</package>
 </struts>

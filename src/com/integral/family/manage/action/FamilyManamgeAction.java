@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang.math.NumberUtils;
+import org.apache.commons.lang.xwork.StringUtils;
 import org.apache.struts2.interceptor.ServletRequestAware;
 import org.apache.struts2.interceptor.ServletResponseAware;
 import org.nutz.json.Json;
@@ -48,6 +49,8 @@ public class FamilyManamgeAction extends BaseAction implements ServletRequestAwa
     private ISystemInviteProcessService systemInviteProcessService;
     private DataSourceTransactionManager transactionManager;
     
+    private String manegerRole;
+    
     public ISystemInviteProcessService getSystemInviteProcessService() {
         return systemInviteProcessService;
     }
@@ -62,6 +65,14 @@ public class FamilyManamgeAction extends BaseAction implements ServletRequestAwa
 
     public void setUserService(IUserService userService) {
         this.userService = userService;
+    }
+
+    public String getManegerRole() {
+        return manegerRole;
+    }
+
+    public void setManegerRole(String manegerRole) {
+        this.manegerRole = manegerRole;
     }
 
     /**
@@ -514,6 +525,155 @@ public class FamilyManamgeAction extends BaseAction implements ServletRequestAwa
                         }
                     }
                     this.familyMemberService.saveOrUpdateAll(finalList);
+                }
+                
+                resultMap.put("success", true);
+                resultMap.put("msg", sb.substring(0, sb.lastIndexOf("<br><br>")).toString());
+            }else{
+                resultMap.put("success", false);
+                resultMap.put("msg", "家庭信息不完整，无法处理！");
+            }
+        }catch(Exception e){
+            status.setRollbackOnly();
+            resultMap.put("success", false);
+            resultMap.put("msg", "系统错误！错误代码："+e.getMessage());
+            LOG.info(e.getMessage());
+        }finally{
+            this.transactionManager.commit(status);
+            if(out != null){
+                out.print(Json.toJson(resultMap, jf));
+                out.flush();
+                out.close();
+            }
+        }
+        return null;
+    }
+    /**
+     * <p>Discription:[申请户主]</p>
+     * @return
+     * @author:[代超]
+     * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
+     */
+    public String familyApplyHolder(){
+        String familyId = request.getParameter("familyId");
+        String familyName = request.getParameter("familyName");
+        String holder = request.getParameter("holder");
+        String sponsor = request.getParameter("sponsor");
+        String menuId = request.getParameter("menuId");
+        
+        // 定义TransactionDefinition并设置好事务的隔离级别和传播方式。
+        DefaultTransactionDefinition definition = new DefaultTransactionDefinition();
+        // 代价最大、可靠性最高的隔离级别，所有的事务都是按顺序一个接一个地执行
+        definition.setIsolationLevel(TransactionDefinition.ISOLATION_SERIALIZABLE);
+        // 开始事务
+        TransactionStatus status = transactionManager.getTransaction(definition);
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        JsonFormat jf = new JsonFormat(true);
+        jf.setAutoUnicode(true);
+        PrintWriter out = null;
+        try{
+            out = super.getPrintWriter(request, response);
+            FamilyInfo family = new FamilyInfo();
+            family.setFamilyId(familyId);
+            family.setFamilyHouseHolder(sponsor);
+            
+            SystemInviteProcess process = new SystemInviteProcess();
+            process.setSponsor(sponsor);
+            process.setSponsorTime(new Date());
+            //接收人户主或者管理员
+            List manager = this.userService.getUserByRole(this.getManegerRole());
+            if(!manager.contains(holder)){
+                manager.add(holder);
+            }
+            String recipient = StringUtils.join(manager, ",");
+            
+            process.setRecipient(recipient);
+            
+            process.setInvitationMenu(menuId);
+            //未处理
+            process.setProcessStatus("1");
+            String event = "用户 "+sponsor+" 申请家庭：【"+ familyName +"】的户主";
+            process.setInvitationEvent(event);
+            String nextAction = "/family_manage/familyApplyHolderProcess.action?method=familyApplyHolderProcess";
+            process.setNextaction(nextAction);
+            process.setRelationEntityName(FamilyInfo.class.getName());
+            JsonFormat jf1 = new JsonFormat(true);
+            process.setRelationData(Json.toJson(family, jf1));
+            this.systemInviteProcessService.save(process);
+            resultMap.put("success", true);
+            resultMap.put("msg", "已向家庭【"+familyName+"】的户主发出请求，请等待请求结果！");
+        }catch(Exception e){
+            LOG.error(e.getMessage());
+            status.setRollbackOnly();
+            resultMap.put("success", false);
+            resultMap.put("msg","系统错误！错误代码："+ e.getMessage());
+        }finally{
+            transactionManager.commit(status);
+            if(out != null){
+                out.print(Json.toJson(resultMap, jf));
+                out.flush();
+                out.close();
+            }
+        }
+        return null;
+    }
+    /**
+     * <p>Discription:[处理申请户主]</p>
+     * @return
+     * @author:[代超]
+     * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
+     */
+    public String familyApplyHolderProcess(){
+        // 定义TransactionDefinition并设置好事务的隔离级别和传播方式。
+        DefaultTransactionDefinition definition = new DefaultTransactionDefinition();
+        // 代价最大、可靠性最高的隔离级别，所有的事务都是按顺序一个接一个地执行
+        definition.setIsolationLevel(TransactionDefinition.ISOLATION_SERIALIZABLE);
+        // 开始事务
+        TransactionStatus status = transactionManager.getTransaction(definition);
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        JsonFormat jf = new JsonFormat(true);
+        jf.setAutoUnicode(true);
+        PrintWriter out = null;
+        try{
+            out = super.getPrintWriter(request, response);
+            List<FamilyInfo> relationDataList = (List<FamilyInfo>) request.getSession().getAttribute("relationDataList");
+            List<FamilyInfo> familyList = new ArrayList<FamilyInfo>();
+            StringBuffer sb = new StringBuffer();
+            
+            if(relationDataList != null){
+                //剔除重复的
+                List<FamilyInfo> ll = ListUtils.removeDuplication(relationDataList, "familyId", "familyHouseHolder");
+                
+                for(FamilyInfo m : ll){
+                    //List l = this.familyManageService.findByExample(m);
+                    Map paramMap = new HashMap();
+                    paramMap.put("familyId", BeanUtils.getProperty(m, "familyId"));
+                    paramMap.put("familyHouseHolder", BeanUtils.getProperty(m, "familyHouseHolder"));
+                    List l = this.familyManageService.findFamilyListByParam(-1, -1, paramMap);
+                    if(l != null && l.size() >0){
+                        sb.append("您已经是【"+m.getFamilyName()+"】的户主，无需重复申请！<br><br>");
+                        continue;
+                    }else{
+                        familyList.add(m);
+                        sb.append("您的申请已被批准，成为【"+m.getFamilyName()+"】的户主！<br><br>");
+                    }
+                }
+                if(familyList != null && familyList.size() >0){
+                    List<FamilyInfo> finalList = new ArrayList<FamilyInfo>();
+                    //如果用户已经是其他家庭的成员，则复制用户的信息到新的家庭
+                    for(FamilyInfo mem : familyList){
+                        FamilyInfo ml = this.familyManageService.findById(mem.getFamilyId());
+                        if(ml != null){
+                            mem.setFamilyName(ml.getFamilyName());
+                            mem.setFamilyCreateDate(ml.getFamilyCreateDate());
+                            mem.setFamilyAddress(ml.getFamilyAddress());
+                            mem.setFamilyTel(ml.getFamilyTel());
+                            mem.setFamilyComment(ml.getFamilyComment());
+                            
+                            finalList.add(mem);
+                        }
+                    }
+                    this.familyManageService.saveOrUpdateAll(finalList);
                 }
                 
                 resultMap.put("success", true);

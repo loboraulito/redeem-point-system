@@ -44,7 +44,9 @@ public class SystemInviteProcessServiceImpl implements ISystemInviteProcessServi
             params.put("fromUserId", fromUserId);
         }else{
             if(userId != null && !"".equals(userId.trim())){
-                sql += " and ps.recipient = :userId ";
+                //sql += " and ps.recipient = :userId ";
+                sql += (" and binary ucase(ps.recipient) like concat('%',ucase(:userId),'%') ");
+                
                 params.put("userId", userId);
             }
             if(menuId != null && !"".equals(menuId.trim())){

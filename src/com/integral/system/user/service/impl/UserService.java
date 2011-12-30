@@ -100,4 +100,9 @@ public class UserService implements IUserService {
     public List getUserByName(String userName){
         return this.userDao.getUserByName(userName);
     }
+    
+    public List getUserByRole(String roleId){
+        String sql = "SELECT model.operater_id from supplier_role model where model.role_id = ?";
+        return this.baseDao.queryBySQL(sql, new Object[]{roleId});
+    }
 }
