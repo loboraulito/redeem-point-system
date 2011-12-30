@@ -512,7 +512,7 @@ public class Tools {
         return dates;
     }
     /**
-     * <p>Discription:[计算从from日期之后days天之后的日期(如果遇到周末则往后延周末的天数)]</p>
+     * <p>Discription:[计算从from日期之后days天之后的日期(如果遇到周末/节假日则往后延周末的天数)]</p>
      * @param from
      * @param days N天后
      * @param Date[] holidays: 节假日
