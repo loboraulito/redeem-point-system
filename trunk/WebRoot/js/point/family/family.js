@@ -27,7 +27,8 @@ function family(){
 		{name:"familyMemberHeight"},//身高
 		{name:"familyMemberEducational"},//学历
 		{name:"familyMemberProfession"},//职业
-		{name:"familyMemberDeaddate"}//死亡日期
+		{name:"familyMemberDeaddate"},//死亡日期
+		{name:"familyHolder"}//家庭户主
 	]);
 	
 	/**
@@ -162,6 +163,10 @@ function family(){
 		width:70
 	},{
 		dataIndex:"familyMemberDeaddate",
+		hidden:true,
+		hideable:false
+	},{
+		dataIndex:"familyHolder",
 		hidden:true,
 		hideable:false
 	}]);
@@ -531,66 +536,70 @@ function family(){
 		    return false;
 		}
 		//非家庭户主，无权移除
-		var dataIdArray = new Array();
-		var holder = new Array();
-		var fname = new Array();
+		var familyMemberIdArray = new Array();
 		for(var i=0; i < gridSelection.length; i++){
-			dataIdArray.push(gridSelection[i].get("familyId"));
-			if(gridSelection[i].get("familyHouseHolder") != userName){
-				holder.push(gridSelection[i].get("familyHouseHolder"));
-			}else{
-				Ext.MessageBox.alert('系统提示','您已是家庭【'+gridSelection[i].get("familyName")+'】的户主，无需申请！');
+			var holder = gridSelection[i].get("familyHolder");
+			var familyName = gridSelection[i].get("familyName");
+			if(holder != userName){
+				Ext.MessageBox.alert('系统提示','您不是家庭【'+familyName+'】的户主，无权移除家庭成员！');
 		    	return false;
 			}
-			fname.push(gridSelection[i].get("familyName"));
+			var systemMemberId = gridSelection[i].get("systemMemberId");
+			if(systemMemberId == userName){
+				Ext.MessageBox.alert('系统提示','您是家庭【'+familyName+'】的户主，不能移除！');
+		    	return false;
+			}
+			familyMemberIdArray.push(gridSelection[i].get("familyMemberId"));
+			
 		}
-		var familyIds = dataIdArray.join(",");
-		var holderNames = holder.join(",");
-		var familyName = fname.join(",");
+		var familyMemberIds = familyMemberIdArray.join(",");
 		
-		Ext.MessageBox.show({
-		    msg: '正在提交您的请求, 请稍侯...',
-		    progressText: '正在提交您的请求',
-		    width:300,
-		    wait:true,
-		    waitConfig: {interval:200},
-		    icon:Ext.Msg.INFO
-		});
-		
-		Ext.Ajax.request({
-			params:{sponsor:userName,recipient:holderNames, menuId: currentMenuId, familyId:familyIds, familyName: familyName},
-			timeout:60000,
-			url:url,
-			success:function(response, options){
-				Ext.Msg.hide();
-				var msg = Ext.util.JSON.decode(response.responseText);
-				if(msg.success){
-					if(msg.msg){
-						Ext.Msg.alert("系统提示",msg.msg);
-					}else{
-						Ext.Msg.alert("系统提示","已向所选家庭户主发出请求，请等待请求结果！");
-					}
-					//familyListStore.reload();
-					Ext.getCmp(windowId).close();
-				}else{
-					if(msg.msg){
-						Ext.Msg.alert("系统提示",msg.msg);
-					}else{
-						Ext.Msg.alert("系统提示","向所选家庭户主发出请求失败！");
-					}
-				}
-			},failure: function(response, options){
-				Ext.Msg.hide();
-				try{
+		Ext.Msg.confirm("系统提示","移除家庭成员之后无法恢复，确定要移除吗？",function(btn){
+			if(btn == "ok" || btn == "yes"){
+				Ext.MessageBox.show({
+			    msg: '正在提交您的请求, 请稍侯...',
+			    progressText: '正在提交您的请求',
+			    width:300,
+			    wait:true,
+			    waitConfig: {interval:200},
+			    icon:Ext.Msg.INFO
+			});
+			
+			Ext.Ajax.request({
+				params:{familyMemberIds : familyMemberIds},
+				timeout:60000,
+				url:url,
+				success:function(response, options){
+					Ext.Msg.hide();
 					var msg = Ext.util.JSON.decode(response.responseText);
-					if(msg.msg){
-						Ext.Msg.alert("系统提示",msg.msg);
+					if(msg.success){
+						if(msg.msg){
+							Ext.Msg.alert("系统提示",msg.msg);
+						}else{
+							Ext.Msg.alert("系统提示","所选家庭成员已被移除！");
+						}
+						memberListStore.reload();
 					}else{
-						Ext.Msg.alert("系统提示","向所选家庭户主发出请求失败！");
+						if(msg.msg){
+							Ext.Msg.alert("系统提示",msg.msg);
+						}else{
+							Ext.Msg.alert("系统提示","所选家庭成员移除失败！");
+						}
 					}
-				}catch(e){
-					Ext.Msg.alert("系统提示","系统错误！错误代码：" + e);
+				},failure: function(response, options){
+					Ext.Msg.hide();
+					try{
+						var msg = Ext.util.JSON.decode(response.responseText);
+						if(msg.msg){
+							Ext.Msg.alert("系统提示",msg.msg);
+						}else{
+							Ext.Msg.alert("系统提示","所选家庭成员移除失败！");
+						}
+					}catch(e){
+						Ext.Msg.alert("系统提示","系统错误！错误代码：" + e);
+					}
 				}
+			});
 			}
 		});
 	};

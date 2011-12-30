@@ -64,7 +64,8 @@ public class FamilyMemberServiceImpl implements IFamilyMemberService {
         
         String sql = "SELECT fm.family_member_id, fm.family_id, fi.family_name, fm.family_member_name, fm.system_member_id," +
         		" fm.family_member_card, fm.family_member_birthdate, fm.family_member_birthplace, fm.family_member_sex," +
-        		" fm.family_member_height, fm.family_member_educational, fm.family_member_profession, fm.family_member_deaddate" +
+        		" fm.family_member_height, fm.family_member_educational, fm.family_member_profession, fm.family_member_deaddate, " +
+        		" fi.family_house_holder " +
         		" FROM family_member AS fm JOIN family_info fi ON fm.family_id = fi.family_id WHERE fm.family_id IN ( SELECT fr.family_id AS fid FROM family_member fr " +
         		" WHERE fr.system_member_id = :systemUserId )";
         /*
@@ -91,6 +92,7 @@ public class FamilyMemberServiceImpl implements IFamilyMemberService {
                 member.setFamilyMemberEducational(obj[10] == null ? "" : obj[10].toString());
                 member.setFamilyMemberProfession(obj[11] == null ? "" : obj[11].toString());
                 member.setFamilyMemberDeaddate(obj[12] == null ? null : (Date)obj[12]);
+                member.setFamilyHolder(obj[13] == null ? "" : obj[13].toString());
                 memberList.add(member);
             }
         }

@@ -267,7 +267,25 @@ public class FamilyMemberAction extends BaseAction implements ServletRequestAwar
                     }
                 }
                 if(memberList != null && memberList.size() >0){
-                    this.familyMemberService.saveOrUpdateAll(memberList);
+                    List<FamilyMember> finalList = new ArrayList<FamilyMember>();
+                    //如果用户已经是其他家庭的成员，则复制用户的信息到新的家庭
+                    for(FamilyMember mem : memberList){
+                        List<FamilyMember> ml = this.familyMemberService.findByProperty("systemMemberId", mem.getSystemMemberId());
+                        if(ml != null && ml.size() > 0){
+                            FamilyMember mll = ml.get(0);
+                            mem.setFamilyMemberName(mll.getFamilyMemberName());
+                            mem.setFamilyMemberCard(mll.getFamilyMemberCard());
+                            mem.setFamilyMemberBirthdate(mll.getFamilyMemberBirthdate());
+                            mem.setFamilyMemberBirthplace(mll.getFamilyMemberBirthplace());
+                            mem.setFamilyMemberSex(mll.getFamilyMemberSex());
+                            mem.setFamilyMemberHeight(mll.getFamilyMemberHeight());
+                            mem.setFamilyMemberEducational(mll.getFamilyMemberEducational());
+                            mem.setFamilyMemberProfession(mll.getFamilyMemberProfession());
+                            mem.setFamilyMemberDeaddate(mll.getFamilyMemberDeaddate());
+                            finalList.add(mem);
+                        }
+                    }
+                    this.familyMemberService.saveOrUpdateAll(finalList);
                 }
                 
                 resultMap.put("success", true);
@@ -357,7 +375,52 @@ public class FamilyMemberAction extends BaseAction implements ServletRequestAwar
      * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
      */
     public String familyMemberRemove(){
-        
+        String familyMemberIds = request.getParameter("familyMemberIds");
+        // 定义TransactionDefinition并设置好事务的隔离级别和传播方式。
+        DefaultTransactionDefinition definition = new DefaultTransactionDefinition();
+        // 代价最大、可靠性最高的隔离级别，所有的事务都是按顺序一个接一个地执行
+        definition.setIsolationLevel(TransactionDefinition.ISOLATION_SERIALIZABLE);
+        // 开始事务
+        TransactionStatus status = transactionManager.getTransaction(definition);
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        JsonFormat jf = new JsonFormat(true);
+        jf.setAutoUnicode(true);
+        PrintWriter out = null;
+        try{
+            out = super.getPrintWriter(request, response);
+            if(familyMemberIds == null || familyMemberIds.trim().length() < 1){
+                resultMap.put("success", false);
+                resultMap.put("msg", "所选家庭成员信息不完整，无法移除！");
+            }else{
+                String [] familyMembers = familyMemberIds.split(",");
+                if(familyMembers == null || familyMembers.length < 1 ){
+                    resultMap.put("success", false);
+                    resultMap.put("msg", "所选家庭成员信息不完整，无法移除！");
+                }else{
+                    FamilyMember member = new FamilyMember();
+                    List<FamilyMember> members = new ArrayList<FamilyMember>();
+                    for(String memberId : familyMembers){
+                        member.setFamilyMemberId(memberId);
+                        members.add(member);
+                    }
+                    this.familyMemberService.deleteAll(members);
+                    resultMap.put("success", true);
+                    resultMap.put("msg", "所选家庭成员已经成功移除！");
+                }
+            }
+        }catch(Exception e){
+            status.setRollbackOnly();
+            LOG.error(e.getMessage());
+            resultMap.put("success", false);
+            resultMap.put("msg", "系统错误！错误代码："+e.getMessage());
+        }finally{
+            transactionManager.commit(status);
+            if(out != null){
+                out.print(Json.toJson(resultMap, jf));
+                out.flush();
+                out.close();
+            }
+        }
         return null;
     }
 }

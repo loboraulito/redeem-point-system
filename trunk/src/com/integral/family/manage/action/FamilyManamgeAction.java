@@ -206,9 +206,22 @@ public class FamilyManamgeAction extends BaseAction implements ServletRequestAwa
             //用户自己创建的家庭，需要将该用户添加到家庭成员中
             this.familyManageService.save(family);
             
+            List<FamilyMember> ml = this.familyMemberService.findByProperty("systemMemberId", family.getFamilyHouseHolder());
             FamilyMember member = new FamilyMember();
             member.setFamilyId(familyId);
             member.setSystemMemberId(family.getFamilyHouseHolder());
+            if(ml != null && ml.size() > 0){
+                FamilyMember mll = ml.get(0);
+                member.setFamilyMemberName(mll.getFamilyMemberName());
+                member.setFamilyMemberCard(mll.getFamilyMemberCard());
+                member.setFamilyMemberBirthdate(mll.getFamilyMemberBirthdate());
+                member.setFamilyMemberBirthplace(mll.getFamilyMemberBirthplace());
+                member.setFamilyMemberSex(mll.getFamilyMemberSex());
+                member.setFamilyMemberHeight(mll.getFamilyMemberHeight());
+                member.setFamilyMemberEducational(mll.getFamilyMemberEducational());
+                member.setFamilyMemberProfession(mll.getFamilyMemberProfession());
+                member.setFamilyMemberDeaddate(mll.getFamilyMemberDeaddate());
+            }
             
             this.familyMemberService.save(member);
             
@@ -482,7 +495,25 @@ public class FamilyManamgeAction extends BaseAction implements ServletRequestAwa
                     }
                 }
                 if(memberList != null && memberList.size() >0){
-                    this.familyMemberService.saveOrUpdateAll(memberList);
+                    List<FamilyMember> finalList = new ArrayList<FamilyMember>();
+                    //如果用户已经是其他家庭的成员，则复制用户的信息到新的家庭
+                    for(FamilyMember mem : memberList){
+                        List<FamilyMember> ml = this.familyMemberService.findByProperty("systemMemberId", mem.getSystemMemberId());
+                        if(ml != null && ml.size() > 0){
+                            FamilyMember mll = ml.get(0);
+                            mem.setFamilyMemberName(mll.getFamilyMemberName());
+                            mem.setFamilyMemberCard(mll.getFamilyMemberCard());
+                            mem.setFamilyMemberBirthdate(mll.getFamilyMemberBirthdate());
+                            mem.setFamilyMemberBirthplace(mll.getFamilyMemberBirthplace());
+                            mem.setFamilyMemberSex(mll.getFamilyMemberSex());
+                            mem.setFamilyMemberHeight(mll.getFamilyMemberHeight());
+                            mem.setFamilyMemberEducational(mll.getFamilyMemberEducational());
+                            mem.setFamilyMemberProfession(mll.getFamilyMemberProfession());
+                            mem.setFamilyMemberDeaddate(mll.getFamilyMemberDeaddate());
+                            finalList.add(mem);
+                        }
+                    }
+                    this.familyMemberService.saveOrUpdateAll(finalList);
                 }
                 
                 resultMap.put("success", true);
