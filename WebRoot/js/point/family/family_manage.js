@@ -649,8 +649,183 @@ function family_manage(){
 	 * @param {} url
 	 */
 	this.familyHolderUpdate = function(url){
+		var gridSelectionModel = familyListDataGrid.getSelectionModel();
+		var gridSelection = gridSelectionModel.getSelections();
+		if(gridSelection.length != 1){
+			Ext.MessageBox.alert('提示','请选择一个家庭！');
+		    return false;
+		}
+		var familyId = gridSelection[0].get("familyId");
+		var familyHolder = gridSelection[0].get("familyHouseHolder");
+		var familyName = gridSelection[0].get("familyName");
 		
+		var memberListSM = new Ext.grid.CheckboxSelectionModel();
+		var memberListCM = new Ext.grid.ColumnModel([new Ext.grid.RowNumberer(),memberListSM,{
+			dataIndex:"familyMemberId",
+			hidden:true,
+			hideable:false//不允许将隐藏的字段显示出来
+		},{
+			dataIndex:"familyId",
+			hidden:true,
+			hideable:false
+		},{
+			header:"家庭",
+			dataIndex:"familyName",
+			width:70,
+			hidden:true,
+			hideable:false
+		},{
+			header:"成员姓名",
+			dataIndex:"familyMemberName",
+			width:70
+		},{
+			header:"系统用户ID",
+			dataIndex:"systemMemberId",
+			width:70
+		},{
+			header:"身份证",
+			dataIndex:"familyMemberCard",
+			width:110
+		},{
+			header:"生日",
+			dataIndex:"familyMemberBirthdate",
+			width:70,
+			hidden:true,
+			hideable:false
+		},{
+			header:"出生地",
+			dataIndex:"familyMemberBirthplace",
+			width:150,
+			hidden:true,
+			hideable:false
+		},{
+			header:"性别",
+			dataIndex:"familyMemberSex",
+			width:30,
+			hidden:true,
+			hideable:false
+		},{
+			header:"身高(CM)",
+			dataIndex:"familyMemberHeight",
+			width:50,
+			hidden:true,
+			hideable:false
+		},{
+			header:"学历",
+			dataIndex:"familyMemberEducational",
+			width:70,
+			hidden:true,
+			hideable:false
+		},{
+			header:"职业",
+			dataIndex:"familyMemberProfession",
+			width:70,
+			hidden:true,
+			hideable:false
+		},{
+			dataIndex:"familyMemberDeaddate",
+			hidden:true,
+			hideable:false
+		},{
+			dataIndex:"familyHolder",
+			hidden:true,
+			hideable:false
+		}]);
+		/**
+		 * 家庭成员列表
+		 */
+		var memberListDataGrid = new Ext.grid.GridPanel({
+			collapsible:true,//是否可以展开
+			animCollapse:true,//展开时是否有动画效果
+			autoScroll:true,
+			//width:Ext.get("family_div").getWidth(),
+			//height:Ext.get("family_div").getHeight()-20,
+			loadMask:true,//载入遮罩动画（默认）
+			frame:true,
+			autoShow:true,		
+			store:memberListStore,
+			//renderTo:"family_div",
+			cm:memberListCM,
+			sm:memberListSM,
+			viewConfig:{forceFit:true},//若父容器的layout为fit，那么强制本grid充满该父容器
+			split: true,
+			tbar:[{
+				text:"设置所选家庭成员为新户主",
+				iconCls:"table_gear",
+				tooltip:"设置所选家庭成员为新户主",
+				handler:function(){
+					updateFamilyHolder("updateFamilyHolderWindow", familyId, familyName, memberListDataGrid, familyHolder, url);
+				}
+			}]
+		});
+		showFamilyManageWindow("updateFamilyHolderWindow","变更户主",420, 320, memberListDataGrid);
+		memberListStore.load({
+			params:{familyId: familyId}
+		});
 	};
+	/**
+	 * 变更户主
+	 * @param {} windowId
+	 * @param {} familyId
+	 * @param {} grid
+	 */
+	function updateFamilyHolder(windowId, familyId, familyName, grid, familyHolder, url){
+		var gridSelectionModel = grid.getSelectionModel();
+		var gridSelection = gridSelectionModel.getSelections();
+		if(gridSelection.length != 1){
+			Ext.MessageBox.alert('提示','请选择一个位家庭成员！');
+		    return false;
+		}
+		var member = gridSelection[0].get("systemMemberId");
+		if(familyHolder == member){
+			Ext.Msg.alert("系统提示","【"+ member + "】已经是家庭：【"+ familyName + "】 的户主！");
+			return;
+		}
+		Ext.MessageBox.show({
+			msg:"系统正在处理您的请求，请稍候...",
+			progressText:"系统正在处理您的请求，请稍候...",
+			width:300,
+			wait:true,
+			waitConfig: {interval:200},
+			icon:Ext.Msg.INFO
+		});
+		Ext.Ajax.request({
+			params:{familyId:familyId, newHolder: member, userRole: userRole},
+			timeout:60000,
+			url:url,
+			success:function(response, options){
+				Ext.Msg.hide();
+				var msg = Ext.util.JSON.decode(response.responseText);
+				if(msg.success){
+					if(msg.msg){
+						Ext.Msg.alert("系统提示",msg.msg);
+					}else{
+						Ext.Msg.alert("系统提示","户主信息已经成功变更！");
+					}
+					familyListStore.reload();
+					Ext.getCmp(windowId).close();
+				}else{
+					if(msg.msg){
+						Ext.Msg.alert("系统提示",msg.msg);
+					}else{
+						Ext.Msg.alert("系统提示","户主信息变更失败！");
+					}
+				}
+			},failure: function(response, options){
+				Ext.Msg.hide();
+				try{
+					var msg = Ext.util.JSON.decode(response.responseText);
+					if(msg.msg){
+						Ext.Msg.alert("系统提示",msg.msg);
+					}else{
+						Ext.Msg.alert("系统提示","户主信息变更失败！");
+					}
+				}catch(e){
+					Ext.Msg.alert("系统提示","系统错误！错误代码：" + e);
+				}
+			}
+		});
+	}
 	
 	/**
 	 * 保存数据

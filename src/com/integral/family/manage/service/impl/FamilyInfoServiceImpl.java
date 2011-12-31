@@ -1,5 +1,6 @@
 package com.integral.family.manage.service.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -114,5 +115,19 @@ public class FamilyInfoServiceImpl implements IFamilyInfoService {
     
     public void saveOrUpdateAll(List<FamilyInfo> persistentInstances){
         this.familyInfoDao.saveOrUpdateAll(persistentInstances);
+    }
+    
+    public void updateAllHolder(List<FamilyInfo> persistentInstances) throws Exception{
+        StringBuffer sql = new StringBuffer("update family_info set family_house_holder = ? where family_id = ?");
+        if(persistentInstances != null && persistentInstances.size() > 0){
+            List<Object[]> paramList = new ArrayList<Object[]>();
+            for(FamilyInfo info : persistentInstances){
+                Object [] obj = new Object[]{info.getFamilyHouseHolder(), info.getFamilyId()};
+                paramList.add(obj);
+            }
+            this.baseDao.excuteSQLBatch(sql.toString(), paramList);
+        }else{
+            throw new Exception("家庭信息不完整，无法处理请求！");
+        }
     }
 }

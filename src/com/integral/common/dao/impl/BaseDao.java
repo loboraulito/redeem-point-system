@@ -1,6 +1,7 @@
 package com.integral.common.dao.impl;
 
 import java.sql.Connection;
+import java.sql.DatabaseMetaData;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
@@ -109,6 +110,78 @@ public class BaseDao extends HibernateDaoSupport implements IBaseDao {
             }
         }
         prepareStatement.execute();
+        prepareStatement.close();
+        return 0;
+    }
+    /**
+     * <p>Discription:[JDBC批量执行SQL语句]</p>
+     * @param sql
+     * @param paramList 一个数组集合
+     * @return
+     * @throws Exception
+     * @author:[代超]
+     * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
+     */
+    public int excuteSQLBatch(String sql, List<Object[]> paramList) throws Exception{
+        SessionFactory sessionFactory = getSessionFactory();
+        SessionFactoryImpl s = (SessionFactoryImpl) sessionFactory;
+        Session session = getSession();
+        Connection con = session.connection();
+        //使用预编译
+        PreparedStatement prest = null;
+        boolean isAutoCommit = false;
+        try{
+            isAutoCommit = con.getAutoCommit();
+            DatabaseMetaData dbmd=con.getMetaData();
+            //关闭自动提交
+            con.setAutoCommit(false);
+            //ResultSet.TYPE_FORWARD_ONLY：缺省类型。只允许向前访问一次，并且不会受到其他用户对该数据库所作更改的影响。
+            //ResultSet.TYPE_SCROLL_INSENSITIVE：允许在列表中向前或向后移动，甚至可以进行特定定位，例如移至列表中的第四个记录或者从当前位置向后移动两个记录。不会受到其他用户对该数据库所作更改的影响。
+            //ResultSet.TYPE_SCROLL_SENSITIVE：象 TYPE_SCROLL_INSENSITIVE 一样，允许在记录中定位。
+            //ResultSet.CONCUR_READ_ONLY：这是缺省值，指定不可以更新ResultSet
+            //ResultSet.CONCUR_UPDATABLE: 指定可以更新 ResultSet
+            prest = con.prepareStatement(sql, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            //如果底层数据库支持批量更新的话
+            if(dbmd.supportsBatchUpdates()){
+                if(paramList != null && paramList.size() > 0){
+                    for(int i=0, j=paramList.size(); i < j; i++){
+                        Object[] obj = paramList.get(i);
+                        if(obj != null && obj.length > 0){
+                            for(int k=0;k<obj.length;k++){
+                                prest.setObject(k+1, obj[k]);
+                            }
+                            prest.addBatch();
+                        }
+                    }
+                }
+                prest.executeBatch();
+            }else{
+                if(paramList != null && paramList.size() > 0){
+                    for(int i=0, j=paramList.size(); i < j; i++){
+                        Object[] obj = paramList.get(i);
+                        excuteSQL(sql, obj);
+                    }
+                }
+            }
+            con.commit();
+        }catch(Exception e){
+            log.error(e.getMessage());
+            try{
+                con.rollback();
+            }catch(SQLException e1){
+                log.error(e1.getMessage());
+                throw e1;
+            }
+        }finally{
+            log.info("execute batch sql by JDBC : " + sql);
+            if(prest != null){
+                prest.close();
+            }
+            if(con != null){
+                con.close();
+                con.setAutoCommit(isAutoCommit);
+            }
+        }
         return 0;
     }
     
