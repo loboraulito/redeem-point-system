@@ -69,4 +69,15 @@ public interface IBaseDao {
      * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
      */
     public List queryListByPageByJDBC(String sql, int start, int limit, Object[] params) throws SQLException;
+    
+    /**
+     * <p>Discription:[JDBC批量执行SQL语句]</p>
+     * @param sql
+     * @param paramList 一个数组集合
+     * @return
+     * @throws Exception
+     * @author:[代超]
+     * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
+     */
+    public int excuteSQLBatch(String sql, List<Object[]> paramList) throws Exception;
 }

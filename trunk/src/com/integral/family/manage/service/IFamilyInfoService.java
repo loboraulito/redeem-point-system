@@ -70,6 +70,15 @@ public interface IFamilyInfoService {
     public void saveOrUpdateAll(List<FamilyInfo> persistentInstances);
     
     /**
+     * <p>Discription:[批量修改家庭户主信息]</p>
+     * @param persistentInstances
+     * @author:[代超]
+     * @throws Exception 
+     * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
+     */
+    public void updateAllHolder(List<FamilyInfo> persistentInstances) throws Exception;
+    
+    /**
      * <p>Discription:[批量删除家庭信息]</p>
      * @param persistentInstances
      * @author:[代超]

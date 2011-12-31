@@ -576,6 +576,7 @@ public class FamilyManamgeAction extends BaseAction implements ServletRequestAwa
             FamilyInfo family = new FamilyInfo();
             family.setFamilyId(familyId);
             family.setFamilyHouseHolder(sponsor);
+            family.setFamilyName(familyName);
             
             SystemInviteProcess process = new SystemInviteProcess();
             process.setSponsor(sponsor);
@@ -658,24 +659,7 @@ public class FamilyManamgeAction extends BaseAction implements ServletRequestAwa
                         sb.append("您的申请已被批准，成为【"+m.getFamilyName()+"】的户主！<br><br>");
                     }
                 }
-                if(familyList != null && familyList.size() >0){
-                    List<FamilyInfo> finalList = new ArrayList<FamilyInfo>();
-                    //如果用户已经是其他家庭的成员，则复制用户的信息到新的家庭
-                    for(FamilyInfo mem : familyList){
-                        FamilyInfo ml = this.familyManageService.findById(mem.getFamilyId());
-                        if(ml != null){
-                            mem.setFamilyName(ml.getFamilyName());
-                            mem.setFamilyCreateDate(ml.getFamilyCreateDate());
-                            mem.setFamilyAddress(ml.getFamilyAddress());
-                            mem.setFamilyTel(ml.getFamilyTel());
-                            mem.setFamilyComment(ml.getFamilyComment());
-                            
-                            finalList.add(mem);
-                        }
-                    }
-                    this.familyManageService.saveOrUpdateAll(finalList);
-                }
-                
+                this.familyManageService.updateAllHolder(familyList);
                 resultMap.put("success", true);
                 resultMap.put("msg", sb.substring(0, sb.lastIndexOf("<br><br>")).toString());
             }else{
@@ -689,6 +673,62 @@ public class FamilyManamgeAction extends BaseAction implements ServletRequestAwa
             LOG.info(e.getMessage());
         }finally{
             this.transactionManager.commit(status);
+            if(out != null){
+                out.print(Json.toJson(resultMap, jf));
+                out.flush();
+                out.close();
+            }
+        }
+        return null;
+    }
+    /**
+     * <p>Discription:[变更户主]</p>
+     * @return
+     * @author:[代超]
+     * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
+     */
+    public String familyHolderUpdate(){
+        String familyId = request.getParameter("familyId");
+        String newHolder = request.getParameter("newHolder");
+        String userRole = request.getParameter("userRole");
+        // 定义TransactionDefinition并设置好事务的隔离级别和传播方式。
+        DefaultTransactionDefinition definition = new DefaultTransactionDefinition();
+        // 代价最大、可靠性最高的隔离级别，所有的事务都是按顺序一个接一个地执行
+        definition.setIsolationLevel(TransactionDefinition.ISOLATION_SERIALIZABLE);
+        // 开始事务
+        TransactionStatus status = transactionManager.getTransaction(definition);
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        JsonFormat jf = new JsonFormat(true);
+        jf.setAutoUnicode(true);
+        PrintWriter out = null;
+        try{
+            out = super.getPrintWriter(request, response);
+            if(userRole == null || "".equals(userRole) || !userRole.equals(this.manegerRole)){
+                resultMap.put("success", false);
+                resultMap.put("msg", "您无权更改户主信息！");
+            }else{
+                FamilyInfo f = this.familyManageService.findById(familyId);
+                if(f.getFamilyHouseHolder().equals(newHolder)){
+                    resultMap.put("success", false);
+                    resultMap.put("msg", "成员【"+newHolder+"】已经是家庭【"+f.getFamilyName()+"】的户主！");
+                }else{
+                    FamilyInfo info = new FamilyInfo();
+                    info.setFamilyHouseHolder(newHolder);
+                    info.setFamilyId(familyId);
+                    List<FamilyInfo> l = new ArrayList<FamilyInfo>();
+                    l.add(info);
+                    this.familyManageService.updateAllHolder(l);
+                    resultMap.put("success", true);
+                    resultMap.put("msg", "户主信息已经成功更新！");
+                }
+            }
+        }catch(Exception e){
+            LOG.error(e.getMessage());
+            resultMap.put("success", false);
+            resultMap.put("msg", "系统错误！错误代码："+e.getMessage());
+            status.setRollbackOnly();
+        }finally{
+            transactionManager.commit(status);
             if(out != null){
                 out.print(Json.toJson(resultMap, jf));
                 out.flush();
