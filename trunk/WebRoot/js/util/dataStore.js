@@ -18,6 +18,16 @@
 var sexStore = getCodeListCombo();
 //加载学历下拉框
 var educationalStore = getCodeListCombo();
+//请求处理结果
+var processResult = getCodeListCombo();
+//请求处理状态
+var processStatus = getCodeListCombo();
+//家庭关系
+var familyRelationStore = getCodeListCombo();
+
+
+
+
 //加载相册分类下拉框
 var albumTypeStore = getCodeListCombo();
 //加载警报点分类下拉框
@@ -30,7 +40,3 @@ var provinceStore = getCodeListCombo();
 var cityStore = getCodeListCombo();
 //县下拉框
 var contyStore = getCodeListCombo();
-//请求处理结果
-var processResult = getCodeListCombo();
-//请求处理状态
-var processStatus = getCodeListCombo();
