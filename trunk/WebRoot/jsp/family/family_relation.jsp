@@ -6,9 +6,9 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <%@include file="/jsp/common/config.jsp"%>
 <title>Insert title here</title>
-<script type="text/javascript" src="<%=path%>/js/point/family/family.js"></script>
+<script type="text/javascript" src="<%=path%>/js/point/family/family_relation.js"></script>
 </head>
 <body>
-	<div style="width: 100%; height: 100%" id="family_div"></div>
+	<div style="width: 100%; height: 100%" id="family_relation_div"></div>
 </body>
 </html>
