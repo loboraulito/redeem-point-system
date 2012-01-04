@@ -9,6 +9,6 @@
 <script type="text/javascript" src="<%=path%>/js/point/family/family_member.js"></script>
 </head>
 <body>
-	<div style="width: 100%; height: 100%" id="family_div"></div>
+	<div style="width: 100%; height: 100%" id="family_member_div"></div>
 </body>
 </html>
