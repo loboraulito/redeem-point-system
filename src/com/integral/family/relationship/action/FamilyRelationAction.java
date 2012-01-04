@@ -76,5 +76,35 @@ public class FamilyRelationAction extends BaseAction implements ServletRequestAw
     public void setServletRequest(HttpServletRequest request) {
         this.request = request;
     }
+    /**
+     * <p>Discription:[入口函数]</p>
+     * @return
+     * @author:[代超]
+     * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
+     */
+    public String begin(){
+        return SUCCESS;
+    }
+    /**
+     * <p>Discription:[家庭成员关系列表]</p>
+     * @return
+     * @author:[代超]
+     * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
+     */
+    public String familyRelationList(){
+        
+        return null;
+    }
+    
+    /**
+     * <p>Discription:[家庭成员关系变更]</p>
+     * @return
+     * @author:[代超]
+     * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
+     */
+    public String familyRelationEdit(){
+        
+        return null;
+    }
 
 }
