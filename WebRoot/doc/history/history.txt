@@ -539,3 +539,11 @@ var memberListStore = new Ext.data.Store({
 
 2011-12-22
 http://www.sencha.com/forum/forumdisplay.php?19-Ext-JS-2.x-Unsupported
+
+2012-01-04
+select *, fr.family_relation from family_member m 
+join family_relation fr
+on m.system_member_id = fr.family_relation_to
+where m.family_id in(
+select fm.family_id from family_member fm where fm.system_member_id = 'admin')
+and fr.family_relation_from = 'admin';
