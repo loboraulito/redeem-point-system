@@ -1,5 +1,5 @@
 /**
- * 家庭管理入口
+ * 家庭成员管理入口
  */
 function family(){
 	//加载性别下拉框
@@ -177,13 +177,13 @@ function family(){
 		collapsible:true,//是否可以展开
 		animCollapse:true,//展开时是否有动画效果
 		autoScroll:true,
-		width:Ext.get("family_div").getWidth(),
-		height:Ext.get("family_div").getHeight()-20,
+		width:Ext.get("family_member_div").getWidth(),
+		height:Ext.get("family_member_div").getHeight()-20,
 		loadMask:true,//载入遮罩动画（默认）
 		frame:true,
 		autoShow:true,		
 		store:memberListStore,
-		renderTo:"family_div",
+		renderTo:"family_member_div",
 		cm:memberListCM,
 		sm:memberListSM,
 		viewConfig:{forceFit:true},//若父容器的layout为fit，那么强制本grid充满该父容器
@@ -218,7 +218,7 @@ function family(){
 	 * see buttonRight.js
 	 * loadButtonRight(buttonStore, mainDataStore, dataGrid, pageDiv, params)
 	 */
-	loadButtonRight(buttonRightStore, memberListStore, memberListDataGrid, "family_div", loadParam);
+	loadButtonRight(buttonRightStore, memberListStore, memberListDataGrid, "family_member_div", loadParam);
 	
 	/**
 	 * 创建家庭
