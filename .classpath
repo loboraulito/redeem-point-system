@@ -125,5 +125,12 @@
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/jcl-over-slf4j-1.5.8.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/slf4j-api-1.5.8.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/slf4j-log4j12-1.5.8.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/base64coder.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/spring-webflow/org.springframework.binding-2.3.0.RELEASE.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/spring-webflow/org.springframework.faces-2.3.0.RELEASE.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/spring-webflow/org.springframework.js-2.3.0.RELEASE.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/spring-webflow/org.springframework.js.resources-2.3.0.RELEASE.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/spring-webflow/org.springframework.webflow-2.3.0.RELEASE.jar" sourcepath="C:/Documents and Settings/cdai/.m2/repository/org/springframework/webflow/spring-webflow/2.3.0.RELEASE/spring-webflow-2.3.0.RELEASE-sources.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/struts2webflow-plugin-1.0.4.jar"/>
 	<classpathentry kind="output" path="WebRoot/WEB-INF/classes"/>
 </classpath>
