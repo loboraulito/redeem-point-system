@@ -166,6 +166,6 @@
 			</props>
 		</property>
 	</bean>
-	
+	<import resource="spring-webflow/applicationContext-webflow.xml"/>
 	<import resource="spring-security/applicationContext-security.xml"/>
 </beans>
