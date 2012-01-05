@@ -10,7 +10,6 @@
 	</view-state>
 
 	<action-state id="processPassAction">
-		<on-entry>struts2FlowAdapter</on-entry>
 		<transition on="pass" to="invitionAction"></transition>
 		<transition on-exception="java.lang.Exception" to="processJsp"></transition>
 	</action-state>
