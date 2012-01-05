@@ -547,3 +547,6 @@ on m.system_member_id = fr.family_relation_to
 where m.family_id in(
 select fm.family_id from family_member fm where fm.system_member_id = 'admin')
 and fr.family_relation_from = 'admin';
+
+SpringWebFlow2简化页面流的开发，结合SpringMVC更俊，SpirngSecurity3添加安全机制
+http://www.haogongju.net/art/1108529
