@@ -550,3 +550,11 @@ and fr.family_relation_from = 'admin';
 
 SpringWebFlow2简化页面流的开发，结合SpringMVC更俊，SpirngSecurity3添加安全机制
 http://www.haogongju.net/art/1108529
+
+2012-01-05
+http://struts.apache.org/2.x/docs/spring-plugin.html
+http://code.google.com/p/struts2webflow/
+https://cwiki.apache.org/S2PLUGINS/spring-webflow-plugin.html
+http://www.ervacon.com/products/swf/intro/index.html
+http://www.open-open.com/doc/view/86dddd0d26b54b2392d2f87ebba8692f
+http://www.blogjava.net/dorian/archive/2005/11/02/17770.html
