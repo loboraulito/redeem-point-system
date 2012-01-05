@@ -4,8 +4,8 @@
 	<pluginVersion><![CDATA[2.8.1.201111220115-RELEASE]]></pluginVersion>
 	<configs>
 		<config>
-			<file>WebRoot/js/point/family/111.xml</file>
-			<name><![CDATA[111]]></name>
+			<file>WebRoot/WEB-INF/spring-webflow/applicationContext-webflow.xml</file>
+			<name><![CDATA[applicationContext-webflow]]></name>
 		</config>
 	</configs>
 </webflow-project-description>
