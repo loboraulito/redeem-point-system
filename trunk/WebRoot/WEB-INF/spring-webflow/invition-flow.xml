@@ -5,18 +5,21 @@
         http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd">
 	
 	
-	<view-state id="processJsp">
+	<view-state id="processJsp" view="invitation">
 		<transition on="processPass" to="processPassAction"></transition>
 	</view-state>
 
 	<action-state id="processPassAction">
-		<transition on="pass" to="invitionAction"></transition>
+		<!-- 执行 -->
+		<evaluate expression="struts2FlowAdapter"></evaluate>
+		<transition on="pass" to="finish"></transition>
 		<transition on-exception="java.lang.Exception" to="processJsp"></transition>
 	</action-state>
 	
 	<action-state id="invitionAction">
+		<evaluate expression="struts2FlowAdapter"></evaluate>
 		<transition on="success" to="finish"></transition>
 	</action-state>
 	
-	<end-state id="finish" commit="true"></end-state>
+	<end-state id="finish" view="finish"></end-state>
 </flow>

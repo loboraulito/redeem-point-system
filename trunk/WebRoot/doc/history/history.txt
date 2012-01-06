@@ -560,3 +560,13 @@ http://www.open-open.com/doc/view/86dddd0d26b54b2392d2f87ebba8692f
 http://www.blogjava.net/dorian/archive/2005/11/02/17770.html
 http://www.installationwiki.org/Setup_for_Spring_Web_Flow_2
 http://www.4ucode.com/Study/Topic/390032
+
+2012-01-06
+http://www.ibm.com/developerworks/cn/java/j-springwebflow.html
+http://static.springsource.org/spring-webflow/docs/2.0.x/reference/htmlsingle/spring-webflow-reference.html
+
+一个奇怪的错误
+Unable to locate Spring NamespaceHandler for XML schema namespace [http://www.springframework.org/schema/webflow-config]
+这个错误的原因是相应的webflow.jar包没有。
+注意一点是，EclipseJEE部署到tomcat时，如果jar包不在lib目录，而是在其他目录(如：lib/spring-webflow)。虽然也会复制到tomcat下对应的目录上去
+但是tomcat启动的时候是无法加载那个jar包的。导致上面的那个错误！

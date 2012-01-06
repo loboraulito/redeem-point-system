@@ -4,9 +4,21 @@
       "http://struts.apache.org/dtds/struts-2.0.dtd">
 <struts>
 	<package name="invitation" namespace="/invitation" extends="struts-default">
+		<interceptors>
+			<interceptor name="sessionFlowExecKey" class="com.googlecode.struts2webflow.SessionFlowExecKeyInterceptor"></interceptor>
+			<interceptor name="annotationflowScope" class="com.googlecode.struts2webflow.annotations.AnnotationFlowScopeInterceptor"></interceptor>
+		</interceptors>
+		<action name="flowAction" class="com.googlecode.struts2webflow.FlowAction">
+			<interceptor-ref name="sessionFlowExecKey" />
+			<interceptor-ref name="defaultStack" />
+			<param name="flowId">invition-flow</param>
+			<result name="invitation" type="redirect">invitation.action?method=begin</result>
+			<result name="finish">/index.jsp</result>
+		</action>
+		
 		<!-- 切记：action name不能是一样的，否则会进不了Action -->
 		<action name="invitation" class="com.integral.system.invitation.action.InvitationAction" method="begin">
-			 <result name="success">/jsp/system/invitation/invitation.jsp</result>
+			 <result name="success">${successUrl}</result>
 			 <result name="input">/index.jsp</result>
 		</action>
 		<action name="invitationList" class="com.integral.system.invitation.action.InvitationAction" method="invitationList">
@@ -14,6 +26,7 @@
 			 <result name="input">/index.jsp</result>
 		</action>
 		<action name="invitationPass" class="com.integral.system.invitation.action.InvitationAction" method="invitationPass">
+			 <!-- <result name="success">/jsp/system/invitation/invitation.jsp</result> -->
 			 <result name="success">/jsp/system/invitation/invitation.jsp</result>
 			 <result name="input">/index.jsp</result>
 		</action>

@@ -441,6 +441,47 @@ function invitation(){
 		},this, true);
 		
 	};
+	
+	this.testFunction = function(url){
+		var u = path + "/invitation/flowAction.action";
+		Ext.Ajax.request({
+			params:{eventId:processPass},
+			timeout:60000,
+			url:u,
+			success:function(response, options){
+				Ext.Msg.hide();
+				var msg = Ext.util.JSON.decode(response.responseText);
+				if(msg.success){
+					if(msg.msg){
+						Ext.Msg.alert("系统提示",msg.msg);
+					}else{
+						Ext.Msg.alert("系统提示","请求已经成功处理！");
+					}
+					invitationListStore.baseParams.status = "1";
+					invitationListStore.baseParams.fromUserId = "";
+					invitationListStore.reload();
+				}else{
+					if(msg.msg){
+						Ext.Msg.alert("系统提示",msg.msg);
+					}else{
+						Ext.Msg.alert("系统提示","请求已经成功处理！");
+					}
+				}
+			},failure: function(response, options){
+				Ext.Msg.hide();
+				try{
+					var msg = Ext.util.JSON.decode(response.responseText);
+					if(msg.msg){
+						Ext.Msg.alert("系统提示",msg.msg);
+					}else{
+						Ext.Msg.alert("系统提示","请求处理失败！");
+					}
+				}catch(e){
+					Ext.Msg.alert("系统提示","系统错误！错误代码：" + e);
+				}
+			}
+		});
+	};
 	/**
 	 * 处理请求
 	 * @param {} url
