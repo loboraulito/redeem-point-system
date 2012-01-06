@@ -38,7 +38,19 @@ public class InvitationAction extends BaseAction implements ServletRequestAware,
     
     private ISystemInviteProcessService systemInviteProcessService;
     private DataSourceTransactionManager transactionManager;
+    /**
+     * 保存跳转路径
+     */
+    private String successUrl = "";
     
+    public String getSuccessUrl() {
+        return successUrl;
+    }
+
+    public void setSuccessUrl(String successUrl) {
+        this.successUrl = successUrl;
+    }
+
     public ISystemInviteProcessService getSystemInviteProcessService() {
         return systemInviteProcessService;
     }
@@ -83,6 +95,7 @@ public class InvitationAction extends BaseAction implements ServletRequestAware,
      * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
      */
     public String begin(){
+        setSuccessUrl("/jsp/system/invitation/invitation.jsp");
         return SUCCESS;
     }
     /**
@@ -262,4 +275,5 @@ public class InvitationAction extends BaseAction implements ServletRequestAware,
         }
         return null;
     }
+    
 }
