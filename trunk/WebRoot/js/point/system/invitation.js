@@ -445,7 +445,7 @@ function invitation(){
 	this.testFunction = function(url){
 		var u = path + "/invitation/flowAction.action";
 		Ext.Ajax.request({
-			params:{eventId:processPass},
+			params:{eventId:"processPass"},
 			timeout:60000,
 			url:u,
 			success:function(response, options){
