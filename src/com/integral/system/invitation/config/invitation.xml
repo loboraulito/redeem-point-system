@@ -25,9 +25,14 @@
 			 <result name="success">/jsp/system/invitation/invitation.jsp</result>
 			 <result name="input">/index.jsp</result>
 		</action>
+		<!-- 使用Struts2中的chain方式，来跳转到下一个action -->
 		<action name="invitationPass" class="com.integral.system.invitation.action.InvitationAction" method="invitationPass">
-			 <!-- <result name="success">/jsp/system/invitation/invitation.jsp</result> -->
-			 <result name="success">/jsp/system/invitation/invitation.jsp</result>
+			 <result name="success" type="chain">
+			 	<param name="namespace">${namespace}</param>
+			 	<param name="actionName">${actionName}</param>
+			 	<param name="method">${method}</param>
+			 	<param name="dataList">${dataList}</param>
+			 </result>
 			 <result name="input">/index.jsp</result>
 		</action>
 		<action name="invitationReject" class="com.integral.system.invitation.action.InvitationAction" method="invitationReject">

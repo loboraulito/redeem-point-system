@@ -570,3 +570,79 @@ Unable to locate Spring NamespaceHandler for XML schema namespace [http://www.sp
 这个错误的原因是相应的webflow.jar包没有。
 注意一点是，EclipseJEE部署到tomcat时，如果jar包不在lib目录，而是在其他目录(如：lib/spring-webflow)。虽然也会复制到tomcat下对应的目录上去
 但是tomcat启动的时候是无法加载那个jar包的。导致上面的那个错误！
+
+2012-01-09
+http://clongjava.iteye.com/blog/1314108
+http://www.uml.org.cn/j2ee/200903054.asp
+https://cwiki.apache.org/S2PLUGINS/spring-mvc-plugin.html
+http://www.iteye.com/topic/623782
+http://www.springbyexample.org/examples/simple-spring-web-flow-webapp.html
+----------------------------------------------------------------------------------
+http://code.google.com/p/webworkwebflow : webworkwebflow-plugin-1.0.3.jar
+http://code.google.com/p/struts2webflow : struts2webflow-plugin-1.0.4.jar
+以上这两个jar(插件)都只支持Spring Web Flow 1.0，不支持Spring Web Flow 2.0及之后版本。
+
+http://code.google.com/p/struts2springmvc : struts2springmvc-plugin-1.0.0-beta1.jar
+这个插件：将Spring MVC 潜入到Struts2中
+
+鉴于以上的情况，现在做webflow的方法：
+1: Struts2+Spring MVC+Spring WebFlow
+2: Struts2+Servlet+Spring WebFlow
+3: Struts2自带的内部跳转
+三种方法都实现一下试试
+
+第一种: Struts2自带的内部跳转
+1: 配置
+WEB.xml
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+<filter>
+  	<filter-name>struts2</filter-name>
+  	<filter-class>org.apache.struts2.dispatcher.FilterDispatcher</filter-class>
+</filter>
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++  
+
+Struts.xml
+其中的${变量名}需要在com.integral.system.invitation.action.InvitationAction中有对应的get/set方法
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+<action name="invitationPass" class="com.integral.system.invitation.action.InvitationAction" method="invitationPass">
+	 <!-- 使用Struts2中的chain方式，来跳转到下一个action -->
+	 <result name="success" type="chain">
+	 	<param name="namespace">${namespace}</param>
+	 	<param name="actionName">${actionName}</param>
+	 	<param name="method">${method}</param>
+	 	<param name="dataList">${dataList}</param><!-- 自定义参数 -->
+	 </result>
+	 <result name="input">/index.jsp</result>
+</action>
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+2: invitationPass方法中，需要return SUCCESS; 而不是return null;
+
+第二种: Struts2+Servlet
+1: 配置
+WEB.xml
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+<filter>
+	<filter-name>struts2</filter-name>
+	<filter-class>org.apache.struts2.dispatcher.ng.filter.StrutsPrepareAndExecuteFilter</filter-class>
+</filter>
+<!-- 自定义Servlet配置 -->
+<servlet>
+	<servlet-name>springMVC</servlet-name>
+	<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+	<init-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>/WEB-INF/spring-mvc/mvc-servlet.xml</param-value>
+	</init-param>
+	<load-on-startup>1</load-on-startup>
+</servlet>
+<servlet-mapping>
+	<servlet-name>springMVC</servlet-name>
+	<url-pattern>/spring/*</url-pattern>
+</servlet-mapping>
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Struts.xml
+添加
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+<constant name="struts.action.excludePattern" value="/spring/.*?"></constant>
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+

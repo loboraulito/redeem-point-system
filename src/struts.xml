@@ -6,6 +6,16 @@
 	<constant name="struts.enable.DynamicMethodInvocation" value="false"></constant>
 	<constant name="struts.devMode" value="false"></constant>
 	<constant name="struts.i18n.encoding" value="UTF-8" />
+	
+	<!-- <constant name="struts.action.extension" value="action,," /> -->
+	
+	<!-- 使用struts.action.excludePattern配置的话，则必须配置Struts2的过滤器为：
+		org.apache.struts2.dispatcher.ng.filter.StrutsPrepareAndExecuteFilter
+		而不是org.apache.struts2.dispatcher.FilterDispatcher
+		下面的意思是除了/spring/.*?这种路径之外的其他所有请求都将被struts2拦截
+	 -->
+	<constant name="struts.action.excludePattern" value="/spring/.*?"></constant>
+	
 	<constant name="struts.objectFactory" value="spring" />
 	<constant name="struts.configuration.xml.reload" value="true"/>
 	<!-- 临时文件夹c:/tmp -->
