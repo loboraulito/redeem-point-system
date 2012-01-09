@@ -586,8 +586,8 @@ http://code.google.com/p/struts2springmvc : struts2springmvc-plugin-1.0.0-beta1.
 这个插件：将Spring MVC 潜入到Struts2中
 
 鉴于以上的情况，现在做webflow的方法：
-1: Struts2+Spring MVC+Spring WebFlow
-2: Struts2+Servlet+Spring WebFlow
+1: Struts2+Spring MVC(google plugin)+Spring WebFlow
+2: Struts2+Servlet(Spring MVC)+Spring WebFlow
 3: Struts2自带的内部跳转
 三种方法都实现一下试试
 
@@ -617,7 +617,7 @@ Struts.xml
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 2: invitationPass方法中，需要return SUCCESS; 而不是return null;
 
-第二种: Struts2+Servlet
+第二种: Struts2+Servlet(Spring MVC)+Spring WebFlow
 1: 配置
 WEB.xml
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
