@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+	<!-- Spring+quartz定时器配置文件 -->
+	
+	<!-- 触发器 -->
+	<bean id="factoryBean" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="triggers">
+			<list>
+				<ref bean="cronReportTrigger" />
+			</list>
+		</property>
+	</bean>
+	<!-- 定时器 -->
+	<bean id="jobBean" class="com.integral.util.spring.quartz.JobBean">
+		<property name="transactionManager">
+			<ref bean="transactionManager" />
+		</property>
+	</bean>
+	<!-- 启动触发器的设置 -->
+	<bean id="scheduledReportJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="jobBean"/>
+		</property>
+		<property name="targetMethod">
+			<value>run</value>
+		</property>
+	</bean>
+	<!-- 定时器工作配置 -->
+	<bean id="cronReportTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail">
+			<ref bean="scheduledReportJobDetail" />
+		</property>
+		<property name="cronExpression">
+			<!-- 秒 分 时 日 月 周 年。下面的代表每月2号触发 -->
+			<value>0 0 * 2 * ?</value>
+			<!-- 秒 分 时 日 月 周 年。下面的代表每天10点到16点，每隔1分钟执行一次 -->
+			<!-- <value>0 0/1 10-23 * * ?</value> -->
+		</property>
+	</bean>
+</beans>
