@@ -51,6 +51,8 @@ public class FamilyManamgeAction extends BaseAction implements ServletRequestAwa
     
     private String manegerRole;
     
+    private List dataList;
+    
     public ISystemInviteProcessService getSystemInviteProcessService() {
         return systemInviteProcessService;
     }
@@ -113,6 +115,14 @@ public class FamilyManamgeAction extends BaseAction implements ServletRequestAwa
      */
     public void setTransactionManager(DataSourceTransactionManager transactionManager) {
         this.transactionManager = transactionManager;
+    }
+    
+    public List getDataList() {
+        return dataList;
+    }
+
+    public void setDataList(List dataList) {
+        this.dataList = dataList;
     }
 
     @Override
@@ -487,7 +497,8 @@ public class FamilyManamgeAction extends BaseAction implements ServletRequestAwa
         PrintWriter out = null;
         try{
             out = super.getPrintWriter(request, response);
-            List<FamilyMember> relationDataList = (List<FamilyMember>) request.getSession().getAttribute("relationDataList");
+            //List<FamilyMember> relationDataList = (List<FamilyMember>) request.getSession().getAttribute("relationDataList");
+            List<FamilyMember> relationDataList = (List<FamilyMember>) this.dataList;
             List<FamilyMember> memberList = new ArrayList<FamilyMember>();
             StringBuffer sb = new StringBuffer();
             

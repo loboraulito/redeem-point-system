@@ -25,6 +25,7 @@ import com.integral.common.action.BaseAction;
 import com.integral.family.member.bean.FamilyMember;
 import com.integral.system.invitation.bean.SystemInviteProcess;
 import com.integral.system.invitation.service.ISystemInviteProcessService;
+import com.integral.util.RequestUtil;
 
 /** 
  * <p>Description: [处理系统请求]</p>
@@ -42,7 +43,46 @@ public class InvitationAction extends BaseAction implements ServletRequestAware,
      * 保存跳转路径
      */
     private String successUrl = "";
+    private String namespace = "";
+    private String actionName = "";
+    private String method = "";
+    /**
+     * 获取数据
+     */
+    private List dataList = null;
     
+    public String getNamespace() {
+        return namespace;
+    }
+
+    public void setNamespace(String namespace) {
+        this.namespace = namespace;
+    }
+
+    public String getActionName() {
+        return actionName;
+    }
+
+    public void setActionName(String actionName) {
+        this.actionName = actionName;
+    }
+
+    public String getMethod() {
+        return method;
+    }
+
+    public void setMethod(String method) {
+        this.method = method;
+    }
+
+    public List getDataList() {
+        return dataList;
+    }
+
+    public void setDataList(List dataList) {
+        this.dataList = dataList;
+    }
+
     public String getSuccessUrl() {
         return successUrl;
     }
@@ -156,6 +196,7 @@ public class InvitationAction extends BaseAction implements ServletRequestAware,
         String invitationId = request.getParameter("invitationId");
         String data = request.getParameter("data");
         String url = request.getParameter("urls");
+        Map<String, String> urlMap = RequestUtil.getRequestUrls(url);
         // 定义TransactionDefinition并设置好事务的隔离级别和传播方式。
         DefaultTransactionDefinition definition = new DefaultTransactionDefinition();
         // 代价最大、可靠性最高的隔离级别，所有的事务都是按顺序一个接一个地执行
@@ -194,10 +235,16 @@ public class InvitationAction extends BaseAction implements ServletRequestAware,
                     //request.getRequestDispatcher(urls[i]).forward(request, response);
                 }
                 this.systemInviteProcessService.saveOrUpdateAll(list);
-                
                 request.getSession().setAttribute("relationDataList", relationDataList);
+                setDataList(relationDataList);
+                
+                //TODO 使用Struts2自带的跳转实现处理下一个action
+                setNamespace(urlMap.get("namespace"));
+                setActionName(urlMap.get("actionName"));
+                setMethod(urlMap.get("method"));
+                
                 //重定向无法使用request传递参数，只能在url上传递
-                response.sendRedirect(url);
+                //response.sendRedirect(url);
                 resultMap.put("success", true);
                 resultMap.put("msg", "所选系统请求已成功处理！");
             }
@@ -214,7 +261,7 @@ public class InvitationAction extends BaseAction implements ServletRequestAware,
                 out.close();
             }
         }
-        return null;
+        return SUCCESS;
     }
     /**
      * <p>Discription:[请求被拒绝]</p>
@@ -275,5 +322,4 @@ public class InvitationAction extends BaseAction implements ServletRequestAware,
         }
         return null;
     }
-    
 }

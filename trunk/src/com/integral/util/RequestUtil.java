@@ -158,4 +158,48 @@ public class RequestUtil {
             }
         }
     }
+    /**
+     * <p>Discription:[解析url]</p>
+     * @param url:/redeempoint/namespace/actionName.action?method=method
+     * @return
+     * @author:[代超]
+     * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
+     */
+    public static Map<String, String> getRequestUrls(String url){
+        Map<String, String> urlMap = new HashMap<String, String>();
+        if(url == null || "".equals(url.trim())){
+            return urlMap;
+        }
+        if(url.startsWith("/redeempoint")){
+            url = url.substring("/redeempoint".length());
+        }
+        if(url.startsWith("/") && url.length() > 1){
+            url = url.substring(1);
+        }
+        String [] urls = url.split("/");
+        String namespace = "";
+        if(urls != null && urls.length > 0){
+            namespace = urls[0];
+        }
+        String actionName = "";
+        String method = "";
+        if(urls.length > 1){
+            String u = urls[1];
+            if(u != null && u.length() > 0){
+                String us[] = u.split("\\?");
+                if(us != null && us.length > 0){
+                    actionName = us[0];
+                    actionName = actionName.substring(0, actionName.lastIndexOf(".action"));
+                }
+                if(us != null && us.length > 1){
+                    method = us[1];
+                    method = method.substring("method=".length());
+                }
+            }
+        }
+        urlMap.put("namespace", "/" + namespace);
+        urlMap.put("actionName", actionName);
+        urlMap.put("method", method);
+        return urlMap;
+    }
 }

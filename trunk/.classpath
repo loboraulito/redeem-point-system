@@ -62,7 +62,7 @@
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/org.springframework.test-3.0.5.RELEASE.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/org.springframework.transaction-3.0.5.RELEASE.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/org.springframework.web-3.0.5.RELEASE.jar" sourcepath="D:/slefstudy/Spring/spring-framework-3.0.5.RELEASE/src/org.springframework.web-sources-3.0.5.RELEASE.jar"/>
-	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/org.springframework.webmvc-3.0.5.RELEASE.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/org.springframework.webmvc-3.0.5.RELEASE.jar" sourcepath="C:/Documents and Settings/cdai/.m2/repository/org/springframework/spring-webmvc/3.0.5.RELEASE/spring-webmvc-3.0.5.RELEASE-sources.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/spring-security-acl-3.0.5.RELEASE.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/spring-security-aspects-3.0.5.RELEASE.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/spring-security-cas-client-3.0.5.RELEASE.jar"/>
@@ -73,9 +73,9 @@
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/spring-security-taglibs-3.0.5.RELEASE.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/spring-security-web-3.0.5.RELEASE.jar" sourcepath="D:/slefstudy/Spring/spring-security-3.0.5.RELEASE/dist/spring-security-web-3.0.5.RELEASE-sources.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/struts2-convention-plugin-2.1.8.1.jar"/>
-	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/struts2-core-2.1.8.1.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/struts2-core-2.1.8.1.jar" sourcepath="C:/Documents and Settings/cdai/.m2/repository/org/apache/struts/struts2-core/2.1.8.1/struts2-core-2.1.8.1-sources.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/struts2-spring-plugin-2.1.8.jar"/>
-	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/xwork-core-2.1.6.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/xwork-core-2.1.6.jar" sourcepath="C:/Documents and Settings/cdai/.m2/repository/com/opensymphony/xwork-core/2.1.6/xwork-core-2.1.6-sources.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/poi-3.7-20101029.jar" sourcepath="F:/java/java的一些主流框架/操作excel/POI/3.7/poi-src-3.7-20101029.zip"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/poi-ooxml-3.7-20101029.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/poi-ooxml-schemas-3.7-20101029.jar"/>
@@ -126,7 +126,6 @@
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/slf4j-api-1.5.8.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/slf4j-log4j12-1.5.8.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/base64coder.jar"/>
-	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/struts2webflow-plugin-1.0.4.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/spring-webflow/ognl-3.0.2.jar" sourcepath="WebRoot/WEB-INF/lib/spring-webflow/ognl-3.0.2-sources.jar">
 		<attributes>
 			<attribute name="javadoc_location" value="jar:platform:/resource/redeempoint/WebRoot/WEB-INF/lib/spring-webflow/ognl-3.0.2-javadoc.jar!/"/>
@@ -136,6 +135,7 @@
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/org.springframework.faces-2.3.0.RELEASE.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/org.springframework.js-2.3.0.RELEASE.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/org.springframework.js.resources-2.3.0.RELEASE.jar"/>
-	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/org.springframework.webflow-2.3.0.RELEASE.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/org.springframework.webflow-2.3.0.RELEASE.jar" sourcepath="C:/Documents and Settings/cdai/.m2/repository/org/springframework/webflow/spring-webflow/2.3.0.RELEASE/spring-webflow-2.3.0.RELEASE-sources.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/struts2springmvc-plugin-1.0.0-beta1.jar"/>
 	<classpathentry kind="output" path="WebRoot/WEB-INF/classes"/>
 </classpath>
