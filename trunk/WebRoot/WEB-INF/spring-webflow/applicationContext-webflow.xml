@@ -7,17 +7,24 @@
                 http://www.springframework.org/schema/webflow-config
                 http://www.springframework.org/schema/webflow-config/spring-webflow-config-2.3.xsd">
 	<!-- Creates the registry of flow definitions for this application -->
-	<webflow:flow-registry id="flowRegistry">
+	<webflow:flow-registry id="flowRegistry" flow-builder-services="flowBuilderServices">
 		<webflow:flow-location path="**-flow.xml"></webflow:flow-location>
 	</webflow:flow-registry>
-	
+
 	<!-- Launches new flow executions and resumes existing executions. -->	
 	<webflow:flow-executor id="flowExecutor" flow-registry="flowRegistry">
-		<webflow:flow-execution-attributes>
-			<webflow:always-redirect-on-pause value="false"/>
-		</webflow:flow-execution-attributes>
+		<webflow:flow-execution-listeners>
+			<webflow:listener ref="securityFlowExecutionListener" />
+		</webflow:flow-execution-listeners>
 	</webflow:flow-executor>
+	
+	<!-- Plugs in a custom creator for Web Flow views -->
+	<webflow:flow-builder-services id="flowBuilderServices" development="true"
+		validator="validator" />
+	<!-- Configures Web Flow to use Tiles to create views for rendering -->
 	<!-- 
-	<bean id="struts2FlowAdapter" class="com.googlecode.struts2webflow.Struts2FlowAdapter"></bean>
+	<bean id="mvcViewFactoryCreator" class="org.springframework.webflow.mvc.builder.MvcViewFactoryCreator">
+		<property name="useSpringBeanBinding" value="true"></property>
+	</bean>
 	 -->
 </beans>

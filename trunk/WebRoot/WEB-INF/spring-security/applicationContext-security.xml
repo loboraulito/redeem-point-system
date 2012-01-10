@@ -261,5 +261,8 @@
 	<bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
 		<property name="basename" value="classpath:com/integral/util/i18n/message_zh_CN"></property>
 	</bean> 
-	<bean id="localResolver" class="org.springframework.web.servlet.i18n.AcceptHeaderLocaleResolver"></bean> 
+	<bean id="localResolver" class="org.springframework.web.servlet.i18n.AcceptHeaderLocaleResolver"></bean>
+	
+	<!-- Installs a listener to apply Spring Security authorities -->
+	<bean id="securityFlowExecutionListener" class="org.springframework.webflow.security.SecurityFlowExecutionListener"></bean> 
 </beans>
