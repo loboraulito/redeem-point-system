@@ -649,3 +649,7 @@ Struts.xml
 <constant name="struts.action.excludePattern" value="/spring/.*?"></constant>
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+
+
+2012-01-10
+http://www.iteye.com/topic/1116730?page=4
