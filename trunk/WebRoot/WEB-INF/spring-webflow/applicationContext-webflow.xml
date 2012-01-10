@@ -17,6 +17,7 @@
 			<webflow:always-redirect-on-pause value="false"/>
 		</webflow:flow-execution-attributes>
 	</webflow:flow-executor>
-	
+	<!-- 
 	<bean id="struts2FlowAdapter" class="com.googlecode.struts2webflow.Struts2FlowAdapter"></bean>
+	 -->
 </beans>

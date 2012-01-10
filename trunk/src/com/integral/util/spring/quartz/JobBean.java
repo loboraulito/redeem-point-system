@@ -34,6 +34,5 @@ public class JobBean {
      */
     public void run(){
         log.info("run at "+Tools.dateToString3(new Date()));
-        
     }
 }
