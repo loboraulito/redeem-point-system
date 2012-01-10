@@ -4,4 +4,41 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 	<mvc:default-servlet-handler />
+	<!-- Bootstraps JSR-303 validation and exposes it through Spring's Validator interface -->
+	<bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
+	</bean>
+	<!-- Spring MVC Integration With Spring Web Flow -->
+	<!-- 1.Registering the FlowHandlerAdapter, Enables FlowHandler URL mapping -->
+	<bean class="org.springframework.webflow.mvc.servlet.FlowHandlerAdapter">
+		<property name="flowExecutor" ref="flowExecutor"></property>
+	</bean>
+	
+	
+	
+	
+	
+	
+	
+	
+	<!-- 2.Defining flow mappings, Maps request paths to flows in the flowRegistry -->
+	<!-- 
+	<bean class="org.springframework.webflow.mvc.servlet.FlowHandlerMapping">
+		<property name="flowRegistry" ref="flowRegistry"></property>
+		<property name="order" value="-1"></property>
+	</bean>
+	 -->
+	
+	<bean id="flowController" class="org.springframework.webflow.mvc.servlet.FlowController">
+		<property name="flowExecutor" ref="flowExecutor"></property>
+	</bean>
+	
+	
+	<!-- UrlFilenameViewController会将"/index"这样的请求被映射成名为"index"的视图 -->
+	<!-- <bean class="org.springframework.web.servlet.mvc.UrlFilenameViewController"/> -->
+	
+	<bean id="viewMappings" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+		<property name="defaultHandler">
+			<ref bean="flowController"/>
+		</property>
+	</bean>
 </beans>
