@@ -71,7 +71,12 @@
 			</props>
 		</property>
 	</bean>
-	
+	<!-- 在业务逻辑层中使用延迟加载 -->
+	<bean id="hibernateInterceptor" class="org.springframework.orm.hibernate3.HibernateInterceptor">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory"/>
+		</property>
+	</bean>
 	<bean id="sessionFactory"
 		class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
 		<property name="dataSource">

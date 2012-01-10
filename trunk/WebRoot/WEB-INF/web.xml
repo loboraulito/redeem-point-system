@@ -40,15 +40,6 @@
   	<filter-name>encodingFilter</filter-name>
   	<url-pattern>/*</url-pattern>
   </filter-mapping>
-  <!-- 解决hibernate延迟加载带来的异常，配置过滤器使Session在请求完成之后再关闭 -->
-  <filter>
-		<filter-name>hibernate session manager filter</filter-name>
-		<filter-class>org.springframework.orm.hibernate3.support.OpenSessionInViewFilter</filter-class>
-	</filter>
-	<filter-mapping>
-		<filter-name>hibernate session manager filter</filter-name>
-		<url-pattern>/*</url-pattern>
-	</filter-mapping>
   <!-- SpringSecurity3配置 -->
   <filter>
   	<filter-name>springSecurityFilterChain</filter-name>
@@ -104,7 +95,6 @@
   <listener>
   	<listener-class>org.springframework.web.util.IntrospectorCleanupListener</listener-class>
   </listener>
-  
   <welcome-file-list>
   	<welcome-file>login.jsp</welcome-file>
     <welcome-file>index.html</welcome-file>
