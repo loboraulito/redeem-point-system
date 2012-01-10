@@ -11,6 +11,12 @@
 				<ref bean="cronReportTrigger" />
 			</list>
 		</property>
+		<property name="quartzProperties">
+			<props>
+				<prop key="org.quartz.threadPool.threadCount">50</prop>
+				<prop key="org.quartz.scheduler.instanceId">AUTO</prop>
+			</props>
+		</property>
 	</bean>
 	<!-- 定时器 -->
 	<bean id="jobBean" class="com.integral.util.spring.quartz.JobBean">
@@ -34,9 +40,9 @@
 		</property>
 		<property name="cronExpression">
 			<!-- 秒 分 时 日 月 周 年。下面的代表每月2号触发 -->
-			<value>0 0 * 2 * ?</value>
+			<!-- <value>0 0 * 2 * ?</value> -->
 			<!-- 秒 分 时 日 月 周 年。下面的代表每天10点到16点，每隔1分钟执行一次 -->
-			<!-- <value>0 0/1 10-23 * * ?</value> -->
+			<value>0 0/1 10-23 * * ?</value>
 		</property>
 	</bean>
 </beans>

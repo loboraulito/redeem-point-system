@@ -54,7 +54,7 @@
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/org.springframework.asm-3.0.5.RELEASE.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/org.springframework.beans-3.0.5.RELEASE.jar" sourcepath="C:/Documents and Settings/cdai/.m2/repository/org/springframework/spring-beans/3.0.5.RELEASE/spring-beans-3.0.5.RELEASE-sources.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/org.springframework.context-3.0.5.RELEASE.jar"/>
-	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/org.springframework.context.support-3.0.5.RELEASE.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/org.springframework.context.support-3.0.5.RELEASE.jar" sourcepath="C:/Documents and Settings/cdai/.m2/repository/org/springframework/spring-context-support/3.0.5.RELEASE/spring-context-support-3.0.5.RELEASE-sources.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/org.springframework.core-3.0.5.RELEASE.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/org.springframework.expression-3.0.5.RELEASE.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/org.springframework.jdbc-3.0.5.RELEASE.jar"/>
@@ -137,5 +137,6 @@
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/org.springframework.js.resources-2.3.0.RELEASE.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/org.springframework.webflow-2.3.0.RELEASE.jar" sourcepath="C:/Documents and Settings/cdai/.m2/repository/org/springframework/webflow/spring-webflow/2.3.0.RELEASE/spring-webflow-2.3.0.RELEASE-sources.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/struts2springmvc-plugin-1.0.0-beta1.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/quartz-all-1.8.5.jar"/>
 	<classpathentry kind="output" path="WebRoot/WEB-INF/classes"/>
 </classpath>
