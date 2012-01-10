@@ -11,12 +11,14 @@
 				<ref bean="cronReportTrigger" />
 			</list>
 		</property>
+		<!-- 
 		<property name="quartzProperties">
 			<props>
 				<prop key="org.quartz.threadPool.threadCount">50</prop>
 				<prop key="org.quartz.scheduler.instanceId">AUTO</prop>
 			</props>
 		</property>
+		 -->
 	</bean>
 	<!-- 定时器 -->
 	<bean id="jobBean" class="com.integral.util.spring.quartz.JobBean">
