@@ -577,6 +577,7 @@ http://www.uml.org.cn/j2ee/200903054.asp
 https://cwiki.apache.org/S2PLUGINS/spring-mvc-plugin.html
 http://www.iteye.com/topic/623782
 http://www.springbyexample.org/examples/simple-spring-web-flow-webapp.html
+http://www.ibm.com/developerworks/cn/education/java/j-spring-webflow/section4.html
 ----------------------------------------------------------------------------------
 http://code.google.com/p/webworkwebflow : webworkwebflow-plugin-1.0.3.jar
 http://code.google.com/p/struts2webflow : struts2webflow-plugin-1.0.4.jar
@@ -648,6 +649,29 @@ Struts.xml
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 <constant name="struts.action.excludePattern" value="/spring/.*?"></constant>
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+......
+=================================================================================
+总结: 配置失败！
+=================================================================================
+
+第三种：Struts2+Spring MVC(google plugin)+Spring WebFlow
+1: 配置
+1) 取消Spring MVC在web.xml中的配置
+2) 添加struts2springmvc-plugin-1.0.0-beta1.jar
+3) Struts.xml
+<action name="CalcRate" class="com.googlecode.struts2springmvc.SpringMVCControllerAction">
+	<!-- 这个controllerName将指向applicationContext.xml中定义的controller -->
+	<param name="controllerName">ratingController</param>
+	<result name="success">/example/displayrate.jsp</result>
+</action>
+4) applicationContext.xml
+定义Struts.xml中指定的controller即可。
+<!-- example.RatingController实现Controller接口的类 -->
+<bean id="ratingController" class="example.RatingController"></bean>
+=================================================================================
+总结: 具体实现略, 请参考: http://struts2springmvc.googlecode.com/svn/trunk/example
+=================================================================================
+
 
 
 
