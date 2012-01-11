@@ -140,5 +140,6 @@
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/quartz-all-1.8.5.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/activemq-all-5.5.1.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/org.springframework.jms-3.0.5.RELEASE.jar" sourcepath="WebRoot/WEB-INF/lib/org.springframework.jms-3.0.5.RELEASE-sources.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/dwr.jar" sourcepath="WebRoot/WEB-INF/lib/dwr-src.jar"/>
 	<classpathentry kind="output" path="WebRoot/WEB-INF/classes"/>
 </classpath>
