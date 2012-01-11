@@ -678,5 +678,6 @@ http://www.iteye.com/topic/1116730?page=4
 http://blog.csdn.net/kongqz/article/details/4014815
 http://blog.sina.com.cn/s/blog_5fcb1a810100rllc.html
 http://www.blogjava.net/freeman1984/archive/2009/11/19/302961.html
-
 http://www.open-open.com/bbs/view/1318906402280
+http://www.iteye.com/topic/199079
+http://blog.csdn.net/sukyle/article/details/5781640
