@@ -25,6 +25,8 @@
 		<property name="transactionManager">
 			<ref bean="transactionManager" />
 		</property>
+		<property name="jmsSender" ref="jmsSender"></property>
+		<property name="jmsReceiver" ref="jmsReceiver"></property>
 	</bean>
 	<!-- 启动触发器的设置 -->
 	<bean id="scheduledReportJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
