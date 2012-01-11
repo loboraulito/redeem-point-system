@@ -20,11 +20,12 @@
 	
 	<!-- Plugs in a custom creator for Web Flow views -->
 	<webflow:flow-builder-services id="flowBuilderServices" development="true"
-		validator="validator" />
+		view-factory-creator="mvcViewFactoryCreator"/>
+	
 	<!-- Configures Web Flow to use Tiles to create views for rendering -->
-	<!-- 
 	<bean id="mvcViewFactoryCreator" class="org.springframework.webflow.mvc.builder.MvcViewFactoryCreator">
-		<property name="useSpringBeanBinding" value="true"></property>
+		<!-- <property name="useSpringBeanBinding" value="true"></property> -->
+		<property name="viewResolvers" ref="viewResolver"></property>
 	</bean>
-	 -->
+	
 </beans>
