@@ -441,7 +441,10 @@ function invitation(){
 		},this, true);
 		
 	};
-	
+	this.testFunction = function(url){
+		window.location = url;
+	};
+	/*
 	this.testFunction = function(url){
 		var u = path + "/invitation/flowAction.action";
 		Ext.Ajax.request({
@@ -482,6 +485,7 @@ function invitation(){
 			}
 		});
 	};
+	*/
 	/**
 	 * 处理请求
 	 * @param {} url
