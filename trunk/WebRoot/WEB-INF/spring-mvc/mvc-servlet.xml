@@ -5,19 +5,12 @@
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 	<mvc:default-servlet-handler />
 	<!-- Bootstraps JSR-303 validation and exposes it through Spring's Validator interface -->
-	<bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
-	</bean>
+	<!-- <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean"/> -->
 	<!-- Spring MVC Integration With Spring Web Flow -->
 	<!-- 1.Registering the FlowHandlerAdapter, Enables FlowHandler URL mapping -->
 	<bean class="org.springframework.webflow.mvc.servlet.FlowHandlerAdapter">
 		<property name="flowExecutor" ref="flowExecutor"></property>
 	</bean>
-	
-	
-	
-	
-	
-	
 	
 	
 	<!-- 2.Defining flow mappings, Maps request paths to flows in the flowRegistry -->
@@ -27,7 +20,7 @@
 		<property name="order" value="-1"></property>
 	</bean>
 	 -->
-	
+	<!-- 配置控制器（Controller） -->
 	<bean id="flowController" class="org.springframework.webflow.mvc.servlet.FlowController">
 		<property name="flowExecutor" ref="flowExecutor"></property>
 	</bean>
@@ -35,10 +28,27 @@
 	
 	<!-- UrlFilenameViewController会将"/index"这样的请求被映射成名为"index"的视图 -->
 	<!-- <bean class="org.springframework.web.servlet.mvc.UrlFilenameViewController"/> -->
-	
+	<!-- 配置映射响应器（HandlerMapping） -->
 	<bean id="viewMappings" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
 		<property name="defaultHandler">
 			<ref bean="flowController"/>
 		</property>
+		<property name="mappings">
+			<props>
+				<prop key="*">flowController</prop>
+			</props>
+			<!-- 
+			<value>
+				/spring.action=flowController
+			</value>
+			 -->
+		</property>
 	</bean>
+	<!-- 配置试图解析器（ViewResolver） -->
+	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+	   <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
+	   <property name="prefix" value="/WEB-INF/jsp/"/>
+	   <property name="suffix" value=".jsp"/>
+	</bean>
+	<import resource="../spring-webflow/applicationContext-webflow.xml"/>
 </beans>

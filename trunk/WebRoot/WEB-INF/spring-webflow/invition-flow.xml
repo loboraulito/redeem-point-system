@@ -11,7 +11,7 @@
 
 	<action-state id="processPassAction">
 		<!-- 执行 -->
-		<evaluate expression="struts2FlowAdapter"></evaluate>
+		<evaluate expression="invitationAction.invitationPass()"></evaluate>
 		<transition on="pass" to="finish"></transition>
 		<transition on-exception="java.lang.Exception" to="processJsp"></transition>
 	</action-state>
@@ -21,5 +21,5 @@
 		<transition on="success" to="finish"></transition>
 	</action-state>
 	
-	<end-state id="finish" view="finish"></end-state>
+	<end-state id="finish" view="externalRedirect:/jsp/family/family_manage"></end-state>
 </flow>
