@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                                   "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Jan 11, 2012 5:50:27 PM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+ <class catalog="redeempoint" name="com.SystemMessage" table="system_message">
+  <id name="messageId" type="string">
+   <column length="50" name="message_id"/>
+   <generator class="uuid.hex"/>
+  </id>
+  <property generated="never" lazy="false" name="messageFrom" type="string">
+   <column length="50" name="message_from">
+    <comment>???</comment>
+   </column>
+  </property>
+  <property generated="never" lazy="false" name="messageTo" type="string">
+   <column length="50" name="message_to">
+    <comment>???</comment>
+   </column>
+  </property>
+  <property generated="never" lazy="false" name="messageSendTime" type="timestamp">
+   <column length="19" name="message_send_time">
+    <comment>????</comment>
+   </column>
+  </property>
+  <property generated="never" lazy="false" name="messageReceiveTime" type="timestamp">
+   <column length="19" name="message_receive_time">
+    <comment>????</comment>
+   </column>
+  </property>
+  <property generated="never" lazy="false" name="messageNew" type="string">
+   <column length="10" name="message_new">
+    <comment>???(0: ?, 1: ?)</comment>
+   </column>
+  </property>
+  <property generated="never" lazy="false" name="messageContent" type="string">
+   <column length="1000" name="message_content">
+    <comment>????</comment>
+   </column>
+  </property>
+  <property generated="never" lazy="false" name="messageTitle" type="string">
+   <column length="200" name="message_title">
+    <comment>??title</comment>
+   </column>
+  </property>
+ </class>
+</hibernate-mapping>

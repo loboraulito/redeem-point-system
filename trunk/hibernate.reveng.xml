@@ -2,4 +2,16 @@
 <!DOCTYPE hibernate-reverse-engineering PUBLIC "-//Hibernate/Hibernate Reverse Engineering DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-reverse-engineering-3.0.dtd" >
 
 <hibernate-reverse-engineering>
+
+	<table-filter match-name="system_message"></table-filter>
+	<table catalog="redeempoint" name="system_message">
+		<column name="message_id"></column>
+		<column name="message_from"></column>
+		<column name="message_to"></column>
+		<column name="message_send_time"></column>
+		<column name="message_receive_time"></column>
+		<column name="message_new"></column>
+		<column name="message_content"></column>
+		<column name="message_title"></column>
+	</table>
 </hibernate-reverse-engineering>
