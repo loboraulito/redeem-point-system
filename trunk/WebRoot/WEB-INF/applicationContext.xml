@@ -173,6 +173,7 @@
 	</bean>
 	<import resource="spring-security/applicationContext-security.xml"/>
 	<import resource="spring-quartz/applicationContext-quartz.xml"/>
+	<import resource="spring-jms/application-jms.xml"/>
 	<!-- 以下配置只支持webflow 1.0 -->
 	<!-- <import resource="spring-webflow/applicationContext-webflow.xml"/> -->
 </beans>
