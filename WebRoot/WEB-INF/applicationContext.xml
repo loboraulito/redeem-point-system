@@ -126,6 +126,9 @@
 				<value>
 					com/integral/system/invitation/bean/xml/SystemInviteProcess.hbm.xml
 				</value>
+				<value>
+					com/integral/system/message/bean/xml/SystemMessage.hbm.xml
+				</value>
 			</list>
 		</property>
 		<property name="hibernateProperties">
