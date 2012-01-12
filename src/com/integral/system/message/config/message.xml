@@ -3,46 +3,30 @@
       "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
       "http://struts.apache.org/dtds/struts-2.0.dtd">
 <struts>
-	<package name="right" namespace="/right" extends="struts-default">
+	<package name="message" namespace="/message" extends="struts-default">
 		<!-- 切记：action name不能是一样的，否则会进不了Action -->
-		<action name="showButtons" class="com.integral.system.right.action.RightAction" method="buttonRight">
-			 <result name="success">/jsp/system/menu/menu.jsp</result>
+		<action name="message" class="com.integral.system.message.action.MessageAction" method="begin">
+			 <result name="success">/jsp/system/message/message.jsp</result>
 			 <result name="input">/index.jsp</result>
 		</action>
-		<action name="authorize" class="com.integral.system.right.action.AuthorizeAction" method="begin">
-			 <result name="success">/jsp/system/right/authorize.jsp</result>
+		<action name="messageList" class="com.integral.system.message.action.MessageAction" method="messageList">
+			 <result name="success">/jsp/system/message/message.jsp</result>
 			 <result name="input">/index.jsp</result>
 		</action>
-		<action name="authorizeList" class="com.integral.system.right.action.AuthorizeAction" method="authorizeList">
-			 <result name="success">/jsp/system/right/authorize.jsp</result>
+		<action name="messageSend" class="com.integral.system.message.action.MessageAction" method="sendMessage">
+			 <result name="success">/jsp/system/message/message.jsp</result>
 			 <result name="input">/index.jsp</result>
 		</action>
-		<action name="authorizeUser" class="com.integral.system.right.action.AuthorizeAction" method="showAuthorizeUser">
-			 <result name="success">/jsp/system/right/authorize.jsp</result>
+		<action name="messageReceive" class="com.integral.system.message.action.MessageAction" method="receiveMessage">
+			 <result name="success">/jsp/system/message/message.jsp</result>
 			 <result name="input">/index.jsp</result>
 		</action>
-		<action name="authorizeMenu" class="com.integral.system.right.action.AuthorizeAction" method="showAuthorizeMenu">
-			 <result name="success">/jsp/system/right/authorize.jsp</result>
+		<action name="messageDelete" class="com.integral.system.message.action.MessageAction" method="deleteMessage">
+			 <result name="success">/jsp/system/message/message.jsp</result>
 			 <result name="input">/index.jsp</result>
 		</action>
-		<action name="authorizeRole" class="com.integral.system.right.action.AuthorizeAction" method="showAuthorizeRole">
-			 <result name="success">/jsp/system/right/authorize.jsp</result>
-			 <result name="input">/index.jsp</result>
-		</action>
-		<action name="authorizeRoleMenu" class="com.integral.system.right.action.AuthorizeAction" method="updateAuthorizeRoleMenu">
-			 <result name="success">/jsp/system/right/authorize.jsp</result>
-			 <result name="input">/index.jsp</result>
-		</action>
-		<action name="authorizeUserAdd" class="com.integral.system.right.action.AuthorizeAction" method="authorizeUserAdd">
-			 <result name="success">/jsp/system/right/authorize.jsp</result>
-			 <result name="input">/index.jsp</result>
-		</action>
-		<action name="authorizeUserDelete" class="com.integral.system.right.action.AuthorizeAction" method="authorizeUserDelete">
-			 <result name="success">/jsp/system/right/authorize.jsp</result>
-			 <result name="input">/index.jsp</result>
-		</action>
-		<action name="finAuthorizeUserRole" class="com.integral.system.right.action.AuthorizeAction" method="findAllAuthorizeUserAndRole">
-			 <result name="success">/jsp/system/right/authorize.jsp</result>
+		<action name="messageQuery" class="com.integral.system.message.action.MessageAction" method="queryMessage">
+			 <result name="success">/jsp/system/message/message.jsp</result>
 			 <result name="input">/index.jsp</result>
 		</action>
 	</package>

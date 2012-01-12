@@ -27,7 +27,8 @@
 		<property name="rightService" ref="rightService"></property>
 	</bean>
 	<!-- 用户管理 -->
-	<bean class="com.integral.system.user.action.UserAction" scope="prototype">
+	<bean class="com.integral.system.user.action.UserAction"
+		scope="prototype" id="userAction">
 		<property name="systemRoleName" value="系统注册用户"></property>
 		<property name="roleService" ref="roleService"></property>
 		<property name="userService" ref="userService"></property>
@@ -36,7 +37,8 @@
 		<property name="resourceDetailsMonitor" ref="resourceDetailsMonitor"></property>
 	</bean>
 	<!-- 角色管理 -->
-	<bean class="com.integral.system.role.action.RoleAction" scope="prototype">
+	<bean class="com.integral.system.role.action.RoleAction"
+		scope="prototype" id="roleAction">
 		<property name="roleService" ref="roleService"></property>
 		<property name="roleMenuService" ref="roleMenuService"></property>
 		<property name="userRoleService" ref="userRoleService"></property>
@@ -45,7 +47,8 @@
 		<property name="resourceDetailsMonitor" ref="resourceDetailsMonitor"></property>
 	</bean>
 	<!-- 授权管理 -->
-	<bean class="com.integral.system.right.action.AuthorizeAction" scope="prototype">
+	<bean class="com.integral.system.right.action.AuthorizeAction"
+		scope="prototype" id="authorizeAction">
 		<property name="authorizeService" ref="authorizeService"></property>
 		<property name="menuService" ref="menuService"></property>
 		<property name="menuUtil" ref="menuUtil"></property>
@@ -59,27 +62,31 @@
 		<property name="resourceDetailsMonitor" ref="resourceDetailsMonitor"></property>
 	</bean>
 	<!-- 礼品管理 -->
-	<bean class="com.integral.exchange.gifts.action.GiftAction" scope="prototype">
+	<bean class="com.integral.exchange.gifts.action.GiftAction"
+		scope="prototype" id="giftAction">
 		<property name="giftService" ref="giftService"></property>
 		<property name="transactionManager" ref="transactionManager"></property>
 	</bean>
 	<!-- 数据字典 -->
-	<bean class="com.integral.system.codelist.action.CodeListAction" scope="prototype">
+	<bean class="com.integral.system.codelist.action.CodeListAction"
+		scope="prototype" id="codeListAction">
 		<property name="codeListService" ref="codeListService"></property>
 		<property name="codeListDataService" ref="codeListDataService"></property>
 		<property name="transactionManager" ref="transactionManager"></property>
 	</bean>
-	
+
 	<!-- 系统公共Action -->
-	<bean class="com.integral.system.common.action.CommonAction" scope="prototype">
+	<bean class="com.integral.system.common.action.CommonAction"
+		scope="prototype" id="commonAction">
 		<property name="commonService" ref="commonService"></property>
 		<property name="codeListService" ref="codeListService"></property>
 		<property name="codeListDataService" ref="codeListDataService"></property>
 		<property name="transactionManager" ref="transactionManager"></property>
 	</bean>
-	
+
 	<!-- 家庭管理 -->
-	<bean class="com.integral.family.manage.action.FamilyManamgeAction" scope="prototype">
+	<bean class="com.integral.family.manage.action.FamilyManamgeAction"
+		scope="prototype" id="familyManamgeAction">
 		<property name="manegerRole" value="1"></property>
 		<property name="familyManageService" ref="familyManageService"></property>
 		<property name="familyMemberService" ref="familyMemberService"></property>
@@ -88,14 +95,17 @@
 		<property name="transactionManager" ref="transactionManager"></property>
 	</bean>
 	<!-- 家庭成员 -->
-	<bean class="com.integral.family.member.action.FamilyMemberAction" scope="prototype">
+	<bean class="com.integral.family.member.action.FamilyMemberAction"
+		scope="prototype" id="familyMemberAction">
 		<property name="familyMemberService" ref="familyMemberService"></property>
 		<!-- <property name="userService" ref="userService"></property> -->
 		<property name="systemInviteProcessService" ref="systemInviteProcessService"></property>
 		<property name="transactionManager" ref="transactionManager"></property>
 	</bean>
 	<!-- 家庭关系 -->
-	<bean class="com.integral.family.relationship.action.FamilyRelationAction" scope="prototype">
+	<bean
+		class="com.integral.family.relationship.action.FamilyRelationAction"
+		scope="prototype" id="familyRelationAction">
 		<property name="familyRelationService" ref="familyRelationService"></property>
 		<property name="transactionManager" ref="transactionManager"></property>
 	</bean>
@@ -103,5 +113,9 @@
 	<bean id="invitationAction" class="com.integral.system.invitation.action.InvitationAction" scope="prototype">
 		<property name="systemInviteProcessService" ref="systemInviteProcessService"></property>
 		<property name="transactionManager" ref="transactionManager"></property>
+	</bean>
+	<bean id="messageAction" class="com.integral.system.message.action.MessageAction">
+		<property name="transactionManager" ref="transactionManager"></property>
+		<property name="messageService" ref="messageService"></property>
 	</bean>
 </beans>

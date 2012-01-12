@@ -1,5 +1,11 @@
 package com.integral.system.message.service.impl;
 
+import java.util.List;
+import java.util.Map;
+
+import com.integral.common.dao.impl.BaseDao;
+import com.integral.system.message.bean.SystemMessage;
+import com.integral.system.message.dao.ISystemMessageDao;
 import com.integral.system.message.service.IMessageService;
 
 /** 
@@ -8,5 +14,60 @@ import com.integral.system.message.service.IMessageService;
  * @version $Revision$ 
  */
 public class MessageServiceImpl implements IMessageService {
-
+    private BaseDao baseDao;
+    private ISystemMessageDao messageDao;
+    
+    public BaseDao getBaseDao() {
+        return baseDao;
+    }
+    public void setBaseDao(BaseDao baseDao) {
+        this.baseDao = baseDao;
+    }
+    public ISystemMessageDao getMessageDao() {
+        return messageDao;
+    }
+    public void setMessageDao(ISystemMessageDao messageDao) {
+        this.messageDao = messageDao;
+    }
+    @Override
+    public void saveOrUpdate(SystemMessage instance) {
+        this.messageDao.saveOrUpdate(instance);
+    }
+    @Override
+    public void save(SystemMessage instance) {
+        this.messageDao.save(instance);
+    }
+    @Override
+    public void saveOrUpdateAll(List<SystemMessage> persistentInstances) {
+        this.messageDao.saveOrUpdateAll(persistentInstances);
+    }
+    @Override
+    public void delete(SystemMessage persistentInstance) {
+        this.messageDao.delete(persistentInstance);
+    }
+    @Override
+    public void deleteAll(List<SystemMessage> persistentInstances) {
+        this.messageDao.deleteAll(persistentInstances);
+    }
+    @Override
+    public List<SystemMessage> findByProperty(String propertyName, Object value) {
+        return this.messageDao.findByProperty(propertyName, value);
+    }
+    @Override
+    public SystemMessage findById(String id) {
+        return this.messageDao.findById(id);
+    }
+    @Override
+    public List<SystemMessage> findByExample(SystemMessage instance) {
+        return this.messageDao.findByExample(instance);
+    }
+    @Override
+    public List<SystemMessage> findByParams(String sql, boolean isHql, int start, int limit, Map<String, Object> params) {
+        return this.messageDao.findByParams(sql, isHql, start, limit, params);
+    }
+    @Override
+    public int findCountByParams(String sql, boolean isHql, int start, int limit, Map<String, Object> params) {
+        return this.messageDao.findCountByParams(sql, isHql, start, limit, params);
+    }
+    
 }
