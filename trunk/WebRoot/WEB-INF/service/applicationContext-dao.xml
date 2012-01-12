@@ -91,4 +91,11 @@
 			<ref bean="sessionFactory"/>
 		</property>
 	</bean>
+	
+	<bean id="MessageDao"
+		class="com.integral.system.message.dao.impl.SystemMessageDao">
+	<property name="sessionFactory">
+		<ref bean="sessionFactory" />
+	</property>
+	</bean>
 </beans>
