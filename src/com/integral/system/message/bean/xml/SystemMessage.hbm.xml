@@ -10,37 +10,37 @@
   </id>
   <property generated="never" lazy="false" name="messageFrom" type="string">
    <column length="50" name="message_from">
-    <comment>???</comment>
+    <comment>发送人</comment>
    </column>
   </property>
   <property generated="never" lazy="false" name="messageTo" type="string">
    <column length="50" name="message_to">
-    <comment>???</comment>
+    <comment>接收人</comment>
    </column>
   </property>
   <property generated="never" lazy="false" name="messageSendTime" type="timestamp">
    <column length="19" name="message_send_time">
-    <comment>????</comment>
+    <comment>发送时间</comment>
    </column>
   </property>
   <property generated="never" lazy="false" name="messageReceiveTime" type="timestamp">
    <column length="19" name="message_receive_time">
-    <comment>????</comment>
+    <comment>接收时间</comment>
    </column>
   </property>
   <property generated="never" lazy="false" name="messageNew" type="string">
    <column length="10" name="message_new">
-    <comment>???(0: ?, 1: ?)</comment>
+    <comment>新消息(0: 否, 1: 是)</comment>
    </column>
   </property>
   <property generated="never" lazy="false" name="messageContent" type="string">
    <column length="1000" name="message_content">
-    <comment>????</comment>
+    <comment>消息内容</comment>
    </column>
   </property>
   <property generated="never" lazy="false" name="messageTitle" type="string">
    <column length="200" name="message_title">
-    <comment>??title</comment>
+    <comment>消息title</comment>
    </column>
   </property>
  </class>
