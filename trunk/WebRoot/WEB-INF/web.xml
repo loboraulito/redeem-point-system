@@ -75,6 +75,15 @@
     	<param-name>config</param-name>
     	<param-value>WEB-INF/dwr/dwr.xml</param-value>
     </init-param>
+    <init-param>
+    	<param-name>initApplicationScopeCreatorsAtStartup</param-name>
+    	<param-value>true</param-value>
+    </init-param>
+    <init-param>
+    	<description>对dwr scriptSession 自定义管理</description>
+    	<param-name>org.directwebremoting.extend.ScriptSessionManager</param-name>
+    	<param-value>com.integral.util.dwr.DwrScriptSessionManagerUtil</param-value>
+    </init-param>
     <load-on-startup>1</load-on-startup>
   </servlet>
   <servlet-mapping>
