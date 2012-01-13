@@ -5,6 +5,10 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <%@include file="/jsp/common/config.jsp" %>
+
+<script type="text/javascript" src="<%=path%>/dwr/engine.js"></script>
+<script type="text/javascript" src="<%=path%>/dwr/util.js"></script>
+<script type="text/javascript" src="<%=path%>/dwr/interface/messageService.js"></script>
 <script type="text/javascript" src="<%=path%>/js/point/system/message.js"></script>
 <title>Insert title here</title>
 </head>

@@ -3,7 +3,8 @@
                                    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <!-- Generated Jan 11, 2012 5:50:27 PM by Hibernate Tools 3.4.0.CR1 -->
 <hibernate-mapping>
- <class catalog="redeempoint" name="com.SystemMessage" table="system_message">
+ <class catalog="redeempoint"
+  name="com.integral.system.message.bean.SystemMessage" table="system_message">
   <id name="messageId" type="string">
    <column length="50" name="message_id"/>
    <generator class="uuid.hex"/>

@@ -49,7 +49,7 @@ public class JobBean {
      */
     public void run(){
         log.info("run at "+Tools.dateToString3(new Date()));
-        this.jmsSender.sendMessage();
-        this.jmsReceiver.receiveMessage();
+        //this.jmsSender.sendMessage();
+        //this.jmsReceiver.receiveMessage();
     }
 }
