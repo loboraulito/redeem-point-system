@@ -14,7 +14,8 @@
 		而不是org.apache.struts2.dispatcher.FilterDispatcher
 		下面的意思是除了/spring/.*?这种路径之外的其他所有请求都将被struts2拦截
 	 -->
-	<constant name="struts.action.excludePattern" value="/spring/.*?"></constant>
+	<!-- <constant name="struts.action.excludePattern" value="/spring/.*?"></constant> -->
+	<constant name="struts.action.excludePattern" value="/spring/.*?,/dwr.*"></constant>
 	
 	<constant name="struts.objectFactory" value="spring" />
 	<constant name="struts.configuration.xml.reload" value="true"/>
@@ -49,4 +50,6 @@
 	<include file="com/integral/family/relationship/config/family_relation.xml"></include>
 	<!-- 系统请求处理 -->
 	<include file="com/integral/system/invitation/config/invitation.xml"></include>
+	<!-- 系统消息管理 -->
+	<include file="com/integral/system/message/config/message.xml"></include>
 </struts>

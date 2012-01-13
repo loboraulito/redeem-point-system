@@ -16,6 +16,7 @@
 		<security:intercept-url pattern="/images/**" filters="none"/>
 		<security:intercept-url pattern="/css/**" filters="none"/>
 		<security:intercept-url pattern="/js/**" filters="none"/>
+		<security:intercept-url pattern="/dwr/**" filters="none"/>
 		<security:intercept-url pattern="/picture/**" filters="none"/>
 		<security:intercept-url pattern="/jsp/common/config.jsp" filters="none"/>
 		<security:intercept-url pattern="/jsp/common/header.jsp" filters="none"/>
