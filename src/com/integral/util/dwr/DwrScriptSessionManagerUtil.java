@@ -58,6 +58,7 @@ public class DwrScriptSessionManagerUtil extends DefaultScriptSessionManager {
                         scriptSession.setAttribute("messageId",message.getMessageId());
                         log.info("create " + scriptSession.getId() + ", put messageId into scriptSession as "+ message.getMessageId());
                     }
+                    log.info("create scriptSession : " + scriptSession.getId());
                 }
 
                 @Override

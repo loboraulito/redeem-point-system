@@ -2,6 +2,8 @@ package com.integral.util.dwr;
 
 import java.util.Collection;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.directwebremoting.Browser;
 import org.directwebremoting.ScriptBuffer;
 import org.directwebremoting.ScriptSession;
@@ -13,6 +15,7 @@ import org.directwebremoting.ScriptSessionFilter;
  * @version $Revision$ 
  */
 public class MessageSender {
+    private static Log log = LogFactory.getLog(MessageSender.class);
 
     /**
      * <p>Discription:[方法功能中文描述]</p>
@@ -46,8 +49,10 @@ public class MessageSender {
                 Collection<ScriptSession> colls = Browser.getTargetSessions();
                 for (ScriptSession scriptSession : colls) {
                     //scriptSession.addScript(initFunctionCall("dwr.util.setValue", "info", msg));
+                    //对所有客户端发送消息
                     scriptSession.addScript(script);
                 }
+                log.info(script);
             }
         });
     }

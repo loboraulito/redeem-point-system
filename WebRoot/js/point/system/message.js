@@ -4,11 +4,17 @@
 function message(){
 	//alert(messageService);
 	var msg = {
-		messageContent:"测试"
+		messageFrom:"redeempoint_system",
+		messageTo:"admin",
+		messageTitle:"测试消息",
+		messageContent:"测试消息,测试消息,测试消息,"
 	};
 	//msg.setMessageContent("测试！");
 	
-	messageService.save(msg);
+	messageService.save(msg, getMessage);
+}
+function getMessage(msgs){
+	alert(msgs);
 }
 
 /**
