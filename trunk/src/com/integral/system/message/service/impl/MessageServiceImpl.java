@@ -7,6 +7,7 @@ import com.integral.common.dao.impl.BaseDao;
 import com.integral.system.message.bean.SystemMessage;
 import com.integral.system.message.dao.ISystemMessageDao;
 import com.integral.system.message.service.IMessageService;
+import com.integral.util.dwr.MessageSender;
 
 /** 
  * <p>Description: [描述该类概要功能介绍]</p>
@@ -36,6 +37,8 @@ public class MessageServiceImpl implements IMessageService {
     @Override
     public void save(SystemMessage instance) {
         this.messageDao.save(instance);
+        MessageSender sender = new MessageSender();
+        sender.sendMessage(instance.getMessageId(), instance.getMessageContent());
     }
     @Override
     public void saveOrUpdateAll(List<SystemMessage> persistentInstances) {
