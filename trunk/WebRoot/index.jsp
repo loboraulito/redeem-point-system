@@ -28,6 +28,8 @@ var loginRoleName = "<%=loginRoleName%>";
 <script type="text/javascript" src="<%=path%>/dwr/util.js"></script>
 <script type="text/javascript" src="<%=path%>/dwr/interface/messageService.js"></script>
 
+<script type="text/javascript" src="<%=path%>/js/util/messageRemind.js"></script>
+
 <script type="text/javascript">
 var rootMenu;
 var menuId;
