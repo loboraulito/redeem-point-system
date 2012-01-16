@@ -11,7 +11,7 @@ function message(){
 	};
 	//msg.setMessageContent("测试！");
 	
-	messageService.save(msg, getMessage);
+	//messageService.save(msg, getMessage);
 	
 	var url = "/message/messageList.action?method=messageList";
 	
@@ -40,7 +40,7 @@ function message(){
 	 */
 	var msgListStore = new Ext.data.GroupingStore({
 		url:path+ url,
-		groupField:["messageNew","messageFrom"],
+		groupField:["messageFrom"],
 		sortInfo:{field: 'messageSendTime', direction: "ASC"},
 		reader:messageReader,
 		listeners:{

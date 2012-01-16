@@ -20,7 +20,6 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import com.integral.common.action.BaseAction;
 import com.integral.system.message.bean.SystemMessage;
 import com.integral.system.message.service.IMessageService;
-import com.integral.util.RequestUtil;
 
 /** 
  * <p>Description: [描述该类概要功能介绍]</p>
@@ -113,7 +112,8 @@ public class MessageAction extends BaseAction implements ServletRequestAware, Se
         PrintWriter out = null;
         try{
             out = super.getPrintWriter(request, response);
-            Map<String, Object> requestMap = RequestUtil.getRequestMap(request);
+            Map<String, Object> requestMap = new HashMap<String, Object>();
+            requestMap.put("userId", userId);
             if(userId == null || "".equals(userId.trim())){
                 resultMap.put("success", false);
                 resultMap.put("msg", "用户信息不完善，无法处理请求！");
