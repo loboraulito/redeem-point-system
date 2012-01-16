@@ -72,5 +72,16 @@ public class MessageServiceImpl implements IMessageService {
     public int findCountByParams(String sql, boolean isHql, int start, int limit, Map<String, Object> params) {
         return this.messageDao.findCountByParams(sql, isHql, start, limit, params);
     }
+    @Override
+    public List<SystemMessage> findByParams(int start, int limit, Map<String, Object> params) {
+        String sql = "FROM SystemMessage as model where 1=1 and model.messageTo = :userId";
+        List<SystemMessage> messageList = this.messageDao.findByParams(sql, true, start, limit, params);
+        return messageList;
+    }
+    @Override
+    public int findCountByParams(int start, int limit, Map<String, Object> params) {
+        String sql = "FROM SystemMessage as model where 1=1 and model.messageTo = :userId";
+        return this.messageDao.findCountByParams(sql, true, -1, -1, params);
+    }
     
 }

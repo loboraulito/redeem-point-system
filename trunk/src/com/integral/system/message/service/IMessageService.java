@@ -92,4 +92,30 @@ public interface IMessageService {
      * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
      */
     public int findCountByParams(String sql, boolean isHql, int start, int limit, Map<String, Object> params);
+    
+    /**
+     * <p>Discription:[分页查询]</p>
+     * @param sql
+     * @param isHql
+     * @param start
+     * @param limit
+     * @param params
+     * @return
+     * @author:[代超]
+     * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
+     */
+    public List<SystemMessage> findByParams(int start, int limit, Map<String, Object> params);
+    
+    /**
+     * <p>Discription:[查询数量]</p>
+     * @param sql
+     * @param isHql
+     * @param start
+     * @param limit
+     * @param params
+     * @return
+     * @author:[代超]
+     * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
+     */
+    public int findCountByParams(int start, int limit, Map<String, Object> params);
 }

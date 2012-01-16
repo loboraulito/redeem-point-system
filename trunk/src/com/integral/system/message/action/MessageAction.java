@@ -1,16 +1,26 @@
 package com.integral.system.message.action;
 
+import java.io.PrintWriter;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.math.NumberUtils;
 import org.apache.struts2.interceptor.ServletRequestAware;
 import org.apache.struts2.interceptor.ServletResponseAware;
 import org.apache.struts2.util.ServletContextAware;
+import org.nutz.json.Json;
+import org.nutz.json.JsonFormat;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 
 import com.integral.common.action.BaseAction;
+import com.integral.system.message.bean.SystemMessage;
 import com.integral.system.message.service.IMessageService;
+import com.integral.util.RequestUtil;
 
 /** 
  * <p>Description: [描述该类概要功能介绍]</p>
@@ -94,7 +104,38 @@ public class MessageAction extends BaseAction implements ServletRequestAware, Se
      * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
      */
     public String messageList(){
-        
+        int start = NumberUtils.toInt(request.getParameter("start"), 0);
+        int limit = NumberUtils.toInt(request.getParameter("limit"), 50);
+        String userId = request.getParameter("userId");
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        JsonFormat jf = new JsonFormat(true);
+        jf.setAutoUnicode(true);
+        PrintWriter out = null;
+        try{
+            out = super.getPrintWriter(request, response);
+            Map<String, Object> requestMap = RequestUtil.getRequestMap(request);
+            if(userId == null || "".equals(userId.trim())){
+                resultMap.put("success", false);
+                resultMap.put("msg", "用户信息不完善，无法处理请求！");
+            }else{
+                List<SystemMessage> msgList = this.messageService.findByParams(start, limit, requestMap);
+                int msgSize = this.messageService.findCountByParams(start, limit, requestMap);
+                
+                resultMap.put("success", true);
+                resultMap.put("messageList", msgList);
+                resultMap.put("totalCount", msgSize);
+            }
+        }catch(Exception e){
+            resultMap.put("success", false);
+            resultMap.put("msg", e.getMessage());
+            LOG.error(e.getMessage());
+        }finally{
+            if(out != null){
+                out.print(Json.toJson(resultMap));
+                out.flush();
+                out.close();
+            }
+        }
         return null;
     }
     /**
