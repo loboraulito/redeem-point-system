@@ -14,11 +14,11 @@ function message(){
 	messageService.save(msg, getMessage);
 }
 function getMessage(msgs){
-	alert(msgs);
+	//alert(msgs);
 }
 function jsFunctionName(msg){
-	alert(msg);
-	alert(msg.messageId);
+	//alert(msg);
+	//alert(msg.messageId);
 }
 /**
  * 入口
