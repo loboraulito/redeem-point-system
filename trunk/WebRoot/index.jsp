@@ -22,6 +22,12 @@ var loginRoleName = "<%=loginRoleName%>";
 -->
 <script type="text/javascript" src="<%=path %>/js/ext-2.2.1/source/ux/TabCloseMenu.js"></script>
 <script type="text/javascript" src="<%=path %>/js/util/tabPanel.js"></script>
+
+<!-- DWR3.0 RC 消息反转 -->
+<script type="text/javascript" src="<%=path%>/dwr/engine.js"></script>
+<script type="text/javascript" src="<%=path%>/dwr/util.js"></script>
+<script type="text/javascript" src="<%=path%>/dwr/interface/messageService.js"></script>
+
 <script type="text/javascript">
 var rootMenu;
 var menuId;
@@ -46,6 +52,18 @@ Ext.onReady(function(){
 }
 </style>
 -->
+<script type="text/javascript">
+//重点关于解决页面每刷新一次会多创建一个新的ScriptSession的解决方法
+//但是似乎无用
+dwr.engine.setNotifyServerOnPageUnload(true);
+// 激活dwr反转 重要
+dwr.engine.setActiveReverseAjax(true);
+function jsFunctionName(msg){
+	alert(msg);
+	alert(msg.messageId);
+	//alert(msg.getMessageId());
+}
+</script>
 <title>redeempoint system</title>
 </head>
 <body>

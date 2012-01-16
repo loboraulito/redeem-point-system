@@ -39,9 +39,17 @@ public class DwrScriptSessionManagerUtil extends DefaultScriptSessionManager {
                     //得到产生的httpSession
                     HttpSession httpSession = httpServletRequest.getSession();
                     //得到当前消息
-                    SystemMessage message = (SystemMessage) httpSession.getAttribute("sessionMessage");
+                    //SystemMessage message = (SystemMessage) httpSession.getAttribute("sessionMessage");
                     //如果当前消息为空，销毁这个scriptsession
+                    /*
                     if(message == null){
+                        scriptSession.invalidate();
+                        httpSession.invalidate();
+                        return;
+                    }
+                    */
+                    String userName = (String)httpSession.getAttribute("userName");
+                    if(userName == null){
                         scriptSession.invalidate();
                         httpSession.invalidate();
                         return;
@@ -53,11 +61,13 @@ public class DwrScriptSessionManagerUtil extends DefaultScriptSessionManager {
                         if(old != null){
                             invalidate(old);
                         }
-                        httpSession.setAttribute(SS_ID, scriptSession.getId());
-                        //此处将messageId和scriptSession绑定
-                        scriptSession.setAttribute("messageId",message.getMessageId());
-                        log.info("create " + scriptSession.getId() + ", put messageId into scriptSession as "+ message.getMessageId());
                     }
+                    httpSession.setAttribute(SS_ID, scriptSession.getId());
+                    //此处将messageId和scriptSession绑定
+                    //scriptSession.setAttribute("messageId",message.getMessageId());
+                    scriptSession.setAttribute("userName", userName);
+                    //log.info("create " + scriptSession.getId() + ", put messageId into scriptSession as "+ message.getMessageId());
+                    log.info("create " + scriptSession.getId() + ", put user into scriptSession as "+ userName);
                     log.info("create scriptSession : " + scriptSession.getId());
                 }
 
@@ -77,3 +87,4 @@ public class DwrScriptSessionManagerUtil extends DefaultScriptSessionManager {
         return sessionMap.values();  
     }
 }
+

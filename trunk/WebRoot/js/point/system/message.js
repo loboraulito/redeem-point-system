@@ -16,7 +16,11 @@ function message(){
 function getMessage(msgs){
 	alert(msgs);
 }
-
+function jsFunctionName(msg){
+	alert(msg);
+	alert(msg.messageId);
+	alert(msg.getMessageId());
+}
 /**
  * 入口
  */

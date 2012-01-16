@@ -9,6 +9,8 @@ import org.directwebremoting.ScriptBuffer;
 import org.directwebremoting.ScriptSession;
 import org.directwebremoting.ScriptSessionFilter;
 
+import com.integral.system.message.bean.SystemMessage;
+
 /** 
  * <p>Description: [描述该类概要功能介绍]</p>
  * @author  <a href="mailto: swpigris81@126.com">代超</a>
@@ -28,15 +30,16 @@ public class MessageSender {
 
     }
     
-    public void sendMessage(final String receiverid, final String msg){
+    public void sendMessage(final String receiverid, final SystemMessage msg){
         Browser.withAllSessionsFiltered(new ScriptSessionFilter(){
 
             @Override
             public boolean match(ScriptSession session) {
-                if (session.getAttribute("messageId") == null)
+                log.info(session.getAttribute("userName"));
+                if (session.getAttribute("userName") == null)
                     return false;
                 else
-                    return (session.getAttribute("messageId")).equals(receiverid);
+                    return (session.getAttribute("userName")).equals(receiverid);
                 }
         },new Runnable(){
           //ScriptSessions.addFunctionCall("ExtTalk.updateMegGroup", data);//之所以不用这个方法，是因为这个
@@ -45,7 +48,8 @@ public class MessageSender {
             @Override
             public void run() {
                 //这里写你页面的js函数", 这个参数是传给js函数的
-                script.appendCall("jsFunctionName");
+                //script.appendCall("jsFunctionName").appendData(msg);
+                script.appendScript("jsFunctionName").appendScript("(").appendData(msg).appendScript(")");
                 Collection<ScriptSession> colls = Browser.getTargetSessions();
                 for (ScriptSession scriptSession : colls) {
                     //scriptSession.addScript(initFunctionCall("dwr.util.setValue", "info", msg));
