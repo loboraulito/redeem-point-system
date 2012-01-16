@@ -1,5 +1,6 @@
 /**
  * 消息提醒窗口
+ * 提示：你有新的消息
  */
 function remindMsg(){
 	
