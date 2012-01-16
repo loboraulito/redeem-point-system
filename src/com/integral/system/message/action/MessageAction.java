@@ -131,7 +131,7 @@ public class MessageAction extends BaseAction implements ServletRequestAware, Se
             LOG.error(e.getMessage());
         }finally{
             if(out != null){
-                out.print(Json.toJson(resultMap));
+                out.print(Json.toJson(resultMap, jf));
                 out.flush();
                 out.close();
             }

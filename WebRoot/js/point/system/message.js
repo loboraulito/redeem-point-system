@@ -137,9 +137,226 @@ function message(){
 	 * loadButtonRight(buttonStore, mainDataStore, dataGrid, pageDiv, params)
 	 */
 	loadButtonRight(buttonRightStore, msgListStore, msgListDataGrid, "message_div", loadParam);
+
+	/**
+	 * 发送消息
+	 * @param {} url
+	 */
+	this.sendMessage = function(url){
+		var buttons = [{
+			text:"发送消息"
+		},{
+			text:"取消",
+			handler:function(){
+				var w = Ext.getCmp("sendMsgWindow");
+				if(w){
+					w.close();
+				}
+			}
+		}];
+		
+		var messageForm = getMessageForm(url, false, true);
+		showMessageWindow("sendMsgWindow","发送系统消息",500,300,messageForm,null,buttons);
+	};
+	/**
+	 * 接收消息
+	 * @param {} url
+	 */
+	this.receiveMessage = function(url){
+		
+	};
 	
+	/**
+	 * 删除消息
+	 * @param {} url
+	 */
+	this.deleteMessage = function(url){
+		var gridSelectionModel = msgListDataGrid.getSelectionModel();
+		var gridSelection = gridSelectionModel.getSelections();
+		if(gridSelection.length < 1){
+			Ext.MessageBox.alert('提示','请至少选择一条消息删除！');
+		    return false;
+		}
+		var dataIdArray = new Array();
+		for(var i=0; i < gridSelection.length; i++){
+			dataIdArray.push(gridSelection[i].get("messageId"));
+		}
+		var messageArray = dataIdArray.join(",");
+		Ext.Msg.confirm("系统提示","确定要删除所选消息？",function(btn){
+			if(btn == "yes" || btn == "ok"){
+				deleteMessageInfo(url, messageArray);
+			}
+		});
+	};
+	/**
+	 * 查询消息
+	 * @param {} url
+	 */
+	this.queryMessage = function(url){
+		var buttons = [{
+			text:"查询"
+		},{
+			text:"取消",
+			handler:function(){
+				var w = Ext.getCmp("queryWindow");
+				if(w){
+					w.close();
+				}
+			}
+		}];
+		
+		var messageForm = getMessageForm(url, true, true);
+		showMessageWindow("queryWindow","查询系统消息",500,300,messageForm,null,buttons);
+	};
 	
+	function getMessageForm(url, isNull, readOnly){
+		var messageForm = new Ext.form.FormPanel({
+			url:url,
+			frame: true,
+			labelAlign: 'right',
+			labelWidth:70,
+			autoScroll:false,
+			waitMsgTarget:true,
+			viewConfig:{forceFit:true},
+			items:[{
+				layout:"column",
+				border:false,
+				labelSeparator:'：',
+				items:[{
+					layout:"form",
+					columnWidth:1,
+					height:50,
+					items:[{
+						xtype: 'textfield',
+						name:"messageTitle",
+						anchor:"90%",
+						fieldLabel:"消息标题",
+						maxLength:200,
+						allowBlank:isNull
+					}]
+				}]
+			},{
+				layout:"column",
+				border:false,
+				labelSeparator:'：',
+				items:[{
+					layout:"form",
+					columnWidth:1,
+					height:50,
+					items:[{
+						xtype: 'textfield',
+						name:"messageTo",
+						anchor:"90%",
+						fieldLabel:"接收人",
+						maxLength:200,
+						allowBlank:isNull
+					},{
+						xtype:"hidden",
+						name:"messageFrom",
+						value:userName
+					}]
+				}]
+			},{
+				layout:"column",
+				border:false,
+				labelSeparator:'：',
+				items:[{
+					layout:"form",
+					columnWidth:1,
+					height:90,
+					items:[{
+						xtype: 'textarea',
+						name:"messageContent",
+						anchor:"90%",
+						fieldLabel:"消息内容",
+						maxLength:500,
+						allowBlank:isNull
+					}]
+				}]
+			}]
+		});
+		return messageForm;
+	}
 	
+	/**
+	 * 公用窗口
+	 * @param {} id
+	 * @param {} title
+	 * @param {} width
+	 * @param {} height
+	 * @param {} items
+	 * @param {} html
+	 * @param {} buttons
+	 */
+	function showMessageWindow(id, title, width, height, items, html, buttons){
+		var messageWindow = new Ext.Window({
+			id:id,
+			title:title,
+			width:width,
+			height:height,
+			items:items,
+			//html:html,
+			buttons:buttons,
+			modal:true,
+			//animateTarget:"giftmanage_div",//动画展示
+			layout:"fit",
+			resizable:false
+		});
+		messageWindow.show();
+	}
+	
+	/**
+	 * 删除消息
+	 * @param {} url
+	 * @param {} msg
+	 */
+	function deleteMessageInfo(url, msg){
+		Ext.MessageBox.show({
+		    msg: '正在提交您的请求, 请稍侯...',
+		    progressText: '正在提交您的请求',
+		    width:300,
+		    wait:true,
+		    waitConfig: {interval:200},
+		    icon:Ext.Msg.INFO
+		});
+		
+		Ext.Ajax.request({
+			params:{msg:msg},
+			timeout:60000,
+			url:url,
+			success:function(response, options){
+				Ext.Msg.hide();
+				var msg = Ext.util.JSON.decode(response.responseText);
+				if(msg.success){
+					if(msg.msg){
+						Ext.Msg.alert("系统提示",msg.msg);
+					}else{
+						Ext.Msg.alert("系统提示","所选消息已成功删除！");
+					}
+					msgListStore.reload();
+				}else{
+					if(msg.msg){
+						Ext.Msg.alert("系统提示",msg.msg);
+					}else{
+						Ext.Msg.alert("系统提示","所选消息删除失败！");
+					}
+				}
+			},failure: function(response, options){
+				Ext.Msg.hide();
+				try{
+					var msg = Ext.util.JSON.decode(response.responseText);
+					if(msg.msg){
+						Ext.Msg.alert("系统提示",msg.msg);
+					}else{
+						Ext.Msg.alert("系统提示","所选消息删除失败！");
+					}
+				}catch(e){
+					Ext.Msg.alert("系统提示","系统错误！错误代码：" + e);
+				}
+			}
+		});
+	}
+
 }
 function getMessage(msgs){
 	//alert(msgs);
