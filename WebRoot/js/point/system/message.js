@@ -26,6 +26,8 @@ function jsFunctionName(msg){
 Ext.onReady(function(){
 	Ext.QuickTips.init();
 	Ext.form.Field.prototype.msgTarget = 'under';
+	//服务器停止时的错误处理
+	dwr.engine.setErrorHandler(function(){});
 	//重点关于解决页面每刷新一次会多创建一个新的ScriptSession的解决方法
 	//但是似乎无用
 	dwr.engine.setNotifyServerOnPageUnload(true);
