@@ -19,7 +19,6 @@ function getMessage(msgs){
 function jsFunctionName(msg){
 	alert(msg);
 	alert(msg.messageId);
-	alert(msg.getMessageId());
 }
 /**
  * 入口
