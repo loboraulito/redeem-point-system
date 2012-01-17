@@ -5,7 +5,7 @@
  * @author    Ing. Jozef SakÃ¡loÅ¡
  * @copyright (c) 2008, by Ing. Jozef SakÃ¡loÅ¡
  * @date      16. April 2008
- * @version   $Id: Ext.ux.form.LovCombo.js,v 1.1 2010/09/02 13:06:30 ÃÔÁµÎÒµÄÎÇ Exp $
+ * @version   $Id: Ext.ux.form.LovCombo.js,v 1.1 2010/09/02 13:06:30 ï¿½ï¿½uï¿½Òµï¿½ï¿½ï¿½ Exp $
  *
  * @license Ext.ux.form.LovCombo.js is licensed under the terms of the Open Source
  * LGPL 3.0 license. Commercial use is permitted to the extent that the 
@@ -171,6 +171,11 @@ Ext.ux.form.LovCombo = Ext.extend(Ext.form.ComboBox, {
 	 * blur event handler - runs only when real blur event is fired
 	 */
 	,onRealBlur:function() {
+		
+		this.list.hide();  
+        this.setValue(this.value); 
+		
+		/*
 		this.list.hide();
 		var rv = this.getRawValue();
 		var rva = rv.split(new RegExp(RegExp.escape(this.separator) + ' *'));
@@ -187,6 +192,7 @@ Ext.ux.form.LovCombo = Ext.extend(Ext.form.ComboBox, {
 		}, this);
 		this.setValue(va.join(this.separator));
 		this.store.clearFilter();
+		*/
 	} // eo function onRealBlur
 	// }}}
 	// {{{
@@ -197,6 +203,7 @@ Ext.ux.form.LovCombo = Ext.extend(Ext.form.ComboBox, {
 	 * @param {Number} index index of selected (clicked) record
 	 */
 	,onSelect:function(record, index) {
+		//alert(record);
         if(this.fireEvent('beforeselect', this, record, index) !== false){
 
 			// toggle checked field
