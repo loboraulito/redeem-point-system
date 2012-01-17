@@ -21,6 +21,7 @@
 <script type="text/javascript" src="<%=path%>/dwr/engine.js"></script>
 <script type="text/javascript" src="<%=path%>/dwr/util.js"></script>
 <script type="text/javascript" src="<%=path%>/dwr/interface/messageService.js"></script>
+<script type="text/javascript" src="<%=path%>/dwr/interface/userService.js"></script>
 <script type="text/javascript" src="<%=path%>/js/point/system/message.js"></script>
 
 <title>Insert title here</title>

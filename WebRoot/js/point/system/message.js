@@ -12,6 +12,22 @@ function message(){
 	//msg.setMessageContent("测试！");
 	
 	//messageService.save(msg, getMessage);
+	var userStore;
+	var d;
+	//Get the userList
+	userService.findUserByPageWithProtect(-1, -1, function(data){
+		d = data;
+		userStore = new Ext.data.Store({
+			autoLoad:true,
+			proxy : new Ext.data.MemoryProxy({
+				'root' : data
+			}),
+			reader:new Ext.data.JsonReader({
+				root : 'root',
+				fields:["userId","userName"]
+			})
+		});
+	});
 	
 	var url = "/message/messageList.action?method=messageList";
 	
@@ -244,12 +260,42 @@ function message(){
 					columnWidth:1,
 					height:50,
 					items:[{
-						xtype: 'textfield',
+						xtype:"lovcombo",
+						fieldLabel:"收件人",
 						name:"messageTo",
+						allowBlank:isNull,
+						editable:false,//false：不可编辑
+						triggerAction:"all",//避免选定了一个值之后，再选的时候只显示刚刚选择的那个值
+						valueField:"userId",//将sortvalue设置为传递给后台的值
+						displayField:"userName",
+						hiddenName:"userId",//这个值就是传递给后台获取的值
+						hideOnSelect : false, 
+						readOnly : true,  
+						/*
+						store:new Ext.data.SimpleStore({
+							fields:["text","value"],
+							data:[[1,"a"],[2,"b"]]
+						}),
+						*/
+						store:userStore,
+						/*
+						store:[  
+             [1, 'Personnel []']  
+            ,[11, 'Finance (33)']  
+            ,[5, 'Door']  
+            ,[6, 'Door Panel']  
+            ,[2, 'Management !77']  
+            ,[25, 'Production']  
+            ,[3, 'Users']  
+            ,[20, 'Window']  
+            ,[21, 'Window Panel']  
+            ,[22, 'Form Panel']  
+            ,[23, 'Grid Panel']  
+            ,[24, 'Data View Panel']  
+        ]  ,
+        */
 						anchor:"90%",
-						fieldLabel:"接收人",
-						maxLength:200,
-						allowBlank:isNull
+						mode: "local"
 					},{
 						xtype:"hidden",
 						name:"messageFrom",
