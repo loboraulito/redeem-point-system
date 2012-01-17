@@ -6,10 +6,23 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <%@include file="/jsp/common/config.jsp" %>
 
+<!-- 下拉多选框插件皮肤 -->
+<link rel="stylesheet" type="text/css" href="<%=path%>/js/util/mutiCombo/lovcombo-1.0/css/empty.css">
+<link rel="stylesheet" type="text/css" href="<%=path%>/js/util/mutiCombo/lovcombo-1.0/css/Ext.ux.form.LovCombo.css">
+<link rel="stylesheet" type="text/css" href="<%=path%>/js/util/mutiCombo/lovcombo-1.0/css/lovcombo.css">
+<link rel="stylesheet" type="text/css" href="<%=path%>/js/util/mutiCombo/lovcombo-1.0/css/webpage.css">
+
+<!-- 下拉多选框基于Ext2的插件 -->
+<script type="text/javascript" src="<%=path %>/js/util/mutiCombo/lovcombo-1.0/js/WebPage.js"></script>
+<script type="text/javascript" src="<%=path %>/js/util/mutiCombo/lovcombo-1.0/js/Ext.ux.form.LovCombo.js"></script>
+<script type="text/javascript" src="<%=path %>/js/util/mutiCombo/lovcombo-1.0/js/Ext.ux.ThemeCombo.js"></script>
+
+<!-- DWR3.0 RC Ajax反转 -->
 <script type="text/javascript" src="<%=path%>/dwr/engine.js"></script>
 <script type="text/javascript" src="<%=path%>/dwr/util.js"></script>
 <script type="text/javascript" src="<%=path%>/dwr/interface/messageService.js"></script>
 <script type="text/javascript" src="<%=path%>/js/point/system/message.js"></script>
+
 <title>Insert title here</title>
 </head>
 <body>
