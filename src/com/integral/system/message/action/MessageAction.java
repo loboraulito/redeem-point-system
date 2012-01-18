@@ -2,6 +2,7 @@ package com.integral.system.message.action;
 
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -149,6 +150,55 @@ public class MessageAction extends BaseAction implements ServletRequestAware, Se
      * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
      */
     public String sendMessage(){
+        // 定义TransactionDefinition并设置好事务的隔离级别和传播方式。
+        DefaultTransactionDefinition definition = new DefaultTransactionDefinition();
+        // 代价最大、可靠性最高的隔离级别，所有的事务都是按顺序一个接一个地执行
+        definition.setIsolationLevel(TransactionDefinition.ISOLATION_SERIALIZABLE);
+        // 开始事务
+        TransactionStatus status = transactionManager.getTransaction(definition);
+        
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        JsonFormat jf = new JsonFormat(true);
+        jf.setAutoUnicode(true);
+        PrintWriter out = null;
+        try{
+            out = super.getPrintWriter(request, response);
+            String messageTos = request.getParameter("messageTo");
+            if(messageTos == null || "".equals(messageTos.trim())){
+                resultMap.put("success", false);
+                resultMap.put("msg", "您未选择消息接收人！");
+            }else{
+                Date now = new Date();
+                String [] messageTo = messageTos.split(",");
+                List<SystemMessage> messageList = new ArrayList<SystemMessage>();
+                for(String msgTo : messageTo){
+                    SystemMessage msg = new SystemMessage();
+                    msg.setMessageSendTime(now);
+                    msg.setMessageTo(msgTo);
+                    msg.setMessageFrom(request.getParameter("messageFrom"));
+                    msg.setMessageTitle(request.getParameter("messageTitle"));
+                    msg.setMessageContent(request.getParameter("messageContent"));
+                    //新消息
+                    msg.setMessageNew("1");
+                    messageList.add(msg);
+                }
+                this.messageService.saveOrUpdateAll(messageList);
+                resultMap.put("success", true);
+                resultMap.put("msg", "您的消息已经成功发送给接收人！");
+            }
+        }catch(Exception e){
+            status.setRollbackOnly();
+            LOG.error(e.getMessage());
+            resultMap.put("success", false);
+            resultMap.put("msg", "系统错误！错误代码："+e.getMessage());
+        }finally{
+            this.transactionManager.commit(status);
+            if(out != null){
+                out.print(Json.toJson(resultMap, jf));
+                out.flush();
+                out.close();
+            }
+        }
         return null;
     }
     /**

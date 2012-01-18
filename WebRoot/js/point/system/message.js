@@ -151,7 +151,8 @@ function message(){
 	}
 	
 	function showContent(value,metadata,record,rowIndex,colIndex,store){
-		return "<a href='javascript:void(0)' onclick='showMsgContent("+record+")'>"+value+"</a>";
+		tempMsg = record;
+		return "<a href='javascript:void(0)' onclick='showMsgContent()'>"+value+"</a>";
 	}
 	
 	/**
@@ -245,7 +246,7 @@ function message(){
 	 * 显示详细消息
 	 * @param {} msgId
 	 */
-	this.showMsgContent = function(record){
+	this.showMsgContent = function(){
 		var buttons = [{
 			text:"关闭",
 			handler:function(){
@@ -256,7 +257,7 @@ function message(){
 			}
 		}];
 		
-		showMessageWindow("showMsgContentWindow",record.get("messageTitle"),500,300,null,record,buttons);
+		showMessageWindow("showMsgContentWindow",tempMsg.get("messageTitle"),500,300,null,tempMsg,buttons);
 	};
 	
 	/**
