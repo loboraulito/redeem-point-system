@@ -3,14 +3,16 @@
  */
 function message(){
 	//alert(messageService);
+	/*
 	var msg = {
 		messageFrom:"redeempoint_system",
 		messageTo:"admin",
 		messageTitle:"测试消息",
 		messageContent:"测试消息,测试消息,测试消息,"
 	};
+	*/
 	//msg.setMessageContent("测试！");
-	
+	var tempMsg = "";
 	//messageService.save(msg, getMessage);
 	var userStore;
 	//Get the userList
@@ -90,7 +92,8 @@ function message(){
 	},{
 		header:"消息标题",
 		dataIndex:"messageTitle",
-		width:70
+		renderer:showContent,
+		width:150
 	},{
 		header:"发送人",
 		dataIndex:"messageFrom",
@@ -112,7 +115,8 @@ function message(){
 	},{
 		header:"是否新消息",
 		dataIndex:"messageNew",
-		width:70
+		renderer:isNew,
+		width:20
 	}]);
 	
 	var msgListDataGrid = new Ext.grid.GridPanel({
@@ -142,6 +146,14 @@ function message(){
 		tbar:[]
 	});
 	
+	function isNew(value,metadata,record,rowIndex,colIndex,store){
+		return value == "1" ? "是" : "否";
+	}
+	
+	function showContent(value,metadata,record,rowIndex,colIndex,store){
+		return "<a href='javascript:void(0)' onclick='showMsgContent("+record+")'>"+value+"</a>";
+	}
+	
 	/**
 	 * 按钮存储器，尚未执行查询
 	 */
@@ -158,8 +170,15 @@ function message(){
 	 * @param {} url
 	 */
 	this.sendMessage = function(url){
+		var messageForm = getMessageForm(url, false, true);
+		
 		var buttons = [{
-			text:"发送消息"
+			text:"发送消息",
+			handler:function(){
+				if(messageForm.form.isValid()){
+					saveMessageInfo("sendMsgWindow",messageForm);
+				}
+			}
 		},{
 			text:"取消",
 			handler:function(){
@@ -170,7 +189,6 @@ function message(){
 			}
 		}];
 		
-		var messageForm = getMessageForm(url, false, true);
 		showMessageWindow("sendMsgWindow","发送系统消息",500,300,messageForm,null,buttons);
 	};
 	/**
@@ -223,7 +241,31 @@ function message(){
 		var messageForm = getMessageForm(url, true, true);
 		showMessageWindow("queryWindow","查询系统消息",500,300,messageForm,null,buttons);
 	};
+	/**
+	 * 显示详细消息
+	 * @param {} msgId
+	 */
+	this.showMsgContent = function(record){
+		var buttons = [{
+			text:"关闭",
+			handler:function(){
+				var w = Ext.getCmp("showMsgContentWindow");
+				if(w){
+					w.close();
+				}
+			}
+		}];
+		
+		showMessageWindow("showMsgContentWindow",record.get("messageTitle"),500,300,null,record,buttons);
+	};
 	
+	/**
+	 * 消息表单
+	 * @param {} url
+	 * @param {} isNull
+	 * @param {} readOnly
+	 * @return {}
+	 */
 	function getMessageForm(url, isNull, readOnly){
 		var messageForm = new Ext.form.FormPanel({
 			url:url,
@@ -265,9 +307,9 @@ function message(){
 						allowBlank:isNull,
 						editable:false,//false：不可编辑
 						triggerAction:"all",//避免选定了一个值之后，再选的时候只显示刚刚选择的那个值
-						valueField:"userId",//将sortvalue设置为传递给后台的值
+						valueField:"userName",//将sortvalue设置为传递给后台的值
 						displayField:"userName",
-						hiddenName:"userId",//这个值就是传递给后台获取的值
+						hiddenName:"messageTo",//这个值就是传递给后台获取的值
 						hideOnSelect : false, 
 						readOnly : true,  
 						/*
@@ -340,7 +382,7 @@ function message(){
 			width:width,
 			height:height,
 			items:items,
-			//html:html,
+			html:html,
 			buttons:buttons,
 			modal:true,
 			//animateTarget:"giftmanage_div",//动画展示
@@ -348,6 +390,61 @@ function message(){
 			resizable:false
 		});
 		messageWindow.show();
+	}
+	
+	/**
+	 * 发送系统消息
+	 * @param {} windowId
+	 * @param {} form
+	 */
+	function saveMessageInfo(windowId, form){
+		Ext.MessageBox.show({
+			msg:"正在发送系统消息，请稍候...",
+			progressText:"正在发送系统消息，请稍候...",
+			width:300,
+			wait:true,
+			waitConfig: {interval:200},
+			icon:Ext.Msg.INFO
+		});
+		
+		form.getForm().submit({
+			timeout:60000,
+			success: function(form, action) {
+				Ext.Msg.hide();
+				var result = Ext.decode(action.response.responseText);
+				if(result && result.success){
+					var msg = "系统消息发送成功！";
+					if(result.msg){
+						msg = result.msg;
+					}
+					Ext.Msg.alert('系统提示信息', msg, function(btn, text) {
+						if (btn == 'ok') {
+							msgListStore.reload();
+							Ext.getCmp(windowId).close();
+						}
+					});
+				}else if(!result.success){
+					var msg = "系统消息发送失败！";
+					if(result.msg){
+						msg = result.msg;
+					}
+					Ext.Msg.alert('系统提示信息', msg);
+				}
+			},
+			failure: function(form, action) {//action.result.errorMessage
+				Ext.Msg.hide();
+				var msg = "系统消息发送失败，请检查您的网络连接或者联系管理员！";
+				try{
+					var result = Ext.decode(action.response.responseText);
+					if(result.msg){
+						msg = result.msg;
+					}
+				}catch(e){
+					msg = "系统错误：" + e;
+				}
+				Ext.Msg.alert('系统提示信息', msg);
+			}
+		});
 	}
 	
 	/**
