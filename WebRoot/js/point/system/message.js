@@ -13,10 +13,8 @@ function message(){
 	
 	//messageService.save(msg, getMessage);
 	var userStore;
-	var d;
 	//Get the userList
 	userService.findUserByPageWithProtect(-1, -1, function(data){
-		d = data;
 		userStore = new Ext.data.Store({
 			autoLoad:true,
 			proxy : new Ext.data.MemoryProxy({
@@ -51,6 +49,13 @@ function message(){
 	
 	var simpleMsgData = {"totalCount":0,"messageList":[],"success":true};
 	
+	var loadParam = {
+		start : 0,
+		limit : 50,
+		viewAll : "no",
+		userId : userName
+	};
+	
 	/**
 	 * 消息数据存储
 	 */
@@ -59,6 +64,7 @@ function message(){
 		groupField:["messageFrom"],
 		sortInfo:{field: 'messageSendTime', direction: "ASC"},
 		reader:messageReader,
+		baseParams:loadParam,
 		listeners:{
 			loadexception:function(dataProxy, type, action, options, response, arg) { 
 				try{
@@ -75,13 +81,6 @@ function message(){
 			}
 		}
 	});
-	
-	var loadParam = {
-		start : 0,
-		limit : 50,
-		viewAll : "no",
-		userId : userName
-	};
 	
 	var msgListSM = new Ext.grid.CheckboxSelectionModel();
 	var msgListCM = new Ext.grid.ColumnModel([new Ext.grid.RowNumberer(),msgListSM,{
