@@ -29,5 +29,9 @@
 			 <result name="success">/jsp/system/message/message.jsp</result>
 			 <result name="input">/index.jsp</result>
 		</action>
+		<action name="messageRead" class="com.integral.system.message.action.MessageAction" method="readMessage">
+			 <result name="success">/jsp/system/message/message.jsp</result>
+			 <result name="input">/index.jsp</result>
+		</action>
 	</package>
 </struts>

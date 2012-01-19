@@ -118,7 +118,7 @@ public class SystemMessageDao extends HibernateDaoSupport implements ISystemMess
     public SystemMessage findById(java.lang.String id) {
         log.info("getting SystemMessage instance with id: " + id);
         try {
-            SystemMessage instance = (SystemMessage) getHibernateTemplate().get("SystemMessage", id);
+            SystemMessage instance = (SystemMessage) getHibernateTemplate().get(SystemMessage.class, id);
             if (instance == null) {
                 log.info("get successful, no instance found");
             }
