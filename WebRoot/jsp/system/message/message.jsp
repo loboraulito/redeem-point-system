@@ -10,7 +10,7 @@
 <link rel="stylesheet" type="text/css" href="<%=path%>/js/util/mutiCombo/lovcombo-1.0/css/empty.css">
 <link rel="stylesheet" type="text/css" href="<%=path%>/js/util/mutiCombo/lovcombo-1.0/css/Ext.ux.form.LovCombo.css">
 <link rel="stylesheet" type="text/css" href="<%=path%>/js/util/mutiCombo/lovcombo-1.0/css/lovcombo.css">
-<link rel="stylesheet" type="text/css" href="<%=path%>/js/util/mutiCombo/lovcombo-1.0/css/webpage.css">
+<!-- <link rel="stylesheet" type="text/css" href="<%=path%>/js/util/mutiCombo/lovcombo-1.0/css/webpage.css"> -->
 
 <!-- 下拉多选框基于Ext2的插件 -->
 <script type="text/javascript" src="<%=path %>/js/util/mutiCombo/lovcombo-1.0/js/WebPage.js"></script>
@@ -23,6 +23,14 @@
 <script type="text/javascript" src="<%=path%>/dwr/interface/messageService.js"></script>
 <script type="text/javascript" src="<%=path%>/dwr/interface/userService.js"></script>
 <script type="text/javascript" src="<%=path%>/js/point/system/message.js"></script>
+
+<style type="text/css">
+.wap {
+	overflow-x: hidden;
+	overflow-y: auto;
+	word-break: break-all;
+}
+</style>
 
 <title>Insert title here</title>
 </head>
