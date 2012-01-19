@@ -270,4 +270,61 @@ public class MessageAction extends BaseAction implements ServletRequestAware, Se
     public String queryMessage(){
         return null;
     }
+    
+    public String readMessage(){
+        String msgId = request.getParameter("msgId");
+        // 定义TransactionDefinition并设置好事务的隔离级别和传播方式。
+        DefaultTransactionDefinition definition = new DefaultTransactionDefinition();
+        // 代价最大、可靠性最高的隔离级别，所有的事务都是按顺序一个接一个地执行
+        definition.setIsolationLevel(TransactionDefinition.ISOLATION_SERIALIZABLE);
+        // 开始事务
+        TransactionStatus status = transactionManager.getTransaction(definition);
+        
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        JsonFormat jf = new JsonFormat(true);
+        jf.setAutoUnicode(true);
+        PrintWriter out = null;
+        try{
+            out = super.getPrintWriter(request, response);
+            if(msgId == null || "".equals(msgId.trim())){
+                resultMap.put("success", false);
+                resultMap.put("msg", "读取消息失败！");
+            }else{
+                String []msgIds = msgId.split(",");
+                if(msgIds == null || msgIds.length <1){
+                    resultMap.put("success", false);
+                    resultMap.put("msg", "读取消息失败！");
+                }else{
+                    List <SystemMessage> msgList = new ArrayList<SystemMessage>();
+                    for(String id : msgIds){
+                        SystemMessage msg = this.messageService.findById(id);
+                        if(msg == null){
+                            resultMap.put("success", false);
+                            resultMap.put("msg", "读取消息失败！");
+                        }else{
+                            msg.setMessageNew("0");
+                            msg.setMessageReceiveTime(new Date());
+                            msgList.add(msg);
+                        }
+                    }
+                    this.messageService.saveOrUpdateAll(msgList);
+                    resultMap.put("success", true);
+                    resultMap.put("msg", "成功标记消息为已读！");
+                }
+            }
+        }catch(Exception e){
+            LOG.error(e.getMessage());
+            status.setRollbackOnly();
+            resultMap.put("success", false);
+            resultMap.put("msg", "系统错误！错误代码："+e.getMessage());
+        }finally{
+            this.transactionManager.commit(status);
+            if(out != null){
+                out.print(Json.toJson(resultMap, jf));
+                out.flush();
+                out.close();
+            }
+        }
+        return null;
+    }
 }
