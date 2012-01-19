@@ -12,7 +12,6 @@ function message(){
 	};
 	*/
 	//msg.setMessageContent("测试！");
-	var tempMsg = "";
 	//messageService.save(msg, getMessage);
 	var userStore;
 	//Get the userList
@@ -64,7 +63,7 @@ function message(){
 	var msgListStore = new Ext.data.GroupingStore({
 		url:path+ url,
 		groupField:["messageFrom"],
-		sortInfo:{field: 'messageSendTime', direction: "ASC"},
+		sortInfo:{field: 'messageNew', direction: "DESC"},
 		reader:messageReader,
 		baseParams:loadParam,
 		listeners:{
@@ -82,6 +81,18 @@ function message(){
 				}
 			}
 		}
+	});
+	
+	/**
+	 * 数据标准分组显示
+	 */
+	var groupView = new Ext.grid.GroupingView({
+		forceFit:true,
+		showGroupName: false,//是否在分组行上显示分组字段的名字
+		enableNoGroups:false, //是否允许用户关闭分组功能REQUIRED!
+		hideGroupedColumn: false,//是否隐藏分组列
+		enableGroupingMenu:false,//是否在表头菜单中进行分组控制
+		groupTextTpl: '{text} 有 {[values.rs.length]} 消息'//用于渲染分组信息的模板，默认为'{text}'
 	});
 	
 	var msgListSM = new Ext.grid.CheckboxSelectionModel();
@@ -134,6 +145,7 @@ function message(){
 		sm:msgListSM,
 		viewConfig:{forceFit:true},//若父容器的layout为fit，那么强制本grid充满该父容器
 		split: true,
+		view:groupView,
 		bbar:new Ext.PagingToolbar({
 			pageSize:50,//每页显示数
 			store:msgListStore,
@@ -151,8 +163,8 @@ function message(){
 	}
 	
 	function showContent(value,metadata,record,rowIndex,colIndex,store){
-		tempMsg = record;
-		return "<a href='javascript:void(0)' onclick='showMsgContent()'>"+value+"</a>";
+		
+		return "<a href='javascript:void(0)' onclick='showMsgContent(\""+rowIndex+"\")'>"+value+"</a>";
 	}
 	
 	/**
@@ -246,7 +258,7 @@ function message(){
 	 * 显示详细消息
 	 * @param {} msgId
 	 */
-	this.showMsgContent = function(){
+	this.showMsgContent = function(rowIndex){
 		var buttons = [{
 			text:"关闭",
 			handler:function(){
@@ -256,8 +268,94 @@ function message(){
 				}
 			}
 		}];
-		
-		showMessageWindow("showMsgContentWindow",tempMsg.get("messageTitle"),500,300,null,tempMsg,buttons);
+		var record = msgListStore.getAt(rowIndex);
+		var msgId = record.get("messageId");
+		var title = record.get("messageTitle");
+		var from = record.get("messageFrom");
+		var fromDate = record.get("messageSendTime");
+		var content = record.get("messageContent");
+		var item = [{
+			xtype:"textarea",
+			readOnly:true,
+			value:content
+		}];
+		showMessageWindow("showMsgContentWindow","消息详细内容--"+title,500,300,item,null,buttons);
+		var readUrl = path + "/message/messageRead.action?method=readMessage";
+		if(record.get("messageNew") == "1"){
+			readMessage(readUrl, msgId);
+		}
+	};
+	/**
+	 * 阅读消息
+	 * @param {} url
+	 * @param {} msgId
+	 */
+	this.readMessage = function(url, msgId){
+		var id;
+		if(!msgId || msgId == ""){
+			var gridSelectionModel = msgListDataGrid.getSelectionModel();
+			var gridSelection = gridSelectionModel.getSelections();
+			if(gridSelection.length < 1){
+				Ext.MessageBox.alert('提示','请至少选择一条消息！');
+			    return false;
+			}
+			var dataIdArray = new Array();
+			for(var i=0; i < gridSelection.length; i++){
+				if(gridSelection[i].get("messageNew") != "1"){
+					Ext.MessageBox.alert('提示','请选择新消息！');
+			    	return false;
+				}
+				dataIdArray.push(gridSelection[i].get("messageId"));
+			}
+			id = dataIdArray.join(",");
+			Ext.MessageBox.show({
+				msg:"正在标记系统消息，请稍候...",
+				progressText:"正在标记系统消息，请稍候...",
+				width:300,
+				wait:true,
+				waitConfig: {interval:200},
+				icon:Ext.Msg.INFO
+			});
+		}else{
+			id = msgId;
+		}
+		Ext.Ajax.request({
+			params:{msgId:id},
+			timeout:60000,
+			url:url,
+			success:function(response, options){
+				var msg = Ext.util.JSON.decode(response.responseText);
+				if(!msgId || msgId == ""){
+					Ext.Msg.hide();
+				}
+				if(msg.success){
+					msgListStore.reload();
+					if(!msgId || msgId == ""){
+						Ext.Msg.alert("系统提示",msg.msg);
+					}
+				}else{
+					if(msg.msg){
+						Ext.Msg.alert("系统提示",msg.msg);
+					}else{
+						Ext.Msg.alert("系统提示","系统消息读取失败！");
+					}
+				}
+			},failure: function(response, options){
+				if(!msgId || msgId == ""){
+					Ext.Msg.hide();
+				}
+				try{
+					var msg = Ext.util.JSON.decode(response.responseText);
+					if(msg.msg){
+						Ext.Msg.alert("系统提示",msg.msg);
+					}else{
+						Ext.Msg.alert("系统提示","系统消息读取失败！");
+					}
+				}catch(e){
+					Ext.Msg.alert("系统提示","系统错误！错误代码：" + e);
+				}
+			}
+		});
 	};
 	
 	/**
