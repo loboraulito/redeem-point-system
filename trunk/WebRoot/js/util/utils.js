@@ -83,10 +83,10 @@ function createMainTabPanel(title, tabId, tabHref, closable, needRefresh) {
 	}
 }
 /**
- * 跳转到指定url的tab页面
- * @param {} tabHref 要跳转页面的相对url(不接path变量)
- * @param {} menuId 要跳转页面的菜单ID
- * @param {} needRefresh 是否要求刷新页面
+ * 跳转到指定url的tab页面, tabHref与menuId二选一
+ * @param {} tabHref 要跳转页面的相对url(不接path变量,菜单URL不是按钮URL)
+ * @param {} menuId 要跳转页面的菜单ID(菜单ID不是按钮ID)
+ * @param {} needRefresh(true|false) 是否要求刷新页面(这个针对已经打开的tab而言)
  */
 function goToTabPanel(tabHref, menuId, needRefresh){
 	Ext.Msg.alert("系统提示","页面跳转中，请稍候...");
@@ -374,39 +374,6 @@ function updateIDCard(idcard){
 	return card;
 }
 
-function recieveMsg(msg){
-	if(Ext && msg){
-		var grid = Ext.getCmp("msgListDataGrid");
-		if(grid){
-			var store = grid.getStore();
-			if(store){
-				store.reload();
-			}
-		}
-		//提示框的长度和宽度的偏移量
-		var windowwidth = 320;
-		var windowheight = 200;
-		//可见区域大小的宽度-提示框的宽度
-		var xwidth = document.body.clientWidth-windowwidth;
-		//可见区域大小的高度-提示框的高度
-		var yheight = document.body.clientHeight-windowheight;
-		//alert(xwidth+" "+yheight+" "+xwidths+" "+yheights);
-		var messageWindow = new Ext.Window({
-			title:"您有新的消息",
-			width:windowwidth,
-			height:windowheight,
-			html:"您有新的消息",
-			modal:false,
-			layout:"fit",
-			x:xwidth,
-			y:yheight,
-			resizable:false
-		});
-		messageWindow.show();
-		//alert(msg);
-		//alert(msg.messageId);
-	}
-}
 /**
  * 激活DWR的反转功能
  * @param {} bool
