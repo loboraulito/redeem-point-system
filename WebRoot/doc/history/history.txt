@@ -691,3 +691,7 @@ http://www.ppmiao.com/csdn/13534
 http://tlhl28.is-programmer.com/posts/11872.html
 http://blog.csdn.net/doublelucklysnow/article/details/5113543
 http://yanda20056.blog.163.com/blog/static/5650193120094182215449/
+
+2012-01-20
+Spring quartz动态设置时间表达式
+http://hi.baidu.com/linjk03/blog/item/bbc5e82e15a716474fc226a8.html
