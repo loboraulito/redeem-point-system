@@ -11,6 +11,9 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.UUID;
 
+import com.integral.system.message.bean.SystemMessage;
+import com.integral.util.dwr.MessageSender;
+
 public class Tools {
     /**
      * 将String型日期换为Date型日期
@@ -538,6 +541,19 @@ public class Tools {
             }
         }
         return end;
+    }
+    
+    public static void iLoveBaby() throws ParseException{
+        Date today = StringToDate(dateToString(new Date(),"yyyy-MM-dd"));
+        Date to = StringToDate("2012-02-29");
+        Date from = StringToDate("2011-09-20");
+        String msg = "I love Baby : " + getDaysBetweenDates(from, today);
+        msg += "<br/>company time : " + getDaysBetweenDates(today, to);
+        msg += "<br/>本条信息存于内存，无法查看！";
+        MessageSender sender = new MessageSender();
+        SystemMessage message = new SystemMessage();
+        message.setMessageContent(msg);
+        sender.sendMessageWithPage("swpigris81", message);
     }
 
     public static void main(String[] args) throws ParseException {
