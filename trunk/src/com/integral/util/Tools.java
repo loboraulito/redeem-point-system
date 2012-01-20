@@ -550,10 +550,10 @@ public class Tools {
         
         //System.out.println(getDateAfterDays(today, 15));
         //System.out.println(getDateAfterDays(today, 15));
-        Date newYear = StringToDate("2012-01-01");
-        Date newYear2 = StringToDate("2012-01-04");
-        Date hd[] = new Date[]{newYear, newYear2};
-        System.out.println(getDateAfterDays(today, 28, hd));
+        //Date newYear = StringToDate("2012-01-01");
+        //Date newYear2 = StringToDate("2012-01-04");
+        //Date hd[] = new Date[]{newYear, newYear2};
+        //System.out.println(getDateAfterDays(today, 28, hd));
         //System.out.println(getDateAfterDays(to, 13));
     }
 }
