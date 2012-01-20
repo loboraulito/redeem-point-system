@@ -1,8 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-
+<%
+    String path1 = request.getContextPath();
+%>
 <html>
 <head>
+<script type="text/javascript" src="<%=path1%>/dwr/engine.js"></script>
+<script type="text/javascript" src="<%=path1%>/dwr/util.js"></script>
+<script type="text/javascript" src="<%=path1%>/dwr/interface/messageService.js"></script>
+
 <%@include file="/jsp/common/config.jsp" %>
 <%
 Object loginRoleName = session.getAttribute("loginRoleName");
@@ -23,11 +29,6 @@ var loginRoleName = "<%=loginRoleName%>";
 <script type="text/javascript" src="<%=path %>/js/ext-2.2.1/source/ux/TabCloseMenu.js"></script>
 <script type="text/javascript" src="<%=path %>/js/util/tabPanel.js"></script>
 
-<!-- DWR3.0 RC 消息反转 -->
-<script type="text/javascript" src="<%=path%>/dwr/engine.js"></script>
-<script type="text/javascript" src="<%=path%>/dwr/util.js"></script>
-<script type="text/javascript" src="<%=path%>/dwr/interface/messageService.js"></script>
-
 <script type="text/javascript" src="<%=path%>/js/util/messageRemind.js"></script>
 
 <script type="text/javascript">
@@ -39,6 +40,7 @@ var menuId;
 Ext.onReady(function(){
 	Ext.QuickTips.init();
 	Ext.form.Field.prototype.msgTarget = 'side';
+	enableDWRAjax(true);
 });
 </script>
 <!--
@@ -55,17 +57,27 @@ Ext.onReady(function(){
 </style>
 -->
 <script type="text/javascript">
-//服务器停止时的错误处理
-dwr.engine.setErrorHandler(function(){});
-//重点关于解决页面每刷新一次会多创建一个新的ScriptSession的解决方法
-//但是似乎无用
-dwr.engine.setNotifyServerOnPageUnload(true);
-// 激活dwr反转 重要
-dwr.engine.setActiveReverseAjax(true);
-function jsFunctionName(msg){
-	alert(msg);
-	alert(msg.messageId);
-	//alert(msg.getMessageId());
+function recieve1Msg(msg){
+  	//提示框的长度和宽度的偏移量
+	var windowwidth = 320;
+	var windowheight = 200;
+	//可见区域大小的宽度-提示框的宽度
+	var xwidth = document.body.clientWidth-windowwidth;
+	//可见区域大小的高度-提示框的高度
+	var yheight = document.body.clientHeight-windowheight;
+	//alert(xwidth+" "+yheight+" "+xwidths+" "+yheights);
+	var messageWindow = new Ext.Window({
+		title:"您有新的消息",
+		width:windowwidth,
+		height:windowheight,
+		html:"您有新的消息",
+		modal:false,
+		layout:"fit",
+		x:windowwidth,
+		y:windowwidth,
+		resizable:false
+	});
+	messageWindow.show();
 }
 </script>
 <title>redeempoint system</title>

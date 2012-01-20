@@ -49,7 +49,7 @@ public class MessageSender {
             public void run() {
                 //这里写你页面的js函数", 这个参数是传给js函数的
                 //script.appendCall("jsFunctionName").appendData(msg);
-                script.appendScript("jsFunctionName").appendScript("(").appendData(msg).appendScript(")");
+                script.appendScript("recieveMsg").appendScript("(").appendData(msg).appendScript(")");
                 Collection<ScriptSession> colls = Browser.getTargetSessions();
                 for (ScriptSession scriptSession : colls) {
                     //scriptSession.addScript(initFunctionCall("dwr.util.setValue", "info", msg));

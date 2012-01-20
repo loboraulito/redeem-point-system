@@ -33,6 +33,8 @@ public class MessageServiceImpl implements IMessageService {
     @Override
     public void saveOrUpdate(SystemMessage instance) {
         this.messageDao.saveOrUpdate(instance);
+        MessageSender sender = new MessageSender();
+        sender.sendMessage(instance.getMessageTo(), instance);
     }
     @Override
     public void save(SystemMessage instance) {
@@ -43,6 +45,10 @@ public class MessageServiceImpl implements IMessageService {
     @Override
     public void saveOrUpdateAll(List<SystemMessage> persistentInstances) {
         this.messageDao.saveOrUpdateAll(persistentInstances);
+        MessageSender sender = new MessageSender();
+        for(SystemMessage instance : persistentInstances){
+            sender.sendMessage(instance.getMessageTo(), instance);
+        }
     }
     @Override
     public void delete(SystemMessage persistentInstance) {
