@@ -1,19 +1,18 @@
 package com.integral.util.spring.quartz;
 
+import java.io.Serializable;
 import java.text.ParseException;
 
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
-import org.quartz.impl.StdScheduler;
 import org.springframework.scheduling.quartz.CronTriggerBean;
-import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 
 /** 
  * <p>Description: [动态设置JOB执行的时间]</p>
  * @author  <a href="mailto: swpigris81@126.com">代超</a>
  * @version $Revision$ 
  */
-public class DynamicJobSchedule {
+public class DynamicJobSchedule implements Serializable {
     
     private Scheduler scheduler;
     
