@@ -695,3 +695,7 @@ http://yanda20056.blog.163.com/blog/static/5650193120094182215449/
 2012-01-20
 Spring quartz动态设置时间表达式
 http://hi.baidu.com/linjk03/blog/item/bbc5e82e15a716474fc226a8.html
+http://blog.csdn.net/lyric1812/article/details/6164984
+http://www.cnblogs.com/pigwing/archive/2011/04/04/2005158.html
+http://www.iteye.com/problems/20315
+http://www.iteye.com/topic/399980
