@@ -21,6 +21,15 @@
 <script type="text/javascript" src="<%=path %>/js/ext-2.2.1/ext-all-debug.js"></script>
 <!-- 引用Ext JS 的语言文件 -->
 <script type="text/javascript" src="<%=path %>/js/ext-2.2.1/source/locale/ext-lang-zh_CN.js"></script>
+
+
+<!-- DWR3.0 RC 消息反转 -->
+<!-- 
+<script type="text/javascript" src="<%=path%>/dwr/engine.js"></script>
+<script type="text/javascript" src="<%=path%>/dwr/util.js"></script>
+<script type="text/javascript" src="<%=path%>/dwr/interface/messageService.js"></script>
+ -->
+
 <!-- 
 引用json转换工具，替代Ext中的json的转换工具（因为Ext中的json转换是调用eval，这将会可能导致安全隐患）
 但是由于Ext自带有toJSONString方法，而json.js中也存在这样的方法，导致冲突异常,因此需要调用时再加入

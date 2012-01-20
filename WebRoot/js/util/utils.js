@@ -373,3 +373,51 @@ function updateIDCard(idcard){
 	var card = tempId + getVerifyCode(tempId);
 	return card;
 }
+
+function recieveMsg(msg){
+	if(Ext && msg){
+		var grid = Ext.getCmp("msgListDataGrid");
+		if(grid){
+			var store = grid.getStore();
+			if(store){
+				store.reload();
+			}
+		}
+		//提示框的长度和宽度的偏移量
+		var windowwidth = 320;
+		var windowheight = 200;
+		//可见区域大小的宽度-提示框的宽度
+		var xwidth = document.body.clientWidth-windowwidth;
+		//可见区域大小的高度-提示框的高度
+		var yheight = document.body.clientHeight-windowheight;
+		//alert(xwidth+" "+yheight+" "+xwidths+" "+yheights);
+		var messageWindow = new Ext.Window({
+			title:"您有新的消息",
+			width:windowwidth,
+			height:windowheight,
+			html:"您有新的消息",
+			modal:false,
+			layout:"fit",
+			x:xwidth,
+			y:yheight,
+			resizable:false
+		});
+		messageWindow.show();
+		//alert(msg);
+		//alert(msg.messageId);
+	}
+}
+/**
+ * 激活DWR的反转功能
+ * @param {} bool
+ */
+function enableDWRAjax(bool){
+	//服务器停止时的错误处理
+	dwr.engine.setErrorHandler(function(){});
+	//重点关于解决页面每刷新一次会多创建一个新的ScriptSession的解决方法
+	//但是似乎无用
+	dwr.engine.setNotifyServerOnPageUnload(true);
+	// 激活dwr反转 重要
+	dwr.engine.setActiveReverseAjax(bool);
+}
+//enableDWRAjax(true);

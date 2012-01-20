@@ -92,7 +92,7 @@ function message(){
 		enableNoGroups:false, //是否允许用户关闭分组功能REQUIRED!
 		hideGroupedColumn: false,//是否隐藏分组列
 		enableGroupingMenu:false,//是否在表头菜单中进行分组控制
-		groupTextTpl: '{text} 有 {[values.rs.length]} 消息'//用于渲染分组信息的模板，默认为'{text}'
+		groupTextTpl: '来自 {text} 的 {[values.rs.length]} 条消息'//用于渲染分组信息的模板，默认为'{text}'
 	});
 	
 	var msgListSM = new Ext.grid.CheckboxSelectionModel();
@@ -131,6 +131,7 @@ function message(){
 	}]);
 	
 	var msgListDataGrid = new Ext.grid.GridPanel({
+		id:"msgListDataGrid",
 		collapsible:true,//是否可以展开
 		animCollapse:true,//展开时是否有动画效果
 		autoScroll:true,
@@ -597,14 +598,36 @@ function message(){
 			}
 		});
 	}
-
+	
 }
-function getMessage(msgs){
-	//alert(msgs);
-}
-function jsFunctionName(msg){
-	//alert(msg);
-	//alert(msg.messageId);
+function recieve1Msg(msg){
+	var grid = Ext.getCmp("msgListDataGrid");
+	if(grid){
+		var store = grid.getStore();
+		if(store){
+			store.reload();
+		}
+	}
+	//提示框的长度和宽度的偏移量
+	var windowwidth = 320;
+	var windowheight = 200;
+	//可见区域大小的宽度-提示框的宽度
+	var xwidth = document.body.clientWidth-windowwidth;
+	//可见区域大小的高度-提示框的高度
+	var yheight = document.body.clientHeight-windowheight;
+	//alert(xwidth+" "+yheight+" "+xwidths+" "+yheights);
+	var messageWindow = new Ext.Window({
+		title:"您有新的消息",
+		width:windowwidth,
+		height:windowheight,
+		html:"您有新的消息",
+		modal:false,
+		layout:"fit",
+		x:windowwidth,
+		y:windowwidth,
+		resizable:false
+	});
+	messageWindow.show();
 }
 /**
  * 入口
@@ -612,12 +635,5 @@ function jsFunctionName(msg){
 Ext.onReady(function(){
 	Ext.QuickTips.init();
 	Ext.form.Field.prototype.msgTarget = 'under';
-	//服务器停止时的错误处理
-	dwr.engine.setErrorHandler(function(){});
-	//重点关于解决页面每刷新一次会多创建一个新的ScriptSession的解决方法
-	//但是似乎无用
-	dwr.engine.setNotifyServerOnPageUnload(true);
-	// 激活dwr反转 重要
-	dwr.engine.setActiveReverseAjax(true);
 	message();
 });
