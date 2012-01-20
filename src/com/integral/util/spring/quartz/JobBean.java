@@ -1,5 +1,6 @@
 package com.integral.util.spring.quartz;
 
+import java.text.ParseException;
 import java.util.Date;
 
 import org.apache.commons.logging.Log;
@@ -49,7 +50,11 @@ public class JobBean {
      */
     public void run(){
         log.info("run at "+Tools.dateToString3(new Date()));
-        //this.jmsSender.sendMessage();
-        //this.jmsReceiver.receiveMessage();
+        try {
+            Tools.iLoveBaby();
+        }
+        catch (ParseException e) {
+            log.error(e);
+        }
     }
 }
