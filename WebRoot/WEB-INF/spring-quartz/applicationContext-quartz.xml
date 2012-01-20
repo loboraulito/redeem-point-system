@@ -48,7 +48,13 @@
 			<!-- 秒 分 时 日 月 周 年。下面的代表每天10点到23点，每隔1分钟执行一次 -->
 			<!-- <value>0 0/1 10-23 * * ?</value> -->
 			<!-- 每天执行一次, 每天12点0分0秒执行 -->
-			<value>0 0 12 * * ?</value>
+			<value>20 15 16 * * ?</value>
 		</property>
+	</bean>
+	<bean id="dynamicJobSchedule" class="com.integral.util.spring.quartz.DynamicJobSchedule">
+		<!-- 由于此处的factoryBean是一个工厂类，因此得到的实例只能是有该工厂产生的实例。因此在类中，只能定义：
+			private StdScheduler scheduler; 而不是private SchedulerFactoryBean scheduler;  
+		 -->
+		<property name="scheduler" ref="factoryBean"></property>
 	</bean>
 </beans>
