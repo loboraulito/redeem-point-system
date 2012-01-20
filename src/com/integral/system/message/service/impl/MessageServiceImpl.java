@@ -34,20 +34,20 @@ public class MessageServiceImpl implements IMessageService {
     public void saveOrUpdate(SystemMessage instance) {
         this.messageDao.saveOrUpdate(instance);
         MessageSender sender = new MessageSender();
-        sender.sendMessage(instance.getMessageTo(), instance);
+        sender.sendMessageWithPage(instance.getMessageTo(), instance);
     }
     @Override
     public void save(SystemMessage instance) {
         this.messageDao.save(instance);
         MessageSender sender = new MessageSender();
-        sender.sendMessage(instance.getMessageTo(), instance);
+        sender.sendMessageWithPage(instance.getMessageTo(), instance);
     }
     @Override
     public void saveOrUpdateAll(List<SystemMessage> persistentInstances) {
         this.messageDao.saveOrUpdateAll(persistentInstances);
         MessageSender sender = new MessageSender();
         for(SystemMessage instance : persistentInstances){
-            sender.sendMessage(instance.getMessageTo(), instance);
+            sender.sendMessageWithPage(instance.getMessageTo(), instance);
         }
     }
     @Override

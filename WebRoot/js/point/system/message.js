@@ -519,7 +519,7 @@ function message(){
 					}
 					Ext.Msg.alert('系统提示信息', msg, function(btn, text) {
 						if (btn == 'ok') {
-							msgListStore.reload();
+							//msgListStore.reload();
 							Ext.getCmp(windowId).close();
 						}
 					});
@@ -600,35 +600,7 @@ function message(){
 	}
 	
 }
-function recieve1Msg(msg){
-	var grid = Ext.getCmp("msgListDataGrid");
-	if(grid){
-		var store = grid.getStore();
-		if(store){
-			store.reload();
-		}
-	}
-	//提示框的长度和宽度的偏移量
-	var windowwidth = 320;
-	var windowheight = 200;
-	//可见区域大小的宽度-提示框的宽度
-	var xwidth = document.body.clientWidth-windowwidth;
-	//可见区域大小的高度-提示框的高度
-	var yheight = document.body.clientHeight-windowheight;
-	//alert(xwidth+" "+yheight+" "+xwidths+" "+yheights);
-	var messageWindow = new Ext.Window({
-		title:"您有新的消息",
-		width:windowwidth,
-		height:windowheight,
-		html:"您有新的消息",
-		modal:false,
-		layout:"fit",
-		x:windowwidth,
-		y:windowwidth,
-		resizable:false
-	});
-	messageWindow.show();
-}
+
 /**
  * 入口
  */

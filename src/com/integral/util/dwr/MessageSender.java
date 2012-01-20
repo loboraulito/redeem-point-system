@@ -8,6 +8,8 @@ import org.directwebremoting.Browser;
 import org.directwebremoting.ScriptBuffer;
 import org.directwebremoting.ScriptSession;
 import org.directwebremoting.ScriptSessionFilter;
+import org.directwebremoting.ServerContext;
+import org.directwebremoting.ServerContextFactory;
 
 import com.integral.system.message.bean.SystemMessage;
 
@@ -30,7 +32,40 @@ public class MessageSender {
 
     }
     
-    public void sendMessage(final String receiverid, final SystemMessage msg){
+    public void sendMessageWithPage(final String receiverid, final SystemMessage msg){
+        ServerContext sc = ServerContextFactory.get();
+        Browser.withPageFiltered(sc.getContextPath() + "/index.jsp", new ScriptSessionFilter(){
+
+            @Override
+            public boolean match(ScriptSession session) {
+                log.info(session.getAttribute("userName"));
+                if (session.getAttribute("userName") == null)
+                    return false;
+                else
+                    return (session.getAttribute("userName")).equals(receiverid);
+            }
+            
+        }, new Runnable(){
+
+            private ScriptBuffer script = new ScriptBuffer();
+            @Override
+            public void run() {
+                //这里写你页面的js函数", 这个参数是传给js函数的
+                //script.appendCall("jsFunctionName").appendData(msg);
+                script.appendScript("recieveMsg").appendScript("(").appendData(msg).appendScript(")");
+                Collection<ScriptSession> colls = Browser.getTargetSessions();
+                for (ScriptSession scriptSession : colls) {
+                    //scriptSession.addScript(initFunctionCall("dwr.util.setValue", "info", msg));
+                    //对所有客户端发送消息
+                    scriptSession.addScript(script);
+                }
+                log.info(script);
+            }
+            
+        });
+    }
+    
+    public void sendMessageWithAllSession(final String receiverid, final SystemMessage msg){
         Browser.withAllSessionsFiltered(new ScriptSessionFilter(){
 
             @Override

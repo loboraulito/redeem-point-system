@@ -57,27 +57,38 @@ Ext.onReady(function(){
 </style>
 -->
 <script type="text/javascript">
-function recieve1Msg(msg){
+function recieveMsg(msg){
   	//提示框的长度和宽度的偏移量
 	var windowwidth = 320;
-	var windowheight = 200;
+	var windowheight = 180;
 	//可见区域大小的宽度-提示框的宽度
 	var xwidth = document.body.clientWidth-windowwidth;
 	//可见区域大小的高度-提示框的高度
 	var yheight = document.body.clientHeight-windowheight;
 	//alert(xwidth+" "+yheight+" "+xwidths+" "+yheights);
-	var messageWindow = new Ext.Window({
-		title:"您有新的消息",
-		width:windowwidth,
-		height:windowheight,
-		html:"您有新的消息",
-		modal:false,
-		layout:"fit",
-		x:windowwidth,
-		y:windowwidth,
-		resizable:false
-	});
-	messageWindow.show();
+	var show = Ext.getCmp("messageWindow_show");
+	if(!show){
+	    var messageWindow = new Ext.Window({
+		    id:"messageWindow_show",
+			title:"您有新的消息",
+			width:windowwidth,
+			height:windowheight,
+			html:"您有新的消息",
+			modal:false,
+			layout:"fit",
+			x:xwidth,
+			y:yheight,
+			buttons:[{
+			    text:"点击查看",
+			    handler:function(){
+			        goToTabPanel("","8ac388f134d57cdd0134d57f9d1b0001",true);
+			        messageWindow.close();
+			    }
+			}],
+			resizable:false
+		});
+		messageWindow.show();
+	}
 }
 </script>
 <title>redeempoint system</title>
