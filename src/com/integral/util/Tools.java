@@ -11,8 +11,11 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.UUID;
 
+import org.quartz.SchedulerException;
+
 import com.integral.system.message.bean.SystemMessage;
 import com.integral.util.dwr.MessageSender;
+import com.integral.util.spring.quartz.DynamicJobSchedule;
 
 public class Tools {
     /**
@@ -549,11 +552,23 @@ public class Tools {
         Date from = StringToDate("2011-09-20");
         String msg = "I love Baby : " + getDaysBetweenDates(from, today);
         msg += "<br/>company time : " + getDaysBetweenDates(today, to);
-        msg += "<br/>本条信息存于内存，无法查看！";
+        msg += "<br/>本条信息由系统自动发送，无法查看！";
         MessageSender sender = new MessageSender();
         SystemMessage message = new SystemMessage();
         message.setMessageContent(msg);
+        message.setMessageSendTime(new Date());
         sender.sendMessageWithPage("swpigris81", message);
+        
+        
+        //以下代码仅用于测试动态设置quartz
+        String newCorn = "0 0/1 10-23 * * ?";
+        DynamicJobSchedule sc = new DynamicJobSchedule();
+        try {
+            sc.dynamicSchedule(newCorn);
+        }
+        catch (SchedulerException e) {
+            e.printStackTrace();
+        }
     }
 
     public static void main(String[] args) throws ParseException {
