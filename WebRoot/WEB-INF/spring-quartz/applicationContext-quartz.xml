@@ -11,7 +11,7 @@
 				<ref bean="cronReportTrigger" />
 			</list>
 		</property>
-		<property name="startupDelay" value="30"/>
+		<!-- <property name="startupDelay" value="30"/> -->
 		<property name="quartzProperties">
 			<props>
 				<prop key="org.quartz.threadPool.threadCount">50</prop>
