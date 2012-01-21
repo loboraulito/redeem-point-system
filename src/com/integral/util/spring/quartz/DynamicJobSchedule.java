@@ -23,10 +23,6 @@ public class DynamicJobSchedule implements Serializable {
         this.scheduler = scheduler;
     }
     
-    public DynamicJobSchedule(){
-        
-    }
-    
     /**
      * <p>Discription:[方法功能中文描述]</p>
      * @param args
