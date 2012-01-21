@@ -18,6 +18,16 @@ import com.integral.util.dwr.MessageSender;
 import com.integral.util.spring.quartz.DynamicJobSchedule;
 
 public class Tools {
+    private static DynamicJobSchedule dynamicJobSchedule;
+    
+    public DynamicJobSchedule getDynamicJobSchedule() {
+        return dynamicJobSchedule;
+    }
+
+    public void setDynamicJobSchedule(DynamicJobSchedule dynamicJobSchedule) {
+        this.dynamicJobSchedule = dynamicJobSchedule;
+    }
+
     /**
      * 将String型日期换为Date型日期
      * 
@@ -564,7 +574,7 @@ public class Tools {
         String newCorn = "0 0/1 10-23 * * ?";
         DynamicJobSchedule sc = new DynamicJobSchedule();
         try {
-            sc.dynamicSchedule(newCorn);
+            dynamicJobSchedule.dynamicSchedule(newCorn);
         }
         catch (SchedulerException e) {
             e.printStackTrace();
