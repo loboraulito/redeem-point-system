@@ -73,7 +73,7 @@ function recieveMsg(msg){
 			title:"您有新的消息",
 			width:windowwidth,
 			height:windowheight,
-			html:"您有新的消息: <br>" + msg.messageContent + "<br>发送时间：" + msg.messageSendTime,
+			html:"您有新的消息: <br>" + msg.messageContent + "<br>发送时间：" + msg.messageSendTime.format("Y-m-d H:i:s"),
 			modal:false,
 			layout:"fit",
 			x:xwidth,
