@@ -560,8 +560,8 @@ public class Tools {
         Date today = StringToDate(dateToString(new Date(),"yyyy-MM-dd"));
         Date to = StringToDate("2012-02-29");
         Date from = StringToDate("2011-09-20");
-        String msg = "I love Baby : " + getDaysBetweenDates(from, today);
-        msg += "<br/>company time : " + getDaysBetweenDates(today, to);
+        String msg = "I love Baby : " + getDaysBetweenDates(from, today) +" 天";
+        msg += "<br/>company time : " + getDaysBetweenDates(today, to)+ " 天";
         msg += "<br/>本条信息由系统自动发送，无法查看！";
         MessageSender sender = new MessageSender();
         SystemMessage message = new SystemMessage();
