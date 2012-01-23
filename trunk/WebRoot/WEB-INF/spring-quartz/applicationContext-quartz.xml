@@ -45,9 +45,9 @@
 			<!-- 秒 分 时 日 月 周 年。下面的代表每月2号触发 -->
 			<!-- <value>0 0 * 2 * ?</value> -->
 			<!-- 秒 分 时 日 月 周 年。下面的代表每天10点到23点，每隔1分钟执行一次 -->
-			<!-- <value>0 0/1 10-23 * * ?</value> -->
+			<value>0 0/1 * * * ?</value>
 			<!-- 每天执行一次, 每天12点0分0秒执行 -->
-			<value>20 3 10 * * ?</value>
+			<!-- <value>20 3 10 * * ?</value> -->
 		</property>
 	</bean>
 	<bean id="dynamicJobSchedule" class="com.integral.util.spring.quartz.DynamicJobSchedule">
