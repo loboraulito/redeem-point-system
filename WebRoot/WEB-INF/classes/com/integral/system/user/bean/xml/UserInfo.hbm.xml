@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated May 17, 2011 2:11:55 PM by Hibernate Tools 3.3.0.GA -->
+<hibernate-mapping>
+    <class name="com.integral.system.user.bean.UserInfo" table="employee_info" dynamic-insert="true" dynamic-update="true">
+        <id name="userId" type="java.lang.String">
+            <column name="operater_id" />
+            <generator class="uuid.hex" />
+        </id>
+        <property name="userCode" type="java.lang.String">
+            <column name="operater_code" />
+        </property>
+        <property name="userName" type="java.lang.String">
+            <column name="operater_name" />
+        </property>
+        <property name="password" type="java.lang.String">
+            <column name="password" />
+        </property>
+        <property name="telphoneNo" type="java.lang.String">
+            <column name="tel_no" />
+        </property>
+        <property name="phoneNo" type="java.lang.String">
+            <column name="phon_no" />
+        </property>
+        <property name="privence" type="java.lang.String">
+            <column name="privence" />
+        </property>
+        <property name="city" type="java.lang.String">
+            <column name="city" />
+        </property>
+        <property name="address" type="java.lang.String">
+            <column name="address" />
+        </property>
+        <property name="zip" type="java.lang.String">
+            <column name="zip" />
+        </property>
+        <property name="email" type="java.lang.String">
+            <column name="email" />
+        </property>
+    </class>
+</hibernate-mapping>

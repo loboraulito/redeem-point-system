@@ -1,0 +1,72 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                                   "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Dec 23, 2011 3:27:11 PM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+ <class name="com.integral.system.invitation.bean.SystemInviteProcess" table="system_invite_process">
+  <id name="id" type="string">
+   <column length="50" name="id"/>
+   <generator class="uuid.hex"/>
+  </id>
+  <property generated="never" lazy="false" name="sponsor" type="string">
+   <column length="50" name="sponsor">
+    <comment>请求发起人</comment>
+   </column>
+  </property>
+  <property generated="never" lazy="false" name="recipient" type="string">
+   <column length="500" name="recipient">
+    <comment>请求接收人</comment>
+   </column>
+  </property>
+  <property generated="never" lazy="false" name="sponsorTime" type="timestamp">
+   <column length="19" name="sponsor_time">
+    <comment>请求发起时间</comment>
+   </column>
+  </property>
+  <property generated="never" lazy="false" name="processTime" type="timestamp">
+   <column length="19" name="process_time">
+    <comment>请求处理时间</comment>
+   </column>
+  </property>
+  <property generated="never" lazy="false" name="processStatus" type="string">
+   <column length="10" name="process_status">
+    <comment>请求处理状态</comment>
+   </column>
+  </property>
+  <property generated="never" lazy="false" name="invitationMenu" type="string">
+   <column length="50" name="invitation_menu">
+    <comment>请求相关菜单</comment>
+   </column>
+  </property>
+  <property generated="never" lazy="false" name="processResultCode" type="string">
+   <column length="10" name="process_result_code">
+    <comment>请求处理结果</comment>
+   </column>
+  </property>
+  <property generated="never" lazy="false" name="invitationEvent" type="string">
+   <column length="500" name="invitation_event">
+    <comment>请求事件</comment>
+   </column>
+  </property>
+  <property generated="never" lazy="false" name="invitationReason" type="string">
+   <column length="500" name="invitation_reason">
+    <comment>请求理由</comment>
+   </column>
+  </property>
+  <property generated="never" lazy="false" name="nextaction" type="string">
+   <column length="500" name="nextaction">
+    <comment>下一步</comment>
+   </column>
+  </property>
+  <property generated="never" lazy="false" name="relationData" type="string">
+   <column length="500" name="relation_data">
+    <comment>相关数据(json格式)</comment>
+   </column>
+  </property>
+  <property name="relationEntityName" type="string">
+   <column length="200" name="ralation_entity_name">
+    <comment>相关实体名</comment>
+   </column>
+  </property>
+ </class>
+</hibernate-mapping>

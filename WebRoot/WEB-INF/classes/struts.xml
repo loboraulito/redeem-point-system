@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC 
+      "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+      "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<constant name="struts.enable.DynamicMethodInvocation" value="false"></constant>
+	<constant name="struts.devMode" value="false"></constant>
+	<constant name="struts.i18n.encoding" value="UTF-8" />
+	
+	<!-- <constant name="struts.action.extension" value="action,," /> -->
+	
+	<!-- 使用struts.action.excludePattern配置的话，则必须配置Struts2的过滤器为：
+		org.apache.struts2.dispatcher.ng.filter.StrutsPrepareAndExecuteFilter
+		而不是org.apache.struts2.dispatcher.FilterDispatcher
+		下面的意思是除了/spring/.*?这种路径之外的其他所有请求都将被struts2拦截
+	 -->
+	<!-- <constant name="struts.action.excludePattern" value="/spring/.*?"></constant> -->
+	<constant name="struts.action.excludePattern" value="/spring/.*?,/dwr.*"></constant>
+	
+	<constant name="struts.objectFactory" value="spring" />
+	<constant name="struts.configuration.xml.reload" value="true"/>
+	<!-- 临时文件夹c:/tmp -->
+	<constant name="struts.multipart.saveDir" value="/tmp"></constant>
+	<!-- 文件上传最大长度 -->
+	<constant name="struts.multipart.maxSize" value="10240000"></constant>
+	<!-- 资源文件 -->
+	<constant name="struts.custom.i18n.resources" value="message_zh_CN"></constant>
+	
+	<!-- 用户管理 -->
+	<include file="com/integral/system/user/config/user.xml"></include>
+	<!-- 角色管理 -->
+	<include file="com/integral/system/role/config/role.xml"></include>
+	<!-- 菜单管理 -->
+	<include file="com/integral/system/menu/config/menu.xml"></include>
+	<!-- 按钮管理 -->
+	<include file="com/integral/system/menu/config/button.xml"></include>
+	<!-- 按钮权限管理 -->
+	<include file="com/integral/system/right/config/right.xml"></include>
+	<!-- 礼品管理 -->
+	<include file="com/integral/exchange/gifts/config/gift.xml"></include>
+	<!-- 系统数据字典管理 -->
+	<include file="com/integral/system/codelist/config/codelist.xml"></include>
+	<!-- 系统公共Action -->
+	<include file="com/integral/system/common/config/common.xml"></include>
+	<!-- 家庭管理 -->
+	<include file="com/integral/family/manage/config/family_manage.xml"></include>
+	<!-- 家庭成员管理 -->
+	<include file="com/integral/family/member/config/family_member.xml"></include>
+	<!-- 家庭关系管理 -->
+	<include file="com/integral/family/relationship/config/family_relation.xml"></include>
+	<!-- 系统请求处理 -->
+	<include file="com/integral/system/invitation/config/invitation.xml"></include>
+	<!-- 系统消息管理 -->
+	<include file="com/integral/system/message/config/message.xml"></include>
+</struts>
