@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC 
+      "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+      "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<package name="codelist" namespace="/codelist" extends="struts-default">
+		<!-- 切记：action name不能是一样的，否则会进不了Action -->
+		<action name="codelist" class="com.integral.system.codelist.action.CodeListAction" method="begin">
+			 <result name="success">/jsp/system/codelist/codelist.jsp</result>
+			 <result name="input">/index.jsp</result>
+		</action>
+		<action name="codeDataList" class="com.integral.system.codelist.action.CodeListAction" method="codeDataList">
+			 <result name="success">/jsp/system/codelist/codelist.jsp</result>
+			 <result name="input">/index.jsp</result>
+		</action>
+		<action name="codeList" class="com.integral.system.codelist.action.CodeListAction" method="codeList">
+			 <result name="success">/jsp/system/codelist/codelist.jsp</result>
+			 <result name="input">/index.jsp</result>
+		</action>
+		<action name="codeDataManageAdd" class="com.integral.system.codelist.action.CodeListAction" method="codeDataManageAdd">
+			 <result name="success">/jsp/system/codelist/codelist.jsp</result>
+			 <result name="input">/index.jsp</result>
+		</action>
+		<action name="codeDataManageEdit" class="com.integral.system.codelist.action.CodeListAction" method="codeDataManageEdit">
+			 <result name="success">/jsp/system/codelist/codelist.jsp</result>
+			 <result name="input">/index.jsp</result>
+		</action>
+		<action name="codeDataManageDel" class="com.integral.system.codelist.action.CodeListAction" method="codeDataManageDelete">
+			 <result name="success">/jsp/system/codelist/codelist.jsp</result>
+			 <result name="input">/index.jsp</result>
+		</action>
+		<action name="codeDataManageTree" class="com.integral.system.codelist.action.CodeListAction" method="codeDataManageTree">
+			 <result name="success">/jsp/system/codelist/codelist.jsp</result>
+			 <result name="input">/index.jsp</result>
+		</action>
+		<action name="codeListManageAdd" class="com.integral.system.codelist.action.CodeListAction" method="codeListManageAdd">
+			 <result name="success">/jsp/system/codelist/codelist.jsp</result>
+			 <result name="input">/index.jsp</result>
+		</action>
+		<action name="codeListManageEdit" class="com.integral.system.codelist.action.CodeListAction" method="codeListManageEdit">
+			 <result name="success">/jsp/system/codelist/codelist.jsp</result>
+			 <result name="input">/index.jsp</result>
+		</action>
+		<action name="codeListManageDel" class="com.integral.system.codelist.action.CodeListAction" method="codeListManageDelete">
+			 <result name="success">/jsp/system/codelist/codelist.jsp</result>
+			 <result name="input">/index.jsp</result>
+		</action>
+		<action name="codeListDataQuery" class="com.integral.system.codelist.action.CodeListAction" method="codeListDataQuery">
+			 <result name="success">/jsp/system/codelist/codelist.jsp</result>
+			 <result name="input">/index.jsp</result>
+		</action>
+		<action name="exportCodeDataList" class="com.integral.system.codelist.action.CodeListAction" method="exportCodeDataList">
+			 <result name="success">/jsp/system/codelist/codelist.jsp</result>
+			 <result name="input">/index.jsp</result>
+		</action>
+		<action name="exportCodeDataDemo" class="com.integral.system.codelist.action.CodeListAction" method="exportCodeDataDemo">
+			 <result name="success">/jsp/system/codelist/codelist.jsp</result>
+			 <result name="input">/index.jsp</result>
+		</action>
+		<action name="importCodeDataList" class="com.integral.system.codelist.action.CodeListAction" method="importCodeDataList">
+			 <interceptor-ref name="fileUpload">
+			 	<param name="allowedTypes">application/vnd.ms-excel,application/actet-stream,application/excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet</param>
+			 	<param name="maximumSize">2097152</param>
+			 </interceptor-ref>
+			 <param name="savePath">/temp</param>
+			 <interceptor-ref name="defaultStack"></interceptor-ref><!-- 添加验证功能,出错的话会转向/index.jsp -->
+			 <result name="success">/jsp/system/codelist/codelist.jsp</result>
+			 <!-- 设置为attachment,否则浏览器直接打开而不会出现下载页面
+			 <result name = "success" type = "stream">
+  			 	<param name="contentDisposition">attachment;filename=${fileName}</param>
+  			 </result>
+  			  -->
+			 <result name="input">/index.jsp</result>
+		</action>
+	</package>
+</struts>

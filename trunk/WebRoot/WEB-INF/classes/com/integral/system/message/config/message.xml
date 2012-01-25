@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC 
+      "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+      "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<package name="message" namespace="/message" extends="struts-default">
+		<!-- 切记：action name不能是一样的，否则会进不了Action -->
+		<action name="message" class="com.integral.system.message.action.MessageAction" method="begin">
+			 <result name="success">/jsp/system/message/message.jsp</result>
+			 <result name="input">/index.jsp</result>
+		</action>
+		<action name="messageList" class="com.integral.system.message.action.MessageAction" method="messageList">
+			 <result name="success">/jsp/system/message/message.jsp</result>
+			 <result name="input">/index.jsp</result>
+		</action>
+		<action name="messageSend" class="com.integral.system.message.action.MessageAction" method="sendMessage">
+			 <result name="success">/jsp/system/message/message.jsp</result>
+			 <result name="input">/index.jsp</result>
+		</action>
+		<action name="messageReceive" class="com.integral.system.message.action.MessageAction" method="receiveMessage">
+			 <result name="success">/jsp/system/message/message.jsp</result>
+			 <result name="input">/index.jsp</result>
+		</action>
+		<action name="messageDelete" class="com.integral.system.message.action.MessageAction" method="deleteMessage">
+			 <result name="success">/jsp/system/message/message.jsp</result>
+			 <result name="input">/index.jsp</result>
+		</action>
+		<action name="messageQuery" class="com.integral.system.message.action.MessageAction" method="queryMessage">
+			 <result name="success">/jsp/system/message/message.jsp</result>
+			 <result name="input">/index.jsp</result>
+		</action>
+		<action name="messageRead" class="com.integral.system.message.action.MessageAction" method="readMessage">
+			 <result name="success">/jsp/system/message/message.jsp</result>
+			 <result name="input">/index.jsp</result>
+		</action>
+	</package>
+</struts>
