@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2011-8-9 22:20:37 by Hibernate Tools 3.3.0.GA -->
+<hibernate-mapping>
+    <class name="com.integral.system.codelist.bean.CodeList" table="point_system_codelist">
+        <id name="codeId" type="java.lang.String">
+            <column name="codeid" />
+            <generator class="uuid.hex" />
+        </id>
+        <property name="codeName" type="java.lang.String">
+            <column name="codename" />
+        </property>
+    </class>
+</hibernate-mapping>
