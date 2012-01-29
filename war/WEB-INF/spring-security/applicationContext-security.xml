@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:security="http://www.springframework.org/schema/security"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+                http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+                http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.0.xsd">
+	<!-- 配置所有角色都能访问的资源-->
+	<!-- 
+	<security:http pattern="/images/**" security="none"></security:http>
+	<security:http pattern="/css/**" security="none"></security:http>
+	<security:http pattern="/js/**" security="none"></security:http>
+	 -->
+	<!-- 配置Security，只有角色是ROLE_USER才能访问 -->
+	<security:http access-denied-page="/denied.jsp" auto-config="true">
+		<security:intercept-url pattern="/images/**" filters="none"/>
+		<security:intercept-url pattern="/css/**" filters="none"/>
+		<security:intercept-url pattern="/js/**" filters="none"/>
+		<security:intercept-url pattern="/dwr/**" filters="none"/>
+		<security:intercept-url pattern="/picture/**" filters="none"/>
+		<security:intercept-url pattern="/jsp/common/config.jsp" filters="none"/>
+		<security:intercept-url pattern="/jsp/common/header.jsp" filters="none"/>
+		<security:intercept-url pattern="/index.jsp" filters="none"/>
+		<security:intercept-url pattern="/login.jsp" filters="none"/>
+		<!-- 主页 -->
+		<security:intercept-url pattern="/jsp/main.jsp" filters="none"/>
+		<!-- 测试jQuery主页 -->
+		<security:intercept-url pattern="/jsp/client/index.jsp" filters="none"/>
+		<!-- 礼品列表信息 -->
+		<security:intercept-url pattern="/gift/giftManageList.action/**" filters="none"/>
+		<!-- 会话超时 -->
+		<security:intercept-url pattern="/timeout.jsp" filters="none"/>
+		<!-- 某菜单页面ID -->
+		<security:intercept-url pattern="/menu/findMenuId.action/**" filters="none"/>
+		<!-- 
+		<security:intercept-url pattern="/menu/childModule.action/**" filters="none"/>
+		 -->
+		<!-- 菜单目录,左边的菜单部分  begin -->
+		<security:intercept-url pattern="/menu/rightChildModule.action/**" filters="none"/>
+		<security:intercept-url pattern="/menu/rootModule.action/**" filters="none"/>
+		<!-- 菜单目录,左边的菜单部分  end -->
+		<!-- 下拉树型结构 -->
+		<security:intercept-url pattern="/menu/menuComboTree.action/**" filters="none"/>
+		<!-- 数据标准下拉树型结构 -->
+		<security:intercept-url pattern="/codelist/codeDataManageTree.action/**" filters="none"/>
+		<!-- 系统公共模块 -->
+		<security:intercept-url pattern="/common/codeListCombo.action/**" filters="none"/>
+		<security:intercept-url pattern="/common/codeListAddress.action/**" filters="none"/>
+		<!-- 获取有权限访问的按钮 -->
+		<security:intercept-url pattern="/right/showButtons.action/**" filters="none"/>
+		<!-- 获取所有用户以及角色 -->
+		<security:intercept-url pattern="/right/finAuthorizeUserRole.action/**" filters="none"/>
+		<!-- 验证用户名是否重复 -->
+		<security:intercept-url pattern="/user/userValidation.action/**" filters="none"/>
+		<!-- 系统用户注册 -->
+		<security:intercept-url pattern="/user/userRegister.action/**" filters="none"/>
+		<!-- 配置登录页面 -->
+		<security:form-login login-page="/index.jsp" default-target-url="/index.jsp" authentication-success-handler-ref="loginSuccessHandler" authentication-failure-handler-ref="loginFailureHandler"/>
+		<!-- 
+		<security:form-login login-page="/login.jsp" default-target-url="/index.jsp"></security:form-login>
+		 -->
+		<!-- 配置退出成功之后转向的页面 -->
+		<security:logout invalidate-session="true" logout-success-url="/login.jsp" logout-url="/j_spring_security_logout"/>
+		<!-- 配置Session同步 -->
+		<security:session-management invalid-session-url="/index.jsp">
+			<!-- 定义一个用户一次只能登录一次系统,如果希望第二次登录取代第一次登录，删掉error-if-maximum-exceeded设置 -->
+			<security:concurrency-control max-sessions="1" />
+		</security:session-management>
+		<!-- 配置remember me服务持久化到数据库  -->
+		<security:remember-me key="SsxYVJRxWmhrEQ3VuvaVWTF81eA5K6G5" services-ref="rememberMeServices"/>
+		
+		<!-- 增加logout的处理，要增加下面的filter的话，必须把auto-config="true"去掉，否则冲突报错 -->
+		<!-- <security:custom-filter ref="logoutFilter" position="LOGOUT_FILTER"/> -->
+		<!-- 实现自定义的filter，动态的从数据库中获取用户以及角色等信息 -->
+		<security:custom-filter ref="mySystemFilter" before="FILTER_SECURITY_INTERCEPTOR"/>
+		<!-- 实现自定义登陆filter，获取用户信息 -->
+		<!-- 
+		<security:custom-filter ref="authenticationProcessingFilter" before="FORM_LOGIN_FILTER"/>
+		 -->
+	</security:http>
+	<!-- 认证管理器，实现用户认证的入口，主要实现UserDetailsService接口即可 如下,可以配置多个Provider -->
+	<security:authentication-manager alias="authenticationManager">
+		<security:authentication-provider user-service-ref="userDetailsService">
+		<!-- <security:authentication-provider ref="daoAuthenticationProvider"> --> <!-- 如果这里不用这个userDetailsService的话，系统将不会调用decide方法  -->
+			<security:password-encoder hash="md5">
+				<security:salt-source user-property="username"/>
+			</security:password-encoder>
+		</security:authentication-provider>
+		<security:authentication-provider ref="rememberMeAuthenticationProvider">
+			<security:password-encoder hash="md5">
+				<security:salt-source user-property="username"/>
+			</security:password-encoder>
+		</security:authentication-provider>
+	</security:authentication-manager>
+	<!-- 
+	<bean id="daoAuthenticationProvider" class="org.springframework.security.authentication.dao.DaoAuthenticationProvider">
+		<property name="userDetailsService" ref="userDetailsService"></property>
+	</bean>
+	 -->
+	<!-- 
+	<bean id="userDetailsService" class="com.integral.system.user.service.security.UserDetailServiceImpl"></bean>
+	 -->
+	<bean id="myAccessDecisionManagerBean" class="com.integral.util.spring.security.AccessDecisionManagerImpl"></bean>
+	<bean id="securityMetadataSource" class="com.integral.util.spring.security.SecurityMetadataSourceServiceImpl">
+		<constructor-arg>
+			<ref bean="UserDao"/>
+		</constructor-arg>
+		<constructor-arg>
+			<ref bean="UserRoleDao"/>
+		</constructor-arg>
+		<constructor-arg>
+			<ref bean="RoleDao"/>
+		</constructor-arg>
+		<constructor-arg>
+			<ref bean="RoleMenuDao"/>
+		</constructor-arg>
+		<constructor-arg>
+			<ref bean="MenuDao"/>
+		</constructor-arg>
+		<constructor-arg>
+			<ref bean="roleMenuService"/>
+		</constructor-arg>
+		<constructor-arg>
+			<ref bean="rightService"/>
+		</constructor-arg>
+		<constructor-arg>
+			<ref bean="buttonService"/>
+		</constructor-arg>
+	</bean>
+	<bean id="userDetailsService" parent="serviceProxy">
+		<property name="target">
+			<bean
+				class="com.integral.util.spring.security.UserDetailServiceImpl"
+				abstract="false" lazy-init="default" autowire="default">
+				<property name="userDao">
+					<ref bean="UserDao" />
+				</property>
+				<property name="roleDao">
+					<ref bean="RoleDao" />
+				</property>
+			</bean>
+		</property>
+		<property name="transactionAttributes">
+			<props>
+				<prop key="add*">PROPAGATION_REQUIRED</prop>
+				<prop key="del*">PROPAGATION_REQUIRED</prop>
+				<prop key="edit*">PROPAGATION_REQUIRED</prop>
+				<prop key="upd*">PROPAGATION_REQUIRED</prop>
+				<prop key="sa*">PROPAGATION_REQUIRED</prop>
+			</props>
+		</property>
+	</bean>
+	<bean id="myMethodSecurityMetadataSource" class="com.integral.util.spring.security.MethodSecurityMetadataSource"></bean>
+	
+	<bean id="rememberMeAuthenticationProvider" class="org.springframework.security.authentication.RememberMeAuthenticationProvider">
+		<property name="key" value="springsecurityCookies1"></property>
+	</bean>
+	
+	<bean id="filterSecurityInterceptor" class="org.springframework.security.web.access.intercept.FilterSecurityInterceptor">
+		<!-- <security:custom-filter before="FILTER_SECURITY_INTERCEPTOR"/> -->
+		<property name="authenticationManager" ref="authenticationManager"></property>
+		<property name="accessDecisionManager" ref="myAccessDecisionManagerBean"></property>
+		<property name="securityMetadataSource" ref="securityMetadataSource"></property>
+	</bean>
+	<!-- 
+	<bean id="rememberMeServices" class="org.springframework.security.web.authentication.rememberme.TokenBasedRememberMeServices">
+		<property name="userDetailsService" ref="userDetailsService"></property>
+		<property name="key" value="SsxYVJRxWmhrEQ3VuvaVWTF81eA5K6G5"></property>
+		<property name="alwaysRemember" value="true"></property>
+		<property name="tokenValiditySeconds" value="86400"></property>
+		<property name="parameter" value="_spring_security_remember_me"></property>
+	</bean>
+	 -->
+	
+	<bean id="rememberMeServices" class="org.springframework.security.web.authentication.rememberme.PersistentTokenBasedRememberMeServices">
+		<property name="tokenRepository" ref="jdbcTokenRepository"></property>
+		<property name="userDetailsService" ref="userDetailsService"></property>
+		<property name="key" value="SsxYVJRxWmhrEQ3VuvaVWTF81eA5K6G5"></property>
+		<property name="alwaysRemember" value="true"></property>
+		<property name="tokenValiditySeconds" value="86400"></property>
+		<property name="parameter" value="_spring_security_remember_me"></property>
+	</bean>
+	
+	<bean id="jdbcTokenRepository" class="org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl">
+		<property name="createTableOnStartup" value="false"></property>
+		<property name="dataSource" ref="dataSource"></property>
+	</bean>
+	
+	<bean id="mySystemFilter" class="com.integral.util.spring.security.filter.SystemFilter">
+		<property name="authenticationManager" ref="authenticationManager"></property>
+		<property name="accessDecisionManager" ref="myAccessDecisionManagerBean"></property>
+		<property name="securityMetadataSource" ref="securityMetadataSource"></property>
+		<property name="resourceDetailsMonitor" ref="resourceDetailsMonitor"></property>
+	</bean>
+	<!-- authenticationProcessingFilter 未使用 -->
+	<!-- 
+	<bean id="authenticationProcessingFilter" class="org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter">
+		<property name="authenticationManager" ref="authenticationManager"></property>
+		<property name="authenticationSuccessHandler" ref="loginSuccessHandler">
+			<bean class="com.integral.system.login.MyAuthenticationSuccessHandler">
+				<property name="d​​efaultTargetUrl" value="/index.jsp"></property>
+			</bean>
+		</property>
+		<property name="filterProcessesUrl" value="/j_spring_security_check"></property>
+	</bean>
+	 -->
+	 <!-- 
+	<bean id="logoutFilter" class="org.springframework.security.web.authentication.logout.LogoutFilter">
+		<constructor-arg value="/index.jsp"></constructor-arg>
+		<constructor-arg>
+			<list>
+				<ref bean="rememberMeServices"/>
+				<bean class="org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler"></bean>
+			</list>
+		</constructor-arg>
+	</bean>
+	 -->
+	<!-- 用户登录成功处理类 -->
+	<bean id="loginSuccessHandler" class="com.integral.system.login.LoginSuccessHandler">
+		<property name="roleMenuService" ref="roleMenuService"></property>
+		<property name="menuService" ref="menuService"></property>
+		<property name="roleService" ref="roleService"></property>
+		<property name="userRoleService" ref="userRoleService"></property>
+	</bean>
+	<!-- 用户登录失败处理类 -->
+	<bean id="loginFailureHandler" class="com.integral.system.login.LoginFailureHandler"></bean>
+	
+	<bean id="resourceDetailsMonitor" class="com.integral.util.spring.security.ResourceDetailsMonitor">
+		<property name="accessDecisionManager" ref="myAccessDecisionManagerBean"></property>
+		<property name="filterSecurityInterceptor" ref="filterSecurityInterceptor"></property>
+		<property name="securityMetadataSource" ref="securityMetadataSource"></property>
+		<property name="userDao" ref="UserDao"></property>
+		<property name="userRoleDao" ref="UserRoleDao"></property>
+		<property name="roleDao" ref="RoleDao"></property>
+		<property name="roleMenuDao" ref="RoleMenuDao"></property>
+		<property name="menuDao" ref="MenuDao"></property>
+		<property name="roleMenuService" ref="roleMenuService"></property>
+		<property name="rightService" ref="rightService"></property>
+		<property name="buttonService" ref="buttonService"></property>
+	</bean>
+	
+	<!-- 配置对方法的保护 -->
+	<bean id="methodSecurityInterceptor" class="org.springframework.security.access.intercept.aopalliance.MethodSecurityInterceptor">
+		<property name="validateConfigAttributes" value="false"></property>
+		<property name="authenticationManager" ref="authenticationManager"></property>
+		<property name="accessDecisionManager" ref="myAccessDecisionManagerBean"></property>
+		<property name="securityMetadataSource" ref="myMethodSecurityMetadataSource"></property>
+	</bean>
+	
+	<!-- 国际化配置 -->
+	<!-- 调用Spring Security自带的国际化文件 （测试通过）
+	<bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+		<property name="basename" value="org/springframework/security/messages_zh_CN"></property>
+	</bean>
+	 -->
+	<!-- 调用Spring Security自带的国际化文件（测试通过）
+	<bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+		<property name="basename" value="classpath:org/springframework/security/messages_zh_CN"></property>
+	</bean>
+	 -->
+	<!-- 自定义国际化文件 -->
+	<bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+		<property name="basename" value="classpath:com/integral/util/i18n/message_zh_CN"></property>
+	</bean> 
+	<bean id="localResolver" class="org.springframework.web.servlet.i18n.AcceptHeaderLocaleResolver"></bean>
+	
+	<!-- Installs a listener to apply Spring Security authorities -->
+	<bean id="securityFlowExecutionListener" class="org.springframework.webflow.security.SecurityFlowExecutionListener"></bean> 
+</beans>

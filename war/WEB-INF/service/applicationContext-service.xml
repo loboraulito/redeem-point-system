@@ -1,0 +1,403 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:security="http://www.springframework.org/schema/security"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+                http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+                http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.1.xsd">
+	<!-- 角色菜单service -->
+	<bean id="roleMenuService" parent="serviceProxy">
+		<property name="target">
+			<bean
+				class="com.integral.system.role.service.impl.RoleMenuService"
+				abstract="false" lazy-init="default" autowire="default">
+				<property name="userRoleDao">
+					<ref bean="UserRoleDao" />
+				</property>
+				<property name="roleDao">
+					<ref bean="RoleDao" />
+				</property>
+				<property name="roleMenuDao">
+					<ref bean="RoleMenuDao" />
+				</property>
+				<property name="menuDao">
+					<ref bean="MenuDao" />
+				</property>
+				<property name="userDao">
+					<ref bean="UserDao" />
+				</property>
+				<property name="baseDao" ref="BaseDao"></property>
+			</bean>
+		</property>
+		<property name="transactionAttributes">
+			<props>
+				<prop key="add*">PROPAGATION_REQUIRED</prop>
+				<prop key="del*">PROPAGATION_REQUIRED</prop>
+				<prop key="edit*">PROPAGATION_REQUIRED</prop>
+				<prop key="upd*">PROPAGATION_REQUIRED</prop>
+				<prop key="sa*">PROPAGATION_REQUIRED</prop>
+			</props>
+		</property>
+	</bean>
+	
+	<!-- 菜单service -->
+	<bean id="menuService" parent="serviceProxy">
+		<property name="target">
+			<bean
+				class="com.integral.system.menu.service.impl.MenuService"
+				abstract="false" lazy-init="default" autowire="default">
+				<property name="menuDao">
+					<ref bean="MenuDao" />
+				</property>
+				<property name="baseDao" ref="BaseDao"></property>
+			</bean>
+		</property>
+		<property name="transactionAttributes">
+			<props>
+				<prop key="add*">PROPAGATION_REQUIRED</prop>
+				<prop key="del*">PROPAGATION_REQUIRED</prop>
+				<prop key="edit*">PROPAGATION_REQUIRED</prop>
+				<prop key="upd*">PROPAGATION_REQUIRED</prop>
+				<prop key="sa*">PROPAGATION_REQUIRED</prop>
+			</props>
+		</property>
+	</bean>
+	
+	<!-- 角色Service -->
+	<bean id="roleService" parent="serviceProxy">
+		<property name="target">
+			<bean
+				class="com.integral.system.role.service.impl.RoleService"
+				abstract="false" lazy-init="default" autowire="default">
+				<property name="roleDao">
+					<ref bean="RoleDao" />
+				</property>
+				<property name="baseDao" ref="BaseDao"></property>
+			</bean>
+		</property>
+		<property name="transactionAttributes">
+			<props>
+				<prop key="add*">PROPAGATION_REQUIRED</prop>
+				<prop key="del*">PROPAGATION_REQUIRED</prop>
+				<prop key="edit*">PROPAGATION_REQUIRED</prop>
+				<prop key="upd*">PROPAGATION_REQUIRED</prop>
+				<prop key="sa*">PROPAGATION_REQUIRED</prop>
+			</props>
+		</property>
+	</bean>
+	
+	<!-- 用户角色Service -->
+	<bean id="userRoleService" parent="serviceProxy">
+		<property name="target">
+			<bean
+				class="com.integral.system.role.service.impl.UserRoleService"
+				abstract="false" lazy-init="default" autowire="default">
+				<property name="roleDao">
+					<ref bean="RoleDao" />
+				</property>
+				<property name="userRoleDao" ref="UserRoleDao"></property>
+				<property name="baseDao" ref="BaseDao"></property>
+			</bean>
+		</property>
+		<property name="transactionAttributes">
+			<props>
+				<prop key="add*">PROPAGATION_REQUIRED</prop>
+				<prop key="del*">PROPAGATION_REQUIRED</prop>
+				<prop key="edit*">PROPAGATION_REQUIRED</prop>
+				<prop key="upd*">PROPAGATION_REQUIRED</prop>
+				<prop key="sa*">PROPAGATION_REQUIRED</prop>
+			</props>
+		</property>
+	</bean>
+	
+	<!-- 菜单工具Service -->
+	<bean id="menuUtil" parent="serviceProxy">
+		<property name="target">
+			<bean
+				class="com.integral.util.menu.MenuUtils"
+				abstract="false" lazy-init="default" autowire="default">
+				<property name="roleMenuService" ref="roleMenuService"></property>
+				<property name="menuService" ref="menuService"></property>
+				<property name="roleService" ref="roleService"></property>
+				<property name="userRoleService" ref="userRoleService"></property>
+			</bean>
+		</property>
+		<property name="transactionAttributes">
+			<props>
+				<prop key="add*">PROPAGATION_REQUIRED</prop>
+				<prop key="del*">PROPAGATION_REQUIRED</prop>
+				<prop key="edit*">PROPAGATION_REQUIRED</prop>
+				<prop key="upd*">PROPAGATION_REQUIRED</prop>
+				<prop key="sa*">PROPAGATION_REQUIRED</prop>
+			</props>
+		</property>
+	</bean>
+	
+	<!-- 按钮工具Service -->
+	<bean id="buttonService" parent="serviceProxy">
+		<property name="target">
+			<bean
+				class="com.integral.system.menu.service.impl.ButtonService"
+				abstract="false" lazy-init="default" autowire="default">
+				<property name="buttonDao" ref="ButtonDao"></property>
+				<property name="baseDao" ref="BaseDao"></property>
+			</bean>
+		</property>
+		<property name="transactionAttributes">
+			<props>
+				<prop key="add*">PROPAGATION_REQUIRED</prop>
+				<prop key="del*">PROPAGATION_REQUIRED</prop>
+				<prop key="edit*">PROPAGATION_REQUIRED</prop>
+				<prop key="upd*">PROPAGATION_REQUIRED</prop>
+				<prop key="sa*">PROPAGATION_REQUIRED</prop>
+			</props>
+		</property>
+	</bean>
+	
+	<!-- 按钮权限Service -->
+	<bean id="rightService" parent="serviceProxy">
+		<property name="target">
+			<bean
+				class="com.integral.system.right.service.impl.RightService"
+				abstract="false" lazy-init="default" autowire="default">
+				<property name="rightDao" ref="RightDao"></property>
+				<property name="baseDao" ref="BaseDao"></property>
+			</bean>
+		</property>
+		<property name="transactionAttributes">
+			<props>
+				<prop key="add*">PROPAGATION_REQUIRED</prop>
+				<prop key="del*">PROPAGATION_REQUIRED</prop>
+				<prop key="edit*">PROPAGATION_REQUIRED</prop>
+				<prop key="upd*">PROPAGATION_REQUIRED</prop>
+				<prop key="sa*">PROPAGATION_REQUIRED</prop>
+			</props>
+		</property>
+	</bean>
+	
+	<!-- 用户管理Service -->
+	<bean id="userService" parent="serviceProxy">
+		<property name="target">
+			<bean
+				class="com.integral.system.user.service.impl.UserService"
+				abstract="false" lazy-init="default" autowire="default">
+				<property name="userDao" ref="UserDao"></property>
+				<property name="baseDao" ref="BaseDao"></property>
+			</bean>
+		</property>
+		<property name="transactionAttributes">
+			<props>
+				<prop key="add*">PROPAGATION_REQUIRED</prop>
+				<prop key="del*">PROPAGATION_REQUIRED</prop>
+				<prop key="edit*">PROPAGATION_REQUIRED</prop>
+				<prop key="upd*">PROPAGATION_REQUIRED</prop>
+				<prop key="sa*">PROPAGATION_REQUIRED</prop>
+			</props>
+		</property>
+	</bean>
+	<!-- 授权管理Service -->
+	<bean id="authorizeService" parent="serviceProxy">
+		<property name="target">
+			<bean
+				class="com.integral.system.right.service.impl.AuthorizeService"
+				abstract="false" lazy-init="default" autowire="default">
+				<property name="authorizeDao" ref="AuthorizeDao"></property>
+				<property name="baseDao" ref="BaseDao"></property>
+			</bean>
+		</property>
+		<property name="transactionAttributes">
+			<props>
+				<prop key="add*">PROPAGATION_REQUIRED</prop>
+				<prop key="del*">PROPAGATION_REQUIRED</prop>
+				<prop key="edit*">PROPAGATION_REQUIRED</prop>
+				<prop key="upd*">PROPAGATION_REQUIRED</prop>
+				<prop key="sa*">PROPAGATION_REQUIRED</prop>
+			</props>
+		</property>
+	</bean>
+	
+	<!-- 礼品管理Service -->
+	<bean id="giftService" parent="serviceProxy">
+		<property name="target">
+			<bean
+				class="com.integral.exchange.gifts.service.impl.GiftService"
+				abstract="false" lazy-init="default" autowire="default">
+				<property name="giftDao" ref="GiftDao"></property>
+				<property name="baseDao" ref="BaseDao"></property>
+			</bean>
+		</property>
+		<property name="transactionAttributes">
+			<props>
+				<prop key="add*">PROPAGATION_REQUIRED</prop>
+				<prop key="del*">PROPAGATION_REQUIRED</prop>
+				<prop key="edit*">PROPAGATION_REQUIRED</prop>
+				<prop key="upd*">PROPAGATION_REQUIRED</prop>
+				<prop key="sa*">PROPAGATION_REQUIRED</prop>
+			</props>
+		</property>
+	</bean>
+	<!-- 数据字典Service -->
+	<bean id="codeListService" parent="serviceProxy">
+		<property name="target">
+			<bean
+				class="com.integral.system.codelist.service.impl.CodeListServiceImpl"
+				abstract="false" lazy-init="default" autowire="default">
+				<property name="codeListDao" ref="CodeListDao"></property>
+				<property name="codeListDataDao" ref="CodeListDataDao"></property>
+				<property name="baseDao" ref="BaseDao"></property>
+			</bean>
+		</property>
+		<property name="transactionAttributes">
+			<props>
+				<prop key="add*">PROPAGATION_REQUIRED</prop>
+				<prop key="del*">PROPAGATION_REQUIRED</prop>
+				<prop key="edit*">PROPAGATION_REQUIRED</prop>
+				<prop key="upd*">PROPAGATION_REQUIRED</prop>
+				<prop key="sa*">PROPAGATION_REQUIRED</prop>
+			</props>
+		</property>
+	</bean>
+	<!-- 数据字典数据Service -->
+	<bean id="codeListDataService" parent="serviceProxy">
+		<property name="target">
+			<bean
+				class="com.integral.system.codelist.service.impl.CodeListDataServiceImpl"
+				abstract="false" lazy-init="default" autowire="default">
+				<property name="codeListDao" ref="CodeListDao"></property>
+				<property name="codeListDataDao" ref="CodeListDataDao"></property>
+				<property name="baseDao" ref="BaseDao"></property>
+			</bean>
+		</property>
+		<property name="transactionAttributes">
+			<props>
+				<prop key="add*">PROPAGATION_REQUIRED</prop>
+				<prop key="del*">PROPAGATION_REQUIRED</prop>
+				<prop key="edit*">PROPAGATION_REQUIRED</prop>
+				<prop key="upd*">PROPAGATION_REQUIRED</prop>
+				<prop key="sa*">PROPAGATION_REQUIRED</prop>
+			</props>
+		</property>
+	</bean>
+	
+	<!-- 系统公共Service -->
+	<bean id="commonService" parent="serviceProxy">
+		<property name="target">
+			<bean
+				class="com.integral.system.common.service.impl.CommonServiceImpl"
+				abstract="false" lazy-init="default" autowire="default">
+				<property name="baseDao" ref="BaseDao"></property>
+			</bean>
+		</property>
+		<property name="transactionAttributes">
+			<props>
+				<prop key="add*">PROPAGATION_REQUIRED</prop>
+				<prop key="del*">PROPAGATION_REQUIRED</prop>
+				<prop key="edit*">PROPAGATION_REQUIRED</prop>
+				<prop key="upd*">PROPAGATION_REQUIRED</prop>
+				<prop key="sa*">PROPAGATION_REQUIRED</prop>
+			</props>
+		</property>
+	</bean>
+	
+	<!-- 家庭管理Service -->
+	<bean id="familyManageService" parent="serviceProxy">
+		<property name="target">
+			<bean
+				class="com.integral.family.manage.service.impl.FamilyInfoServiceImpl"
+				abstract="false" lazy-init="default" autowire="default">
+				<property name="baseDao" ref="BaseDao"></property>
+				<property name="familyInfoDao" ref="FamilyInfoDAO"></property>
+			</bean>
+		</property>
+		<property name="transactionAttributes">
+			<props>
+				<prop key="add*">PROPAGATION_REQUIRED</prop>
+				<prop key="del*">PROPAGATION_REQUIRED</prop>
+				<prop key="edit*">PROPAGATION_REQUIRED</prop>
+				<prop key="upd*">PROPAGATION_REQUIRED</prop>
+				<prop key="sa*">PROPAGATION_REQUIRED</prop>
+			</props>
+		</property>
+	</bean>
+	
+	<!-- 家庭成员管理Service -->
+	<bean id="familyMemberService" parent="serviceProxy">
+		<property name="target">
+			<bean
+				class="com.integral.family.member.service.impl.FamilyMemberServiceImpl"
+				abstract="false" lazy-init="default" autowire="default">
+				<property name="baseDao" ref="BaseDao"></property>
+				<property name="familyMemberDao" ref="FamilyMemberDAO"></property>
+			</bean>
+		</property>
+		<property name="transactionAttributes">
+			<props>
+				<prop key="add*">PROPAGATION_REQUIRED</prop>
+				<prop key="del*">PROPAGATION_REQUIRED</prop>
+				<prop key="edit*">PROPAGATION_REQUIRED</prop>
+				<prop key="upd*">PROPAGATION_REQUIRED</prop>
+				<prop key="sa*">PROPAGATION_REQUIRED</prop>
+			</props>
+		</property>
+	</bean>
+	
+	<!-- 家庭关系管理Service -->
+	<bean id="familyRelationService" parent="serviceProxy">
+		<property name="target">
+			<bean
+				class="com.integral.family.relationship.service.impl.FamilyRelationServiceImpl"
+				abstract="false" lazy-init="default" autowire="default">
+				<property name="baseDao" ref="BaseDao"></property>
+				<property name="familyRelationDao" ref="FamilyRelationDAO"></property>
+			</bean>
+		</property>
+		<property name="transactionAttributes">
+			<props>
+				<prop key="add*">PROPAGATION_REQUIRED</prop>
+				<prop key="del*">PROPAGATION_REQUIRED</prop>
+				<prop key="edit*">PROPAGATION_REQUIRED</prop>
+				<prop key="upd*">PROPAGATION_REQUIRED</prop>
+				<prop key="sa*">PROPAGATION_REQUIRED</prop>
+			</props>
+		</property>
+	</bean>
+	<!-- 系统请求处理 -->
+	<bean id="systemInviteProcessService" parent="serviceProxy">
+		<property name="target">
+			<bean
+				class="com.integral.system.invitation.service.impl.SystemInviteProcessServiceImpl"
+				abstract="false" lazy-init="default" autowire="default">
+				<property name="baseDao" ref="BaseDao"></property>
+				<property name="systemInviteProcessDao" ref="SystemInviteProcessDAO"></property>
+			</bean>
+		</property>
+		<property name="transactionAttributes">
+			<props>
+				<prop key="add*">PROPAGATION_REQUIRED</prop>
+				<prop key="del*">PROPAGATION_REQUIRED</prop>
+				<prop key="edit*">PROPAGATION_REQUIRED</prop>
+				<prop key="upd*">PROPAGATION_REQUIRED</prop>
+				<prop key="sa*">PROPAGATION_REQUIRED</prop>
+			</props>
+		</property>
+	</bean>
+	<bean id="messageService" parent="serviceProxy">
+		<property name="target">
+			<bean
+				class="com.integral.system.message.service.impl.MessageServiceImpl"
+				abstract="false">
+			<property name="baseDao" ref="BaseDao"></property>
+			<property name="messageDao" ref="MessageDao"></property>
+			</bean>
+		</property>
+		<property name="transactionAttributes">
+			<props>
+				<prop key="add*">PROPAGATION_REQUIRED</prop>
+				<prop key="del*">PROPAGATION_REQUIRED</prop>
+				<prop key="edit*">PROPAGATION_REQUIRED</prop>
+				<prop key="upd*">PROPAGATION_REQUIRED</prop>
+				<prop key="sa*">PROPAGATION_REQUIRED</prop>
+			</props>
+		</property>
+	</bean>
+</beans>
