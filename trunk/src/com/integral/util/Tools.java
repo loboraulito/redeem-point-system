@@ -555,6 +555,19 @@ public class Tools {
         }
         return end;
     }
+    /**
+     * <p>Discription:[获取某年第N天的日期]</p>
+     * @param year
+     * @param days
+     * @return
+     * @throws ParseException
+     * @author:[代超]
+     * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
+     */
+    public static Date getDateFromYearDays(int year, int days) throws ParseException{
+        String date = year +"-1-1";
+        return addDayToDate(StringToDate(date), days - 1);
+    }
     
     public static void iLoveBaby() throws ParseException{
         Date today = StringToDate(dateToString(new Date(),"yyyy-MM-dd"));
@@ -589,6 +602,8 @@ public class Tools {
         
         System.out.println("company time : "+getDaysBetweenDates(today, to));
         
+        
+        System.out.println("1984年的第234天的日期是 : "+dateToString(getDateFromYearDays(1984, 234)));
         //System.out.println(getDateAfterDays(today, 15));
         //System.out.println(getDateAfterDays(today, 15));
         //Date newYear = StringToDate("2012-01-01");
