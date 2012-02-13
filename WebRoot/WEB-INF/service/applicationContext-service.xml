@@ -386,8 +386,9 @@
 			<bean
 				class="com.integral.system.message.service.impl.MessageServiceImpl"
 				abstract="false">
-			<property name="baseDao" ref="BaseDao"></property>
-			<property name="messageDao" ref="MessageDao"></property>
+				<property name="baseDao" ref="BaseDao"></property>
+				<property name="messageDao" ref="MessageDao"></property>
+				<property name="sender" ref="dwrMessageSenderService"></property>
 			</bean>
 		</property>
 		<property name="transactionAttributes">
