@@ -19,13 +19,22 @@ import com.integral.util.spring.quartz.DynamicJobSchedule;
 
 public class Tools {
     private static DynamicJobSchedule dynamicJobSchedule;
+    private static MessageSender dwrMessageSenderService;
     
     public DynamicJobSchedule getDynamicJobSchedule() {
         return dynamicJobSchedule;
     }
 
     public void setDynamicJobSchedule(DynamicJobSchedule dynamicJobSchedule) {
-        this.dynamicJobSchedule = dynamicJobSchedule;
+        Tools.dynamicJobSchedule = dynamicJobSchedule;
+    }
+
+    public MessageSender getDwrMessageSenderService() {
+        return dwrMessageSenderService;
+    }
+
+    public void setDwrMessageSenderService(MessageSender dwrMessageSenderService) {
+        Tools.dwrMessageSenderService = dwrMessageSenderService;
     }
 
     /**
@@ -576,16 +585,16 @@ public class Tools {
         String msg = "I love Baby : " + getDaysBetweenDates(from, today) +" 天";
         msg += "<br/>company time : " + getDaysBetweenDates(today, to)+ " 天";
         msg += "<br/>本条信息由系统自动发送，无法查看！";
-        MessageSender sender = new MessageSender();
+        //MessageSender sender = new MessageSender();
         SystemMessage message = new SystemMessage();
         message.setMessageContent(msg);
         message.setMessageSendTime(new Date());
-        sender.sendMessageWithPage("swpigris81", message);
+        dwrMessageSenderService.sendMessageWithPage("swpigris81", message);
         
         
         //以下代码仅用于测试动态设置quartz
         String newCorn = "0 0/1 10-23 * * ?";
-        DynamicJobSchedule sc = new DynamicJobSchedule();
+        //DynamicJobSchedule sc = new DynamicJobSchedule();
         try {
             dynamicJobSchedule.dynamicSchedule(newCorn);
         }

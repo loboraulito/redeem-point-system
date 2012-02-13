@@ -14,7 +14,7 @@ import org.directwebremoting.ServerContextFactory;
 import com.integral.system.message.bean.SystemMessage;
 
 /** 
- * <p>Description: [描述该类概要功能介绍]</p>
+ * <p>Description: [dwr消息反推服务]</p>
  * @author  <a href="mailto: swpigris81@126.com">代超</a>
  * @version $Revision$ 
  */
