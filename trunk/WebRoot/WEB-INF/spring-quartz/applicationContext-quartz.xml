@@ -41,10 +41,12 @@
 		<property name="jobDetail">
 			<ref bean="scheduledReportJobDetail" />
 		</property>
+		<!-- 设置延迟工作的第一次执行,单位毫秒 -->
+		<property name="startDelay" value="30000"></property>
 		<property name="cronExpression">
 			<!-- 秒 分 时 日 月 周 年。下面的代表每月2号触发 -->
 			<!-- <value>0 0 * 2 * ?</value> -->
-			<!-- 秒 分 时 日 月 周 年。下面的代表每天10点到23点，每隔1分钟执行一次 -->
+			<!-- 秒 分 时 日 月 周 年。每隔1分钟执行一次 -->
 			<value>0 0/1 * * * ?</value>
 			<!-- 每天执行一次, 每天12点0分0秒执行 -->
 			<!-- <value>20 3 10 * * ?</value> -->
@@ -56,8 +58,9 @@
 		 -->
 		<property name="scheduler" ref="factoryBean"></property>
 	</bean>
-	<!-- 仅用于测试-->
 	<bean id="tool" class="com.integral.util.Tools">
+		<!-- 仅用于测试-->
 		<property name="dynamicJobSchedule" ref="dynamicJobSchedule"></property>
+		<property name="dwrMessageSenderService" ref="dwrMessageSenderService"></property>
 	</bean>
 </beans>

@@ -11,6 +11,7 @@
 		<config>WebRoot/WEB-INF/spring-security/applicationContext-security.xml</config>
 		<config>WebRoot/WEB-INF/spring-webflow/applicationContext-webflow.xml</config>
 		<config>WebRoot/WEB-INF/spring-jms/application-jms.xml</config>
+		<config>WebRoot/WEB-INF/dwr/application-message.xml</config>
 	</configs>
 	<configSets>
 	</configSets>
