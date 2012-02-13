@@ -17,6 +17,7 @@ import com.integral.util.dwr.MessageSender;
 public class MessageServiceImpl implements IMessageService {
     private BaseDao baseDao;
     private ISystemMessageDao messageDao;
+    private MessageSender sender;
     
     public BaseDao getBaseDao() {
         return baseDao;
@@ -30,22 +31,27 @@ public class MessageServiceImpl implements IMessageService {
     public void setMessageDao(ISystemMessageDao messageDao) {
         this.messageDao = messageDao;
     }
+    
+    public MessageSender getSender() {
+        return sender;
+    }
+    public void setSender(MessageSender sender) {
+        this.sender = sender;
+    }
+    
     @Override
     public void saveOrUpdate(SystemMessage instance) {
         this.messageDao.saveOrUpdate(instance);
-        MessageSender sender = new MessageSender();
         sender.sendMessageWithPage(instance.getMessageTo(), instance);
     }
     @Override
     public void save(SystemMessage instance) {
         this.messageDao.save(instance);
-        MessageSender sender = new MessageSender();
         sender.sendMessageWithPage(instance.getMessageTo(), instance);
     }
     @Override
     public void saveOrUpdateAll(List<SystemMessage> persistentInstances) {
         this.messageDao.saveOrUpdateAll(persistentInstances);
-        MessageSender sender = new MessageSender();
         for(SystemMessage instance : persistentInstances){
             sender.sendMessageWithPage(instance.getMessageTo(), instance);
         }
