@@ -35,3 +35,5 @@ http://www.opda.com.cn/thread-550971-1-1.html
 http://bbs.mumayi.com/thread-339865-1-1.html
 
 http://bbs.mumayi.com/thread-293028-1-1.html
+
+没有刷recovery而不小心进了工程界面，点recovery出现了红色三角形感叹号的情况，不要拔电池！此时按住音量向上键+电源键，过几秒钟会有一个界面出来，点第一个reboot就好了！拔电池有时会出问题
