@@ -103,7 +103,9 @@ public class BaseDao extends HibernateDaoSupport implements IBaseDao {
     
     public int excuteSQL(final String sql, final Object[] params) throws DataAccessResourceFailureException, HibernateException, IllegalStateException, SQLException{
         log.info("excute by sql: " + sql);
-        PreparedStatement prepareStatement = getSession().connection().prepareStatement(sql);
+        Session session = getSession();
+        Connection conn = session.connection();
+        PreparedStatement prepareStatement = conn.prepareStatement(sql);
         if(params != null){
             for(int i=0;i<params.length;i++){
                 prepareStatement.setObject(i+1, params[i]);
@@ -111,6 +113,8 @@ public class BaseDao extends HibernateDaoSupport implements IBaseDao {
         }
         prepareStatement.execute();
         prepareStatement.close();
+        conn.close();
+        session.close();
         return 0;
     }
     /**
@@ -180,6 +184,9 @@ public class BaseDao extends HibernateDaoSupport implements IBaseDao {
             if(con != null){
                 con.close();
                 con.setAutoCommit(isAutoCommit);
+            }
+            if(session != null){
+                session.close();
             }
         }
         return 0;
