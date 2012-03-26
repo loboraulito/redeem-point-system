@@ -55,7 +55,7 @@
 			保留，并在下次调用getConnection()的时候继续尝试获取连接。如果设为true，那么在尝试
 			获取连接失败后该数据源将申明已断开并永久关闭。Default: false
 		-->
-		<property name="breakAfterAcquireFailure" value="true"></property>
+		<property name="breakAfterAcquireFailure" value="false"></property>
 		<!--
 			因性能消耗大请只在需要的时候使用它。如果设为true那么在每个connection提交的
 			时候都将校验其有效性。建议使用idleConnectionTestPeriod或automaticTestTable
@@ -175,7 +175,7 @@
 		</property>
 	</bean>
 	<import resource="dwr/application-message.xml"/>
-	<import resource="spring-security/applicationContext-security.xml"/>
+	<!-- <import resource="spring-security/applicationContext-security.xml"/> -->
 	<import resource="spring-quartz/applicationContext-quartz.xml"/>
 	<import resource="spring-jms/application-jms.xml"/>
 	<!-- 以下配置只支持webflow 1.0 -->
