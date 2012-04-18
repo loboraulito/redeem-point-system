@@ -10,7 +10,7 @@
   <!-- Spring配置文件 -->
   <context-param>
   	<param-name>contextConfigLocation</param-name>
-  	<param-value>/WEB-INF/applicationContext.xml,/WEB-INF/service/applicationContext-dao.xml,/WEB-INF/service/applicationContext-service.xml,/WEB-INF/service/applicationContext-action.xml,/WEB-INF/spring-security/applicationContext-security.xml</param-value>
+  	<param-value>/WEB-INF/applicationContext.xml,/WEB-INF/dwr/application-message.xml,/WEB-INF/service/applicationContext-dao.xml,/WEB-INF/service/applicationContext-service.xml,/WEB-INF/service/applicationContext-action.xml,/WEB-INF/spring-security/applicationContext-security.xml</param-value>
   </context-param>
   <!-- Spring监听器 -->
   <listener>

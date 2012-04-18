@@ -28,7 +28,7 @@ public class Tools {
     public void setDynamicJobSchedule(DynamicJobSchedule dynamicJobSchedule) {
         Tools.dynamicJobSchedule = dynamicJobSchedule;
     }
-
+    
     public MessageSender getDwrMessageSenderService() {
         return dwrMessageSenderService;
     }

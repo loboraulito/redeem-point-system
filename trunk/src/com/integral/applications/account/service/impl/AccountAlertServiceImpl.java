@@ -10,10 +10,12 @@ import com.integral.applications.account.bean.AccountBaseInfo;
 import com.integral.applications.account.bean.BalanceInfo;
 import com.integral.applications.account.dao.IAccountAlertDAO;
 import com.integral.applications.account.service.IAccountAlertService;
+import com.integral.common.dao.impl.BaseDao;
 
 public class AccountAlertServiceImpl implements IAccountAlertService {
 	private static final String SHOWDATEALERTVALUE = "from AccountAlert sm where sm.begindate<=? and sm.enddate>=? and sm.userid=? and sm.username=? and sm.alerttype=? ";
 	private IAccountAlertDAO alertDao;
+	private BaseDao baseDao;
 
 	public IAccountAlertDAO getAlertDao() {
 		return alertDao;
@@ -22,8 +24,16 @@ public class AccountAlertServiceImpl implements IAccountAlertService {
 	public void setAlertDao(IAccountAlertDAO alertDao) {
 		this.alertDao = alertDao;
 	}
+	
+	public BaseDao getBaseDao() {
+        return baseDao;
+    }
 
-	@Override
+    public void setBaseDao(BaseDao baseDao) {
+        this.baseDao = baseDao;
+    }
+
+    @Override
 	public void delete(AccountAlert transientInstance) {
 		this.alertDao.delete(transientInstance);
 	}

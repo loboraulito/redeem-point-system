@@ -12,11 +12,13 @@ import java.util.Set;
 import com.integral.applications.account.bean.AccountBaseInfo;
 import com.integral.applications.account.dao.IAccountBaseInfoDAO;
 import com.integral.applications.account.service.IAccountBaseInfoService;
+import com.integral.common.dao.impl.BaseDao;
 import com.integral.util.RequestUtil;
 import com.integral.util.Tools;
 
 public class AccountBaseInfoServiceImpl implements IAccountBaseInfoService {
 	private IAccountBaseInfoDAO accountDao;
+	private BaseDao baseDao;
 
 	public IAccountBaseInfoDAO getAccountDao() {
 		return accountDao;
@@ -25,8 +27,17 @@ public class AccountBaseInfoServiceImpl implements IAccountBaseInfoService {
 	public void setAccountDao(IAccountBaseInfoDAO accountDao) {
 		this.accountDao = accountDao;
 	}
+	
 
-	@Override
+	public BaseDao getBaseDao() {
+        return baseDao;
+    }
+
+    public void setBaseDao(BaseDao baseDao) {
+        this.baseDao = baseDao;
+    }
+
+    @Override
 	public void delete(AccountBaseInfo persistentInstance) {
 		this.accountDao.delete(persistentInstance);
 	}

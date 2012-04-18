@@ -6,10 +6,12 @@ import java.util.List;
 import com.integral.applications.account.bean.BalanceRight;
 import com.integral.applications.account.dao.IBalanceRightDAO;
 import com.integral.applications.account.service.IBalanceRightService;
+import com.integral.common.dao.impl.BaseDao;
 
 public class BalanceRightServiceImpl implements IBalanceRightService {
 
 	private IBalanceRightDAO rightDao;
+	private BaseDao baseDao;
 
 	public IBalanceRightDAO getRightDao() {
 		return rightDao;
@@ -19,7 +21,15 @@ public class BalanceRightServiceImpl implements IBalanceRightService {
 		this.rightDao = rightDao;
 	}
 
-	@Override
+	public BaseDao getBaseDao() {
+        return baseDao;
+    }
+
+    public void setBaseDao(BaseDao baseDao) {
+        this.baseDao = baseDao;
+    }
+
+    @Override
 	public void delete(BalanceRight persistentInstance) {
 		this.rightDao.delete(persistentInstance);
 	}

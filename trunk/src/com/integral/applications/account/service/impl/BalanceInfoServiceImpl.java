@@ -6,9 +6,11 @@ import java.util.List;
 import com.integral.applications.account.bean.BalanceInfo;
 import com.integral.applications.account.dao.IBalanceInfoDAO;
 import com.integral.applications.account.service.IBalanceInfoService;
+import com.integral.common.dao.impl.BaseDao;
 
 public class BalanceInfoServiceImpl implements IBalanceInfoService {
 	private IBalanceInfoDAO balanceDao;
+	private BaseDao baseDao;
 
 	public IBalanceInfoDAO getBalanceDao() {
 		return balanceDao;
@@ -18,7 +20,15 @@ public class BalanceInfoServiceImpl implements IBalanceInfoService {
 		this.balanceDao = balanceDao;
 	}
 
-	@Override
+	public BaseDao getBaseDao() {
+        return baseDao;
+    }
+
+    public void setBaseDao(BaseDao baseDao) {
+        this.baseDao = baseDao;
+    }
+
+    @Override
 	public void save(BalanceInfo transientInstance) {
 		this.balanceDao.save(transientInstance);
 	}
