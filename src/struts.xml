@@ -52,4 +52,6 @@
 	<include file="com/integral/system/invitation/config/invitation.xml"></include>
 	<!-- 系统消息管理 -->
 	<include file="com/integral/system/message/config/message.xml"></include>
+    <!-- 账目管理 -->
+    <include file="com/integral/applications/account/config/account_manage.xml"></include>
 </struts>
