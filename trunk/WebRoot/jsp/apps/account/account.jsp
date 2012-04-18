@@ -6,6 +6,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <%@include file="/jsp/common/config.jsp" %>
 <title>Insert title here</title>
+<script type="text/javascript" src="<%=path %>/js/ext-2.2.1/source/plugins/GroupSummary.js"></script>
 <script type="text/javascript" src="<%=path %>/js/apps/account/account.js"></script>
 </head>
 <body>
