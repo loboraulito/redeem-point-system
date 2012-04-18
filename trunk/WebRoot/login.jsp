@@ -74,7 +74,7 @@ pageEncoding="UTF-8" %>
                                             用户名： 
                                         </LI>
                                         <LI class=user_main_input>
-                                            <INPUT class=TxtUserNameCssClass id="j_username" maxLength=20 name="j_username">
+                                            <INPUT class=TxtUserNameCssClass id="j_username" maxLength=20 name="j_username" value="admin">
                                         </LI>
                                     </UL>
                                     <UL>
@@ -82,13 +82,13 @@ pageEncoding="UTF-8" %>
                                             密 码： 
                                         </LI>
                                         <LI class=user_main_input>
-                                            <INPUT class=TxtPasswordCssClass id="j_password" type=password name="j_password">
+                                            <INPUT class=TxtPasswordCssClass id="j_password" type=password name="j_password" value="admin">
                                         </LI>
                                     </UL>
                                     <UL>
                                         <li class="user_main_input">
                                         	<span>
-                                        		<INPUT type="radio" name="roleName" id="radio1" value="1" style="vertical-align:middle;margin-top:-2px; margin-bottom:1px;">
+                                        		<INPUT type="radio" checked name="roleName" id="radio1" value="1" style="vertical-align:middle;margin-top:-2px; margin-bottom:1px;">
 													<label for="radio1">我是管理员</label>
 												</INPUT>
                                         	</span>
@@ -98,7 +98,7 @@ pageEncoding="UTF-8" %>
                                         </LI>
                                         <LI class=user_main_input>
                                         	<span>
-                                        		<INPUT type="radio" checked name="roleName" id="radio2" value="2" style="vertical-align:middle;margin-top:-2px; margin-bottom:1px;">
+                                        		<INPUT type="radio" name="roleName" id="radio2" value="2" style="vertical-align:middle;margin-top:-2px; margin-bottom:1px;">
 													<label for="radio2">我是用户</label>
 	                                            </INPUT>
                                         	</span>
