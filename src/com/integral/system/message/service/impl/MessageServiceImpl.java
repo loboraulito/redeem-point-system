@@ -38,7 +38,6 @@ public class MessageServiceImpl implements IMessageService {
     public void setSender(MessageSender sender) {
         this.sender = sender;
     }
-    
     @Override
     public void saveOrUpdate(SystemMessage instance) {
         this.messageDao.saveOrUpdate(instance);
