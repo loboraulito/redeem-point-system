@@ -94,8 +94,29 @@
 	
 	<bean id="MessageDao"
 		class="com.integral.system.message.dao.impl.SystemMessageDao">
-	<property name="sessionFactory">
-		<ref bean="sessionFactory" />
-	</property>
+	   <property name="sessionFactory">
+		  <ref bean="sessionFactory" />
+	   </property>
 	</bean>
+    <!-- 账目管理 -->
+    <bean class="com.integral.applications.account.dao.impl.AccountAlertDAO" id="AccountAlertDAO">
+        <property name="sessionFactory">
+            <ref bean="sessionFactory"/>
+        </property>
+    </bean>
+    <bean class="com.integral.applications.account.dao.impl.AccountBaseInfoDAO" id="AccountBaseInfoDAO">
+        <property name="sessionFactory">
+            <ref bean="sessionFactory"/>
+        </property>
+    </bean>
+    <bean class="com.integral.applications.account.dao.impl.BalanceInfoDAO" id="BalanceInfoDAO">
+        <property name="sessionFactory">
+            <ref bean="sessionFactory"/>
+        </property>
+    </bean>
+    <bean class="com.integral.applications.account.dao.impl.BalanceRightDAO" id="BalanceRightDAO">
+        <property name="sessionFactory">
+            <ref bean="sessionFactory"/>
+        </property>
+    </bean>
 </beans>
