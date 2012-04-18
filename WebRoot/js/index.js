@@ -23,6 +23,17 @@ function indexPage(){
         bodyStyle: 'padding-bottom:0px;background:#eee;overflow-x:hidden;overflow-y:hidden;',
 		autoScroll: true,
 		layout:"accordion",
+		tbar:[{
+			text:"刷新菜单",
+			iconCls:"table_refresh",
+			tooltip:"刷新系统菜单",
+			handler:function(){
+				menuPanel.getUpdater().refresh(function(oElement, bSuccess){
+					alert(oElement.dom.textContent);
+					alert(bSuccess);
+				});
+			}
+		}],
 		layoutConfig:{
             animate:true
         },
