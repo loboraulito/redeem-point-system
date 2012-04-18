@@ -118,4 +118,14 @@
 		<property name="transactionManager" ref="transactionManager"></property>
 		<property name="messageService" ref="messageService"></property>
 	</bean>
+    <!-- 账目管理 -->
+    <bean
+        class="com.integral.applications.account.action.AccountManageAction"
+        scope="prototype" id="accountManageAction">
+        <property name="transactionManager" ref="transactionManager"></property>
+        <property name="accountAlertService" ref="accountAlertService"></property>
+        <property name="accountBaseInfoService" ref="accountBaseInfoService"></property>
+        <property name="balanceInfoService" ref="balanceInfoService"></property>
+        <property name="balanceRightService" ref="balanceRightService"></property>
+    </bean>
 </beans>

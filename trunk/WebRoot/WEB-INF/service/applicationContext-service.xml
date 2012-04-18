@@ -401,4 +401,81 @@
 			</props>
 		</property>
 	</bean>
+    <!-- 账目管理 -->
+    <bean id="accountAlertService" parent="serviceProxy">
+        <property name="target">
+            <bean
+                class="com.integral.applications.account.service.impl.AccountAlertServiceImpl"
+                abstract="false">
+                <property name="baseDao" ref="BaseDao"></property>
+                <property name="alertDao" ref="AccountAlertDAO"></property>
+            </bean>
+        </property>
+        <property name="transactionAttributes">
+            <props>
+                <prop key="add*">PROPAGATION_REQUIRED</prop>
+                <prop key="del*">PROPAGATION_REQUIRED</prop>
+                <prop key="edit*">PROPAGATION_REQUIRED</prop>
+                <prop key="upd*">PROPAGATION_REQUIRED</prop>
+                <prop key="sa*">PROPAGATION_REQUIRED</prop>
+            </props>
+        </property>
+    </bean>
+    <bean id="accountBaseInfoService" parent="serviceProxy">
+        <property name="target">
+            <bean
+                class="com.integral.applications.account.service.impl.AccountBaseInfoServiceImpl"
+                abstract="false">
+                <property name="baseDao" ref="BaseDao"></property>
+                <property name="accountDao" ref="AccountBaseInfoDAO"></property>
+            </bean>
+        </property>
+        <property name="transactionAttributes">
+            <props>
+                <prop key="add*">PROPAGATION_REQUIRED</prop>
+                <prop key="del*">PROPAGATION_REQUIRED</prop>
+                <prop key="edit*">PROPAGATION_REQUIRED</prop>
+                <prop key="upd*">PROPAGATION_REQUIRED</prop>
+                <prop key="sa*">PROPAGATION_REQUIRED</prop>
+            </props>
+        </property>
+    </bean>
+    <bean id="balanceInfoService" parent="serviceProxy">
+        <property name="target">
+            <bean
+                class="com.integral.applications.account.service.impl.BalanceInfoServiceImpl"
+                abstract="false">
+                <property name="baseDao" ref="BaseDao"></property>
+                <property name="balanceDao" ref="BalanceInfoDAO"></property>
+            </bean>
+        </property>
+        <property name="transactionAttributes">
+            <props>
+                <prop key="add*">PROPAGATION_REQUIRED</prop>
+                <prop key="del*">PROPAGATION_REQUIRED</prop>
+                <prop key="edit*">PROPAGATION_REQUIRED</prop>
+                <prop key="upd*">PROPAGATION_REQUIRED</prop>
+                <prop key="sa*">PROPAGATION_REQUIRED</prop>
+            </props>
+        </property>
+    </bean>
+    <bean id="balanceRightService" parent="serviceProxy">
+        <property name="target">
+            <bean
+                class="com.integral.applications.account.service.impl.BalanceRightServiceImpl"
+                abstract="false">
+                <property name="baseDao" ref="BaseDao"></property>
+                <property name="rightDao" ref="BalanceRightDAO"></property>
+            </bean>
+        </property>
+        <property name="transactionAttributes">
+            <props>
+                <prop key="add*">PROPAGATION_REQUIRED</prop>
+                <prop key="del*">PROPAGATION_REQUIRED</prop>
+                <prop key="edit*">PROPAGATION_REQUIRED</prop>
+                <prop key="upd*">PROPAGATION_REQUIRED</prop>
+                <prop key="sa*">PROPAGATION_REQUIRED</prop>
+            </props>
+        </property>
+    </bean>
 </beans>
