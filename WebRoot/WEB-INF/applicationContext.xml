@@ -129,6 +129,18 @@
 				<value>
 					com/integral/system/message/bean/xml/SystemMessage.hbm.xml
 				</value>
+                <value>
+                    com/integral/applications/account/bean/xml/AccountAlert.hbm.xml
+                </value>
+                <value>
+                    com/integral/applications/account/bean/xml/AccountBaseInfo.hbm.xml
+                </value>
+                <value>
+                    com/integral/applications/account/bean/xml/BalanceInfo.hbm.xml
+                </value>
+                <value>
+                    com/integral/applications/account/bean/xml/BalanceRight.hbm.xml
+                </value>
 			</list>
 		</property>
 		<property name="hibernateProperties">
