@@ -580,10 +580,10 @@ public class Tools {
     
     public static void iLoveBaby() throws ParseException{
         Date today = StringToDate(dateToString(new Date(),"yyyy-MM-dd"));
-        Date to = StringToDate("2012-02-29");
+        Date to = StringToDate("2012-04-09");
         Date from = StringToDate("2011-09-20");
-        String msg = "I love Baby : " + getDaysBetweenDates(from, today) +" 天";
-        msg += "<br/>company time : " + getDaysBetweenDates(today, to)+ " 天";
+        String msg = "我的宝贝已有 : " + getDaysBetweenDates(from, today) +" 天大了！";
+        msg += "<br/>加入新公司已有 : " + getDaysBetweenDates(to, today)+ " 天了！";
         msg += "<br/>本条信息由系统自动发送，无法查看！";
         //MessageSender sender = new MessageSender();
         SystemMessage message = new SystemMessage();
