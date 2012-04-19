@@ -24,14 +24,26 @@ function indexPage(){
 		autoScroll: true,
 		layout:"accordion",
 		tbar:[{
-			text:"刷新菜单",
+			text:"刷新系统菜单",
 			iconCls:"table_refresh",
 			tooltip:"刷新系统菜单",
 			handler:function(){
+				menuPanel.removeAll();
+				loadMenuPanel(userName);
+				/*
 				menuPanel.getUpdater().refresh(function(oElement, bSuccess){
-					alert(oElement.dom.textContent);
-					alert(bSuccess);
+					try{
+						var response = Ext.decode(oElement.dom.lastChild.data);
+						var rootMenu = response.rootMenu;
+						var menuSize = response.menuSize;
+						menuPanel.body.dom.innerHTML = "";
+						//menuPanel.body.update("");
+						showRootMenu(rootMenu,menuSize);
+					}catch(e){
+						//alert(e);
+					}
 				});
+				*/
 			}
 		}],
 		layoutConfig:{
@@ -157,7 +169,10 @@ function indexPage(){
         }
 	});
 }
-
+/**
+ * 读取某用户有权限访问的菜单系统
+ * @param user_name
+ */
 function loadMenuPanel(user_name){
 	var menuPanel = Ext.getCmp("menu-panel");
 	menuPanel.load({
