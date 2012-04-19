@@ -96,20 +96,24 @@ function accountBalance(){
     var summary = new Ext.grid.GroupSummary(); 
     //主数据分组显示
 	var accountGroupStore = new Ext.data.GroupingStore({
-		url:basePath+"balance/accountinfo.action?method=accountDetailList",
+		url:path+"balance/accountinfo.action?method=accountDetailList",
 		reader:accountReader,
 		groupField:"basemonth",
 		//groupOnSort:false,
-		baseParams:{userName:userName, userId:userId},
+		baseParams:{userName:userName},
 		sortInfo:{field: 'basedate', direction: "ASC"},
 		listeners:{
 			loadexception:function(dataProxy, type, action, options, response, arg) { 
 				try{
-					var o = Ext.util.JSON.decode(action.responseText);
-					if(o && !o.success){
-						Ext.Msg.alert('错误提示',o.msg, function(btn){
-							accountGroupStore.loadData(accountTempDate);
-						});
+					if(action.status == "200"){
+						var o = Ext.util.JSON.decode(action.responseText);
+						if(o && !o.success){
+							Ext.Msg.alert('错误提示',o.msg, function(btn){
+								accountGroupStore.loadData(accountTempDate);
+							});
+						}
+					}else{
+						httpStatusCodeHandler(action.status);
 					}
 				}catch(e){
 					Ext.Msg.alert('错误提示',"系统错误！错误代码："+e);
@@ -124,20 +128,20 @@ function accountBalance(){
 	 */
 	var alertStore = new Ext.data.Store({
 		proxy:new Ext.data.HttpProxy({
-			url:basePath+"balance/accoutalert.action?method=showAccoutAlert"
+			url:path+"balance/accoutalert.action?method=showAccoutAlert"
 		}),
 		reader:alertReader,
-		baseParams:{username:userName,userid:userid}
+		baseParams:{username:userName}
 	});
 	/**
 	 * 结算账目数据存储,分组显示
 	 */
 	var balanceGroupStore = new Ext.data.GroupingStore({
-		url:basePath+"balance/balancelist.action?method=showBalanceInfo",
+		url:path+"balance/balancelist.action?method=showBalanceInfo",
 		reader:balanceReader,
 		groupField:"balanceyear",
 		//groupOnSort:false,
-		baseParams:{username:userName,userid:userid},
+		baseParams:{username:userName},
 		sortInfo:{field: 'balancemonth', direction: "ASC"}
 	});
 	
@@ -146,10 +150,10 @@ function accountBalance(){
 	 */
 	var rightStore = new Ext.data.Store({
 		proxy:new Ext.data.HttpProxy({
-			url:basePath+"balance/balanceright.action?method=showRightInfo"
+			url:path+"balance/balanceright.action?method=showRightInfo"
 		}),
 		reader:rightReader,
-		baseParams:{username:userName,userid:userid}
+		baseParams:{username:userName}
 	});
 	//分组显示
 	var groupView = new Ext.grid.GroupingView({
@@ -294,6 +298,160 @@ function accountBalance(){
 	 * loadButtonRight(buttonStore, mainDataStore, dataGrid, pageDiv, params)
 	 */
 	loadButtonRight(buttonRightStore, accountGroupStore, accountGrid, "account_div");
+	
+	/**
+	 * 提示双击修改
+	 * @param value
+	 * @param metadata
+	 * @param record
+	 * @param rowIndex
+	 * @param colIndex
+	 * @param store
+	 * @return
+	 */
+	function edited(value,metadata,record,rowIndex,colIndex,store){
+		metadata.attr = "ext:qtip='双击编辑'";
+		return value;
+	}
+	/**
+	 * 格式化日期
+	 */
+	function showdate(value,metadata,rocord,rowIndex,colIndex,store){
+		if(value && value!=""){
+			//引用unit.js中的方法
+			return dateFormat(value,'Y-m-d H:i:s',"Y-m-d");
+		}
+	}
+	/**
+	 * 格式化月份
+	 */
+	function showmonth(value,metadata,rocord,rowIndex,colIndex,store){
+		//引用unit.js中的方法
+		return dateFormat(value,'Y-m',"Y-M");
+	}
+	/**
+	 * 格式化金钱
+	 */
+	function showmoney(value,metadata,record,rowIndex,colIndex,store){
+		if(parseFloat(value)<0){
+			metadata.attr = "ext:qtip='今日已经入不敷出啦，注意节约哦！'";
+			return "￥ "+"<font color='red'>"+value+"</font>";
+		}
+		return "￥ "+ value;
+	}
+	/**
+	 * 格式化金额，并且比较年度总消费与年度警告，超出则已红色警告
+	 * @param {} value
+	 * @param {} metadata
+	 * @param {} record
+	 * @param {} rowIndex
+	 * @param {} colIndex
+	 * @param {} store
+	 * @return {}
+	 */
+	function showalertmoney(value,metadata,record,rowIndex,colIndex,store){
+		var alertvalue = "";
+		var accountenter = "";
+		if(parseFloat(value)<0){
+			metadata.attr = "ext:qtip='今日已经入不敷出啦，注意节约哦！'";
+			return "￥ "+"<font color='red'>"+value+"</font>";
+		}
+		try{
+			accountenter = record.get("accountenter");
+			alertvalue = record.get("alertvalue");
+			if(accountenter){
+				if(parseFloat(value)>=parseFloat(accountenter)){
+					metadata.attr = "ext:qtip='"+record.data.balanceyear+"年"+record.data.balancemonth+" 月消费过度啦，注意节约哦！'";
+					return "￥ "+"<font color='red'>"+value+"</font>";
+				}
+			}
+			/*
+			if(parseFloat(value)>=parseFloat(alertvalue)){
+				metadata.attr = "ext:qtip='"+record.get("balanceyear")+" 年消费过度啦，注意节约哦！'";
+				return "￥ "+"<font color='red'>"+value+"</font>";
+			}
+			*/
+		}catch(e){
+			alertvalue = record.data.alertvalue;
+			accountenter = record.data.accountenter;
+			if(alertvalue){
+				if(parseFloat(value)>=parseFloat(alertvalue)){
+					metadata.attr = "ext:qtip='"+record.data.balanceyear+" 年消费过度啦，注意节约哦！'";
+					return "￥ "+"<font color='red'>"+value+"</font>";
+				}
+			}
+			if(accountenter){
+				if(parseFloat(value)>=parseFloat(accountenter)){
+					metadata.attr = "ext:qtip='"+record.data.balanceyear+" 年消费过度啦，注意节约哦！'";
+					return "￥ "+"<font color='red'>"+value+"</font>";
+				}
+			}
+		}
+		return "￥ "+ value;
+	}
+	
+	/**
+	 * 格式化金额，小于0的将以红色展示
+	 * @param {} value
+	 * @param {} metadata
+	 * @param {} record
+	 * @param {} rowIndex
+	 * @param {} colIndex
+	 * @param {} store
+	 */
+	function showresultmoney(value,metadata,record,rowIndex,colIndex,store){
+		if(parseFloat(value)<0){
+			metadata.attr = "ext:qtip='出现红色财政赤字啦，注意节约哦！'";
+			return "￥ "+"<font color='red'>"+value+"</font>";
+		}
+		return "￥ "+ value;
+	}
+	
+	/**
+	 * 格式化金钱，并且判断是否超出警告点
+	 */
+	function showoutmoney(value,metadata,record,rowIndex,colIndex,store){
+		var alertvalue = "";
+		try{
+			alertvalue = record.get("accountalert");
+			metadata.attr = "ext:qtip='今日设置消费报警值：<br><font color=red>"+(isNaN(parseFloat(alertvalue))?"未设置":parseFloat(alertvalue))+"</font>  （单位：人民币/元）'";
+			if(parseFloat(value)>=parseFloat(alertvalue)){
+				return "￥"+"<font color='red'>"+value+"</font>";
+			}
+			return "￥"+value;
+		}catch(e){
+			var currentMonBalance = record.data.basedate;
+			currentMonBalance = currentMonBalance.split(" ");
+			var currentMon = currentMonBalance[0] + "-" +currentMonBalance[2];
+			if(parseFloat(value)>=parseFloat(record.data.accountalertmon)){
+				return "￥"+"<font color='red'>"+value+"</font>";
+			}
+			return "￥"+value;
+		}
+	}
+	
+	/**
+	 * 格式化结算标志
+	 */
+	function showmargintag(value,metadata,record,rowIndex,colIndex,store){
+		if(value=="1"){
+			return "已结算";
+		}else{
+			return "<font color='red'>未结算</font>";
+		}
+	}
+	/**
+	 * 格式化警报类型
+	 * @param {} value ：要被格式化的值
+	 * @param {} metadata
+	 * @param {} rocord ：该行的数据
+	 * @param {} rowIndex：第几行
+	 * @param {} colIndex：第几列
+	 * @param {} store：数据存储
+	 */
+	function showalerttype(value,metadata,rocord,rowIndex,colIndex,store){
+		return getCodeNameFromStore(value,alertTypeStore,"codeid","codename");
+	}
 }
 
 /**

@@ -59,10 +59,14 @@ function invitation(){
 	processResultStore.load({params:{codeId:"8ac388f13469610701346962d7ba0002"}});
 	processResultStore.on("loadexception",function(dataProxy, type, action, options, response, arg){
 		try{
-			var o = Ext.util.JSON.decode(action.responseText);
-			if(!o.success){
-				Ext.Msg.alert('错误提示',o.msg, function(btn){
-				});
+			if(action.status == "200"){
+				var o = Ext.util.JSON.decode(action.responseText);
+				if(!o.success){
+					Ext.Msg.alert('错误提示',o.msg, function(btn){
+					});
+				}
+			}else{
+				httpStatusCodeHandler(action.status);
 			}
 		}catch(e){
 			Ext.Msg.alert('错误提示',"系统错误！错误代码："+e, function(btn){
@@ -77,10 +81,14 @@ function invitation(){
 	processStatusStore.load({params:{codeId:"8ac388f13469610701346962a3e90001"}});
 	processStatusStore.on("loadexception",function(dataProxy, type, action, options, response, arg){
 		try{
-			var o = Ext.util.JSON.decode(action.responseText);
-			if(!o.success){
-				Ext.Msg.alert('错误提示',o.msg, function(btn){
-				});
+			if(action.status == "200"){
+				var o = Ext.util.JSON.decode(action.responseText);
+				if(!o.success){
+					Ext.Msg.alert('错误提示',o.msg, function(btn){
+					});
+				}
+			}else{
+				httpStatusCodeHandler(action.status);
 			}
 		}catch(e){
 			Ext.Msg.alert('错误提示',"系统错误！错误代码："+e, function(btn){
@@ -99,11 +107,15 @@ function invitation(){
 		listeners:{
 			loadexception:function(dataProxy, type, action, options, response, arg) { 
 				try{
-					var o = Ext.util.JSON.decode(action.responseText);
-					if(!o.success){
-						Ext.Msg.alert('错误提示',o.msg, function(btn){
-							invitationListStore.loadData(simpleData);
-						});
+					if(action.status == "200"){
+						var o = Ext.util.JSON.decode(action.responseText);
+						if(!o.success){
+							Ext.Msg.alert('错误提示',o.msg, function(btn){
+								invitationListStore.loadData(simpleData);
+							});
+						}
+					}else{
+						httpStatusCodeHandler(action.status);
 					}
 				}catch(e){
 					Ext.Msg.alert('错误提示',"系统错误！错误代码："+e, function(btn){

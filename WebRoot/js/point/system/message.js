@@ -69,11 +69,15 @@ function message(){
 		listeners:{
 			loadexception:function(dataProxy, type, action, options, response, arg) { 
 				try{
-					var o = Ext.util.JSON.decode(action.responseText);
-					if(!o.success){
-						Ext.Msg.alert('错误提示',o.msg, function(btn){
-							msgListStore.loadData(simpleMsgData);
-						});
+					if(action.status == "200"){
+						var o = Ext.util.JSON.decode(action.responseText);
+						if(!o.success){
+							Ext.Msg.alert('错误提示',o.msg, function(btn){
+								msgListStore.loadData(simpleMsgData);
+							});
+						}
+					}else{
+						httpStatusCodeHandler(action.status);
 					}
 				}catch(e){
 					Ext.Msg.alert('错误提示',"系统错误！错误代码："+e);
