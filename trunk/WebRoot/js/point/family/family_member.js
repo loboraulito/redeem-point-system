@@ -55,30 +55,34 @@ function family(){
 		listeners:{
 			loadexception:function(dataProxy, type, action, options, response, arg) { 
 				try{
-					var o = Ext.util.JSON.decode(action.responseText);
-					if(!o.success){
-						Ext.Msg.alert('错误提示',o.msg, function(btn){
-							memberListStore.loadData(simpleData);
-							if(btn == "yes" || btn == "ok"){
-								if(o.msg1){
-									//Ext.MessageBox.buttonText.yes = '按钮一';
-	    							//Ext.MessageBox.buttonText.no = '按钮二';
-								    Ext.MessageBox.buttonText={
-								        yes: "申请加入家庭",
-										no: "创建家庭",
-										cancel:"取消"
-								    };
-	
-									Ext.Msg.show({
-										title:"系统提示",
-										msg:o.msg1,
-										buttons: Ext.Msg.YESNOCANCEL,
-										fn: processResult,
-										icon: Ext.MessageBox.QUESTION
-									});
+					if(action.status == "200"){
+						var o = Ext.util.JSON.decode(action.responseText);
+						if(!o.success){
+							Ext.Msg.alert('错误提示',o.msg, function(btn){
+								memberListStore.loadData(simpleData);
+								if(btn == "yes" || btn == "ok"){
+									if(o.msg1){
+										//Ext.MessageBox.buttonText.yes = '按钮一';
+		    							//Ext.MessageBox.buttonText.no = '按钮二';
+									    Ext.MessageBox.buttonText={
+									        yes: "申请加入家庭",
+											no: "创建家庭",
+											cancel:"取消"
+									    };
+		
+										Ext.Msg.show({
+											title:"系统提示",
+											msg:o.msg1,
+											buttons: Ext.Msg.YESNOCANCEL,
+											fn: processResult,
+											icon: Ext.MessageBox.QUESTION
+										});
+									}
 								}
-							}
-						});
+							});
+						}
+					}else{
+						httpStatusCodeHandler(action.status);
 					}
 				}catch(e){
 					Ext.Msg.alert('错误提示',"系统错误！错误代码："+e);

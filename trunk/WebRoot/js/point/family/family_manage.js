@@ -57,11 +57,15 @@ function family_manage(){
 		listeners:{
 			loadexception:function(dataProxy, type, action, options, response, arg) { 
 				try{
-					var o = Ext.util.JSON.decode(action.responseText);
-					if(!o.success){
-						Ext.Msg.alert('错误提示',o.msg, function(btn){
-							memberListStore.loadData(simpleMemberData);
-						});
+					if(action.status == "200"){
+						var o = Ext.util.JSON.decode(action.responseText);
+						if(!o.success){
+							Ext.Msg.alert('错误提示',o.msg, function(btn){
+								memberListStore.loadData(simpleMemberData);
+							});
+						}
+					}else{
+						httpStatusCodeHandler(action.status);
 					}
 				}catch(e){
 					Ext.Msg.alert('错误提示',"系统错误！错误代码："+e);
@@ -95,10 +99,14 @@ function family_manage(){
 		listeners:{
 			loadexception:function(dataProxy, type, action, options, response, arg) { 
 				try{
-					var o = Ext.util.JSON.decode(action.responseText);
-					if(!o.success){
-						Ext.Msg.alert('错误提示',o.msg);
-						familyListStore.loadData(simpleData);
+					if(action.status == "200"){
+						var o = Ext.util.JSON.decode(action.responseText);
+						if(!o.success){
+							Ext.Msg.alert('错误提示',o.msg);
+							familyListStore.loadData(simpleData);
+						}
+					}else{
+						httpStatusCodeHandler(action.status);
 					}
 				}catch(e){
 					Ext.Msg.alert('错误提示',"系统错误！错误代码："+e);

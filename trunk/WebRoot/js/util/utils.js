@@ -62,6 +62,36 @@ function getCurrentMenuId() {
 	}
 }
 /**
+ * 关闭当前页面
+ */
+function closeCurrentMenuTab(){
+	//在父页面中调用时，直接使用Ext。在子页面中调用时，需要使用parent.Ext
+	var parentExt = parent.Ext || Ext;
+	if (parentExt) {
+		var tabPanel = parentExt.getCmp("mainTabPanel");
+		if (tabPanel) {
+			var activePanel = tabPanel.getActiveTab();
+			if (activePanel && activePanel.closable) {
+				tabPanel.remove(activePanel);
+			}
+		}
+	}
+}
+/**
+ * 处理http的异常状态标识
+ * @param httpStatusCode
+ */
+function httpStatusCodeHandler(httpStatusCode){
+	if(httpStatusCode == "404" || httpStatusCode == "403"){
+		Ext.Msg.alert('错误提示',"您无权访问此页面，当前页面即将关闭！", function(btn){
+			//关闭当前页面
+			closeCurrentMenuTab();
+		});
+		return false;
+	}
+	return true;
+}
+/**
  * 创建/增加/激活tab面板
  * @param {} title 面板标题
  * @param {} tabId 面板唯一ID

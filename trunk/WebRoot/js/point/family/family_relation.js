@@ -46,11 +46,15 @@ function family_relation(){
 		listeners:{
 			loadexception:function(dataProxy, type, action, options, response, arg) { 
 				try{
-					var o = Ext.util.JSON.decode(action.responseText);
-					if(!o.success){
-						Ext.Msg.alert('错误提示',o.msg, function(btn){
-							relationListStore.loadData(simpleData);
-						});
+					if(action.status == "200"){
+						var o = Ext.util.JSON.decode(action.responseText);
+						if(!o.success){
+							Ext.Msg.alert('错误提示',o.msg, function(btn){
+								relationListStore.loadData(simpleData);
+							});
+						}
+					}else{
+						httpStatusCodeHandler(action.status);
 					}
 				}catch(e){
 					Ext.Msg.alert('错误提示',"系统错误！错误代码："+e);
