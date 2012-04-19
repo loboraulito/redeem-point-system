@@ -82,7 +82,14 @@ function closeCurrentMenuTab(){
  * @param httpStatusCode
  */
 function httpStatusCodeHandler(httpStatusCode){
-	if(httpStatusCode == "404" || httpStatusCode == "403"){
+	if(httpStatusCode == "404"){
+		Ext.Msg.alert('错误提示',"当前页面不可用，请检查您的URL地址。页面即将关闭！", function(btn){
+			//关闭当前页面
+			closeCurrentMenuTab();
+		});
+		return false;
+	}
+	if(httpStatusCode == "403"){
 		Ext.Msg.alert('错误提示',"您无权访问此页面，当前页面即将关闭！", function(btn){
 			//关闭当前页面
 			closeCurrentMenuTab();
