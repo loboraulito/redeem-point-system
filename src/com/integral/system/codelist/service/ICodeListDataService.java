@@ -118,9 +118,10 @@ public interface ICodeListDataService {
      * <p>Discription:[组装数据标准成为下拉框]</p>
      * @param codeId
      * @param codeName
+     * @param parentCodeId
      * @return
      * @author:[代超]
      * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
      */
-    public List findCodeDataListCombo(String codeId, String codeName);
+    public List findCodeDataListCombo(String codeId, String codeName, String parentCodeId);
 }

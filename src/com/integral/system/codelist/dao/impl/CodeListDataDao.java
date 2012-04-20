@@ -42,7 +42,7 @@ public class CodeListDataDao extends HibernateDaoSupport implements ICodeListDat
                         query = session.createQuery(sql);
                     }
                 }
-                
+                log.info(sql);
                 if(params != null && params.length>0){
                     for(int i=0;i<params.length;i++){
                         query.setParameter(i, params[i]);
