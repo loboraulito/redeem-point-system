@@ -740,3 +740,13 @@ private List getSubTreeMenu(List menuList, String parentCode){
 	}
 	return subTreeMenu;
 }
+
+2012-04-20
+今天三国志12发布, 既有破解版，正在努力下载中。公司网络超级坑爹！！~~
+发现使用StringObj.split("")方法容易造成数据丢失：
+String abc = "aa|bb|cc||||||";
+String [] abcs = abc.split("\\|"); -> abcs = ["aa","bb","cc"];
+丢失了之后的空字符串
+可以使用
+StringUtils.splitPreserveAllTokens(abc, "\\|");来避免上面的情况
+应该特别注意这一点！
