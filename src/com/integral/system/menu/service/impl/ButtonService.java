@@ -97,7 +97,7 @@ public class ButtonService implements IButtonService {
         		" menubutton.button_url, menubutton.button_show, menubutton.button_css, menubutton.handler," +
         		" menu_info.menu_name FROM menubutton left join menu_info on menubutton.menu_id =  menu_info.menu_id" +
         		" ORDER BY menubutton.menu_id ASC ";
-        List buttons = this.baseDao.queryPageBySQL(sql, null, start, limit);
+        List buttons = this.baseDao.queryPageBySQL(sql, new String[]{}, start, limit);
         List list = new ArrayList();
         if(buttons != null){
             for(int i = 0, j = buttons.size(); i < j; i++){

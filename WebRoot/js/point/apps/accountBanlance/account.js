@@ -96,7 +96,7 @@ function accountBalance(){
     var summary = new Ext.grid.GroupSummary(); 
     //主数据分组显示
 	var accountGroupStore = new Ext.data.GroupingStore({
-		url:path+"balance/accountinfo.action?method=accountDetailList",
+		url:path+"/account_manage/accountList.action?method=accountList",
 		reader:accountReader,
 		groupField:"basemonth",
 		//groupOnSort:false,

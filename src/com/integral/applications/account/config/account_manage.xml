@@ -9,5 +9,21 @@
 			 <result name="success">/jsp/apps/account/account.jsp</result>
 			 <result name="input">/index.jsp</result>
 		</action>
+        <action name="accountList" class="com.integral.applications.account.action.AccountManageAction" method="accountList">
+             <result name="success">/jsp/apps/account/account.jsp</result>
+             <result name="input">/index.jsp</result>
+        </action>
+        <action name="addAccountInfo" class="com.integral.applications.account.action.AccountManageAction" method="addAccountInfo">
+             <result name="success">/jsp/apps/account/account.jsp</result>
+             <result name="input">/index.jsp</result>
+        </action>
+        <action name="editAccountInfo" class="com.integral.applications.account.action.AccountManageAction" method="editAccountInfo">
+             <result name="success">/jsp/apps/account/account.jsp</result>
+             <result name="input">/index.jsp</result>
+        </action>
+        <action name="deleteAccountInfo" class="com.integral.applications.account.action.AccountManageAction" method="deleteAccountInfo">
+             <result name="success">/jsp/apps/account/account.jsp</result>
+             <result name="input">/index.jsp</result>
+        </action>
 	</package>
 </struts>

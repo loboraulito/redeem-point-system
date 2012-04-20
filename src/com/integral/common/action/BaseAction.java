@@ -2,9 +2,14 @@ package com.integral.common.action;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.apache.struts2.ServletActionContext;
+import org.nutz.json.Json;
+import org.nutz.json.JsonFormat;
 
 import com.opensymphony.xwork2.ActionSupport;
 
@@ -49,6 +54,28 @@ public class BaseAction extends ActionSupport {
     protected PrintWriter getPrintWriter(HttpServletRequest request,
             HttpServletResponse response) throws IOException{
         return getPrintWriter(request, response, "UTF-8", "text/json; charset=utf-8");
+    }
+    /**
+     * <p>Discription:[获取写文件流工具]</p>
+     * @return
+     * @throws IOException
+     * @author:[代超]
+     * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
+     */
+    protected PrintWriter getPrintWriter() throws IOException{
+        return getPrintWriter(ServletActionContext.getRequest(), ServletActionContext.getResponse(), "UTF-8", "text/json; charset=utf-8");
+    }
+    /**
+     * <p>Discription:[格式化Json字符串]</p>
+     * @param jsonMap
+     * @return
+     * @author:[代超]
+     * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
+     */
+    protected String getJsonString(Map<String, Object> jsonMap){
+        JsonFormat jf = new JsonFormat(true);
+        jf.setAutoUnicode(true);
+        return Json.toJson(jsonMap, jf);
     }
     
 }
