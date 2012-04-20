@@ -96,6 +96,7 @@ public class CommonAction extends BaseAction implements ServletRequestAware, Ser
     public String codeListCombo(){
         String codeId = request.getParameter("codeId");
         String codeName = request.getParameter("codeName");
+        String parentCodeId = request.getParameter("parentCodeId");
         Map<String, Object> resultMap = new HashMap<String, Object>();
         JsonFormat jf = new JsonFormat(true);
         jf.setAutoUnicode(true);
@@ -103,11 +104,12 @@ public class CommonAction extends BaseAction implements ServletRequestAware, Ser
         
         try{
             out = super.getPrintWriter(request, response);
+            
             if((codeId == null || "".equals(codeId.trim())) && (codeName == null || "".equals(codeName.trim()))){
                 resultMap.put("success", false);
                 resultMap.put("msg", "数据字典信息不完整，无法查询您的请求信息");
             }else{
-                List list = this.codeListDataService.findCodeDataListCombo(codeId, codeName);
+                List list = this.codeListDataService.findCodeDataListCombo(codeId, codeName, parentCodeId);
                 if(list == null || list.size()<1){
                     resultMap.put("success", false);
                     resultMap.put("msg", "系统中没有查询到您指定的数据字典！");

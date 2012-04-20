@@ -279,13 +279,28 @@ public class CodeListDataServiceImpl implements ICodeListDataService {
         return this.codeListDataDao.findByDataValue(dataValue);
     }
     
-    public List findCodeDataListCombo(String codeId, String codeName){
+    public List findCodeDataListCombo(String codeId, String codeName, String parentCodeId){
+        Object [] param = null;
         if(codeId != null && !"".equals(codeId.trim())){
             String sql = "FROM CodeListData model WHERE model.codeId = ?";
-            return this.codeListDataDao.findCodeListDataByPage(false, sql, -1, -1, new Object[]{codeId});
+            if(parentCodeId != null && !"".equals(parentCodeId.trim())){
+                sql += " and model.parentDataKey = ?";
+                param = new Object[]{codeId, parentCodeId};
+            }else{
+                sql += " and model.parentDataKey is null";
+                param = new Object[]{codeId};
+            }
+            return this.codeListDataDao.findCodeListDataByPage(false, sql, -1, -1, param);
         }else if(codeName != null && !"".equals(codeName.trim())){
             String sql = "FROM CodeListData model WHERE model.codeId = (SELECT codeId FROM CodeList m WHERE m.codeName = ?)";
-            return this.codeListDataDao.findCodeListDataByPage(false, sql, -1, -1, new Object[]{codeName});
+            if(parentCodeId != null && !"".equals(parentCodeId.trim())){
+                sql += " and model.parentDataKey = ?";
+                param = new Object[]{codeId, parentCodeId};
+            }else{
+                sql += " and model.parentDataKey is null";
+                param = new Object[]{codeName};
+            }
+            return this.codeListDataDao.findCodeListDataByPage(false, sql, -1, -1, param);
         }else{
             return null;
         }
