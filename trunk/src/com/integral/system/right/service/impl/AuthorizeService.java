@@ -270,7 +270,7 @@ public class AuthorizeService implements IAuthorizeService {
     public List findAllAuthorizeUserAndRole(int start, int limit){
         List list = new ArrayList();
         String sql = "SELECT employee_info.operater_id, employee_info.operater_code, employee_info.operater_name, role_info.role_id, role_info.role_name FROM employee_info Left Join supplier_role on employee_info.operater_name =  supplier_role.operater_id left join role_info on supplier_role.role_id =  role_info.role_id ";
-        List l = this.baseDao.queryPageBySQL(sql, null, start, limit);
+        List l = this.baseDao.queryPageBySQL(sql, new String[]{}, start, limit);
         if(l!=null){
             for(int i=0,j = l.size();i<j;i++){
                 Object[] obj = (Object[]) l.get(i);

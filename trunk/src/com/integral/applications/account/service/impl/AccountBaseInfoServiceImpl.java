@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.lang.math.NumberUtils;
+
 import com.integral.applications.account.bean.AccountBaseInfo;
 import com.integral.applications.account.dao.IAccountBaseInfoDAO;
 import com.integral.applications.account.service.IAccountBaseInfoService;
@@ -35,6 +37,22 @@ public class AccountBaseInfoServiceImpl implements IAccountBaseInfoService {
 
     public void setBaseDao(BaseDao baseDao) {
         this.baseDao = baseDao;
+    }
+    
+    @Override
+    public List queryPage(int start, int limit, Map<String, Object> params) {
+        String hql = "from AccountBaseInfo acctinfo where acctinfo.username = :userName";
+        return this.baseDao.queryPageByHQL(hql, params, start, limit);
+    }
+    
+    @Override
+    public int queryPageSize(Map<String, Object> params) {
+        String sql = "select count(baseinfoid) from accountbaseinfo where username = :userName";
+        List list = this.baseDao.queryPageBySQL(sql, params, -1, -1);
+        if(list != null && !list.isEmpty()){
+            return NumberUtils.toInt(String.valueOf(list.get(0)), 0);
+        }
+        return 0;
     }
 
     @Override

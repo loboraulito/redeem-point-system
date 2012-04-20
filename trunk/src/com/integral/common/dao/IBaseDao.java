@@ -2,6 +2,7 @@ package com.integral.common.dao;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 
 import org.hibernate.HibernateException;
 import org.springframework.dao.DataAccessResourceFailureException;
@@ -80,4 +81,26 @@ public interface IBaseDao {
      * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
      */
     public int excuteSQLBatch(String sql, List<Object[]> paramList) throws Exception;
+    /**
+     * <p>Discription:[分页查询, 使用Hibernate的传值方式即：where a = :a]</p>
+     * @param hql
+     * @param params 参数-值 集合
+     * @param start
+     * @param limit
+     * @return
+     * @author:[代超]
+     * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
+     */
+    List queryPageByHQL(String hql, Map<String, Object> params, int start, int limit);
+    /**
+     * <p>Discription:[分页查询, 使用Hibernate的传值方式即：where a = :a]</p>
+     * @param sql
+     * @param params
+     * @param start
+     * @param limit
+     * @return
+     * @author:[代超]
+     * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
+     */
+    List queryPageBySQL(String sql, Map<String, Object> params, int start, int limit);
 }

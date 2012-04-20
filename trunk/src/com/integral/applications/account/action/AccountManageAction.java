@@ -1,9 +1,17 @@
 package com.integral.applications.account.action;
 
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.nutz.json.JsonFormat;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 
+import com.integral.applications.account.bean.AccountBaseInfo;
 import com.integral.applications.account.service.IAccountAlertService;
 import com.integral.applications.account.service.IAccountBaseInfoService;
 import com.integral.applications.account.service.IBalanceInfoService;
@@ -21,7 +29,6 @@ public class AccountManageAction extends BaseAction {
      * <p>Discription:[字段功能描述]</p>
      */
     private static final long serialVersionUID = 1L;
-    private Log log = LogFactory.getLog(AccountManageAction.class);
     
     private IAccountAlertService accountAlertService;
     private IAccountBaseInfoService accountBaseInfoService;
@@ -29,8 +36,56 @@ public class AccountManageAction extends BaseAction {
     private IBalanceRightService balanceRightService;
     private DataSourceTransactionManager transactionManager;
     
+    private int start;
+    private int limit;
+    private String userName;
+    private AccountBaseInfo accountInfo;
+    
     public String begin(){
         return SUCCESS;
+    }
+    /**
+     * <p>Discription:[账目明细列表]</p>
+     * @return
+     * @author:[代超]
+     * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
+     */
+    public String accountList(){
+        Map<String, Object> paramMap = new HashMap<String, Object>();
+        paramMap.put("userName", this.userName);
+        List accountInfoList = this.accountBaseInfoService.queryPage(start, limit, paramMap);
+        int accountSize = this.accountBaseInfoService.queryPageSize(paramMap);
+        PrintWriter out = null;
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        try {
+            out = super.getPrintWriter();
+            resultMap.put("success", true);
+            resultMap.put("account", accountInfoList);
+            resultMap.put("totalCount", accountSize);
+        }
+        catch (IOException e) {
+            resultMap.put("success", false);
+            resultMap.put("msg", "系统错误！错误代码：" + e.getMessage());
+            LOG.error(e.getMessage());
+        }finally{
+            if(out != null){
+                out.print(super.getJsonString(resultMap));
+                out.flush();
+                out.close();
+            }
+        }
+        return null;
+    }
+    
+    public String addAccountInfo(){
+        return null;
+    }
+    
+    public String editAccountInfo(){
+        return null;
+    }
+    public String deleteAccountInfo(){
+        return null;
     }
     
     public IAccountAlertService getAccountAlertService() {
@@ -62,5 +117,29 @@ public class AccountManageAction extends BaseAction {
     }
     public void setTransactionManager(DataSourceTransactionManager transactionManager) {
         this.transactionManager = transactionManager;
+    }
+    public int getStart() {
+        return start;
+    }
+    public void setStart(int start) {
+        this.start = start;
+    }
+    public int getLimit() {
+        return limit;
+    }
+    public void setLimit(int limit) {
+        this.limit = limit;
+    }
+    public String getUserName() {
+        return userName;
+    }
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+    public AccountBaseInfo getAccountInfo() {
+        return accountInfo;
+    }
+    public void setAccountInfo(AccountBaseInfo accountInfo) {
+        this.accountInfo = accountInfo;
     }
 }

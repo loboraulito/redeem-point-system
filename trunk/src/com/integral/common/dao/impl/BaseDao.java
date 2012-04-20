@@ -8,6 +8,7 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -80,6 +81,26 @@ public class BaseDao extends HibernateDaoSupport implements IBaseDao {
             }
         });
     }
+    
+    @Override
+    public List queryPageByHQL(final String hql, final Map<String, Object> params, final int start, final int limit) {
+        log.info("query by sql: " + hql);
+        return getHibernateTemplate().executeFind(new HibernateCallback() {
+            public Object doInHibernate(Session session){
+                Query query = session.createQuery(hql);
+                if(params!=null && params.size()>0){
+                    for (String key : params.keySet()) {
+                        query.setParameter(key, params.get(key));
+                    }
+                }
+                if(start>-1 && limit>0){
+                    query.setFirstResult(start);
+                    query.setMaxResults(limit);
+                }
+                return query.list();
+            }
+        });
+    }
 
     @Override
     public List queryPageBySQL(final String sql, final Object[] params, final int start, final int limit) {
@@ -90,6 +111,26 @@ public class BaseDao extends HibernateDaoSupport implements IBaseDao {
                 if(params!=null && params.length>0){
                     for(int i=0;i<params.length;i++){
                         query.setParameter(i, params[i]);
+                    }
+                }
+                if(start>-1 && limit>0){
+                    query.setFirstResult(start);
+                    query.setMaxResults(limit);
+                }
+                return query.list();
+            }
+        });
+    }
+    
+    @Override
+    public List queryPageBySQL(final String sql, final Map<String, Object> params, final int start, final int limit) {
+        log.info("query by sql: " + sql);
+        return getHibernateTemplate().executeFind(new HibernateCallback() {
+            public Object doInHibernate(Session session){
+                Query query = session.createSQLQuery(sql);
+                if(params!=null && params.size()>0){
+                    for (String key : params.keySet()) {
+                        query.setParameter(key, params.get(key));
                     }
                 }
                 if(start>-1 && limit>0){

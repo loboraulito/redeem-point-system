@@ -12,7 +12,25 @@ import com.integral.applications.account.bean.AccountBaseInfo;
  * @version $Revision$ 
  */
 public interface IAccountBaseInfoService {
-
+    /**
+     * <p>Discription:[分页条件查询]</p>
+     * @param start
+     * @param limit
+     * @param params 条件参数
+     * @return
+     * @author:[代超]
+     * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
+     */
+    public List queryPage(int start, int limit, Map<String, Object> params);
+    /**
+     * <p>Discription:[分页查询-查询总记录数]</p>
+     * @param params
+     * @return
+     * @author:[代超]
+     * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
+     */
+    public int queryPageSize(Map<String, Object> params);
+    
     public void delete(AccountBaseInfo persistentInstance);
 
     public void deleteAll(Collection persistentInstance);

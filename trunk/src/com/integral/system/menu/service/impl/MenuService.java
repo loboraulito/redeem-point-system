@@ -74,7 +74,7 @@ public class MenuService implements IMenuService {
     
     public List findMenuByPageWithParentName(int start, int limit){
         String sql = "SELECT menu_info.menu_id, menu_info.menu_name, menu_info.page_path, menu_info.menu_level, menu_info.parent_menu, menu_info.is_leave, (select menu.menu_name menuname from menu_info menu where menu_info.parent_menu = menu.menu_id) parent_menu_name, menu_info.is_show FROM menu_info order by parent_menu_name";
-        List menus = this.baseDao.queryPageBySQL(sql, null, start, limit);
+        List menus = this.baseDao.queryPageBySQL(sql, new String[]{}, start, limit);
         List list = new ArrayList();
         if(menus!=null){
             for(int i=0,j = menus.size();i<j;i++){

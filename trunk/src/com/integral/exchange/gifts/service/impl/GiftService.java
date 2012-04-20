@@ -59,7 +59,7 @@ public class GiftService implements IGiftService {
     }
     
     public List findByPage(int start, int limit){
-        return this.baseDao.queryPageByHQL("From GiftInfo model", null, start, limit);
+        return this.baseDao.queryPageByHQL("From GiftInfo model", new String[]{}, start, limit);
     }
     
     public List findByPageWithSupplier(String supplier, int start, int limit){
