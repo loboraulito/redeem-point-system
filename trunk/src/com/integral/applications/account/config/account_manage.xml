@@ -25,5 +25,21 @@
              <result name="success">/jsp/apps/account/account.jsp</result>
              <result name="input">/index.jsp</result>
         </action>
+        <action name="myAccountList" class="com.integral.applications.account.action.AccountManageAction" method="myAccountList">
+             <result name="success">/jsp/apps/account/account.jsp</result>
+             <result name="input">/index.jsp</result>
+        </action>
+        <action name="addAccountCard" class="com.integral.applications.account.action.AccountManageAction" method="addAccountCard">
+             <result name="success">/jsp/apps/account/account.jsp</result>
+             <result name="input">/index.jsp</result>
+        </action>
+        <action name="editAccountCard" class="com.integral.applications.account.action.AccountManageAction" method="editAccountCard">
+             <result name="success">/jsp/apps/account/account.jsp</result>
+             <result name="input">/index.jsp</result>
+        </action>
+        <action name="deleteAccountCard" class="com.integral.applications.account.action.AccountManageAction" method="deleteAccountCard">
+             <result name="success">/jsp/apps/account/account.jsp</result>
+             <result name="input">/index.jsp</result>
+        </action>
 	</package>
 </struts>

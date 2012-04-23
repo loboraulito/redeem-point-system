@@ -478,4 +478,23 @@
             </props>
         </property>
     </bean>
+    <bean id="accountCardService" parent="serviceProxy">
+        <property name="target">
+            <bean
+                class="com.integral.applications.account.service.impl.AccountCardInfoServiceImpl"
+                abstract="false">
+                <property name="baseDao" ref="BaseDao"></property>
+                <property name="accountCardDao" ref="AccountCardInfoDao"></property>
+            </bean>
+        </property>
+        <property name="transactionAttributes">
+            <props>
+                <prop key="add*">PROPAGATION_REQUIRED</prop>
+                <prop key="del*">PROPAGATION_REQUIRED</prop>
+                <prop key="edit*">PROPAGATION_REQUIRED</prop>
+                <prop key="upd*">PROPAGATION_REQUIRED</prop>
+                <prop key="sa*">PROPAGATION_REQUIRED</prop>
+            </props>
+        </property>
+    </bean>
 </beans>

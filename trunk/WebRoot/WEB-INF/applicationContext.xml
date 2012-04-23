@@ -141,6 +141,9 @@
                 <value>
                     com/integral/applications/account/bean/xml/BalanceRight.hbm.xml
                 </value>
+                <value>
+                    com/integral/applications/account/bean/xml/AccountCardInfo.hbm.xml
+                </value>
 			</list>
 		</property>
 		<property name="hibernateProperties">

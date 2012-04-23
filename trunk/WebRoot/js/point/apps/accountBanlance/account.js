@@ -494,7 +494,11 @@ function accountBalance(){
 		var buttons = [{
 			text:"保存"
 		},{
-			text:"关闭窗口"
+			text:"关闭窗口",
+			handler:function(){
+				var w = Ext.getCmp("addAccount");
+				if(w) w.close();
+			}
 		}];
 		showAccountWindow("addAccount","新增家庭账目信息", 500, 370, accountForm, null, buttons);
 	};
@@ -510,7 +514,13 @@ function accountBalance(){
 	this.deleteAccountInfo = function(url){
 		
 	};
-	
+	/**
+	 * 我的账号管理
+	 */
+	this.myAccountInfoManage = function(url){
+		var myAccount = new accountInfoGrid(url);
+		showAccountWindow("myAccountInfo","我的账户信息", 500, 370, myAccount.accountInfoGrid, null, null);
+	};
 	//========================通用功能区==========================================
 	/**
 	 * 公用窗口

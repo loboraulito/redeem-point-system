@@ -119,4 +119,9 @@
             <ref bean="sessionFactory"/>
         </property>
     </bean>
+    <bean class="com.integral.applications.account.dao.impl.AccountCardInfoDao" id="AccountCardInfoDao">
+        <property name="sessionFactory">
+            <ref bean="sessionFactory"/>
+        </property>
+    </bean>
 </beans>
