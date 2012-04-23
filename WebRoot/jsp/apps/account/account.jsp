@@ -8,6 +8,7 @@
 <title>Insert title here</title>
 <script type="text/javascript" src="<%=path %>/js/ext-2.2.1/source/plugins/GroupSummary.js"></script>
 <script type="text/javascript" src="<%=path %>/js/point/apps/accountBanlance/account.js"></script>
+<script type="text/javascript" src="<%=path %>/js/point/apps/accountBanlance/cardInfo.js"></script>
 </head>
 <body>
 <div style="width: 100%;height: 100%" id="account_div"></div>

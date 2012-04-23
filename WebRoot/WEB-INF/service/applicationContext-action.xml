@@ -127,5 +127,6 @@
         <property name="accountBaseInfoService" ref="accountBaseInfoService"></property>
         <property name="balanceInfoService" ref="balanceInfoService"></property>
         <property name="balanceRightService" ref="balanceRightService"></property>
+        <property name="accountCardService" ref="accountCardService"></property>
     </bean>
 </beans>

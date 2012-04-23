@@ -6,14 +6,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.nutz.json.JsonFormat;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 
 import com.integral.applications.account.bean.AccountBaseInfo;
+import com.integral.applications.account.bean.AccountCardInfo;
 import com.integral.applications.account.service.IAccountAlertService;
 import com.integral.applications.account.service.IAccountBaseInfoService;
+import com.integral.applications.account.service.IAccountCardInfoService;
 import com.integral.applications.account.service.IBalanceInfoService;
 import com.integral.applications.account.service.IBalanceRightService;
 import com.integral.common.action.BaseAction;
@@ -34,6 +33,10 @@ public class AccountManageAction extends BaseAction {
     private IAccountBaseInfoService accountBaseInfoService;
     private IBalanceInfoService balanceInfoService;
     private IBalanceRightService balanceRightService;
+    /**
+     * 账户信息
+     */
+    private IAccountCardInfoService accountCardService;
     private DataSourceTransactionManager transactionManager;
     
     private int start;
@@ -88,6 +91,48 @@ public class AccountManageAction extends BaseAction {
         return null;
     }
     
+    //==========================个人账户=========================================
+    
+    /**
+     * <p>Discription:[个人账户列表]</p>
+     * @return
+     * @author:[代超]
+     * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
+     */
+    public String myAccountList(){
+        Map<String, Object> paramMap = new HashMap<String, Object>();
+        paramMap.put("userName", this.userName);
+        List<AccountCardInfo> cardList = this.accountCardService.findInstanceList(paramMap, start, limit);
+        int cardSize = this.accountCardService.findInstanceListSize(paramMap);
+        PrintWriter out = null;
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        try{
+            out = super.getPrintWriter();
+            resultMap.put("success", true);
+            resultMap.put("accountCard", cardList);
+            resultMap.put("totalCount", cardSize);
+        }catch(Exception e){
+            resultMap.put("success", false);
+            resultMap.put("msg", "系统错误，错误代码："+ e.getMessage());
+        }finally{
+            if(out != null){
+                out.print(super.getJsonString(resultMap));
+                out.close();
+            }
+        }
+        return null;
+    }
+    
+    public String addAccountCard(){
+        return null;
+    }
+    public String editAccountCard(){
+        return null;
+    }
+    public String deleteAccountCard(){
+        return null;
+    }
+    
     public IAccountAlertService getAccountAlertService() {
         return accountAlertService;
     }
@@ -111,6 +156,12 @@ public class AccountManageAction extends BaseAction {
     }
     public void setBalanceRightService(IBalanceRightService balanceRightService) {
         this.balanceRightService = balanceRightService;
+    }
+    public IAccountCardInfoService getAccountCardService() {
+        return accountCardService;
+    }
+    public void setAccountCardService(IAccountCardInfoService accountCardService) {
+        this.accountCardService = accountCardService;
     }
     public DataSourceTransactionManager getTransactionManager() {
         return transactionManager;
