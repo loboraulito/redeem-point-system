@@ -410,6 +410,31 @@ function updateIDCard(idcard){
 	var card = tempId + getVerifyCode(tempId);
 	return card;
 }
+/**
+ * 通用窗口
+ * @param id 唯一标识
+ * @param title 窗口标题
+ * @param width 宽度
+ * @param height 高度
+ * @param items 内容
+ * @param html html标记<无用>
+ * @param buttons 按钮
+ */
+function showAllWindow(id, title, width, height, items, html, buttons){
+	var componentWindow = new Ext.Window({
+		id:id,
+		title:title,
+		width:width,
+		height:height,
+		items:items,
+		buttons:buttons,
+		//html:html,
+		modal:true,
+		layout:"fit",
+		resizable:false
+	});
+	componentWindow.show();
+}
 
 /**
  * 激活DWR的反转功能

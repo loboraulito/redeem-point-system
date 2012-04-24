@@ -54,3 +54,7 @@ var accountSeSecondTypeStore = getCodeListCombo();
  * 收入次类型
  */
 var accountEnSecondTypeStore = getCodeListCombo();
+/**
+ * 账户类型
+ */
+var cardTypeStore = getCodeListCombo();

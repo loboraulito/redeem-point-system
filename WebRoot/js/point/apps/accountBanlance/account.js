@@ -519,35 +519,9 @@ function accountBalance(){
 	 */
 	this.myAccountInfoManage = function(url){
 		var myAccount = new accountInfoGrid(url);
-		showAccountWindow("myAccountInfo","我的账户信息", 500, 370, myAccount.accountInfoGrid, null, null);
+		showAccountWindow("myAccountInfo","我的账户信息", 600, 370, myAccount.getCardInfoGrid(), null, null);
 	};
 	//========================通用功能区==========================================
-	/**
-	 * 公用窗口
-	 * @param {} id
-	 * @param {} title
-	 * @param {} width
-	 * @param {} height
-	 * @param {} items
-	 * @param {} html
-	 * @param {} buttons
-	 */
-	function showAccountWindow(id, title, width, height, items, html, buttons){
-		var accountWindow = new Ext.Window({
-			id:id,
-			title:title,
-			width:width,
-			height:height,
-			items:items,
-			//html:html,
-			buttons:buttons,
-			modal:true,
-			//animateTarget:"giftmanage_div",//动画展示
-			layout:"fit",
-			resizable:false
-		});
-		accountWindow.show();
-	}
 	/**
 	 * 获取账目信息的表单
 	 * @param url
@@ -772,6 +746,38 @@ function accountBalance(){
 		return accountForm;
 	}
 }
+
+/**
+ * 公用窗口
+ * @param {} id
+ * @param {} title
+ * @param {} width
+ * @param {} height
+ * @param {} items
+ * @param {} html
+ * @param {} buttons
+ */
+function showAccountWindow(id, title, width, height, items, html, buttons){
+	var accountWindow = new Ext.Window({
+		id:id,
+		title:title,
+		width:width,
+		height:height,
+		items:items,
+		//html:html,
+		buttons:buttons,
+		modal:true,
+		//animateTarget:"giftmanage_div",//动画展示
+		layout:"fit",
+		resizable:false
+	});
+	accountWindow.show();
+}
+/**
+ * 卡类型数据
+ */
+var cardTypeStore = parent.cardTypeStore;
+cardTypeStore.load({params:{codeId:"4028098136dd28da0136dd4ba0360001"}});
 
 /**
  * 程序主入口

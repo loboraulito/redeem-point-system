@@ -26,7 +26,7 @@
             </column>
         </property>
         <property name="cardStatus" type="java.lang.String">
-            <column name="cardstatus" precision="50">
+            <column name="cardstatus" length="50">
                 <comment>账户状态</comment>
             </column>
         </property>
