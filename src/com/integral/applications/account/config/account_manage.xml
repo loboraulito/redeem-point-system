@@ -41,5 +41,6 @@
              <result name="success">/jsp/apps/account/account.jsp</result>
              <result name="input">/index.jsp</result>
         </action>
+        <action name="transferAccount" class="com.integral.applications.account.action.AccountManageAction" method="transferAccount"></action>
 	</package>
 </struts>

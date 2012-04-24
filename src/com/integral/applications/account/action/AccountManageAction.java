@@ -138,6 +138,7 @@ public class AccountManageAction extends BaseAction {
     public String addAccountCard(){
         PrintWriter out = null;
         Map<String, Object> resultMap = new HashMap<String, Object>();
+        TransactionStatus status = super.getTransactionStatus(transactionManager);
         try{
             out = super.getPrintWriter();
             if(this.card == null){
@@ -148,10 +149,12 @@ public class AccountManageAction extends BaseAction {
                 resultMap.put("msg", "您的账户信息已经成功保存！");
             }
         }catch(Exception e){
+            status.setRollbackOnly();
             LOG.error(e.getMessage());
             resultMap.put("success", false);
             resultMap.put("msg", "系统错误，错误代码："+e.getMessage());
         }finally{
+            this.transactionManager.commit(status);
             if(out != null){
                 out.print(super.getJsonString(resultMap));
                 out.flush();
@@ -160,19 +163,53 @@ public class AccountManageAction extends BaseAction {
         }
         return null;
     }
+    /**
+     * <p>Discription:[修改账户信息]</p>
+     * @return
+     * @author:[代超]
+     * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
+     */
     public String editAccountCard(){
+        PrintWriter out = null;
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        TransactionStatus status = super.getTransactionStatus(transactionManager);
+        try{
+            out = super.getPrintWriter();
+            if(this.card == null){
+                throw new Exception("您所提交的信息不完整，请检查！");
+            }else if(this.card.getAccountId() == null || "".equals(this.card.getAccountId().trim())){
+                this.accountCardService.save(card);
+            }else{
+                this.accountCardService.update(card);
+                resultMap.put("success", true);
+                resultMap.put("msg", "您的账户信息已经成功保存！");
+            }
+        }catch(Exception e){
+            status.setRollbackOnly();
+            LOG.error(e.getMessage());
+            resultMap.put("success", false);
+            resultMap.put("msg", "系统错误，错误代码："+e.getMessage());
+        }finally{
+            this.transactionManager.commit(status);
+            if(out != null){
+                out.print(super.getJsonString(resultMap));
+                out.flush();
+                out.close();
+            }
+        }
         return null;
     }
-    
+    /**
+     * <p>Discription:[删除账户信息]</p>
+     * @return
+     * @author:[代超]
+     * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
+     */
     public String deleteAccountCard(){
         PrintWriter out = null;
         Map<String, Object> resultMap = new HashMap<String, Object>();
-        // 定义TransactionDefinition并设置好事务的隔离级别和传播方式。
-        DefaultTransactionDefinition definition = new DefaultTransactionDefinition();
-        // 代价最大、可靠性最高的隔离级别，所有的事务都是按顺序一个接一个地执行
-        definition.setIsolationLevel(TransactionDefinition.ISOLATION_SERIALIZABLE);
         // 开始事务
-        TransactionStatus status = transactionManager.getTransaction(definition);
+        TransactionStatus status = super.getTransactionStatus(transactionManager);
         try{
             out = super.getPrintWriter();
             if(this.accountListId == null || "".equals(this.accountListId.trim())){
@@ -204,6 +241,15 @@ public class AccountManageAction extends BaseAction {
                 out.close();
             }
         }
+        return null;
+    }
+    /**
+     * <p>Discription:[账户转账]</p>
+     * @return
+     * @author:[代超]
+     * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
+     */
+    public String transferAccount(){
         return null;
     }
     

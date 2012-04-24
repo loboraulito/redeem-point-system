@@ -51,6 +51,17 @@ public class AccountCardInfoServiceImpl implements IAccountCardInfoService {
         log.info("save instance");
         this.accountCardDao.save(cardInfo);
     }
+    
+    /**
+     * <p>Discription:[保存数据]</p>
+     * @param cardInfo
+     * @author:[代超]
+     * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
+     */
+    public void update(AccountCardInfo cardInfo){
+        log.info("update instance");
+        this.accountCardDao.update(cardInfo);
+    }
 
     /**
      * <p>Discription:[方法功能中文描述]</p>
