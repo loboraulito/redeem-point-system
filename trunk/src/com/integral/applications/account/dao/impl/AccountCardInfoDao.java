@@ -1,6 +1,7 @@
 package com.integral.applications.account.dao.impl;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -49,7 +50,7 @@ public class AccountCardInfoDao extends HibernateDaoSupport implements IAccountC
     public void saveOrUpdate(AccountCardInfo cardInfo){
         log.debug("saving AccountCardInfo instance");
         try {
-            getHibernateTemplate().saveOrUpdate(cardInfo);
+            getHibernateTemplate().saveOrUpdate(merge(cardInfo));
             log.debug("save successful");
         } catch (RuntimeException re) {
             log.error("save failed", re);
@@ -60,7 +61,11 @@ public class AccountCardInfoDao extends HibernateDaoSupport implements IAccountC
     public void saveOrUpdateAll(Collection<AccountCardInfo> cardInfos){
         log.debug("saving AccountCardInfo instance");
         try {
-            getHibernateTemplate().saveOrUpdateAll(cardInfos);
+            List<AccountCardInfo> updateList = new ArrayList<AccountCardInfo>();
+            for(AccountCardInfo card : cardInfos){
+                updateList.add(merge(card));
+            }
+            getHibernateTemplate().saveOrUpdateAll(updateList);
             log.debug("save successful");
         } catch (RuntimeException re) {
             log.error("save failed", re);
@@ -71,7 +76,7 @@ public class AccountCardInfoDao extends HibernateDaoSupport implements IAccountC
     public void delete(AccountCardInfo cardInfos){
         log.debug("deleting AccountCardInfo instance");
         try {
-            getHibernateTemplate().delete(cardInfos);
+            getHibernateTemplate().delete(merge(cardInfos));
             log.debug("delete successful");
         } catch (RuntimeException re) {
             log.error("delete failed", re);
@@ -82,7 +87,12 @@ public class AccountCardInfoDao extends HibernateDaoSupport implements IAccountC
     public void deleteAll(Collection<AccountCardInfo> cardInfos){
         log.debug("deleting all AccountCardInfo instance");
         try {
-            getHibernateTemplate().deleteAll(cardInfos);
+            //getHibernateTemplate().getSessionFactory().getCurrentSession().merge(cardInfos);
+            List<AccountCardInfo> deleteList = new ArrayList<AccountCardInfo>();
+            for(AccountCardInfo card : cardInfos){
+                deleteList.add(merge(card));
+            }
+            getHibernateTemplate().deleteAll(deleteList);
             log.debug("delete successful");
         } catch (RuntimeException re) {
             log.error("delete failed", re);
@@ -168,5 +178,18 @@ public class AccountCardInfoDao extends HibernateDaoSupport implements IAccountC
                 return query.list();
             }
         });
+    }
+    
+    public AccountCardInfo merge(AccountCardInfo detachedInstance) {
+        log.debug("merging AccountCardInfo instance");
+        try {
+            AccountCardInfo result = (AccountCardInfo) getHibernateTemplate().merge(
+                    detachedInstance);
+            log.debug("merge successful");
+            return result;
+        } catch (RuntimeException re) {
+            log.error("merge failed", re);
+            throw re;
+        }
     }
 }

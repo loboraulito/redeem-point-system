@@ -52,6 +52,14 @@ public class AccountCardInfo implements java.io.Serializable {
      */
     private String cardUser;
     
+    public AccountCardInfo(){
+        
+    }
+    
+    public AccountCardInfo(String accountId){
+        this.accountId = accountId;
+    }
+    
     public String getAccountId() {
         return accountId;
     }
