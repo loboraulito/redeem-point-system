@@ -47,6 +47,17 @@ public class AccountCardInfoDao extends HibernateDaoSupport implements IAccountC
         }
     }
     
+    public void update(AccountCardInfo cardInfo){
+        log.debug("saving AccountCardInfo instance");
+        try {
+            getHibernateTemplate().update(cardInfo);
+            log.debug("save successful");
+        } catch (RuntimeException re) {
+            log.error("save failed", re);
+            throw re;
+        }
+    }
+    
     public void saveOrUpdate(AccountCardInfo cardInfo){
         log.debug("saving AccountCardInfo instance");
         try {

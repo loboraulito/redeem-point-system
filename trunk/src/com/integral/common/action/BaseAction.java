@@ -10,6 +10,10 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts2.ServletActionContext;
 import org.nutz.json.Json;
 import org.nutz.json.JsonFormat;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.transaction.TransactionDefinition;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 import com.opensymphony.xwork2.ActionSupport;
 
@@ -76,6 +80,20 @@ public class BaseAction extends ActionSupport {
         JsonFormat jf = new JsonFormat(true);
         jf.setAutoUnicode(true);
         return Json.toJson(jsonMap, jf);
+    }
+    /**
+     * <p>Discription:[手动开启事务]</p>
+     * @param transactionManager
+     * @return
+     * @author:[代超]
+     * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
+     */
+    protected TransactionStatus getTransactionStatus(DataSourceTransactionManager transactionManager){
+        // 定义TransactionDefinition并设置好事务的隔离级别和传播方式。
+        DefaultTransactionDefinition definition = new DefaultTransactionDefinition();
+        // 代价最大、可靠性最高的隔离级别，所有的事务都是按顺序一个接一个地执行
+        definition.setIsolationLevel(TransactionDefinition.ISOLATION_SERIALIZABLE);
+        return transactionManager.getTransaction(definition);
     }
     
 }

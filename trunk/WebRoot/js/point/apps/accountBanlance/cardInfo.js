@@ -146,7 +146,36 @@ function accountInfoGrid(url){
 				tooltip:"新增账户信息",
 				handler:function(){
 					var uri = path + "/account_manage/addAccountCard.action?method=addAccountCard";
-					var cardForm = cardInfoForm(uri, false, false);
+					var cardTypeCombo = new Ext.form.ComboBox({
+						name:"card.cardType",
+						anchor:"90%",
+						fieldLabel:"账户类型",
+						store:cardTypeStore,
+						editable:false,//false：不可编辑
+						triggerAction:"all",//避免选定了一个值之后，再选的时候只显示刚刚选择的那个值
+						valueField:"dataKey",//将codeid设置为传递给后台的值
+						displayField:"dataValue",
+						hiddenName:"card.cardType",//这个值就是传递给后台获取的值
+						mode: "local",
+						allowBlank:false
+					});
+					var cardStatusCombo = new Ext.form.ComboBox({
+						name:"card.cardStatus",
+						store:new Ext.data.SimpleStore({
+							fields:["codeid","codename"],
+							data:[["1","可用"],["0","不可用"]]
+						}),
+						anchor:"90%",
+						editable:false,//false：不可编辑
+						triggerAction:"all",//避免选定了一个值之后，再选的时候只显示刚刚选择的那个值
+						valueField:"codeid",//将codeid设置为传递给后台的值
+						displayField:"codename",
+						hiddenName:"card.cardStatus",//这个值就是传递给后台获取的值
+						mode: "local",
+						value:"1",
+						fieldLabel:"账户状态"
+					});
+					var cardForm = cardInfoForm(uri, cardTypeCombo, cardStatusCombo, false, false);
 					var buttons = [{
 						text:"新增保存",
 						handler:function(){
@@ -169,7 +198,45 @@ function accountInfoGrid(url){
 				tooltip:"修改账户信息",
 				handler:function(){
 					var uri = path + "/account_manage/editAccountCard.action?method=editAccountCard";
-					var cardForm = cardInfoForm(uri, true, false);
+					
+					var gridSelectionModel = cardInfoGrid.getSelectionModel();
+					var gridSelection = gridSelectionModel.getSelections();
+					if(gridSelection.length != 1){
+						Ext.MessageBox.alert('提示','请选择一个账户修改！');
+					    return false;
+					}
+					
+					var cardTypeCombo = new Ext.form.ComboBox({
+						name:"card.cardType",
+						anchor:"90%",
+						fieldLabel:"账户类型",
+						store:cardTypeStore,
+						editable:false,//false：不可编辑
+						triggerAction:"all",//避免选定了一个值之后，再选的时候只显示刚刚选择的那个值
+						valueField:"dataKey",//将codeid设置为传递给后台的值
+						displayField:"dataValue",
+						hiddenName:"card.cardType",//这个值就是传递给后台获取的值
+						mode: "local",
+						allowBlank:false
+					});
+					var cardStatusCombo = new Ext.form.ComboBox({
+						name:"card.cardStatus",
+						store:new Ext.data.SimpleStore({
+							fields:["codeid","codename"],
+							data:[["1","可用"],["0","不可用"]]
+						}),
+						anchor:"90%",
+						editable:false,//false：不可编辑
+						triggerAction:"all",//避免选定了一个值之后，再选的时候只显示刚刚选择的那个值
+						valueField:"codeid",//将codeid设置为传递给后台的值
+						displayField:"codename",
+						hiddenName:"card.cardStatus",//这个值就是传递给后台获取的值
+						mode: "local",
+						value:"1",
+						fieldLabel:"账户状态"
+					});
+					
+					var cardForm = cardInfoForm(uri, cardTypeCombo, cardStatusCombo, true, false);
 					var buttons = [{
 						text:"修改保存",
 						handler:function(){
@@ -184,6 +251,17 @@ function accountInfoGrid(url){
 							if(w) w.close();
 						}
 					}];
+					//cardForm.getForm().loadRecord(gridSelection[0]);
+					Ext.getCmp("card.accountId").setValue(gridSelection[0].get("accountId"));
+					Ext.getCmp("card.cardId").setValue(gridSelection[0].get("cardId"));
+					Ext.getCmp("card.cardName").setValue(gridSelection[0].get("cardName"));
+					cardTypeCombo.setValue(gridSelection[0].get("cardType"));
+					cardStatusCombo.setValue(gridSelection[0].get("cardStatus"));
+					Ext.getCmp("card.cardBank").setValue(gridSelection[0].get("cardBank"));
+					Ext.getCmp("card.cardCurrency").setValue(gridSelection[0].get("cardCurrency"));
+					Ext.getCmp("card.comment").setValue(gridSelection[0].get("comment"));
+					Ext.getCmp("card.cardBalance").setValue(gridSelection[0].get("cardBalance"));
+					Ext.getCmp("card.cardUser").setValue(gridSelection[0].get("cardUser"));
 					showAccountWindow("editCardWindow","修改账户信息", 500, 330, cardForm, null, buttons);
 				}
 			},"-",{
@@ -256,6 +334,13 @@ function accountInfoGrid(url){
 						}
 					});
 				}
+			},"-",{
+				text:"账户转账",
+				iconCls:"table_goto",
+				tooltip:"账户转账",
+				handler:function(){
+					var uri = path + "/account_manager/transferAccount.action?method=transferAccount";
+				}
 			}]
 		});
 		cardInfoStore.load({params:{start:0, limit:9999999}});
@@ -299,7 +384,7 @@ function accountInfoGrid(url){
 	 * @param isNull
 	 * @returns {Ext.form.FormPanel}
 	 */
-	function cardInfoForm(uri, readOnly, isNull){
+	function cardInfoForm(uri, cardTypeCombo, cardStatusCombo, readOnly, isNull){
 		var cardInfoForm = new Ext.form.FormPanel({
 			url: uri,
 			frame: true,
@@ -319,6 +404,7 @@ function accountInfoGrid(url){
 					items:[{
 						xtype: 'textfield',
 						name:"card.cardId",
+						id:"card.cardId",
 						anchor:"90%",
 						fieldLabel:"卡号",
 						readOnly:readOnly,
@@ -326,6 +412,7 @@ function accountInfoGrid(url){
 					},{
 						xtype: 'hidden',
 						name:"card.accountId",
+						id:"card.accountId"
 					}]
 				},{
 					layout:"form",
@@ -334,6 +421,7 @@ function accountInfoGrid(url){
 					items:[{
 						xtype: 'textfield',
 						name:"card.cardName",
+						id:"card.cardName",
 						anchor:"90%",
 						fieldLabel:"账户名称",
 						allowBlank:isNull
@@ -342,20 +430,7 @@ function accountInfoGrid(url){
 					layout:"form",
 					columnWidth:0.5,
 					height:50,
-					items:[{
-						xtype: 'combo',
-						name:"card.cardType",
-						anchor:"90%",
-						fieldLabel:"账户类型",
-						store:cardTypeStore,
-						editable:false,//false：不可编辑
-						triggerAction:"all",//避免选定了一个值之后，再选的时候只显示刚刚选择的那个值
-						valueField:"dataKey",//将codeid设置为传递给后台的值
-						displayField:"dataValue",
-						hiddenName:"card.cardType",//这个值就是传递给后台获取的值
-						mode: "local",
-						allowBlank:isNull
-					}]
+					items:[cardTypeCombo]
 				},{
 					layout:"form",
 					columnWidth:0.5,
@@ -363,6 +438,7 @@ function accountInfoGrid(url){
 					items:[{
 						xtype: 'textfield',
 						name:"card.cardBank",
+						id:"card.cardBank",
 						anchor:"90%",
 						fieldLabel:"开户行"
 					}]
@@ -373,6 +449,7 @@ function accountInfoGrid(url){
 					items:[{
 						xtype: 'numberfield',
 						name:"card.cardBalance",
+						id:"card.cardBalance",
 						anchor:"90%",
 						fieldLabel:"余额"
 					}]
@@ -380,23 +457,7 @@ function accountInfoGrid(url){
 					layout:"form",
 					columnWidth:0.5,
 					height:50,
-					items:[{
-						xtype: 'combo',
-						name:"card.cardStatus",
-						store:new Ext.data.SimpleStore({
-							fields:["codeid","codename"],
-							data:[["1","可用"],["0","不可用"]]
-						}),
-						anchor:"90%",
-						editable:false,//false：不可编辑
-						triggerAction:"all",//避免选定了一个值之后，再选的时候只显示刚刚选择的那个值
-						valueField:"codeid",//将codeid设置为传递给后台的值
-						displayField:"codename",
-						hiddenName:"card.cardStatus",//这个值就是传递给后台获取的值
-						mode: "local",
-						value:"1",
-						fieldLabel:"账户状态"
-					}]
+					items:[cardStatusCombo]
 				},{
 					layout:"form",
 					columnWidth:0.5,
@@ -404,11 +465,13 @@ function accountInfoGrid(url){
 					items:[{
 						xtype: 'textfield',
 						name:"card.cardCurrency",
+						id:"card.cardCurrency",
 						anchor:"90%",
 						fieldLabel:"币种"
 					},{
 						xtype: 'hidden',
 						name:"card.cardUser",
+						id:"card.cardUser",
 						value:userName
 					}]
 				},{
@@ -418,6 +481,7 @@ function accountInfoGrid(url){
 					items:[{
 						xtype: 'textfield',
 						name:"card.comment",
+						id:"card.comment",
 						anchor:"90%",
 						fieldLabel:"备注"
 					}]

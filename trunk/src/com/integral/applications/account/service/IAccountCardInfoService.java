@@ -19,6 +19,14 @@ public interface IAccountCardInfoService {
      * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
      */
     public void save(AccountCardInfo cardInfo);
+    
+    /**
+     * <p>Discription:[保存数据]</p>
+     * @param cardInfo
+     * @author:[代超]
+     * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
+     */
+    public void update(AccountCardInfo cardInfo);
     /**
      * <p>Discription:[保存或修改]</p>
      * @param cardInfo
