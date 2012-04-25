@@ -21,6 +21,7 @@ public class AccountBaseInfo  implements java.io.Serializable {
      private Double accountout;
      private Double accountmargin;
      private String remark;
+     private String accountcard;
      private String deletetag;
      private String margintag;
      private String userid;
@@ -197,13 +198,15 @@ public class AccountBaseInfo  implements java.io.Serializable {
 	public void setAccountalertyear(Double accountalertyear) {
 		this.accountalertyear = accountalertyear;
 	}
-   
 
 
+    public String getAccountcard() {
+        return accountcard;
+    }
 
 
-
-
-
+    public void setAccountcard(String accountcard) {
+        this.accountcard = accountcard;
+    }
 
 }

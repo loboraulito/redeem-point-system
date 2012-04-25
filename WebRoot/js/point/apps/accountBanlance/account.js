@@ -20,6 +20,7 @@ function accountBalance(){
 		{name:"accountenter"},//当天收入
 		{name:"accountout"},//当天消费
 		{name:"accountmargin"},//当天结算
+		{name:"accountcard"},//卡号
 		{name:"remark"},//备注
 		{name:"userid"},//备注
 		{name:"username"},//备注
@@ -93,6 +94,29 @@ function accountBalance(){
 		{name:"bankaccounttype"},//账户类型
 		{name:"bankaccountsavings"}//账户存款
 	]);
+	
+	/**
+	 * 卡信息
+	 */
+	var cardInfoReader = new Ext.data.JsonReader({
+		totalProperty : "totalCount",
+		root : "accountCard"
+	},[
+	   {name:"accountId"},//账户id
+	   {name:"cardId"},//卡号
+	   {name:"cardName"},//账户名称
+	   {name:"cardType"},//账户类型
+	   {name:"cardStatus"},//账户状态
+	   {name:"cardBank"},//开户行
+	   {name:"cardCurrency"},//币种
+	   {name:"comment"},//备注
+	   {name:"cardBalance"},//余额
+	   {name:"cardUser"},//持卡人
+	]);
+	
+	//账户临时数据
+	var cardInfoTempDate = {"totalCount":0, "accountCard":[], "success":true};
+	
 	
 	//查看权限临时数据
 	var rightTempDate = {"totalCount":0, "rights":[], "success":true};
@@ -186,6 +210,17 @@ function accountBalance(){
 		reader:bankAccountReader,
 		baseParams:{username:userName}
 	});
+	/**
+	 * 卡信息
+	 */
+	this.cardInfoStore = new Ext.data.Store({
+		proxy:new Ext.data.HttpProxy({
+			url: path + "/account_manage/myAccountList.action?method=myAccountList",
+		}),
+		reader:cardInfoReader,
+		baseParams:{userName:userName}
+	});
+	cardInfoStore.load();
 	
 	//分组显示
 	var groupView = new Ext.grid.GroupingView({
@@ -193,7 +228,7 @@ function accountBalance(){
 		showGroupName: false,
 		enableNoGroups:false, // REQUIRED!
 		hideGroupedColumn: false,
-		groupTextTpl: '{text} ({[values.rs.length]}  "条账目明细")          本月设置消费报警值：<font color="red">{[isNaN(parseFloat(values.rs[0].data.accountalertmon))?"未设置":values.rs[0].data.accountalertmon]}</font>（单位：人民币/元）'
+		groupTextTpl: '{text} ({[values.rs.length]}  条记账信息)          本月设置消费报警值：<font color="red">{[isNaN(parseFloat(values.rs[0].data.accountalertmon))?"未设置":values.rs[0].data.accountalertmon]}</font>（单位：人民币/元）'
 	});
 	//结算之后，以年度方式来分组显示
 	var balanceGroupView = new Ext.grid.GroupingView({
@@ -236,29 +271,36 @@ function accountBalance(){
 		summaryType:"currentMonth",
 		sortable:true,
 		renderer:showdate,
+		width:130
+	},{
+		header:"记账账户",
+		groupable: false,
+		dataIndex:"accountcard",
+		sortable:true,
+		renderer:showAccount,
 		width:80
 	},{
-		header:"当天收入（单位：人民币/元）",
+		header:"当天收入",
 		groupable: false,
 		dataIndex:"accountenter",
 		renderer:showmoney,
 		summaryType:"sum",
-		width:130
+		width:80
 	},{
-		header:"当天消费（单位：人民币/元）",
+		header:"当天消费",
 		groupable: false,
 		dataIndex:"accountout",
 		summaryType:"sum",
 		renderer:showoutmoney,
 		//summaryRenderer:showmoney,
-		width:130
+		width:80
 	},{
-		header:"当天结算（单位：人民币/元）",
+		header:"当天结算",
 		groupable: false,
 		dataIndex:"accountmargin",
 		summaryType:"totalCost",
 		renderer:showmoney,
-		width:130
+		width:80
 	},{
 		header:"结算标志",
 		groupable: false,
@@ -279,9 +321,9 @@ function accountBalance(){
 		header:"aaaa"
 	}]);
 	//展示列表
-	var accountGrid = new Ext.grid.GridPanel({
+	this.accountGrid = new Ext.grid.GridPanel({
 		id:"accountGrid",
-		title:"账目详细信息",
+		title:"账目详细信息（单位：人民币/元）",
 		collapsible:true,//是否可以展开
 		animCollapse:true,//展开时是否有动画效果
 		autoScroll:true,
@@ -353,6 +395,23 @@ function accountBalance(){
 			//引用unit.js中的方法
 			return dateFormat(value,'Y-m-d H:i:s',"Y-m-d");
 		}
+	}
+	/**
+	 * 格式化账户信息
+	 * @param value
+	 * @param metadata
+	 * @param rocord
+	 * @param rowIndex
+	 * @param colIndex
+	 * @param store
+	 * @returns
+	 */
+	function showAccount(value,metadata,rocord,rowIndex,colIndex,store){
+		var v = getCodeNameFromStore(value, cardInfoStore, "accountId", "cardName");
+		if(v == value){
+			return "未知账户";
+		}
+		return v;
 	}
 	/**
 	 * 格式化月份

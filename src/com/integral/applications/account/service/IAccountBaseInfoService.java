@@ -52,5 +52,16 @@ public interface IAccountBaseInfoService {
     public List queryByProperty(Map<String, Object> properties);
 
     public Object[] checkImportData(List list, Map properties, String userId, String userName);
+    /**
+     * <p>Discription:[快速记账]</p>
+     * @param outAmount
+     * @param inAmount
+     * @param comment
+     * @param cardId
+     * @param userName
+     * @author:[代超]
+     * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
+     */
+    public void chargeAccount(double outAmount, double inAmount, String comment, String cardId, String userName);
 
 }
