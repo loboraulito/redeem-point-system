@@ -1,5 +1,7 @@
 package com.integral.applications.account.service.impl;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -188,5 +190,21 @@ public class AccountCardInfoServiceImpl implements IAccountCardInfoService {
         List list = this.baseDao.queryPageByHQL(sql, paramMap, -1, -1);
         return NumberUtils.toInt(String.valueOf(list.get(0)), 0);
     }
-    
+
+    @Override
+    public void transferAccount(AccountCardInfo outCard, AccountCardInfo inCard, double amount, String comment) throws Exception {
+        BigDecimal outAmount = new BigDecimal("" + outCard.getCardBalance());
+        BigDecimal inAmount = new BigDecimal("" + inCard.getCardBalance());
+        BigDecimal tranAmount = new BigDecimal("" + amount);
+        double newOutAmount = outAmount.add(tranAmount.negate()).doubleValue();
+        if(newOutAmount < 0){
+            throw new Exception("您所选转出账户余额不足！");
+        }
+        outCard.setCardBalance(newOutAmount);
+        inCard.setCardBalance(inAmount.add(tranAmount).doubleValue());
+        List<AccountCardInfo> instances = new ArrayList<AccountCardInfo>();
+        instances.add(outCard);
+        instances.add(inCard);
+        this.accountCardDao.saveOrUpdateAll(instances);
+    }
 }

@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.math.NumberUtils;
+import org.apache.struts2.ServletActionContext;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.TransactionStatus;
@@ -20,6 +22,7 @@ import com.integral.applications.account.service.IAccountCardInfoService;
 import com.integral.applications.account.service.IBalanceInfoService;
 import com.integral.applications.account.service.IBalanceRightService;
 import com.integral.common.action.BaseAction;
+import com.integral.util.RequestUtil;
 
 /** 
  * <p>Description: [描述该类概要功能介绍]</p>
@@ -250,6 +253,47 @@ public class AccountManageAction extends BaseAction {
      * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
      */
     public String transferAccount(){
+        Map<String, Object> paramMap = RequestUtil.getRequestMap(ServletActionContext.getRequest());
+        PrintWriter out = null;
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        // 开始事务
+        TransactionStatus status = super.getTransactionStatus(transactionManager);
+        try{
+            out = super.getPrintWriter();
+            AccountCardInfo tranOutCard = this.accountCardService.findById(String.valueOf(paramMap.get("tranOutAccount")));
+            AccountCardInfo tranInCard = this.accountCardService.findById(String.valueOf(paramMap.get("tranInAccount")));
+            if(tranOutCard == null || tranInCard == null){
+                throw new Exception("您所选账户不存在！");
+            }
+            if(tranOutCard.getAccountId().equals(tranInCard.getAccountId())){
+                throw new Exception("请选择两个不同账户！");
+            }
+            if(NumberUtils.toDouble(String.valueOf(paramMap.get("tranAmount")), 0.0) <= 0){
+                throw new Exception("转账金额必须大于 0 ！");
+            }
+            //转账
+            this.accountCardService.transferAccount(tranOutCard, tranInCard, NumberUtils.toDouble(String.valueOf(paramMap.get("tranAmount")), 0.0), String.valueOf(paramMap.get("comment")));
+            //记账(两笔-转出，转入)
+            //支出
+            this.accountBaseInfoService.chargeAccount(NumberUtils.toDouble(String.valueOf(paramMap.get("tranAmount")), 0.0), 0.0, "个人账户转出", tranOutCard.getAccountId(), userName);
+            this.accountBaseInfoService.chargeAccount(0.0, NumberUtils.toDouble(String.valueOf(paramMap.get("tranAmount")), 0.0), "个人账户转入", tranInCard.getAccountId(), userName);
+            
+            resultMap.put("success", true);
+            resultMap.put("msg", "转账成功！");
+        }catch(Exception e){
+            status.setRollbackOnly();
+            LOG.error(e.getMessage());
+            resultMap.put("success", false);
+            resultMap.put("msg", "系统错误，错误代码："+e.getMessage());
+        }finally{
+            transactionManager.commit(status);
+            if(out != null){
+                out.print(super.getJsonString(resultMap));
+                out.flush();
+                out.close();
+            }
+        }
+        
         return null;
     }
     

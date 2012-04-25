@@ -40,6 +40,11 @@
                 <comment>进出帐差额</comment>
             </column>
         </property>
+        <property name="accountcard" type="java.lang.String">
+            <column name="accountcard" length="500">
+                <comment>账户</comment>
+            </column>
+        </property>
         <property name="remark" type="java.lang.String">
             <column name="remark" length="500">
                 <comment>备注</comment>

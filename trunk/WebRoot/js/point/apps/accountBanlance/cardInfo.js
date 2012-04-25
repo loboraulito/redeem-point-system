@@ -2,6 +2,10 @@
  * 我的账户管理
  */
 function accountInfoGrid(url){
+	var account = new accountBalance();
+	/**
+	 * 卡信息
+	 */
 	var cardInfoReader = new Ext.data.JsonReader({
 		totalProperty : "totalCount",
 		root : "accountCard"
@@ -17,12 +21,11 @@ function accountInfoGrid(url){
 	   {name:"cardBalance"},//余额
 	   {name:"cardUser"},//持卡人
 	]);
-	
-	//账户临时数据
-	var cardInfoTempDate = {"totalCount":0, "accountCard":[], "success":true};
-	
+	/**
+	 * 卡信息
+	 */
 	var cardInfoStore = new Ext.data.GroupingStore({
-		url:url,
+		url: url,
 		reader:cardInfoReader,
 		groupField:"cardType",
 		//groupOnSort:false,
@@ -48,7 +51,6 @@ function accountInfoGrid(url){
 			}
 		}
 	});
-	
 	//数据展现样式
 	var cardInfoSM = new Ext.grid.CheckboxSelectionModel();//展示样式
 	var cardInfoCM = new Ext.grid.ColumnModel([new Ext.grid.RowNumberer(),cardInfoSM,{
@@ -307,6 +309,9 @@ function accountInfoGrid(url){
 												Ext.Msg.alert("系统提示","账户信息已成功删除！");
 											}
 											cardInfoStore.reload();
+											account.cardInfoStore.reload();
+											//account.accountGroupStore.reload();
+											account.accountGrid.getStore().reload();
 										}else{
 											if(msg.msg){
 												Ext.Msg.alert("系统提示",msg.msg);
@@ -339,7 +344,23 @@ function accountInfoGrid(url){
 				iconCls:"table_goto",
 				tooltip:"账户转账",
 				handler:function(){
-					var uri = path + "/account_manager/transferAccount.action?method=transferAccount";
+					var uri = path + "/account_manage/transferAccount.action?method=transferAccount";
+					var transferForm = getTransferForm(uri);
+					var buttons = [{
+						text:"开始转账",
+						handler:function(){
+							if(transferForm.form.isValid()){
+								saveCardInfo(transferForm, "transferWindow");
+							}
+						}
+					},{
+						text:"关闭窗口",
+						handler:function(){
+							var w = Ext.getCmp("transferWindow");
+							if(w) w.close();
+						}
+					}];
+					showAccountWindow("transferWindow","账户转账", 500, 230, transferForm, null, buttons);
 				}
 			}]
 		});
@@ -491,6 +512,91 @@ function accountInfoGrid(url){
 		return cardInfoForm;
 	}
 	/**
+	 * 账户转账
+	 * @param uri
+	 */
+	function getTransferForm(uri){
+		var transferForm = new Ext.form.FormPanel({
+			url: uri,
+			frame: true,
+			labelAlign: 'right',
+			labelWidth:70,
+			autoScroll:false,
+			waitMsgTarget:true,
+			viewConfig:{forceFit:true},
+			items:[{
+				layout:"column",
+				border:false,
+				labelSeparator:'：',
+				items:[{
+					layout:"form",
+					columnWidth:0.5,
+					height:50,
+					items:[{
+						xtype: 'combo',
+						name:"tranOutAccount",
+						anchor:"90%",
+						store:cardInfoStore,
+						fieldLabel:"转出账户",
+						editable:false,//false：不可编辑
+						triggerAction:"all",//避免选定了一个值之后，再选的时候只显示刚刚选择的那个值
+						valueField:"accountId",//将codeid设置为传递给后台的值
+						displayField:"cardName",
+						hiddenName:"tranOutAccount",//这个值就是传递给后台获取的值
+						mode: "local",
+						allowBlank:false
+					}]
+				},{
+					layout:"form",
+					columnWidth:0.5,
+					height:50,
+					items:[{
+						xtype: 'combo',
+						name:"tranInAccount",
+						anchor:"90%",
+						store:cardInfoStore,
+						fieldLabel:"转入账户",
+						editable:false,//false：不可编辑
+						triggerAction:"all",//避免选定了一个值之后，再选的时候只显示刚刚选择的那个值
+						valueField:"accountId",//将codeid设置为传递给后台的值
+						displayField:"cardName",
+						hiddenName:"tranInAccount",//这个值就是传递给后台获取的值
+						mode: "local",
+						allowBlank:false
+					}]
+				},{
+					layout:"form",
+					columnWidth:1,
+					height:50,
+					items:[{
+						xtype: 'numberfield',
+						name:"tranAmount",
+						anchor:"90%",
+						fieldLabel:"转账金额",
+						value:0,
+						allowBlank:false
+					}]
+				},{
+					layout:"form",
+					columnWidth:1,
+					height:50,
+					items:[{
+						xtype: 'textfield',
+						name:"comment",
+						anchor:"90%",
+						fieldLabel:"备注"
+					},{
+						xtype:"hidden",
+						name:"userName",
+						value:userName
+					}]
+				}]
+			}]
+		});
+		return transferForm;
+	}
+	
+	/**
 	 * 保存账户信息
 	 * @param form
 	 * @param windowId
@@ -515,9 +621,12 @@ function accountInfoGrid(url){
 						if(result.msg){
 							msg = result.msg;
 						}
-						Ext.Msg.alert('系统提示信息', msg, function(btn, text) {
+						showSystemMsg("系统提示信息", msg, function(btn, text) {
 							if (btn == 'ok') {
 								cardInfoStore.reload();
+								account.cardInfoStore.reload();
+								//account.accountGroupStore.reload();
+								account.accountGrid.getStore().reload();
 								Ext.getCmp(windowId).close();
 							}
 						});

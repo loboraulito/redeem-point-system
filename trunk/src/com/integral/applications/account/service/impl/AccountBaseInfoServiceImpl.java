@@ -29,16 +29,12 @@ public class AccountBaseInfoServiceImpl implements IAccountBaseInfoService {
 	public void setAccountDao(IAccountBaseInfoDAO accountDao) {
 		this.accountDao = accountDao;
 	}
-	
-
 	public BaseDao getBaseDao() {
         return baseDao;
     }
-
     public void setBaseDao(BaseDao baseDao) {
         this.baseDao = baseDao;
     }
-    
     @Override
     public List queryPage(int start, int limit, Map<String, Object> params) {
         String hql = "from AccountBaseInfo acctinfo where acctinfo.username = :userName";
@@ -208,4 +204,25 @@ public class AccountBaseInfoServiceImpl implements IAccountBaseInfoService {
 		}
 		return null;
 	}
+
+    @Override
+    public void chargeAccount(double outAmount, double inAmount, String comment, String cardId, String userName) {
+        AccountBaseInfo baseInfo = new AccountBaseInfo();
+        baseInfo.setUsername(userName);
+        baseInfo.setAccountenter(inAmount);
+        baseInfo.setAccountout(outAmount);
+        baseInfo.setRemark(comment);
+        baseInfo.setAccountcard(cardId);
+        baseInfo.setAccountmargin(new BigDecimal(""+inAmount).add(new BigDecimal(""+outAmount).negate()).doubleValue());
+        
+        Date today = new Date();
+        baseInfo.setBasedate(today);
+        baseInfo.setBasemonth(Tools.dateToString(today, "yyyy-MM"));
+        baseInfo.setBaseyear(Tools.dateToString(today, "yyyy"));
+        
+        baseInfo.setDeletetag("0");//未删除
+        baseInfo.setMargintag("0");//未结算
+        
+        this.accountDao.save(baseInfo);
+    }
 }

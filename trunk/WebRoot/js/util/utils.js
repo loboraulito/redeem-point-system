@@ -302,7 +302,22 @@ function getCodeNameFromStore(value,store,codeid,codename){
 	}
 	return value;
 }
-
+/**
+ * 显示系统消息
+ * @param title
+ * @param msg
+ * @param fn
+ */
+function showSystemMsg(title, msg, fn){
+	Ext.Msg.show({
+		title: title,
+		msg:msg,
+		buttons:Ext.Msg.OK,
+		icon:Ext.Msg.INFO,
+		fn:fn,
+		width:300
+	});
+}
 
 /**
  * 查看我的邀请信息
@@ -434,6 +449,24 @@ function showAllWindow(id, title, width, height, items, html, buttons){
 		resizable:false
 	});
 	componentWindow.show();
+}
+
+/**
+ * 四舍五入并且精确到小数后几位
+ * v：要四舍五入的数字
+ * e：小数点位数
+ */
+function getRound(v,e){
+	if(isNaN(v)){
+		return v;
+	}
+	if(!e){
+		e = 2;
+	}
+	var   t=1;   
+    for(;e>0;t*=10,e--);   
+    for(;e<0;t/=10,e++);   
+    return   Math.round(v*t)/t;
 }
 
 /**

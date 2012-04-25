@@ -110,4 +110,15 @@ public interface IAccountCardInfoService {
      * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
      */
     public int findInstanceListSize(Map<String, Object> paramMap);
+    /**
+     * <p>Discription:[账户转账]</p>
+     * @param outCard 转出账户
+     * @param inCard 转入账户
+     * @param amount 转入金额
+     * @param comment 备注
+     * @author:[代超]
+     * @throws Exception 
+     * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
+     */
+    public void transferAccount(AccountCardInfo outCard, AccountCardInfo inCard, double amount, String comment) throws Exception;
 }
