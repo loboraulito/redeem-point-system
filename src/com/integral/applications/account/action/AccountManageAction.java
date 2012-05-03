@@ -281,6 +281,7 @@ public class AccountManageAction extends BaseAction {
             resultMap.put("success", true);
             resultMap.put("msg", "转账成功！");
         }catch(Exception e){
+            e.printStackTrace();
             status.setRollbackOnly();
             LOG.error(e.getMessage());
             resultMap.put("success", false);

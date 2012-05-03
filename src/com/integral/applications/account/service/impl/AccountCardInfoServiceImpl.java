@@ -193,8 +193,8 @@ public class AccountCardInfoServiceImpl implements IAccountCardInfoService {
 
     @Override
     public void transferAccount(AccountCardInfo outCard, AccountCardInfo inCard, double amount, String comment) throws Exception {
-        BigDecimal outAmount = new BigDecimal("" + outCard.getCardBalance());
-        BigDecimal inAmount = new BigDecimal("" + inCard.getCardBalance());
+        BigDecimal outAmount = new BigDecimal("" + (outCard.getCardBalance() == null ? 0.0 : outCard.getCardBalance()));
+        BigDecimal inAmount = new BigDecimal("" + (inCard.getCardBalance() == null ? 0.0 : inCard.getCardBalance()));
         BigDecimal tranAmount = new BigDecimal("" + amount);
         double newOutAmount = outAmount.add(tranAmount.negate()).doubleValue();
         if(newOutAmount < 0){
