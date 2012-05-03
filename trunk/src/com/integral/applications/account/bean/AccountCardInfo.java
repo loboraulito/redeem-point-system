@@ -46,7 +46,7 @@ public class AccountCardInfo implements java.io.Serializable {
     /**
      * 余额
      */
-    private Double cardBalance;
+    private Double cardBalance = 0.0;
     /**
      * 持卡人
      */
