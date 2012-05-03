@@ -666,13 +666,13 @@ function accountBalance(){
 					items:[{
 						xtype: 'combo',
 						name:"account.enbankaccount",
-						store:bankAccountStore,
+						store:cardInfosStore,
 						anchor:"90%",
 						fieldLabel:"账户",
 						editable:false,//false：不可编辑
 						triggerAction:"all",//避免选定了一个值之后，再选的时候只显示刚刚选择的那个值
-						valueField:"bankaccountid",//将codeid设置为传递给后台的值
-						displayField:"bankaccountname",
+						valueField:"accountId",//将codeid设置为传递给后台的值
+						displayField:"cardName",
 						hiddenName:"account.enbankaccount",//这个值就是传递给后台获取的值
 						mode: "local",
 						allowBlank:isNull
@@ -745,13 +745,13 @@ function accountBalance(){
 					items:[{
 						xtype: 'combo',
 						name:"account.outbankaccount",
-						store:bankAccountStore,
+						store:cardInfosStore,
 						anchor:"90%",
 						fieldLabel:"账户",
 						editable:false,//false：不可编辑
 						triggerAction:"all",//避免选定了一个值之后，再选的时候只显示刚刚选择的那个值
-						valueField:"bankaccountid",//将codeid设置为传递给后台的值
-						displayField:"bankaccountname",
+						valueField:"accountId",//将codeid设置为传递给后台的值
+						displayField:"cardName",
 						hiddenName:"account.outbankaccount",//这个值就是传递给后台获取的值
 						mode: "local",
 						allowBlank:isNull
