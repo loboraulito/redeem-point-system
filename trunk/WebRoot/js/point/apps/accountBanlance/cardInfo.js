@@ -2,7 +2,7 @@
  * 我的账户管理
  */
 function accountInfoGrid(url){
-	var account = new accountBalance();
+	//var account = new accountBalance();
 	/**
 	 * 卡信息
 	 */
@@ -309,9 +309,11 @@ function accountInfoGrid(url){
 												Ext.Msg.alert("系统提示","账户信息已成功删除！");
 											}
 											cardInfoStore.reload();
-											account.cardInfoStore.reload();
+											//account.cardInfoStore.reload();
+											cardInfosStore.reload();
 											//account.accountGroupStore.reload();
-											account.accountGrid.getStore().reload();
+											//account.accountGrid.getStore().reload();
+											accountGroupStore.reload();
 										}else{
 											if(msg.msg){
 												Ext.Msg.alert("系统提示",msg.msg);
@@ -624,9 +626,11 @@ function accountInfoGrid(url){
 						showSystemMsg("系统提示信息", msg, function(btn, text) {
 							if (btn == 'ok') {
 								cardInfoStore.reload();
-								account.cardInfoStore.reload();
+								//account.cardInfoStore.reload();
+								cardInfosStore.reload();
 								//account.accountGroupStore.reload();
-								account.accountGrid.getStore().reload();
+								//account.accountGrid.getStore().reload();
+								accountGroupStore.reload();
 								Ext.getCmp(windowId).close();
 							}
 						});

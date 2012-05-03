@@ -1,125 +1,151 @@
 /**
  * 账目管理, 由ext系统移植而来
  */
+//加载数据字典下拉框
+var accountMainTypeStore = parent.accountMainTypeStore;
+accountMainTypeStore.load({params:{codeId:"4028098136ce7b900136ceb23e860001"}});
+var accountEnSecondTypeStore = parent.accountEnSecondTypeStore;
+var accountSeSecondTypeStore = parent.accountSeSecondTypeStore;
+
+//账目明细数据解析器
+var accountReader;
+//账目明细临时数据
+var accountTempDate = {"totalCount":0, "account":[], "success":true};
+//警报点数据解析器
+var alertReader;
+//警报点临时数据
+var alertTempDate = {"totalAlertCount":0, "alerts":[], "success":true};
+//结算结果数据解析器
+var balanceReader;
+//结算结果临时数据
+var balanceTempDate = {"totalCount":0, "balances":[], "success":true};
+//查看权限数据解析器
+var rightReader;
+//查看权限临时数据
+var rightTempDate = {"totalCount":0, "rights":[], "success":true};
+/**
+ * 账户信息
+ */
+var bankAccountReader;
+//账户临时数据
+var cardInfoTempDate = {"totalCount":0, "accountCard":[], "success":true};
+//合计栏
+var summary = new Ext.grid.GroupSummary(); 
+//主数据分组显示
+var accountGroupStore;
+/**
+ * 警报点数据存储
+ */
+var alertStore;
+/**
+ * 结算账目数据存储,分组显示
+ */
+var balanceGroupStore;
+/**
+ * 展示可允许查看账目信息的好友信息数据存储
+ */
+var rightStore;
+/**
+ * 账户信息
+ */
+var bankAccountStore;
 function accountBalance(){
-	//加载数据字典下拉框
-	var accountMainTypeStore = parent.accountMainTypeStore;
-	accountMainTypeStore.load({params:{codeId:"4028098136ce7b900136ceb23e860001"}});
-	var accountEnSecondTypeStore = parent.accountEnSecondTypeStore;
-	var accountSeSecondTypeStore = parent.accountSeSecondTypeStore;
 	
 	//账目明细数据解析器
-	var accountReader = new Ext.data.JsonReader({
-		totalProperty : "totalCount",
-		root : "account"
-	},[
-		{name:"baseinfoid"},//唯一id
-		{name:"baseyear"},//年份
-		{name:"basemonth"},//月份
-		{name:"basedate"},//具体日期
-		{name:"accountenter"},//当天收入
-		{name:"accountout"},//当天消费
-		{name:"accountmargin"},//当天结算
-		{name:"accountcard"},//卡号
-		{name:"remark"},//备注
-		{name:"userid"},//备注
-		{name:"username"},//备注
-		{name:"deletetag"},//删除标志，1：已删除，0未删除
-		{name:"margintag"},//结算标志：1：已结算，0未结算
-		{name:"accountalert"},//日警告点
-		{name:"accountalertmon"}//月报警点
-	]);
-	//账目明细临时数据
-	var accountTempDate = {"totalCount":0, "account":[], "success":true};
+	if(!accountReader){
+		accountReader = new Ext.data.JsonReader({
+			totalProperty : "totalCount",
+			root : "account"
+		},[
+			{name:"baseinfoid"},//唯一id
+			{name:"baseyear"},//年份
+			{name:"basemonth"},//月份
+			{name:"basedate"},//具体日期
+			{name:"accountenter"},//当天收入
+			{name:"accountout"},//当天消费
+			{name:"accountmargin"},//当天结算
+			{name:"accountcard"},//卡号
+			{name:"remark"},//备注
+			{name:"userid"},//备注
+			{name:"username"},//备注
+			{name:"deletetag"},//删除标志，1：已删除，0未删除
+			{name:"margintag"},//结算标志：1：已结算，0未结算
+			{name:"accountalert"},//日警告点
+			{name:"accountalertmon"}//月报警点
+		]);
+	}
+	
 	//警报点数据解析器
-	var alertReader = new Ext.data.JsonReader({
-		totalProperty:"totalAlertCount",
-		root:"alerts"
-	},[
-		{name:"alertid"},
-		{name:"alerttype"},//警报类型
-		{name:"userid"},//用户id
-		{name:"username"},//用户名
-		{name:"alertvalue"},//警报值
-		{name:"begindate"},//开始日期
-		{name:"enddate"},//结束日期
-		{name:"remark"}//备注
-	]);
-	//警报点临时数据
-	var alertTempDate = {"totalAlertCount":0, "alerts":[], "success":true};
+	if(!alertReader){
+		alertReader = new Ext.data.JsonReader({
+			totalProperty:"totalAlertCount",
+			root:"alerts"
+		},[
+			{name:"alertid"},
+			{name:"alerttype"},//警报类型
+			{name:"userid"},//用户id
+			{name:"username"},//用户名
+			{name:"alertvalue"},//警报值
+			{name:"begindate"},//开始日期
+			{name:"enddate"},//结束日期
+			{name:"remark"}//备注
+		]);
+	}
+	
 	//结算结果数据解析器
-	var balanceReader = new Ext.data.JsonReader({
-		totalProperty:"totalCount",
-		root:"balances"
-	},[
-		{name:"balanceid"},
-		{name:"begindate"},//结算范围起始日期
-		{name:"enddate"},//结算范围终止日期
-		{name:"balanceyear"},//结算年度
-		{name:"balancemonth"},//结算月度
-		{name:"balancetype"},//结算类型
-		{name:"accountenter"},//结算期间总收入
-		{name:"accountout"},//结算期间总支出
-		{name:"accountmargin"},//差额
-		{name:"alertvalue"},//年度结算警告点
-		{name:"balance"},//盈利
-		{name:"remark"},//备注
-		{name:"userid"},//用户id
-		{name:"username"}//用户名
-	]);
-	//结算结果临时数据
-	var balanceTempDate = {"totalCount":0, "balances":[], "success":true};
+	if(!balanceReader){
+		balanceReader = new Ext.data.JsonReader({
+			totalProperty:"totalCount",
+			root:"balances"
+		},[
+			{name:"balanceid"},
+			{name:"begindate"},//结算范围起始日期
+			{name:"enddate"},//结算范围终止日期
+			{name:"balanceyear"},//结算年度
+			{name:"balancemonth"},//结算月度
+			{name:"balancetype"},//结算类型
+			{name:"accountenter"},//结算期间总收入
+			{name:"accountout"},//结算期间总支出
+			{name:"accountmargin"},//差额
+			{name:"alertvalue"},//年度结算警告点
+			{name:"balance"},//盈利
+			{name:"remark"},//备注
+			{name:"userid"},//用户id
+			{name:"username"}//用户名
+		]);
+	}
+	
 	//查看权限数据解析器
-	var rightReader = new Ext.data.JsonReader({
-		totalProperty:"totalCount",
-		root:"rights"
-	},[
-		{name:"balancerightid"},
-		{name:"userid"},//用户id
-		{name:"username"},//用户名
-		{name:"allowuserid"},//用户名
-		{name:"allowusername"}//用户名
-	]);
+	if(!rightReader){
+		rightReader = new Ext.data.JsonReader({
+			totalProperty:"totalCount",
+			root:"rights"
+		},[
+			{name:"balancerightid"},
+			{name:"userid"},//用户id
+			{name:"username"},//用户名
+			{name:"allowuserid"},//用户名
+			{name:"allowusername"}//用户名
+		]);
+	}
+	
 	/**
 	 * 账户信息
 	 */
-	var bankAccountReader = new Ext.data.JsonReader({
-		totalProperty:"totalCount",
-		root:"bankAccountList"
-	},[
-		{name:"bankaccountid"},//主键id
-		{name:"accountcardid"},//账户卡id
-		{name:"username"},//用户名
-		{name:"bankaccountname"},//账户名
-		{name:"bankaccounttype"},//账户类型
-		{name:"bankaccountsavings"}//账户存款
-	]);
+	if(!bankAccountReader){
+		bankAccountReader = new Ext.data.JsonReader({
+			totalProperty:"totalCount",
+			root:"bankAccountList"
+		},[
+			{name:"bankaccountid"},//主键id
+			{name:"accountcardid"},//账户卡id
+			{name:"username"},//用户名
+			{name:"bankaccountname"},//账户名
+			{name:"bankaccounttype"},//账户类型
+			{name:"bankaccountsavings"}//账户存款
+		]);
+	}
 	
-	/**
-	 * 卡信息
-	 */
-	var cardInfoReader = new Ext.data.JsonReader({
-		totalProperty : "totalCount",
-		root : "accountCard"
-	},[
-	   {name:"accountId"},//账户id
-	   {name:"cardId"},//卡号
-	   {name:"cardName"},//账户名称
-	   {name:"cardType"},//账户类型
-	   {name:"cardStatus"},//账户状态
-	   {name:"cardBank"},//开户行
-	   {name:"cardCurrency"},//币种
-	   {name:"comment"},//备注
-	   {name:"cardBalance"},//余额
-	   {name:"cardUser"},//持卡人
-	]);
-	
-	//账户临时数据
-	var cardInfoTempDate = {"totalCount":0, "accountCard":[], "success":true};
-	
-	
-	//查看权限临时数据
-	var rightTempDate = {"totalCount":0, "rights":[], "success":true};
 	// define a custom summary function
 	// 定义自定义结算函数
     Ext.grid.GroupSummary.Calculations['totalCost'] = function(v, record, field){
@@ -137,90 +163,77 @@ function accountBalance(){
     Ext.grid.GroupSummary.Calculations['balanceYear'] = function(v, record, field){
         return (record.data.balanceyear) +" 年度总结";
     };
-    //合计栏
-    var summary = new Ext.grid.GroupSummary(); 
+    
     //主数据分组显示
-	var accountGroupStore = new Ext.data.GroupingStore({
-		url:path+"/account_manage/accountList.action?method=accountList",
-		reader:accountReader,
-		groupField:"basemonth",
-		//groupOnSort:false,
-		baseParams:{userName:userName},
-		sortInfo:{field: 'basedate', direction: "ASC"},
-		listeners:{
-			loadexception:function(dataProxy, type, action, options, response, arg) { 
-				try{
-					if(action.status == "200"){
-						var o = Ext.util.JSON.decode(action.responseText);
-						if(o && !o.success){
-							Ext.Msg.alert('错误提示',o.msg, function(btn){
-								accountGroupStore.loadData(accountTempDate);
-							});
-						}
-					}else{
-						httpStatusCodeHandler(action.status);
-					}
-				}catch(e){
-					Ext.Msg.alert('错误提示',"系统错误！错误代码："+e);
-					accountGroupStore.loadData(accountTempDate);
-				}
-			}
-		}
-	});
+    if(!accountGroupStore){
+    	accountGroupStore = new Ext.data.GroupingStore({
+    		url:path+"/account_manage/accountList.action?method=accountList",
+    		reader:accountReader,
+    		groupField:"basemonth",
+    		//groupOnSort:false,
+    		baseParams:{userName:userName},
+    		sortInfo:{field: 'basedate', direction: "ASC"},
+    		listeners:{
+    			loadexception:function(dataProxy, type, action, options, response, arg) { 
+    				try{
+    					if(action.status == "200"){
+    						var o = Ext.util.JSON.decode(action.responseText);
+    						if(o && !o.success){
+    							Ext.Msg.alert('错误提示',o.msg, function(btn){
+    								accountGroupStore.loadData(accountTempDate);
+    							});
+    						}
+    					}else{
+    						httpStatusCodeHandler(action.status);
+    					}
+    				}catch(e){
+    					Ext.Msg.alert('错误提示',"系统错误！错误代码："+e);
+    					accountGroupStore.loadData(accountTempDate);
+    				}
+    			}
+    		}
+    	});
+    }
 	
-	/**
-	 * 警报点数据存储
-	 */
-	var alertStore = new Ext.data.Store({
-		proxy:new Ext.data.HttpProxy({
-			url:path+"balance/accoutalert.action?method=showAccoutAlert"
-		}),
-		reader:alertReader,
-		baseParams:{username:userName}
-	});
-	/**
-	 * 结算账目数据存储,分组显示
-	 */
-	var balanceGroupStore = new Ext.data.GroupingStore({
-		url:path+"balance/balancelist.action?method=showBalanceInfo",
-		reader:balanceReader,
-		groupField:"balanceyear",
-		//groupOnSort:false,
-		baseParams:{username:userName},
-		sortInfo:{field: 'balancemonth', direction: "ASC"}
-	});
+	if(!alertStore){
+		alertStore = new Ext.data.Store({
+			proxy:new Ext.data.HttpProxy({
+				url:path+"balance/accoutalert.action?method=showAccoutAlert"
+			}),
+			reader:alertReader,
+			baseParams:{username:userName}
+		});
+	}
+	if(!balanceGroupStore){
+		balanceGroupStore = new Ext.data.GroupingStore({
+			url:path+"balance/balancelist.action?method=showBalanceInfo",
+			reader:balanceReader,
+			groupField:"balanceyear",
+			//groupOnSort:false,
+			baseParams:{username:userName},
+			sortInfo:{field: 'balancemonth', direction: "ASC"}
+		});
+	}
 	
-	/**
-	 * 展示可允许查看账目信息的好友信息数据存储
-	 */
-	var rightStore = new Ext.data.Store({
-		proxy:new Ext.data.HttpProxy({
-			url:path+"balance/balanceright.action?method=showRightInfo"
-		}),
-		reader:rightReader,
-		baseParams:{username:userName}
-	});
-	/**
-	 * 账户信息
-	 */
-	var bankAccountStore = new Ext.data.Store({
-		proxy:new Ext.data.HttpProxy({
-			url:path+"balance/balanceright.action?method=showRightInfo"
-		}),
-		reader:bankAccountReader,
-		baseParams:{username:userName}
-	});
-	/**
-	 * 卡信息
-	 */
-	this.cardInfoStore = new Ext.data.Store({
-		proxy:new Ext.data.HttpProxy({
-			url: path + "/account_manage/myAccountList.action?method=myAccountList",
-		}),
-		reader:cardInfoReader,
-		baseParams:{userName:userName}
-	});
-	cardInfoStore.load();
+	if(!rightStore){
+		rightStore = new Ext.data.Store({
+			proxy:new Ext.data.HttpProxy({
+				url:path+"balance/balanceright.action?method=showRightInfo"
+			}),
+			reader:rightReader,
+			baseParams:{username:userName}
+		});
+	}
+
+	if(!bankAccountStore){
+		bankAccountStore = new Ext.data.Store({
+			proxy:new Ext.data.HttpProxy({
+				url:path+"balance/balanceright.action?method=showRightInfo"
+			}),
+			reader:bankAccountReader,
+			baseParams:{username:userName}
+		});
+	}
 	
 	//分组显示
 	var groupView = new Ext.grid.GroupingView({
@@ -321,7 +334,7 @@ function accountBalance(){
 		header:"aaaa"
 	}]);
 	//展示列表
-	this.accountGrid = new Ext.grid.GridPanel({
+	var accountGrid = new Ext.grid.GridPanel({
 		id:"accountGrid",
 		title:"账目详细信息（单位：人民币/元）",
 		collapsible:true,//是否可以展开
@@ -407,7 +420,7 @@ function accountBalance(){
 	 * @returns
 	 */
 	function showAccount(value,metadata,rocord,rowIndex,colIndex,store){
-		var v = getCodeNameFromStore(value, cardInfoStore, "accountId", "cardName");
+		var v = getCodeNameFromStore(value, cardInfosStore, "accountId", "cardName");
 		if(v == value){
 			return "未知账户";
 		}
@@ -837,6 +850,35 @@ function showAccountWindow(id, title, width, height, items, html, buttons){
  */
 var cardTypeStore = parent.cardTypeStore;
 cardTypeStore.load({params:{codeId:"4028098136dd28da0136dd4ba0360001"}});
+/**
+ * 卡信息
+ */
+var cardInfoReader = new Ext.data.JsonReader({
+	totalProperty : "totalCount",
+	root : "accountCard"
+},[
+   {name:"accountId"},//账户id
+   {name:"cardId"},//卡号
+   {name:"cardName"},//账户名称
+   {name:"cardType"},//账户类型
+   {name:"cardStatus"},//账户状态
+   {name:"cardBank"},//开户行
+   {name:"cardCurrency"},//币种
+   {name:"comment"},//备注
+   {name:"cardBalance"},//余额
+   {name:"cardUser"},//持卡人
+]);
+/**
+ * 卡信息
+ */
+var cardInfosStore = new Ext.data.Store({
+	proxy:new Ext.data.HttpProxy({
+		url: path + "/account_manage/myAccountList.action?method=myAccountList",
+	}),
+	reader:cardInfoReader,
+	baseParams:{userName:userName}
+});
+cardInfosStore.load();
 
 /**
  * 程序主入口
