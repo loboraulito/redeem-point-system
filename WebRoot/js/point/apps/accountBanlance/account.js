@@ -572,7 +572,7 @@ function accountBalance(){
 				if(w) w.close();
 			}
 		}];
-		showAccountWindow("addAccount","新增家庭账目信息", 500, 370, accountForm, null, buttons);
+		showAccountWindow("addAccount","新增家庭账目信息", 500, 380, accountForm, null, buttons);
 	};
 	/**
 	 * 修改按钮
@@ -807,7 +807,7 @@ function accountBalance(){
 					columnWidth:1,
 					//height:50,
 					items:[{
-						xtype: 'textfield',
+						xtype: 'textarea',
 						name:"account.emark",
 						anchor:"90%",
 						fieldLabel:"备注"
