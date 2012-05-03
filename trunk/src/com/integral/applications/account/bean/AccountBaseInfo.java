@@ -17,9 +17,9 @@ public class AccountBaseInfo  implements java.io.Serializable {
      private Date basedate;
      private String baseyear;
      private String basemonth;
-     private Double accountenter;
-     private Double accountout;
-     private Double accountmargin;
+     private Double accountenter = 0.0;
+     private Double accountout = 0.0;
+     private Double accountmargin = 0.0;
      private String remark;
      private String accountcard;
      private String deletetag;
@@ -30,6 +30,8 @@ public class AccountBaseInfo  implements java.io.Serializable {
      private Double accountalertmon;
      private Double accountalertque;
      private Double accountalertyear;
+     private String maintype;
+     private String setype;
 
 
     // Constructors
@@ -207,6 +209,26 @@ public class AccountBaseInfo  implements java.io.Serializable {
 
     public void setAccountcard(String accountcard) {
         this.accountcard = accountcard;
+    }
+
+
+    public String getMaintype() {
+        return maintype;
+    }
+
+
+    public void setMaintype(String maintype) {
+        this.maintype = maintype;
+    }
+
+
+    public String getSetype() {
+        return setype;
+    }
+
+
+    public void setSetype(String setype) {
+        this.setype = setype;
     }
 
 }

@@ -70,5 +70,15 @@
                 <comment>用户名</comment>
             </column>
         </property>
+        <property name="maintype" type="java.lang.String">
+            <column name="maintype" length="50">
+                <comment>记账主类别</comment>
+            </column>
+        </property>
+        <property name="setype" type="java.lang.String">
+            <column name="setype" length="50">
+                <comment>记账次类别</comment>
+            </column>
+        </property>
     </class>
 </hibernate-mapping>

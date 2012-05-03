@@ -2,6 +2,7 @@ package com.integral.applications.account.action;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -10,9 +11,7 @@ import java.util.Map;
 import org.apache.commons.lang.math.NumberUtils;
 import org.apache.struts2.ServletActionContext;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
-import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.TransactionStatus;
-import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 import com.integral.applications.account.bean.AccountBaseInfo;
 import com.integral.applications.account.bean.AccountCardInfo;
@@ -23,6 +22,7 @@ import com.integral.applications.account.service.IBalanceInfoService;
 import com.integral.applications.account.service.IBalanceRightService;
 import com.integral.common.action.BaseAction;
 import com.integral.util.RequestUtil;
+import com.integral.util.Tools;
 
 /** 
  * <p>Description: [描述该类概要功能介绍]</p>
@@ -50,7 +50,7 @@ public class AccountManageAction extends BaseAction {
     private int limit;
     private String userName;
     private String accountListId;
-    private AccountBaseInfo accountInfo;
+    private AccountBaseInfo account;
     private AccountCardInfo card;
     
     public String begin(){
@@ -88,8 +88,54 @@ public class AccountManageAction extends BaseAction {
         }
         return null;
     }
-    
+    /**
+     * <p>Discription:[添加个人账目信息]</p>
+     * @return
+     * @author:[代超]
+     * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
+     */
     public String addAccountInfo(){
+        PrintWriter out = null;
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        TransactionStatus status = super.getTransactionStatus(transactionManager);
+        try{
+            out = super.getPrintWriter();
+            if(this.account == null){
+                throw new Exception("您所提交的信息不完整，请检查！");
+            }else{
+                //默认不删除
+                account.setDeletetag("0");
+                //收入减去支出
+                account.setAccountmargin(NumberUtils.toDouble((new BigDecimal(account.getAccountenter() + "").add(new BigDecimal(account.getAccountout() + "").negate())).toString(), 0.0));
+                account.setBaseyear(Tools.dateToString(account.getBasedate(), "yyyy"));
+                account.setBasemonth(Tools.dateToString(account.getBasedate(), "yyyy-MM"));
+                
+                //获取账目相关账户信息
+                AccountCardInfo cInfo = this.accountCardService.findById(account.getAccountcard());
+                if(cInfo == null){
+                    throw new Exception("您所选账户无效！");
+                }
+                cInfo.setCardBalance(NumberUtils.toDouble((new BigDecimal(cInfo.getCardBalance() + "").add(new BigDecimal(account.getAccountmargin() + ""))).toString(), 0.0));
+                //新增账目信息
+                this.accountBaseInfoService.save(account);
+                //更新账户余额
+                this.accountCardService.update(cInfo);
+                resultMap.put("success", true);
+                resultMap.put("msg", "您的账目信息已经成功保存！");
+            }
+        }catch(Exception e){
+            status.setRollbackOnly();
+            LOG.error(e.getMessage());
+            resultMap.put("success", false);
+            resultMap.put("msg", "系统错误，错误代码："+e.getMessage());
+        }finally{
+            this.transactionManager.commit(status);
+            if(out != null){
+                out.print(super.getJsonString(resultMap));
+                out.flush();
+                out.close();
+            }
+        }
         return null;
     }
     
@@ -352,11 +398,11 @@ public class AccountManageAction extends BaseAction {
     public void setUserName(String userName) {
         this.userName = userName;
     }
-    public AccountBaseInfo getAccountInfo() {
-        return accountInfo;
+    public AccountBaseInfo getAccount() {
+        return account;
     }
-    public void setAccountInfo(AccountBaseInfo accountInfo) {
-        this.accountInfo = accountInfo;
+    public void setAccount(AccountBaseInfo account) {
+        this.account = account;
     }
     public AccountCardInfo getCard() {
         return card;
