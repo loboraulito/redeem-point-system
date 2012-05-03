@@ -5,7 +5,6 @@
 var accountMainTypeStore = parent.accountMainTypeStore;
 accountMainTypeStore.load({params:{codeId:"4028098136ce7b900136ceb23e860001"}});
 var accountEnSecondTypeStore = parent.accountEnSecondTypeStore;
-var accountSeSecondTypeStore = parent.accountSeSecondTypeStore;
 
 //账目明细数据解析器
 var accountReader;
@@ -562,9 +561,20 @@ function accountBalance(){
 	 * 新增按钮
 	 */
 	this.addAccountInfo = function(url){
-		var accountForm = getAccountForm(url);
+		var accountInForm = getInAccountForm(url, "今日收入", false, false);
+		var accountOutForm = getOutAccountForm(url, "今日支出", false, false);
+		var accountForm = [accountInForm, accountOutForm];
+		var tab = getAccountTabPanel(accountForm);
+		
 		var buttons = [{
-			text:"保存"
+			text:"保存",
+			handler:function(){
+				var formId = tab.getActiveTab().getItemId();
+				var form = Ext.getCmp(formId);
+				if(form && form.form.isValid()){
+					saveAccountForm(form, "addAccount");
+				}
+			}
 		},{
 			text:"关闭窗口",
 			handler:function(){
@@ -572,7 +582,7 @@ function accountBalance(){
 				if(w) w.close();
 			}
 		}];
-		showAccountWindow("addAccount","新增家庭账目信息", 500, 380, accountForm, null, buttons);
+		showAccountWindow("addAccount","新增家庭账目信息", 500, 380, tab, null, buttons);
 	};
 	/**
 	 * 修改按钮
@@ -591,20 +601,30 @@ function accountBalance(){
 	 */
 	this.myAccountInfoManage = function(url){
 		var myAccount = new accountInfoGrid(url);
-		showAccountWindow("myAccountInfo","我的账户信息", 600, 370, myAccount.getCardInfoGrid(), null, null);
+		showAccountWindow("myAccountInfo","我的账户信息", 600, 350, myAccount.getCardInfoGrid(), null, null);
 	};
 	//========================通用功能区==========================================
+	function getAccountTabPanel(items){
+		var tab = new Ext.TabPanel({
+			activeTab: 0,
+			deferredRender:false,
+			layoutOnTabChange:true,//当activeTab改变的时候，执行doLayout
+			items:items
+		});
+		return tab;
+	}
 	/**
-	 * 获取账目信息的表单
+	 * 获取支出账目信息的表单
 	 * @param url
 	 * @param isNull
 	 * @param readOnly
 	 */
-	function getAccountForm(url, isNull, readOnly){
-		var accountForm = new Ext.form.FormPanel({
+	function getOutAccountForm(url, title, isNull, readOnly){
+		var accountOutForm = new Ext.form.FormPanel({
 			url:url,
 			frame: true,
 			labelAlign: 'right',
+			title:title,
 			labelWidth:70,
 			autoScroll:false,
 			waitMsgTarget:true,
@@ -616,7 +636,7 @@ function accountBalance(){
 				items:[{
 					layout:"form",
 					columnWidth:0.5,
-					//height:50,
+					height:50,
 					items:[{
 						xtype: 'datefield',
 						name:"account.basedate",
@@ -624,6 +644,7 @@ function accountBalance(){
 						fieldLabel:"记账时间",
 						format:"Y-m-d",
 						readOnly:readOnly,
+						value:new Date(),
 						allowBlank:isNull
 					},{
 						xtype:"hidden",
@@ -638,34 +659,37 @@ function accountBalance(){
 						xtype:"hidden",
 						name:"account.margintag",
 						value:'0'
+					},{
+						xtype:"hidden",
+						name:"account.username",
+						value:userName
 					}]
 				}]
 			},{
-				xtype:"fieldset",
-				title:"今日收入",
-				labelSeparator:":",
-				height:90,
 				layout : 'column',
 				columns : 2,
 				items:[{
 					columnWidth : .5,
 					layout : 'form',
+					height:50,
 					border : false,
 					items:[{
 						xtype: 'numberfield',
-						name:"account.accountenter",
+						name:"account.accountout",
 						anchor:"90%",
-						fieldLabel:"收入金额",
+						fieldLabel:"支出金额",
 						readOnly:readOnly,
+						value:0,
 						allowBlank:isNull
 					}]
 				},{
 					columnWidth : .5,
 					layout : 'form',
 					border : false,
+					height:50,
 					items:[{
 						xtype: 'combo',
-						name:"account.enbankaccount",
+						name:"account.accountcard",
 						store:cardInfosStore,
 						anchor:"90%",
 						fieldLabel:"账户",
@@ -673,7 +697,7 @@ function accountBalance(){
 						triggerAction:"all",//避免选定了一个值之后，再选的时候只显示刚刚选择的那个值
 						valueField:"accountId",//将codeid设置为传递给后台的值
 						displayField:"cardName",
-						hiddenName:"account.enbankaccount",//这个值就是传递给后台获取的值
+						hiddenName:"account.accountcard",//这个值就是传递给后台获取的值
 						mode: "local",
 						allowBlank:isNull
 					}]
@@ -681,9 +705,10 @@ function accountBalance(){
 					columnWidth : .5,
 					layout : 'form',
 					border : false,
+					height:50,
 					items:[{
 						xtype: 'combo',
-						name:"account.enmaintype",
+						name:"account.maintype",
 						store:accountMainTypeStore,
 						anchor:"90%",
 						fieldLabel:"主类别",
@@ -691,12 +716,12 @@ function accountBalance(){
 						triggerAction:"all",//避免选定了一个值之后，再选的时候只显示刚刚选择的那个值
 						valueField:"dataKey",//将codeid设置为传递给后台的值
 						displayField:"dataValue",
-						hiddenName:"account.enmaintype",//这个值就是传递给后台获取的值
+						hiddenName:"account.maintype",//这个值就是传递给后台获取的值
 						mode: "local",
 						allowBlank:isNull,
 						listeners: {
 							'select': function(combo, record, index){
-								accountForm.form.findField("account.ensetype").setValue("");
+								accountOutForm.form.findField("account.setype").setValue("");
 								accountEnSecondTypeStore.load({params:{codeId:"4028098136ce7b900136ceb23e860001",parentCodeId:combo.getValue()}});
 							}
 						}
@@ -705,9 +730,10 @@ function accountBalance(){
 					columnWidth : .5,
 					layout : 'form',
 					border : false,
+					height:50,
 					items:[{
 						xtype: 'combo',
-						name:"account.ensetype",
+						name:"account.setype",
 						store:accountEnSecondTypeStore,
 						anchor:"90%",
 						fieldLabel:"次类别",
@@ -715,36 +741,109 @@ function accountBalance(){
 						triggerAction:"all",//避免选定了一个值之后，再选的时候只显示刚刚选择的那个值
 						valueField:"dataKey",//将codeid设置为传递给后台的值
 						displayField:"dataValue",
-						hiddenName:"account.ensetype",//这个值就是传递给后台获取的值
+						hiddenName:"account.setype",//这个值就是传递给后台获取的值
 						mode: "local"
 					}]
 				}]
 			},{
-				xtype:"fieldset",
-				title:"今日支出",
-				labelSeparator:":",
-				height:90,
+				layout:"column",
+				border:false,
+				labelSeparator:'：',
+				height:70,
+				items:[{
+					layout:"form",
+					columnWidth:1,
+					//height:50,
+					items:[{
+						xtype: 'textarea',
+						name:"account.remark",
+						anchor:"90%",
+						fieldLabel:"备注"
+					}]
+				}]
+			}]
+		});
+		return accountOutForm;
+	}
+	/**
+	 * 获取收入账目信息表单
+	 * @param url
+	 * @param title
+	 * @param isNull
+	 * @param readOnly
+	 * @returns {Ext.form.FormPanel}
+	 */
+	function getInAccountForm(url, title, isNull, readOnly){
+		var accountInForm = new Ext.form.FormPanel({
+			url:url,
+			frame: true,
+			labelAlign: 'right',
+			title:title,
+			labelWidth:70,
+			autoScroll:false,
+			waitMsgTarget:true,
+			viewConfig:{forceFit:true},
+			items:[{
+				layout:"column",
+				border:false,
+				labelSeparator:'：',
+				items:[{
+					layout:"form",
+					columnWidth:0.5,
+					height:50,
+					items:[{
+						xtype: 'datefield',
+						name:"account.basedate",
+						anchor:"90%",
+						fieldLabel:"记账时间",
+						format:"Y-m-d",
+						readOnly:readOnly,
+						value:new Date(),
+						allowBlank:isNull
+					},{
+						xtype:"hidden",
+						name:"account.baseyear"
+					},{
+						xtype:"hidden",
+						name:"account.basemonth"
+					},{
+						xtype:"hidden",
+						name:"account.baseinfoid"
+					},{
+						xtype:"hidden",
+						name:"account.margintag",
+						value:'0'
+					},{
+						xtype:"hidden",
+						name:"account.username",
+						value:userName
+					}]
+				}]
+			},{
 				layout : 'column',
 				columns : 2,
 				items:[{
 					columnWidth : .5,
 					layout : 'form',
 					border : false,
+					height:50,
 					items:[{
 						xtype: 'numberfield',
-						name:"account.accountout",
+						name:"account.accountenter",
 						anchor:"90%",
-						fieldLabel:"消费金额",
+						fieldLabel:"收入金额",
 						readOnly:readOnly,
+						value:0,
 						allowBlank:isNull
 					}]
 				},{
 					columnWidth : .5,
 					layout : 'form',
 					border : false,
+					height:50,
 					items:[{
 						xtype: 'combo',
-						name:"account.outbankaccount",
+						name:"account.accountcard",
 						store:cardInfosStore,
 						anchor:"90%",
 						fieldLabel:"账户",
@@ -752,7 +851,7 @@ function accountBalance(){
 						triggerAction:"all",//避免选定了一个值之后，再选的时候只显示刚刚选择的那个值
 						valueField:"accountId",//将codeid设置为传递给后台的值
 						displayField:"cardName",
-						hiddenName:"account.outbankaccount",//这个值就是传递给后台获取的值
+						hiddenName:"account.accountcard",//这个值就是传递给后台获取的值
 						mode: "local",
 						allowBlank:isNull
 					}]
@@ -760,9 +859,10 @@ function accountBalance(){
 					columnWidth : .5,
 					layout : 'form',
 					border : false,
+					height:50,
 					items:[{
 						xtype: 'combo',
-						name:"account.outmaintype",
+						name:"account.maintype",
 						store:accountMainTypeStore,
 						anchor:"90%",
 						fieldLabel:"主类别",
@@ -770,13 +870,13 @@ function accountBalance(){
 						triggerAction:"all",//避免选定了一个值之后，再选的时候只显示刚刚选择的那个值
 						valueField:"dataKey",//将codeid设置为传递给后台的值
 						displayField:"dataValue",
-						hiddenName:"account.outmaintype",//这个值就是传递给后台获取的值
+						hiddenName:"account.maintype",//这个值就是传递给后台获取的值
 						mode: "local",
 						allowBlank:isNull,
 						listeners: {
 							'select': function(combo, record, index){
-								accountForm.form.findField("account.outsetype").setValue("");
-								accountSeSecondTypeStore.load({params:{codeId:"4028098136ce7b900136ceb23e860001",parentCodeId:combo.getValue()}});
+								accountInForm.form.findField("account.setype").setValue("");
+								accountEnSecondTypeStore.load({params:{codeId:"4028098136ce7b900136ceb23e860001",parentCodeId:combo.getValue()}});
 							}
 						}
 					}]
@@ -784,17 +884,18 @@ function accountBalance(){
 					columnWidth : .5,
 					layout : 'form',
 					border : false,
+					height:50,
 					items:[{
 						xtype: 'combo',
-						name:"account.outsetype",
-						store:accountSeSecondTypeStore,
+						name:"account.setype",
+						store:accountEnSecondTypeStore,
 						anchor:"90%",
 						fieldLabel:"次类别",
 						editable:false,//false：不可编辑
 						triggerAction:"all",//避免选定了一个值之后，再选的时候只显示刚刚选择的那个值
 						valueField:"dataKey",//将codeid设置为传递给后台的值
 						displayField:"dataValue",
-						hiddenName:"account.outsetype",//这个值就是传递给后台获取的值
+						hiddenName:"account.setype",//这个值就是传递给后台获取的值
 						mode: "local"
 					}]
 				}]
@@ -805,17 +906,74 @@ function accountBalance(){
 				items:[{
 					layout:"form",
 					columnWidth:1,
-					//height:50,
+					height:70,
 					items:[{
 						xtype: 'textarea',
-						name:"account.emark",
+						name:"account.remark",
 						anchor:"90%",
 						fieldLabel:"备注"
 					}]
 				}]
 			}]
 		});
-		return accountForm;
+		return accountInForm;
+	}
+	/**
+	 * 保存账目信息
+	 * @param form
+	 * @param windowId
+	 */
+	function saveAccountForm(form, windowId){
+		Ext.MessageBox.show({
+			msg:"正在保存账目信息，请稍候...",
+			progressText:"正在保存账目信息，请稍候...",
+			width:300,
+			wait:true,
+			waitConfig: {interval:200},
+			icon:Ext.Msg.INFO
+		});
+		form.getForm().submit({
+			timeout:60000,
+			success: function(form, action) {
+				Ext.Msg.hide();
+				try{
+					var result = Ext.decode(action.response.responseText);
+					if(result && result.success){
+						var msg = "账目信息保存成功！";
+						if(result.msg){
+							msg = result.msg;
+						}
+						showSystemMsg("系统提示信息", msg, function(btn, text) {
+							if (btn == 'ok') {
+								accountGroupStore.reload();
+								Ext.getCmp(windowId).close();
+							}
+						});
+					}else if(!result.success){
+						var msg = "账目信息保存失败，请检查您所填信息是否完整无误！";
+						if(result.msg){
+							msg = result.msg;
+						}
+						Ext.Msg.alert('系统提示信息', msg);
+					}
+				}catch(e){
+					Ext.Msg.alert('系统提示信息', "系统错误，错误代码："+e);
+				}
+			},
+			failure: function(form, action) {//action.result.errorMessage
+				Ext.Msg.hide();
+				var msg = "账目信息保存失败，请检查您的网络连接或者联系管理员！";
+				try{
+					var result = Ext.decode(action.response.responseText);
+					if(result.msg){
+						msg = result.msg;
+					}
+				}catch(e){
+					msg = "系统错误，错误代码：" + e;
+				}
+				Ext.Msg.alert('系统提示信息', msg);
+			}
+		});
 	}
 }
 

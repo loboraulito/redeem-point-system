@@ -41,6 +41,12 @@ public interface IAccountBaseInfoService {
 
     public AccountBaseInfo findById(String id);
 
+    /**
+     * <p>Discription:[新增账目信息]</p>
+     * @param transientInstance
+     * @author:[代超]
+     * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
+     */
     public void save(AccountBaseInfo transientInstance);
 
     public void saveOrUpdate(AccountBaseInfo instance);
