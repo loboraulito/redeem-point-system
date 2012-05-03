@@ -616,7 +616,7 @@ public class Tools {
         Date from = StringToDate("2011-09-20");
         String msg = "我的宝贝已有 : " + getDaysBetweenDates(from, today) +" 天大了！";
         msg += "<br/>加入新公司已有 : " + getDaysBetweenDates(to, today)+ " 天了！";
-        msg += "<br/>距离回家还有 : " + getDaysBetweenDates(to2, today)+ " 天了！";
+        msg += "<br/>距离回家还有 : " + getDaysBetweenDates(to2, today)+ " 天， 目标： "+dateToString(to2, "yyyy年MM月dd日")+"！";
         msg += "<br/>本条信息由系统自动发送，无法查看！";
         //MessageSender sender = new MessageSender();
         SystemMessage message = new SystemMessage();
