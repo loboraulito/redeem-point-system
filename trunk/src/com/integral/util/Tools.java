@@ -479,10 +479,40 @@ public class Tools {
      * @author:[代超]
      * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
      */
-    public static Date addDayToDate(Date date, int day){
+    public static Date addDateToDay(Date date, int day){
         Calendar c = Calendar.getInstance();
         c.setTime(date);
         c.add(Calendar.DATE, day);
+        return c.getTime();
+    }
+    
+    /**
+     * <p>Discription:[某日期加几月]</p>
+     * @param date
+     * @param day
+     * @return
+     * @author:[代超]
+     * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
+     */
+    public static Date addDateToMonth(Date date, int day){
+        Calendar c = Calendar.getInstance();
+        c.setTime(date);
+        c.add(Calendar.MONTH, day);
+        return c.getTime();
+    }
+    
+    /**
+     * <p>Discription:[某日期加几年]</p>
+     * @param date
+     * @param day
+     * @return
+     * @author:[代超]
+     * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
+     */
+    public static Date addDateToYear(Date date, int day){
+        Calendar c = Calendar.getInstance();
+        c.setTime(date);
+        c.add(Calendar.YEAR, day);
         return c.getTime();
     }
     /**
@@ -550,11 +580,11 @@ public class Tools {
         Date end = from;
         int i=0;
         while(i < days){
-            end = addDayToDate(end, 1);
+            end = addDateToDay(end, 1);
             if(holidays != null){
                 for(Date date : holidays){
                     if(end.compareTo(date) == 0){
-                        end = addDayToDate(end, 1);
+                        end = addDateToDay(end, 1);
                     }
                 }
             }
@@ -575,15 +605,18 @@ public class Tools {
      */
     public static Date getDateFromYearDays(int year, int days) throws ParseException{
         String date = year +"-1-1";
-        return addDayToDate(StringToDate(date), days - 1);
+        return addDateToDay(StringToDate(date), days - 1);
     }
     
     public static void iLoveBaby() throws ParseException{
         Date today = StringToDate(dateToString(new Date(),"yyyy-MM-dd"));
         Date to = StringToDate("2012-04-09");
+        Date to2 = addDateToYear(to, 2);
+        
         Date from = StringToDate("2011-09-20");
         String msg = "我的宝贝已有 : " + getDaysBetweenDates(from, today) +" 天大了！";
         msg += "<br/>加入新公司已有 : " + getDaysBetweenDates(to, today)+ " 天了！";
+        msg += "<br/>距离回家还有 : " + getDaysBetweenDates(to2, today)+ " 天了！";
         msg += "<br/>本条信息由系统自动发送，无法查看！";
         //MessageSender sender = new MessageSender();
         SystemMessage message = new SystemMessage();
