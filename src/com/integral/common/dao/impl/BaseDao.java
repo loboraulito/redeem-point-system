@@ -158,6 +158,19 @@ public class BaseDao extends HibernateDaoSupport implements IBaseDao {
         session.close();
         return 0;
     }
+    
+    /**
+     * <p>Discription:[使用Hibernate自带的批量执行sql语句]</p>
+     * @param sql
+     * @param paramList
+     * @return
+     * @author:[代超]
+     * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
+     */
+    public int excuteSqlBatchWithHibernate(String sql, Object ... paramList){
+        log.info("excute by sql: " + sql);
+        return getHibernateTemplate().bulkUpdate(sql, paramList);
+    }
     /**
      * <p>Discription:[JDBC批量执行SQL语句]</p>
      * @param sql
