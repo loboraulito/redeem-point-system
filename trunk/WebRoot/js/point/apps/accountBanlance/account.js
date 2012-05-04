@@ -64,6 +64,8 @@ function accountBalance(){
 			{name:"accountout"},//当天消费
 			{name:"accountmargin"},//当天结算
 			{name:"accountcard"},//卡号
+			{name:"maintype"},//主类别
+			{name:"setype"},//次类别
 			{name:"remark"},//备注
 			{name:"userid"},//备注
 			{name:"username"},//备注
@@ -582,18 +584,138 @@ function accountBalance(){
 				if(w) w.close();
 			}
 		}];
-		showAccountWindow("addAccount","新增家庭账目信息", 500, 380, tab, null, buttons);
+		showAccountWindow("addAccount","新增家庭账目信息", 500, 350, tab, null, buttons);
 	};
 	/**
 	 * 修改按钮
 	 */
 	this.editAccountInfo = function(url){
+		var gridSelection = accountGrid.getSelectionModel().getSelections();
+		if(gridSelection.length != 1){
+            showSystemMsg("系统提示", "请选择一条账目信息");
+            return false;
+        }
+		var accountenter = gridSelection[0].get("gridSelection");
+		var accountout = gridSelection[0].get("accountout");
 		
+		var accountInForm = getInAccountForm(url, "今日收入", false, false);
+		var accountOutForm = getOutAccountForm(url, "今日支出", false, false);
+		var accountForm;
+		var mask = "";
+		if((accountenter == null || accountenter == "" || parseFloat(accountenter) <= 0)
+				&& (accountout != null && accountout != "" && parseFloat(accountout) > 0)){
+			//该账目收入为空，则记录的是支出
+			accountForm = accountOutForm;
+			mask = "out";
+		}else{
+			//该账目收入不为空，则记录的是收入
+			accountForm = accountInForm;
+			mask = "in";
+		}
+		
+		var tab = getAccountTabPanel(accountForm);
+		
+		var buttons = [{
+			text:"保存",
+			handler:function(){
+				var formId = tab.getActiveTab().getItemId();
+				var form = Ext.getCmp(formId);
+				if(form && form.form.isValid()){
+					saveAccountForm(form, "editAccount");
+				}
+			}
+		},{
+			text:"关闭窗口",
+			handler:function(){
+				var w = Ext.getCmp("editAccount");
+				if(w) w.close();
+			}
+		}];
+		showAccountWindow("editAccount","修改家庭账目信息", 500, 350, tab, null, buttons);
+		//根据主类别加载子类别
+		accountEnSecondTypeStore.load({params:{codeId:"4028098136ce7b900136ceb23e860001",parentCodeId:gridSelection[0].get("maintype")}, callback:function(){
+			if(mask == "out"){
+				accountOutForm.form.findField("account.basedate").setValue(dateFormat(gridSelection[0].get("basedate")));
+				accountOutForm.form.findField("account.baseyear").setValue(gridSelection[0].get("baseyear"));
+				accountOutForm.form.findField("account.basemonth").setValue(gridSelection[0].get("basemonth"));
+				accountOutForm.form.findField("account.baseinfoid").setValue(gridSelection[0].get("baseinfoid"));
+				accountOutForm.form.findField("account.margintag").setValue(gridSelection[0].get("margintag"));
+				accountOutForm.form.findField("account.username").setValue(gridSelection[0].get("username"));
+				accountOutForm.form.findField("account.accountout").setValue(gridSelection[0].get("accountout"));
+				accountOutForm.form.findField("account.accountcard").setValue(gridSelection[0].get("accountcard"));
+				accountOutForm.form.findField("account.maintype").setValue(gridSelection[0].get("maintype"));
+				accountOutForm.form.findField("account.setype").setValue(gridSelection[0].get("setype"));
+				accountOutForm.form.findField("account.remark").setValue(gridSelection[0].get("remark"));
+			}else if(mask == "in"){
+				accountInForm.form.findField("account.basedate").setValue(dateFormat(gridSelection[0].get("basedate")));
+				accountInForm.form.findField("account.baseyear").setValue(gridSelection[0].get("baseyear"));
+				accountInForm.form.findField("account.basemonth").setValue(gridSelection[0].get("basemonth"));
+				accountInForm.form.findField("account.baseinfoid").setValue(gridSelection[0].get("baseinfoid"));
+				accountInForm.form.findField("account.margintag").setValue(gridSelection[0].get("margintag"));
+				accountInForm.form.findField("account.username").setValue(gridSelection[0].get("username"));
+				accountInForm.form.findField("account.accountenter").setValue(gridSelection[0].get("accountenter"));
+				accountInForm.form.findField("account.accountcard").setValue(gridSelection[0].get("accountcard"));
+				accountInForm.form.findField("account.maintype").setValue(gridSelection[0].get("maintype"));
+				accountInForm.form.findField("account.setype").setValue(gridSelection[0].get("setype"));
+				accountInForm.form.findField("account.remark").setValue(gridSelection[0].get("remark"));
+			}
+		}});
 	};
 	/**
 	 * 删除按钮
 	 */
 	this.deleteAccountInfo = function(url){
+		var gridSelection = accountGrid.getSelectionModel().getSelections();
+		if(gridSelection.length < 1){
+            showSystemMsg("系统提示", "请至少选择一条账目信息");
+            return false;
+        }
+		
+		var accountIdArray = new Array();
+		for(var i=0; i< gridSelection.length; i++){
+			accountIdArray.push(gridSelection[i].get("baseinfoid"));
+		}
+		var accountIds = accountIdArray.join(",");
+		Ext.Msg.confirm("系统提示","请确认是否删除所选账目信息？",function(btn){
+			if(btn == "ok" || btn == "yes"){
+				Ext.MessageBox.show({
+					msg: '正在删除数据, 请稍侯...',
+					progressText: '正在删除数据',
+					width:300,
+					wait:true,
+					waitConfig: {interval:200},
+					icon:Ext.Msg.INFO
+				});
+				Ext.Ajax.request({
+	    			params:{balanceListId:accountIds},
+	    			url:url,
+	    			success:function(response,options){
+		    			Ext.MessageBox.hide();
+		    			try{
+		    				var msg = Ext.util.JSON.decode(response.responseText);
+		    				if(msg && msg.success){
+		    					showSystemMsg("提示信息",msg.msg,function(){
+		    						accountGroupStore.reload();
+			    				});
+		    				}else{
+		    					Ext.Msg.alert("提示信息",msg.msg);
+		    				}
+		    			}catch(e){
+		    				Ext.Msg.alert("提示信息","错误代码："+e);
+		    			}
+			     	},failure:function(response,options){
+			     		Ext.Msg.hide();
+			     		try{
+			     			var re = Ext.util.JSON.decode(response.responseText);
+					    	Ext.Msg.alert("提示信息",re.msg);
+			     		}catch(e){
+			     			Ext.Msg.alert("提示信息","错误代码："+e);
+			     		}
+				    	return;
+			     	}
+	    		});
+			}
+		});
 		
 	};
 	/**

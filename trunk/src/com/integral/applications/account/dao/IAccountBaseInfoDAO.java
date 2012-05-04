@@ -24,6 +24,8 @@ public interface IAccountBaseInfoDAO {
     public AccountBaseInfo findById(String id);
 
     public void save(AccountBaseInfo transientInstance);
+    
+    public void update(AccountBaseInfo transientInstance);
 
     public void saveOrUpdate(AccountBaseInfo instance);
 

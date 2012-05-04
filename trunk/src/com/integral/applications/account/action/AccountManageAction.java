@@ -50,6 +50,7 @@ public class AccountManageAction extends BaseAction {
     private int limit;
     private String userName;
     private String accountListId;
+    private String balanceListId;
     private AccountBaseInfo account;
     private AccountCardInfo card;
     
@@ -113,7 +114,7 @@ public class AccountManageAction extends BaseAction {
                 //获取账目相关账户信息
                 AccountCardInfo cInfo = this.accountCardService.findById(account.getAccountcard());
                 if(cInfo == null){
-                    throw new Exception("您所选账户无效！");
+                    throw new Exception("您所选账户不存在！");
                 }
                 cInfo.setCardBalance(NumberUtils.toDouble((new BigDecimal(cInfo.getCardBalance() + "").add(new BigDecimal(account.getAccountmargin() + ""))).toString(), 0.0));
                 //新增账目信息
@@ -138,11 +139,97 @@ public class AccountManageAction extends BaseAction {
         }
         return null;
     }
-    
+    /**
+     * <p>Discription:[修改账目信息]</p>
+     * @return
+     * @author:[代超]
+     * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
+     */
     public String editAccountInfo(){
+        PrintWriter out = null;
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        TransactionStatus status = super.getTransactionStatus(transactionManager);
+        try{
+            out = super.getPrintWriter();
+            if(this.account == null){
+                throw new Exception("您所提交的信息不完整，请检查！");
+            }else{
+                //收入减去支出
+                account.setAccountmargin(NumberUtils.toDouble((new BigDecimal(account.getAccountenter() + "").add(new BigDecimal(account.getAccountout() + "").negate())).toString(), 0.0));
+                account.setBaseyear(Tools.dateToString(account.getBasedate(), "yyyy"));
+                account.setBasemonth(Tools.dateToString(account.getBasedate(), "yyyy-MM"));
+                
+                //获取账目相关账户信息
+                AccountCardInfo cInfo = this.accountCardService.findById(account.getAccountcard());
+                if(cInfo == null){
+                    throw new Exception("您所选账户不存在！");
+                }
+                cInfo.setCardBalance(NumberUtils.toDouble((new BigDecimal(cInfo.getCardBalance() + "").add(new BigDecimal(account.getAccountmargin() + ""))).toString(), 0.0));
+                //新增账目信息
+                this.accountBaseInfoService.update(account);
+                //更新账户余额
+                this.accountCardService.update(cInfo);
+                resultMap.put("success", true);
+                resultMap.put("msg", "您的账目信息已经成功保存！");
+            }
+        }catch(Exception e){
+            LOG.error(e.getMessage());
+            status.setRollbackOnly();
+            resultMap.put("success", false);
+            resultMap.put("msg", "系统错误，错误代码："+e.getMessage());
+        }finally{
+            transactionManager.commit(status);
+            if(out != null){
+                out.print(super.getJsonString(resultMap));
+                out.flush();
+                out.close();
+            }
+        }
         return null;
     }
+    /**
+     * <p>Discription:[删除账目信息]</p>
+     * @return
+     * @author:[代超]
+     * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
+     */
     public String deleteAccountInfo(){
+        PrintWriter out = null;
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        TransactionStatus status = super.getTransactionStatus(transactionManager);
+        try{
+            out = super.getPrintWriter();
+            if(this.balanceListId == null || "".equals(balanceListId.trim())){
+                throw new Exception("您未选择任何账目信息！");
+            }
+            String [] listId = this.balanceListId.split(",");
+            if(listId == null || listId.length <1){
+                throw new Exception("您未选择任何账目信息！");
+            }
+            //删除账目之前应该将该账目对应的金额返回给对应的账户
+            List<AccountBaseInfo> list = this.accountBaseInfoService.queryListByIds(listId);
+            if(list == null || list.isEmpty()){
+                throw new Exception("您所选账目不存在！");
+            }
+            //返还金额
+            this.accountCardService.backAccount(list);
+            //删除账目信息
+            this.accountBaseInfoService.deleteAll(list);
+            resultMap.put("success", true);
+            resultMap.put("msg", "您所选账目信息已成功删除！");
+        }catch(Exception e){
+            status.setRollbackOnly();
+            LOG.error(e.getMessage());
+            resultMap.put("success", false);
+            resultMap.put("msg", "系统错误，错误代码："+e.getMessage());
+        }finally{
+            transactionManager.commit(status);
+            if(out != null){
+                out.print(super.getJsonString(resultMap));
+                out.flush();
+                out.close();
+            }
+        }
         return null;
     }
     
@@ -415,5 +502,11 @@ public class AccountManageAction extends BaseAction {
     }
     public void setAccountListId(String accountListId) {
         this.accountListId = accountListId;
+    }
+    public String getBalanceListId() {
+        return balanceListId;
+    }
+    public void setBalanceListId(String balanceListId) {
+        this.balanceListId = balanceListId;
     }
 }

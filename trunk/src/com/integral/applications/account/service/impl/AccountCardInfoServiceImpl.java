@@ -3,13 +3,16 @@ package com.integral.applications.account.service.impl;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.lang.math.NumberUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import com.integral.applications.account.bean.AccountBaseInfo;
 import com.integral.applications.account.bean.AccountCardInfo;
 import com.integral.applications.account.dao.IAccountCardInfoDao;
 import com.integral.applications.account.service.IAccountCardInfoService;
@@ -206,5 +209,38 @@ public class AccountCardInfoServiceImpl implements IAccountCardInfoService {
         instances.add(outCard);
         instances.add(inCard);
         this.accountCardDao.saveOrUpdateAll(instances);
+    }
+
+    @Override
+    public void backAccount(List<AccountBaseInfo> baseInfoList) {
+        if(baseInfoList == null || baseInfoList.isEmpty()){
+            return;
+        }
+        Map<String, Double> back = new HashMap<String, Double>();
+        for(AccountBaseInfo info : baseInfoList){
+            String cardId = info.getAccountcard();
+            double margin = info.getAccountmargin();
+            Double temp = back.get(cardId);
+            if(temp != null){
+                back.put(cardId, (new BigDecimal(margin + "").add(new BigDecimal(temp + ""))).doubleValue());
+            }else{
+                back.put(cardId, margin);
+            }
+        }
+        Set<String> set = back.keySet();
+        List<AccountCardInfo> cardList = new ArrayList<AccountCardInfo>();
+        
+        for(String key : set){
+            AccountCardInfo card = this.accountCardDao.findById(key);
+            if(card == null){
+                continue;
+            }
+            card.setCardBalance((new BigDecimal(card.getCardBalance() + "").add(new BigDecimal(back.get(key) + "").negate())).doubleValue());
+            cardList.add(card);
+        }
+        
+        if(cardList != null && !cardList.isEmpty()){
+            this.accountCardDao.saveOrUpdateAll(cardList);
+        }
     }
 }

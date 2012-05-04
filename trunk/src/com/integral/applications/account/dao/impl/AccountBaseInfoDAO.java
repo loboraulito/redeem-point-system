@@ -354,8 +354,22 @@ public class AccountBaseInfoDAO extends HibernateDaoSupport implements
 		}
 	}
 
+	@Override
+    public void update(AccountBaseInfo transientInstance) {
+	    log.debug("update AccountBaseInfo instance");
+        try {
+            getHibernateTemplate().update(transientInstance);
+            log.debug("update successful");
+        } catch (RuntimeException re) {
+            log.error("attach failed", re);
+            throw re;
+        }
+    }
+	
+	
 	public static AccountBaseInfoDAO getFromApplicationContext(
 			ApplicationContext ctx) {
 		return (AccountBaseInfoDAO) ctx.getBean("AccountBaseInfoDAO");
 	}
+
 }
