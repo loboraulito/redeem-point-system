@@ -565,7 +565,7 @@ function accountBalance(){
 	this.addAccountInfo = function(url){
 		var accountInForm = getInAccountForm(url, "今日收入", false, false);
 		var accountOutForm = getOutAccountForm(url, "今日支出", false, false);
-		var accountForm = [accountInForm, accountOutForm];
+		var accountForm = [accountOutForm, accountInForm];
 		var tab = getAccountTabPanel(accountForm);
 		
 		var buttons = [{
