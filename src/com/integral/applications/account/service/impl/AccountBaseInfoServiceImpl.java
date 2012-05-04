@@ -225,4 +225,26 @@ public class AccountBaseInfoServiceImpl implements IAccountBaseInfoService {
         
         this.accountDao.save(baseInfo);
     }
+
+    @Override
+    public void update(AccountBaseInfo transientInstance) {
+        this.accountDao.update(transientInstance);
+    }
+
+    @Override
+    public List<AccountBaseInfo> queryListByIds(String[] baseIds) {
+        if(baseIds == null || baseIds.length <1){
+            return null;
+        }
+        StringBuilder hql = new StringBuilder("from AccountBaseInfo model where 1=1 and model.baseinfoid in ( ");
+        for(int i=0; i< baseIds.length; i++){
+            if(i == baseIds.length -1){
+                hql.append(" ? )");
+            }else{
+                hql.append(" ? , ");
+            }
+        }
+        List list = this.baseDao.queryByHQL(hql.toString(), baseIds);
+        return list;
+    }
 }

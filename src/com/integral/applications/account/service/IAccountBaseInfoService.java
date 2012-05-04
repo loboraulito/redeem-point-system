@@ -48,6 +48,14 @@ public interface IAccountBaseInfoService {
      * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
      */
     public void save(AccountBaseInfo transientInstance);
+    
+    /**
+     * <p>Discription:[更新账目信息]</p>
+     * @param transientInstance
+     * @author:[代超]
+     * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
+     */
+    public void update(AccountBaseInfo transientInstance);
 
     public void saveOrUpdate(AccountBaseInfo instance);
 
@@ -56,6 +64,14 @@ public interface IAccountBaseInfoService {
     public Double[] marginAccount(List accounts);
 
     public List queryByProperty(Map<String, Object> properties);
+    /**
+     * <p>Discription:[批量查询账目信息]</p>
+     * @param baseIds 账目ID列表
+     * @return
+     * @author:[代超]
+     * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
+     */
+    public List<AccountBaseInfo> queryListByIds(String [] baseIds);
 
     public Object[] checkImportData(List list, Map properties, String userId, String userName);
     /**

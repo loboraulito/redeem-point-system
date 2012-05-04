@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
+import com.integral.applications.account.bean.AccountBaseInfo;
 import com.integral.applications.account.bean.AccountCardInfo;
 
 /** 
@@ -121,4 +122,11 @@ public interface IAccountCardInfoService {
      * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
      */
     public void transferAccount(AccountCardInfo outCard, AccountCardInfo inCard, double amount, String comment) throws Exception;
+    /**
+     * <p>Discription:[返还金额给账户]</p>
+     * @param baseInfoList 账目列表
+     * @author:[代超]
+     * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
+     */
+    public void backAccount(List<AccountBaseInfo> baseInfoList);
 }
