@@ -82,6 +82,15 @@ public interface IBaseDao {
      */
     public int excuteSQLBatch(String sql, List<Object[]> paramList) throws Exception;
     /**
+     * <p>Discription:[使用Hibernate自带的批量执行sql语句]</p>
+     * @param sql : update Table ref set ref.rulecode = ? where ref.rscerefcode = ?
+     * @param paramList
+     * @return
+     * @author:[代超]
+     * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
+     */
+    public int excuteSqlBatchWithHibernate(String sql, Object ... paramList);
+    /**
      * <p>Discription:[分页查询, 使用Hibernate的传值方式即：where a = :a]</p>
      * @param hql
      * @param params 参数-值 集合
