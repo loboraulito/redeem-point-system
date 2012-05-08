@@ -356,14 +356,9 @@ function accountBalance(){
 		viewConfig:{forceFit:true},//若父容器的layout为fit，那么强制本grid充满该父容器
 		split: true,
 		//columnLines:true,
-		//stripeRows: true,
+		stripeRows: true,
 		view:groupView,
 		plugins: summary,
-		listeners:{
-			"rowdblclick":function(grid,rowIndex,e){
-				
-			}
-		},
 		bbar:new Ext.PagingToolbar({
 			pageSize:50,//每页显示数
 			store:accountGroupStore,
@@ -388,7 +383,7 @@ function accountBalance(){
 	loadButtonRight(buttonRightStore, accountGroupStore, accountGrid, "account_div");
 	
 	/**
-	 * 提示双击修改
+	 * 显示超链接
 	 * @param value
 	 * @param metadata
 	 * @param record
@@ -398,9 +393,20 @@ function accountBalance(){
 	 * @return
 	 */
 	function edited(value,metadata,record,rowIndex,colIndex,store){
-		metadata.attr = "ext:qtip='双击编辑'";
-		return value;
+		return '<a href="javascript:void(0)" onclick=\'javascript:showRemark("'+rowIndex+'")\'>'+value+'</a>';
 	}
+	/**
+	 * 显示记账理由窗口
+	 */
+	this.showRemark = function(rowIndex){
+		var w = Ext.getCmp("showRemarkWindow");
+		if(w) w.close();
+		var record = accountGroupStore.getAt(rowIndex);
+		var item = new Ext.form.TextArea({
+			value:record.get("remark")
+		});
+		showAllWindow("showRemarkWindow", "记账理由", 300, 110, item, null, null, false);
+	};
 	/**
 	 * 格式化日期
 	 */
@@ -438,8 +444,7 @@ function accountBalance(){
 	 * 格式化金钱
 	 */
 	function showmoney(value,metadata,record,rowIndex,colIndex,store){
-		if(parseFloat(value)<0){
-			metadata.attr = "ext:qtip='今日已经入不敷出啦，注意节约哦！'";
+		if(parseFloat(value)>0){
 			return "￥ "+"<font color='red'>"+value+"</font>";
 		}
 		return "￥ "+ value;
@@ -802,7 +807,13 @@ function accountBalance(){
 						fieldLabel:"支出金额",
 						readOnly:readOnly,
 						value:0,
-						allowBlank:isNull
+						allowBlank:isNull,
+						listeners:{
+							"blur":function(thiz){
+								var d = new Date(accountOutForm.form.findField("account.basedate").getValue());
+								accountOutForm.form.findField("account.remark").setValue("消费时间："+d.format("Y-m-d") + "\n消费金额：" + thiz.value);
+							}
+						}
 					}]
 				},{
 					columnWidth : .5,
@@ -821,7 +832,14 @@ function accountBalance(){
 						displayField:"cardName",
 						hiddenName:"account.accountcard",//这个值就是传递给后台获取的值
 						mode: "local",
-						allowBlank:isNull
+						allowBlank:isNull,
+						listeners:{
+							"blur":function(thiz){
+								var d = new Date(accountOutForm.form.findField("account.basedate").getValue());
+								var v = accountOutForm.form.findField("account.accountout").getValue() + "元";
+								accountOutForm.form.findField("account.remark").setValue("消费时间："+d.format("Y-m-d") + "\n消费金额：" + v + "\n消费账户：" + thiz.el.dom.value);
+							}
+						}
 					}]
 				},{
 					columnWidth : .5,
@@ -845,6 +863,12 @@ function accountBalance(){
 							'select': function(combo, record, index){
 								accountOutForm.form.findField("account.setype").setValue("");
 								accountEnSecondTypeStore.load({params:{codeId:"4028098136ce7b900136ceb23e860001",parentCodeId:combo.getValue()}});
+							},
+							"blur":function(thiz){
+								var d = new Date(accountOutForm.form.findField("account.basedate").getValue());
+								var v = accountOutForm.form.findField("account.accountout").getValue() + "元";
+								var c = accountOutForm.form.findField("account.accountcard");
+								accountOutForm.form.findField("account.remark").setValue("消费时间："+d.format("Y-m-d") + "\n消费金额：" + v + "\n消费账户：" + c.el.dom.value + "\n消费主类别：" + thiz.el.dom.value);
 							}
 						}
 					}]
@@ -864,7 +888,16 @@ function accountBalance(){
 						valueField:"dataKey",//将codeid设置为传递给后台的值
 						displayField:"dataValue",
 						hiddenName:"account.setype",//这个值就是传递给后台获取的值
-						mode: "local"
+						mode: "local",
+						listeners:{
+							"blur":function(thiz){
+								var d = new Date(accountOutForm.form.findField("account.basedate").getValue());
+								var v = accountOutForm.form.findField("account.accountout").getValue() + "元";
+								var c = accountOutForm.form.findField("account.accountcard");
+								var t = accountOutForm.form.findField("account.maintype");
+								accountOutForm.form.findField("account.remark").setValue("消费时间："+d.format("Y-m-d") + "\n消费金额：" + v + "\n消费账户：" + c.el.dom.value + "\n消费主类别：" + t.el.dom.value + "\n消费次类别："+thiz.el.dom.value);
+							}
+						}
 					}]
 				}]
 			},{
@@ -880,7 +913,8 @@ function accountBalance(){
 						xtype: 'textarea',
 						name:"account.remark",
 						anchor:"90%",
-						fieldLabel:"备注"
+						fieldLabel:"记账理由",
+						readOnly:true
 					}]
 				}]
 			}]
@@ -956,7 +990,13 @@ function accountBalance(){
 						fieldLabel:"收入金额",
 						readOnly:readOnly,
 						value:0,
-						allowBlank:isNull
+						allowBlank:isNull,
+						listeners:{
+							"blur":function(thiz){
+								var d = new Date(accountInForm.form.findField("account.basedate").getValue());
+								accountInForm.form.findField("account.remark").setValue("收入时间："+d.format("Y-m-d") + "\n收入金额：" + thiz.value);
+							}
+						}
 					}]
 				},{
 					columnWidth : .5,
@@ -975,7 +1015,14 @@ function accountBalance(){
 						displayField:"cardName",
 						hiddenName:"account.accountcard",//这个值就是传递给后台获取的值
 						mode: "local",
-						allowBlank:isNull
+						allowBlank:isNull,
+						listeners:{
+							"blur":function(thiz){
+								var d = new Date(accountInForm.form.findField("account.basedate").getValue());
+								var v = accountInForm.form.findField("account.accountenter").getValue() + "元";
+								accountInForm.form.findField("account.remark").setValue("收入时间："+d.format("Y-m-d") + "\n收入金额：" + v + "\n收入账户：" + thiz.el.dom.value);
+							}
+						}
 					}]
 				},{
 					columnWidth : .5,
@@ -999,6 +1046,12 @@ function accountBalance(){
 							'select': function(combo, record, index){
 								accountInForm.form.findField("account.setype").setValue("");
 								accountEnSecondTypeStore.load({params:{codeId:"4028098136ce7b900136ceb23e860001",parentCodeId:combo.getValue()}});
+							},
+							"blur":function(thiz){
+								var d = new Date(accountInForm.form.findField("account.basedate").getValue());
+								var v = accountInForm.form.findField("account.accountenter").getValue() + "元";
+								var c = accountInForm.form.findField("account.accountcard");
+								accountInForm.form.findField("account.remark").setValue("收入时间："+d.format("Y-m-d") + "\n收入金额：" + v + "\n收入账户：" + c.el.dom.value + "\n收入主类别：" + thiz.el.dom.value);
 							}
 						}
 					}]
@@ -1018,7 +1071,16 @@ function accountBalance(){
 						valueField:"dataKey",//将codeid设置为传递给后台的值
 						displayField:"dataValue",
 						hiddenName:"account.setype",//这个值就是传递给后台获取的值
-						mode: "local"
+						mode: "local",
+						listeners:{
+							"blur":function(thiz){
+								var d = new Date(accountInForm.form.findField("account.basedate").getValue());
+								var v = accountInForm.form.findField("account.accountenter").getValue() + "元";
+								var c = accountInForm.form.findField("account.accountcard");
+								var t = accountInForm.form.findField("account.maintype");
+								accountInForm.form.findField("account.remark").setValue("收入时间："+d.format("Y-m-d") + "\n收入金额：" + v + "\n收入账户：" + c.el.dom.value + "\n收入主类别：" + t.el.dom.value + "\n收入次类别："+thiz.el.dom.value);
+							}
+						}
 					}]
 				}]
 			},{
@@ -1033,7 +1095,8 @@ function accountBalance(){
 						xtype: 'textarea',
 						name:"account.remark",
 						anchor:"90%",
-						fieldLabel:"备注"
+						fieldLabel:"记账理由",
+						readOnly:true
 					}]
 				}]
 			}]
