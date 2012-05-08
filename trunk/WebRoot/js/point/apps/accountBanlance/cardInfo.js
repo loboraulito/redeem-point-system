@@ -474,6 +474,7 @@ function accountInfoGrid(url){
 						name:"card.cardBalance",
 						id:"card.cardBalance",
 						anchor:"90%",
+						value:0,
 						fieldLabel:"余额"
 					}]
 				},{
