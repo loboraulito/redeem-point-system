@@ -280,6 +280,9 @@ public class AccountManageAction extends BaseAction {
             if(this.card == null){
                 throw new Exception("您所提交的信息不完整，请检查！");
             }else{
+                if(card.getCardBalance() == null){
+                    card.setCardBalance(0.0);
+                }
                 this.accountCardService.save(card);
                 resultMap.put("success", true);
                 resultMap.put("msg", "您的账户信息已经成功保存！");
