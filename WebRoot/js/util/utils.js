@@ -208,6 +208,27 @@ function dateFormat(value,preformat,format){
 		return value;
 	}
 }
+/**
+ * 将日期转换为指定格式的字符串
+ * @param value
+ * @param format
+ * @returns
+ */
+function dateFormat2(value, format){
+	if(!value){
+		return "";
+	}
+	if(!format){
+		format = "Y-m-d";
+	}
+	try{
+		var date = new Date(value);
+		return date.format(format);
+	}catch(e){
+		showSystemMsg("系统提示", "您的日期不合法！");
+		return;
+	}
+}
 
 /**
  * 查询数据标准的下拉框
@@ -435,7 +456,10 @@ function updateIDCard(idcard){
  * @param html html标记<无用>
  * @param buttons 按钮
  */
-function showAllWindow(id, title, width, height, items, html, buttons){
+function showAllWindow(id, title, width, height, items, html, buttons, modal){
+	if(typeof(modal) == "undefined"){
+		modal = true;
+	}
 	var componentWindow = new Ext.Window({
 		id:id,
 		title:title,
@@ -444,7 +468,7 @@ function showAllWindow(id, title, width, height, items, html, buttons){
 		items:items,
 		buttons:buttons,
 		//html:html,
-		modal:true,
+		modal:modal,
 		layout:"fit",
 		resizable:false
 	});
