@@ -1,10 +1,14 @@
 /**
  * 账目管理, 由ext系统移植而来
  */
-//加载数据字典下拉框
+//消费主类型
 var accountMainTypeStore = parent.accountMainTypeStore;
 accountMainTypeStore.load({params:{codeId:"4028098136ce7b900136ceb23e860001"}});
+//消费次类型
 var accountEnSecondTypeStore = parent.accountEnSecondTypeStore;
+//预算类型
+var budgetTypeStore = parent.budgetTypeStore;
+budgetTypeStore.load({params:{codeId:"ff80808129784c1c01297854b8a60003"}});
 
 //账目明细数据解析器
 var accountReader;
@@ -32,6 +36,11 @@ var cardInfoTempDate = {"totalCount":0, "accountCard":[], "success":true};
 var summary = new Ext.grid.GroupSummary(); 
 //主数据分组显示
 var accountGroupStore;
+/**
+ * 预算信息
+ */
+var budgetTempDate = {"totalCount":0, "budgetList":[], "success":true};
+
 /**
  * 警报点数据存储
  */
@@ -359,6 +368,16 @@ function accountBalance(){
 		stripeRows: true,
 		view:groupView,
 		plugins: summary,
+		listeners : {
+			"rowclick":function(thiz, rowIndex, e){
+				var record = accountGroupStore.getAt(rowIndex);
+				var value = record.get("remark");
+				if(!value || value.trim() == ""){
+					var w = Ext.getCmp("showRemarkWindow");
+					if(w) w.close();
+				}
+			}
+		},
 		bbar:new Ext.PagingToolbar({
 			pageSize:50,//每页显示数
 			store:accountGroupStore,
@@ -730,6 +749,14 @@ function accountBalance(){
 		var myAccount = new accountInfoGrid(url);
 		showAccountWindow("myAccountInfo","我的账户信息", 600, 350, myAccount.getCardInfoGrid(), null, null);
 	};
+	/**
+	 * 账目预算
+	 */
+	this.accountBudget = function(url){
+		var budget = new accountBudgetManage(url);
+		showAccountWindow("budgetWindow", "我的账目预算", 600, 350, budget.getBudgetGrid(), null, null);
+	};
+	
 	//========================通用功能区==========================================
 	function getAccountTabPanel(items){
 		var tab = new Ext.TabPanel({

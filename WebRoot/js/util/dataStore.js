@@ -58,3 +58,7 @@ var accountEnSecondTypeStore = getCodeListCombo();
  * 账户类型
  */
 var cardTypeStore = getCodeListCombo();
+/**
+ * 预算类型
+ */
+var budgetTypeStore = getCodeListCombo();
