@@ -5,6 +5,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.math.NumberUtils;
+
 import com.integral.applications.account.bean.AccountAlert;
 import com.integral.applications.account.bean.AccountBaseInfo;
 import com.integral.applications.account.bean.BalanceInfo;
@@ -129,5 +131,18 @@ public class AccountAlertServiceImpl implements IAccountAlertService {
 	public List findByProperty(Map<String,Object> properties) {
 		return this.alertDao.findByProperty(properties);
 	}
+
+    @Override
+    public List<AccountAlert> findInstanceList(Map<String, Object> paramMap, int start, int limit) {
+        String hql = "from AccountAlert model where model.username = :userName";
+        return this.alertDao.findInstanceList(hql, false, paramMap, start, limit);
+    }
+
+    @Override
+    public int findInstanceListSize(Map<String, Object> paramMap) {
+        String hql = "Select count(model.alertid) from AccountAlert model where model.username = :userName";
+        List list = this.baseDao.queryPageByHQL(hql, paramMap, -1, -1);
+        return NumberUtils.toInt(String.valueOf(list.get(0)), 0);
+    }
 
 }

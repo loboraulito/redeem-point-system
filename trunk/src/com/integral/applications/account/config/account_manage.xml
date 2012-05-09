@@ -9,6 +9,7 @@
 			 <result name="success">/jsp/apps/account/account.jsp</result>
 			 <result name="input">/index.jsp</result>
 		</action>
+		<!-- 账目管理 -->
         <action name="accountList" class="com.integral.applications.account.action.AccountManageAction" method="accountList">
              <result name="success">/jsp/apps/account/account.jsp</result>
              <result name="input">/index.jsp</result>
@@ -25,6 +26,7 @@
              <result name="success">/jsp/apps/account/account.jsp</result>
              <result name="input">/index.jsp</result>
         </action>
+        <!-- 账户管理 -->
         <action name="myAccountList" class="com.integral.applications.account.action.AccountManageAction" method="myAccountList">
              <result name="success">/jsp/apps/account/account.jsp</result>
              <result name="input">/index.jsp</result>
@@ -42,6 +44,23 @@
              <result name="input">/index.jsp</result>
         </action>
         <action name="transferAccount" class="com.integral.applications.account.action.AccountManageAction" method="transferAccount">
+        	 <result name="success">/jsp/apps/account/account.jsp</result>
+             <result name="input">/index.jsp</result>
+        </action>
+        <!-- 账目预算 -->
+        <action name="accountBudget" class="com.integral.applications.account.action.AccountManageAction" method="accountBudgetList">
+        	 <result name="success">/jsp/apps/account/account.jsp</result>
+             <result name="input">/index.jsp</result>
+        </action>
+        <action name="addBudget" class="com.integral.applications.account.action.AccountManageAction" method="addBudget">
+        	 <result name="success">/jsp/apps/account/account.jsp</result>
+             <result name="input">/index.jsp</result>
+        </action>
+        <action name="editBudget" class="com.integral.applications.account.action.AccountManageAction" method="editBudget">
+        	 <result name="success">/jsp/apps/account/account.jsp</result>
+             <result name="input">/index.jsp</result>
+        </action>
+        <action name="deleteBudget" class="com.integral.applications.account.action.AccountManageAction" method="deleteBudget">
         	 <result name="success">/jsp/apps/account/account.jsp</result>
              <result name="input">/index.jsp</result>
         </action>

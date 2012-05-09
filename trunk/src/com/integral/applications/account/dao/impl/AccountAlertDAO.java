@@ -211,7 +211,6 @@ public class AccountAlertDAO extends HibernateDaoSupport implements
     }
     public List findByCustom(final String sql, final Object[] params) {
         return getHibernateTemplate().executeFind(new HibernateCallback() {
-
             @Override
             public Object doInHibernate(Session session)
                     throws HibernateException, SQLException {
@@ -272,6 +271,36 @@ public class AccountAlertDAO extends HibernateDaoSupport implements
         }
     }
 
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<AccountAlert> findInstanceList(final String sqlOrHql, final boolean isSql, 
+            final Map<String, Object> paramMap, final int start, final int limit) {
+        return getHibernateTemplate().executeFind(new HibernateCallback() {
+            @Override
+            public Object doInHibernate(Session session)
+                    throws HibernateException, SQLException {
+                Query query = null;
+                if(isSql){
+                    query = session.createSQLQuery(sqlOrHql);
+                }else{
+                    query = session.createQuery(sqlOrHql);
+                }
+                if(paramMap != null && !paramMap.isEmpty()){
+                    Set<String> keySet = paramMap.keySet();
+                    for(String key : keySet){
+                        query.setParameter(key, paramMap.get(key));
+                    }
+                }
+                if(start > -1 && limit > 0){
+                    query.setFirstResult(start);
+                    query.setMaxResults(limit);
+                }
+                return query.list();
+            }
+            
+        });
+    }
+    
     public static AccountAlertDAO getFromApplicationContext(
             ApplicationContext ctx) {
         return (AccountAlertDAO) ctx.getBean("AccountAlertDAO");

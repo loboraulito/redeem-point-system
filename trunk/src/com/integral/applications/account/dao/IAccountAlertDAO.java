@@ -32,5 +32,18 @@ public interface IAccountAlertDAO {
     public List findByCustom(String sql, Object[] params);
 
     public List findByProperty(Map<String, Object> properties);
+    
+    /**
+     * <p>Discription:[分页条件查询]</p>
+     * @param sqlOrHql sql/hql语句
+     * @param isSql 是否是sql
+     * @param paramMap 参数列表
+     * @param start
+     * @param limit
+     * @return
+     * @author:[代超]
+     * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
+     */
+    public List<AccountAlert> findInstanceList(String sqlOrHql, boolean isSql, Map<String, Object> paramMap, int start, int limit);
 
 }

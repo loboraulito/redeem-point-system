@@ -13,6 +13,7 @@ import org.apache.struts2.ServletActionContext;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.TransactionStatus;
 
+import com.integral.applications.account.bean.AccountAlert;
 import com.integral.applications.account.bean.AccountBaseInfo;
 import com.integral.applications.account.bean.AccountCardInfo;
 import com.integral.applications.account.service.IAccountAlertService;
@@ -53,6 +54,7 @@ public class AccountManageAction extends BaseAction {
     private String balanceListId;
     private AccountBaseInfo account;
     private AccountCardInfo card;
+    private AccountAlert budget;
     
     public String begin(){
         return SUCCESS;
@@ -433,6 +435,64 @@ public class AccountManageAction extends BaseAction {
         
         return null;
     }
+    /**
+     * <p>Discription:[账目预算列表]</p>
+     * @return
+     * @author:[代超]
+     * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
+     */
+    public String accountBudgetList(){
+        Map<String, Object> paramMap = new HashMap<String, Object>();
+        paramMap.put("userName", this.userName);
+        List<AccountAlert> budgetList = this.accountAlertService.findInstanceList(paramMap, start, limit);
+        int size = this.accountAlertService.findInstanceListSize(paramMap);
+        PrintWriter out = null;
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        try{
+            out = super.getPrintWriter();
+            resultMap.put("success", true);
+            resultMap.put("budgetList", budgetList);
+            resultMap.put("totalCount", size);
+        }catch(Exception e){
+            resultMap.put("success", false);
+            resultMap.put("msg", "系统错误，错误代码："+ e.getMessage());
+        }finally{
+            if(out != null){
+                out.print(super.getJsonString(resultMap));
+                out.flush();
+                out.close();
+            }
+        }
+        return null;
+    }
+    /**
+     * <p>Discription:[新增账目预算]</p>
+     * @return
+     * @author:[代超]
+     * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
+     */
+    public String addBudget(){
+        
+        return null;
+    }
+    /**
+     * <p>Discription:[修改账目预算]</p>
+     * @return
+     * @author:[代超]
+     * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
+     */
+    public String editBudget(){
+        return null;
+    }
+    /**
+     * <p>Discription:[删除账目预算]</p>
+     * @return
+     * @author:[代超]
+     * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
+     */
+    public String deleteBudget(){
+        return null;
+    }
     
     public IAccountAlertService getAccountAlertService() {
         return accountAlertService;
@@ -511,5 +571,11 @@ public class AccountManageAction extends BaseAction {
     }
     public void setBalanceListId(String balanceListId) {
         this.balanceListId = balanceListId;
+    }
+    public AccountAlert getBudget() {
+        return budget;
+    }
+    public void setBudget(AccountAlert budget) {
+        this.budget = budget;
     }
 }
