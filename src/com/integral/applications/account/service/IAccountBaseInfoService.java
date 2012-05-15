@@ -21,7 +21,7 @@ public interface IAccountBaseInfoService {
      * @author:[代超]
      * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
      */
-    public List queryPage(int start, int limit, Map<String, Object> params);
+    public List<AccountBaseInfo> queryPage(int start, int limit, Map<String, Object> params);
     /**
      * <p>Discription:[分页查询-查询总记录数]</p>
      * @param params
@@ -86,4 +86,13 @@ public interface IAccountBaseInfoService {
      */
     public void chargeAccount(double outAmount, double inAmount, String comment, String cardId, String userName);
 
+    /**
+     * 组装预算信息
+     * <p>Discription:[方法功能中文描述]</p>
+     * @param accountList
+     * @return
+     * @author:[代超]
+     * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
+     */
+    public List<AccountBaseInfo> queryAccountBaseInfoBudgetPage(int start, int limit, Map<String, Object> paramMap);
 }

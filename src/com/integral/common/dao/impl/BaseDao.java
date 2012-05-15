@@ -246,14 +246,14 @@ public class BaseDao extends HibernateDaoSupport implements IBaseDao {
         return 0;
     }
     
-    public List queryListByPageByJDBC(String sql, int start, int limit, Object[] params) {
-        log.info("excute by sql jdbc: " + sql);
+    public List<Object []> queryListByPageByJDBC(String sql, int start, int limit, Object[] params) {
         SessionFactory sessionFactory = getSessionFactory();
         SessionFactoryImpl s = (SessionFactoryImpl) sessionFactory;
         Session session = getSession();//sessionFactory.getCurrentSession();
         Connection con = session.connection();
         sql = HibernateUtils.getHibernateLimitString(s.getDialect(), sql, start, limit);
-        List result = new ArrayList();
+        log.info("excute by sql jdbc: " + sql);
+        List<Object []> result = new ArrayList<Object []>();
         PreparedStatement prepareStatement = null;
         ResultSet rs = null;
         try{

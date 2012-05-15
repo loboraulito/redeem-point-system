@@ -301,6 +301,18 @@ public class AccountAlertDAO extends HibernateDaoSupport implements
         });
     }
     
+    @Override
+    public void update(AccountAlert transientInstance) {
+        log.debug("update AccountAlert instance");
+        try {
+            getHibernateTemplate().update(transientInstance);
+            log.debug("update successful");
+        } catch (RuntimeException re) {
+            log.error("update failed", re);
+            throw re;
+        }
+    }
+    
     public static AccountAlertDAO getFromApplicationContext(
             ApplicationContext ctx) {
         return (AccountAlertDAO) ctx.getBean("AccountAlertDAO");

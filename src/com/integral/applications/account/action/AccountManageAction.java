@@ -36,8 +36,13 @@ public class AccountManageAction extends BaseAction {
      * <p>Discription:[字段功能描述]</p>
      */
     private static final long serialVersionUID = 1L;
-    
+    /**
+     * 预算信息
+     */
     private IAccountAlertService accountAlertService;
+    /**
+     * 账目信息
+     */
     private IAccountBaseInfoService accountBaseInfoService;
     private IBalanceInfoService balanceInfoService;
     private IBalanceRightService balanceRightService;
@@ -52,6 +57,7 @@ public class AccountManageAction extends BaseAction {
     private String userName;
     private String accountListId;
     private String balanceListId;
+    private String budgetListId;
     private AccountBaseInfo account;
     private AccountCardInfo card;
     private AccountAlert budget;
@@ -68,7 +74,8 @@ public class AccountManageAction extends BaseAction {
     public String accountList(){
         Map<String, Object> paramMap = new HashMap<String, Object>();
         paramMap.put("userName", this.userName);
-        List accountInfoList = this.accountBaseInfoService.queryPage(start, limit, paramMap);
+        //List<AccountBaseInfo> accountInfoList = this.accountBaseInfoService.queryPage(start, limit, paramMap);
+        List<AccountBaseInfo> accountInfoList = this.accountBaseInfoService.queryAccountBaseInfoBudgetPage(start, limit, paramMap);
         int accountSize = this.accountBaseInfoService.queryPageSize(paramMap);
         PrintWriter out = null;
         Map<String, Object> resultMap = new HashMap<String, Object>();
@@ -472,7 +479,42 @@ public class AccountManageAction extends BaseAction {
      * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
      */
     public String addBudget(){
-        
+        PrintWriter out = null;
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        TransactionStatus status = super.getTransactionStatus(transactionManager);
+        try{
+            out = super.getPrintWriter();
+            if(this.budget == null){
+                throw new Exception("您所提交的信息不完整，请检查！");
+            }else{
+                String budgetDate = super.getRequest().getParameter("budgetDate");
+                AccountAlert alert = new  AccountAlert();
+                alert.setBegindate(Tools.StringToDate(budgetDate, "yyyy-MM"));
+                List list = this.accountAlertService.findByExample(alert);
+                if(list != null && !list.isEmpty()){
+                    resultMap.put("success", false);
+                    resultMap.put("msg", "您  "+Tools.dateToString(Tools.StringToDate(budgetDate, "yyyy-MM"), "yyyy年MM月") +" 的预算已经存在，请不要重复设置！");
+                }else{
+                    budget.setBegindate(Tools.StringToDate(budgetDate, "yyyy-MM"));
+                    budget.setEnddate(Tools.getLastDateOfMonth(budget.getBegindate(), "yyyy-MM-dd"));
+                    this.accountAlertService.save(budget);
+                    resultMap.put("success", true);
+                    resultMap.put("msg", "您的预算信息已经成功保存！");
+                }
+            }
+        }catch(Exception e){
+            status.setRollbackOnly();
+            LOG.error(e.getMessage());
+            resultMap.put("success", false);
+            resultMap.put("msg", "系统错误，错误代码："+e.getMessage());
+        }finally{
+            this.transactionManager.commit(status);
+            if(out != null){
+                out.print(super.getJsonString(resultMap));
+                out.flush();
+                out.close();
+            }
+        }
         return null;
     }
     /**
@@ -482,6 +524,34 @@ public class AccountManageAction extends BaseAction {
      * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
      */
     public String editBudget(){
+        PrintWriter out = null;
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        TransactionStatus status = super.getTransactionStatus(transactionManager);
+        try{
+            out = super.getPrintWriter();
+            if(this.budget == null){
+                throw new Exception("您所提交的信息不完整，请检查！");
+            }else{
+                String budgetDate = super.getRequest().getParameter("budgetDate");
+                budget.setBegindate(Tools.StringToDate(budgetDate, "yyyy-MM"));
+                budget.setEnddate(Tools.getLastDateOfMonth(budget.getBegindate(), "yyyy-MM-dd"));
+                this.accountAlertService.update(budget);
+                resultMap.put("success", true);
+                resultMap.put("msg", "您的预算信息已经成功保存！");
+            }
+        }catch(Exception e){
+            status.setRollbackOnly();
+            LOG.error(e.getMessage());
+            resultMap.put("success", false);
+            resultMap.put("msg", "系统错误，错误代码："+e.getMessage());
+        }finally{
+            this.transactionManager.commit(status);
+            if(out != null){
+                out.print(super.getJsonString(resultMap));
+                out.flush();
+                out.close();
+            }
+        }
         return null;
     }
     /**
@@ -491,6 +561,42 @@ public class AccountManageAction extends BaseAction {
      * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
      */
     public String deleteBudget(){
+        PrintWriter out = null;
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        // 开始事务
+        TransactionStatus status = super.getTransactionStatus(transactionManager);
+        try{
+            out = super.getPrintWriter();
+            if(this.budgetListId == null || "".equals(this.budgetListId.trim())){
+                throw new Exception("您没有选择要删除的账户预算信息！");
+            }else{
+                String [] budgetArray = this.budgetListId.split(",");
+                if(budgetArray == null || budgetArray.length < 1){
+                    throw new Exception("您没有选择要删除的账户预算信息！");
+                }else{
+                    List<AccountAlert> budgetList = new ArrayList< AccountAlert>(budgetArray.length);
+                    for(String budgetId : budgetArray){
+                        AccountAlert budget = new AccountAlert();
+                        budget.setAlertid(budgetId);
+                        budgetList.add(budget);
+                    }
+                    this.accountAlertService.deleteAll(budgetList);
+                    resultMap.put("success", true);
+                    resultMap.put("msg", "您所选账户预算信息已成功删除！");
+                }
+            }
+        }catch(Exception e){
+            status.setRollbackOnly();
+            resultMap.put("success", false);
+            resultMap.put("msg", "系统错误，错误代码："+e.getMessage());
+        }finally{
+            transactionManager.commit(status);
+            if(out != null){
+                out.print(super.getJsonString(resultMap));
+                out.flush();
+                out.close();
+            }
+        }
         return null;
     }
     
@@ -577,5 +683,11 @@ public class AccountManageAction extends BaseAction {
     }
     public void setBudget(AccountAlert budget) {
         this.budget = budget;
+    }
+    public String getBudgetListId() {
+        return budgetListId;
+    }
+    public void setBudgetListId(String budgetListId) {
+        this.budgetListId = budgetListId;
     }
 }

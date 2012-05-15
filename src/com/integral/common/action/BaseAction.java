@@ -70,6 +70,16 @@ public class BaseAction extends ActionSupport {
         return getPrintWriter(ServletActionContext.getRequest(), ServletActionContext.getResponse(), "UTF-8", "text/json; charset=utf-8");
     }
     /**
+     * <p>Discription:[获取当前请求]</p>
+     * @return
+     * @author:[代超]
+     * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
+     */
+    protected HttpServletRequest getRequest(){
+        return ServletActionContext.getRequest();
+    }
+    
+    /**
      * <p>Discription:[格式化Json字符串]</p>
      * @param jsonMap
      * @return

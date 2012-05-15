@@ -145,4 +145,9 @@ public class AccountAlertServiceImpl implements IAccountAlertService {
         return NumberUtils.toInt(String.valueOf(list.get(0)), 0);
     }
 
+    @Override
+    public void update(AccountAlert transientInstance) {
+        this.alertDao.update(transientInstance);
+    }
+
 }

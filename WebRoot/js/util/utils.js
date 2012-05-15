@@ -474,6 +474,34 @@ function showAllWindow(id, title, width, height, items, html, buttons, modal){
 	});
 	componentWindow.show();
 }
+/**
+ * 遮罩某个控件
+ * @param cmp 控件ID，或者是控件
+ */
+function markCmp(cmp){
+	var obj;
+	if(typeof(cmp) == "string"){
+		obj = Ext.getCmp(cmp);
+	}else {
+		obj = cmp;
+	}
+	var pel = obj.getEl().parent();
+	pel.mask();
+}
+/**
+ * 解除控件遮罩效果
+ * @param cmp 控件id或者是控件
+ */
+function unMarkCmp(cmp){
+	var obj;
+	if(typeof(cmp) == "string"){
+		obj = Ext.getCmp(cmp);
+	}else {
+		obj = cmp;
+	}
+	var pel = obj.getEl().parent();
+	pel.unmask();
+}
 
 /**
  * 四舍五入并且精确到小数后几位
