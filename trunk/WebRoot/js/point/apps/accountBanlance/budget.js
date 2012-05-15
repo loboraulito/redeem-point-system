@@ -21,13 +21,13 @@ function accountBudgetManage(uri){
 	/**
 	 * 账目预算数据
 	 */
-	this.budgetStore = new Ext.data.GroupingStore({
-		url: uri,
+	var budgetStore = new Ext.data.Store({
+		proxy:new Ext.data.HttpProxy({
+			url:uri
+		}),
 		reader:budgetReader,
-		groupField:"alerttype",
 		//groupOnSort:false,
 		baseParams:{userName:userName},
-		sortInfo:{field: 'begindate', direction: "ASC"},
 		listeners:{
 			loadexception:function(dataProxy, type, action, options, response, arg){
 				try{
@@ -58,15 +58,13 @@ function accountBudgetManage(uri){
 		dataIndex:"begindate",
 		header:"预算开始时间",
 		groupable: false,
+		renderer: showdate,
 		width:150
 	},{
 		dataIndex:"enddate",
 		header:"预算结束时间",
 		groupable: false,
-		width:150
-	},{
-		dataIndex:"alerttype",
-		header:"预算类型",
+		renderer: showdate,
 		width:150
 	},{
 		dataIndex:"alertvalue",
@@ -80,14 +78,6 @@ function accountBudgetManage(uri){
 		width:150
 	}]);
 	
-	//分组显示
-	var groupView = new Ext.grid.GroupingView({
-		forceFit:true,
-		showGroupName: false,
-		enableNoGroups:false, // REQUIRED!
-		hideGroupedColumn: false,
-		groupTextTpl: '{[values.rs.length]} 个   {text}'
-	});
 	/**
 	 * 账目预算列表
 	 */
@@ -100,15 +90,14 @@ function accountBudgetManage(uri){
 			loadMask:true,//载入遮罩动画（默认）
 			frame:true,
 			autoShow:true,
-			store:this.budgetStore,
+			store:budgetStore,
 			cm:budgetCM,
 			sm:budgetSM,
 			viewConfig:{forceFit:true},//若父容器的layout为fit，那么强制本grid充满该父容器
 			split: true,
-			view:groupView,
 			bbar:new Ext.PagingToolbar({
 				pageSize:9999999,//每页显示数
-				store:this.budgetStore,
+				store:budgetStore,
 				displayInfo:true,
 				displayMsg:"显示{0}-{1}条记录，共{2}条记录",
 				//nextText:"下一页",
@@ -123,7 +112,7 @@ function accountBudgetManage(uri){
 					var buttons = [{
 						text:"保存",
 						handler:function(){
-							
+							saveBudget(form, "addBudgetWindow");
 						}
 					},{
 						text:"取消",
@@ -137,18 +126,107 @@ function accountBudgetManage(uri){
 			},"-",{
 				text:"修改账目预算",
 				handler:function(){
-					
+					var gridSelection = budgetGrid.getSelectionModel().getSelections();
+					if(gridSelection.length != 1){
+			            showSystemMsg("系统提示", "请选择一条账目预算信息");
+			            return false;
+			        }
+					var url = path + "/account_manage/editBudget.action?method=editBudget";
+					var form = budgetForm(url);
+					var buttons = [{
+						text:"保存",
+						handler:function(){
+							saveBudget(form, "editBudgetWindow");
+						}
+					},{
+						text:"取消",
+						handler:function(){
+							var w = Ext.getCmp("editBudgetWindow");
+							if(w) w.close();
+						}
+					}];
+					showAllWindow("editBudgetWindow", "修改账目预算", 500, 250, form, null, buttons);
+					//日期类型的采用遮罩效果，避免使用disable效果。使用后则的话，后台无法获取数据
+					markCmp(form.form.findField("budgetDate"));
+					form.form.findField("budgetDate").setValue(dateFormat(gridSelection[0].get("begindate"), "Y-m-d H:i:s", "Y-m"));
+					form.form.findField("budget.alertvalue").setValue(dateFormat(gridSelection[0].get("alertvalue")));
+					form.form.findField("budget.remark").setValue(dateFormat(gridSelection[0].get("remark")));
+					form.form.findField("budget.username").setValue(dateFormat(gridSelection[0].get("username")));
+					form.form.findField("budget.alertid").setValue(dateFormat(gridSelection[0].get("alertid")));
 				}
 			},"-",{
 				text:"删除账目预算",
 				handler:function(){
-					
+					var url = path + "/account_manage/deleteBudget.action?method=deleteBudget";
+					var gridSelection = budgetGrid.getSelectionModel().getSelections();
+					if(gridSelection.length < 1){
+			            showSystemMsg("系统提示", "请至少选择一条账目预算信息");
+			            return false;
+			        }
+					var budgetArray = new Array();
+					for(var i=0; i<gridSelection.length; i++){
+						budgetArray.push(gridSelection[i].get("alertid"));
+					}
+					var budgetId = budgetArray.join(",");
+					Ext.Msg.confirm("系统提示","请确认是否删除所选账目预算信息？",function(btn){
+						if(btn == "yes" || btn == "ok"){
+							Ext.MessageBox.show({
+								msg: '正在删除数据, 请稍侯...',
+								progressText: '正在删除数据',
+								width:300,
+								wait:true,
+								waitConfig: {interval:200},
+								icon:Ext.Msg.INFO
+							});
+							Ext.Ajax.request({
+				    			params:{budgetListId:budgetId},
+				    			url:url,
+				    			timeout:60000,
+				    			success:function(response,options){
+					    			Ext.MessageBox.hide();
+					    			try{
+					    				var msg = Ext.util.JSON.decode(response.responseText);
+					    				if(msg && msg.success){
+					    					showSystemMsg("提示信息",msg.msg,function(){
+					    						budgetStore.reload();
+					    						accountGroupStore.reload();
+						    				});
+					    				}else{
+					    					Ext.Msg.alert("提示信息",msg.msg);
+					    				}
+					    			}catch(e){
+					    				Ext.Msg.alert("提示信息","错误代码："+e);
+					    			}
+						     	},failure:function(response,options){
+						     		Ext.Msg.hide();
+						     		try{
+						     			var re = Ext.util.JSON.decode(response.responseText);
+								    	Ext.Msg.alert("提示信息",re.msg);
+						     		}catch(e){
+						     			Ext.Msg.alert("提示信息","错误代码："+e);
+						     		}
+							    	return;
+						     	}
+				    		});
+						}
+					});
 				}
 			}]
 		});
-		this.budgetStore.load({params:{start:0,limit:50}});
+		budgetStore.load({params:{start:0,limit:50}});
 		return budgetGrid;
 	};
+	
+	/**
+	 * 格式化日期
+	 */
+	function showdate(value,metadata,rocord,rowIndex,colIndex,store){
+		if(value && value!=""){
+			//引用unit.js中的方法
+			return dateFormat(value,'Y-m-d H:i:s',"Y-m-d");
+		}
+	}
+	
 	/**
 	 * 账目预算表单
 	 * @param url
@@ -172,43 +250,11 @@ function accountBudgetManage(uri){
 					border : false,
 					height:50,
 					items:[{
-						xtype: 'combo',
-						name:"budget.alerttype",
-						store:budgetTypeStore,
-						anchor:"90%",
-						fieldLabel:"预算类型",
-						editable:false,//false：不可编辑
-						triggerAction:"all",//避免选定了一个值之后，再选的时候只显示刚刚选择的那个值
-						valueField:"dataKey",//将codeid设置为传递给后台的值
-						displayField:"dataValue",
-						hiddenName:"budget.alerttype",//这个值就是传递给后台获取的值
-						mode: "local",
-						allowBlank:false
-					}]
-				},{
-					columnWidth : .5,
-					layout : 'form',
-					border : false,
-					height:50,
-					items:[{
-						xtype: 'numberfield',
-						name:"budget.alertvalue",
-						anchor:"90%",
-						fieldLabel:"预算金额",
-						value:0,
-						allowBlank:false
-					}]
-				},{
-					columnWidth : .5,
-					layout : 'form',
-					border : false,
-					height:50,
-					items:[{
 						xtype: 'datefield',
-						name:"budget.begindate",
+						name:"budgetDate",
 						anchor:"90%",
-						format:"Y-m-d",
-						fieldLabel:"预算开始时间",
+						format:"Y-m",
+						fieldLabel:"预算时间",
 						value:new Date(),
 						allowBlank:false
 					},{
@@ -219,20 +265,19 @@ function accountBudgetManage(uri){
 						xtype:"hidden",
 						name:"budget.alertid"
 					}]
-				},{
-					columnWidth : .5,
-					layout : 'form',
-					border : false,
-					height:50,
-					items:[{
-						xtype: 'datefield',
-						name:"budget.enddate",
-						anchor:"90%",
-						format:"Y-m-d",
-						fieldLabel:"预算结束时间",
-						value:new Date(),
-						allowBlank:false
-					}]
+				}]
+			},{
+				columnWidth : .5,
+				layout : 'form',
+				border : false,
+				height:50,
+				items:[{
+					xtype: 'numberfield',
+					name:"budget.alertvalue",
+					anchor:"90%",
+					fieldLabel:"预算金额",
+					value:0,
+					allowBlank:false
 				}]
 			},{
 				layout:"column",
@@ -246,12 +291,69 @@ function accountBudgetManage(uri){
 						xtype: 'textarea',
 						name:"budget.remark",
 						anchor:"90%",
-						fieldLabel:"备注",
-						readOnly:true
+						fieldLabel:"备注"
 					}]
 				}]
 			}]
 		});
 		return budform;
+	}
+	/**
+	 * 保存预算
+	 * @param form
+	 * @param windowId
+	 */
+	function saveBudget(form, windowId){
+		Ext.MessageBox.show({
+			msg:"正在保存预算信息，请稍候...",
+			progressText:"正在保存预算信息，请稍候...",
+			width:300,
+			wait:true,
+			waitConfig: {interval:200},
+			icon:Ext.Msg.INFO
+		});
+		form.getForm().submit({
+			timeout:60000,
+			success: function(form, action) {
+				Ext.Msg.hide();
+				try{
+					var result = Ext.decode(action.response.responseText);
+					if(result && result.success){
+						var msg = "预算信息保存成功！";
+						if(result.msg){
+							msg = result.msg;
+						}
+						showSystemMsg("系统提示信息", msg, function(btn, text) {
+							if (btn == 'ok') {
+								budgetStore.reload();
+								accountGroupStore.reload();
+								Ext.getCmp(windowId).close();
+							}
+						});
+					}else if(!result.success){
+						var msg = "预算信息保存失败，请检查您所填信息是否完整无误！";
+						if(result.msg){
+							msg = result.msg;
+						}
+						Ext.Msg.alert('系统提示信息', msg);
+					}
+				}catch(e){
+					Ext.Msg.alert('系统提示信息', "系统错误，错误代码："+e);
+				}
+			},
+			failure: function(form, action) {//action.result.errorMessage
+				Ext.Msg.hide();
+				var msg = "预算信息保存失败，请检查您的网络连接或者联系管理员！";
+				try{
+					var result = Ext.decode(action.response.responseText);
+					if(result.msg){
+						msg = result.msg;
+					}
+				}catch(e){
+					msg = "系统错误，错误代码：" + e;
+				}
+				Ext.Msg.alert('系统提示信息', msg);
+			}
+		});
 	}
 }

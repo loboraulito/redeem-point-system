@@ -2,6 +2,7 @@ package com.integral.applications.account.service.impl;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
@@ -16,6 +17,7 @@ import com.integral.applications.account.dao.IAccountBaseInfoDAO;
 import com.integral.applications.account.service.IAccountBaseInfoService;
 import com.integral.common.dao.impl.BaseDao;
 import com.integral.util.RequestUtil;
+import com.integral.util.StringUtils;
 import com.integral.util.Tools;
 
 public class AccountBaseInfoServiceImpl implements IAccountBaseInfoService {
@@ -36,7 +38,7 @@ public class AccountBaseInfoServiceImpl implements IAccountBaseInfoService {
         this.baseDao = baseDao;
     }
     @Override
-    public List queryPage(int start, int limit, Map<String, Object> params) {
+    public List<AccountBaseInfo> queryPage(int start, int limit, Map<String, Object> params) {
         String hql = "from AccountBaseInfo acctinfo where acctinfo.username = :userName";
         return this.baseDao.queryPageByHQL(hql, params, start, limit);
     }
@@ -246,5 +248,43 @@ public class AccountBaseInfoServiceImpl implements IAccountBaseInfoService {
         }
         List list = this.baseDao.queryByHQL(hql.toString(), baseIds);
         return list;
+    }
+
+    @Override
+    public List<AccountBaseInfo> queryAccountBaseInfoBudgetPage(int start, int limit, Map<String, Object> paramMap) {
+        String sql = "select model.baseinfoid, model.basedate, model.baseyear, model.basemonth, model.accountenter," +
+        		" model.accountout, model.accountmargin, model.remark, model.deletetag, model.accountcard," +
+        		" model.margintag, model.userid, model.username, model.maintype, model.setype, IFNULL(alert.alertvalue, -1) alertvalue" +
+        		" from accountbaseinfo model left join accountalert alert on( " +
+        		" model.basemonth = DATE_FORMAT(alert.begindate, '%Y-%m') " +
+        		" and model.username = alert.username ) where model.username=?";
+        //List list = this.accountDao.queryAccountBaseInfoBudgetPage(sql, start, limit, paramMap);
+        List<Object []> list = this.baseDao.queryListByPageByJDBC(sql, start, limit, paramMap.values().toArray());
+        List<AccountBaseInfo> resutList = null;
+        if(list != null && !list.isEmpty()){
+            resutList = new ArrayList<AccountBaseInfo>(list.size());
+            for(int i=0, j = list.size(); i<j; i++){
+                Object []obj = list.get(i);
+                AccountBaseInfo info = new AccountBaseInfo();
+                info.setBaseinfoid(StringUtils.convertToString(obj[0], ""));
+                info.setBasedate((Date) obj[1]);
+                info.setBaseyear(StringUtils.convertToString(obj[2], ""));
+                info.setBasemonth(StringUtils.convertToString(obj[3], ""));
+                info.setAccountenter(((BigDecimal)obj[4]).doubleValue());
+                info.setAccountout(((BigDecimal)obj[5]).doubleValue());
+                info.setAccountmargin(((BigDecimal)obj[6]).doubleValue());
+                info.setRemark(StringUtils.convertToString(obj[7], ""));
+                info.setDeletetag(StringUtils.convertToString(obj[8], ""));
+                info.setAccountcard(StringUtils.convertToString(obj[9], ""));
+                info.setMargintag(StringUtils.convertToString(obj[10], ""));
+                info.setUserid(StringUtils.convertToString(obj[11], ""));
+                info.setUsername(StringUtils.convertToString(obj[12], ""));
+                info.setMaintype(StringUtils.convertToString(obj[13], ""));
+                info.setSetype(StringUtils.convertToString(obj[14], ""));
+                info.setAccountalertmon(((BigDecimal)obj[15]).doubleValue());
+                resutList.add(info);
+            }
+        }
+        return resutList;
     }
 }

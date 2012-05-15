@@ -366,10 +366,8 @@ public class AccountBaseInfoDAO extends HibernateDaoSupport implements
         }
     }
 	
-	
 	public static AccountBaseInfoDAO getFromApplicationContext(
 			ApplicationContext ctx) {
 		return (AccountBaseInfoDAO) ctx.getBean("AccountBaseInfoDAO");
 	}
-
 }

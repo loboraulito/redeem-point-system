@@ -22,6 +22,8 @@ public interface IAccountAlertService {
     public AccountAlert findById(String id);
 
     public void save(AccountAlert transientInstance);
+    
+    public void update(AccountAlert transientInstance);
 
     public void saveOrUpdate(AccountAlert instance);
 

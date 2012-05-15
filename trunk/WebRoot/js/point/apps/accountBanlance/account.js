@@ -6,9 +6,6 @@ var accountMainTypeStore = parent.accountMainTypeStore;
 accountMainTypeStore.load({params:{codeId:"4028098136ce7b900136ceb23e860001"}});
 //消费次类型
 var accountEnSecondTypeStore = parent.accountEnSecondTypeStore;
-//预算类型
-var budgetTypeStore = parent.budgetTypeStore;
-budgetTypeStore.load({params:{codeId:"ff80808129784c1c01297854b8a60003"}});
 
 //账目明细数据解析器
 var accountReader;
@@ -251,7 +248,7 @@ function accountBalance(){
 		showGroupName: false,
 		enableNoGroups:false, // REQUIRED!
 		hideGroupedColumn: false,
-		groupTextTpl: '{text} ({[values.rs.length]}  条记账信息)          本月设置消费报警值：<font color="red">{[isNaN(parseFloat(values.rs[0].data.accountalertmon))?"未设置":values.rs[0].data.accountalertmon]}</font>（单位：人民币/元）'
+		groupTextTpl: '{text} ({[values.rs.length]}  条记账信息)          本月设置消费报警值：<font color="red">{[(isNaN(parseFloat(values.rs[0].data.accountalertmon)) || parseFloat(values.rs[0].data.accountalertmon) < 0)?"未设置":values.rs[0].data.accountalertmon]}</font>（单位：人民币/元）'
 	});
 	//结算之后，以年度方式来分组显示
 	var balanceGroupView = new Ext.grid.GroupingView({
@@ -259,7 +256,7 @@ function accountBalance(){
 		showGroupName: false,
 		enableNoGroups:false, // REQUIRED!
 		hideGroupedColumn: false,
-		groupTextTpl: '{text} 年度总结          本年度设置总支出警报值：<font color="red">{[isNaN(parseFloat(values.rs[0].data.alertvalue))?"未设置":values.rs[0].data.alertvalue]}</font>（单位：人民币/元）'
+		groupTextTpl: '{text} 年度总结          本年度设置总支出警报值：<font color="red">{[(isNaN(parseFloat(values.rs[0].data.alertvalue)) || parseFloat(values.rs[0].data.alertvalue) < 0)"未设置":values.rs[0].data.alertvalue]}</font>（单位：人民币/元）'
 	});
 	//数据展现样式
 	var accountSM = new Ext.grid.CheckboxSelectionModel();
