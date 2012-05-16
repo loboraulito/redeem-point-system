@@ -303,17 +303,21 @@ function accountInfoGrid(url){
 									try{
 										var msg = Ext.util.JSON.decode(response.responseText);
 										if(msg.success){
+											var msg = "账户信息已成功删除！";
 											if(msg.msg){
-												Ext.Msg.alert("系统提示",msg.msg);
-											}else{
-												Ext.Msg.alert("系统提示","账户信息已成功删除！");
+												msg = msg.msg;
 											}
-											cardInfoStore.reload();
-											//account.cardInfoStore.reload();
-											cardInfosStore.reload();
-											//account.accountGroupStore.reload();
-											//account.accountGrid.getStore().reload();
-											accountGroupStore.reload();
+											showSystemMsg("系统提示信息", msg, function(btn, text) {
+												if (btn == 'ok') {
+													cardInfoStore.reload();
+													//account.cardInfoStore.reload();
+													cardInfosStore.reload();
+													//account.accountGroupStore.reload();
+													//account.accountGrid.getStore().reload();
+													//accountGroupStore.reload();
+													Ext.getCmp("accountGrid").getStore().reload();
+												}
+											});
 										}else{
 											if(msg.msg){
 												Ext.Msg.alert("系统提示",msg.msg);

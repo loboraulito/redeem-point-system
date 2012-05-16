@@ -396,7 +396,10 @@ function accountBalance(){
 	 * see buttonRight.js
 	 * loadButtonRight(buttonStore, mainDataStore, dataGrid, pageDiv, params)
 	 */
-	loadButtonRight(buttonRightStore, accountGroupStore, accountGrid, "account_div");
+	loadButtonRight(buttonRightStore, accountGroupStore, accountGrid, "account_div", null, null, function(){
+		// 检查用户是否存在账户列表, 若不存在, 系统自动创建一个默认账户
+		checkAccountList();
+	});
 	
 	/**
 	 * 显示超链接
@@ -1128,6 +1131,22 @@ function accountBalance(){
 		return accountInForm;
 	}
 	/**
+	 * 检查用户账户列表
+	 */
+	function checkAccountList(){
+		if(cardInfosStore.getTotalCount() < 1){
+			var btn = Ext.getCmp("account_info_btn_manage");
+			var url;
+			if(btn){
+				url = btn.handlerUrl;
+				Ext.Msg.alert("系统提示", "您还没有设置您的账户信息！系统将跳转到账户信息设置页面...", function(btn){
+					myAccountInfoManage(path + url);
+				});
+			}
+		}
+	}
+	
+	/**
 	 * 保存账目信息
 	 * @param form
 	 * @param windowId
@@ -1245,7 +1264,7 @@ var cardInfosStore = new Ext.data.Store({
 	reader:cardInfoReader,
 	baseParams:{userName:userName}
 });
-cardInfosStore.load();
+
 
 /**
  * 程序主入口
@@ -1253,5 +1272,9 @@ cardInfosStore.load();
 Ext.onReady(function(){
 	Ext.QuickTips.init();
 	Ext.form.Field.prototype.msgTarget = 'side';
-	accountBalance();
+	cardInfosStore.load({
+		callback:function(){
+			accountBalance();
+		}
+	});
 });
