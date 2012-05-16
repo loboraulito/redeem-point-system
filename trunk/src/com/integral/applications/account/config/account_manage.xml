@@ -64,5 +64,15 @@
         	 <result name="success">/jsp/apps/account/account.jsp</result>
              <result name="input">/index.jsp</result>
         </action>
+        <!-- 账目统计报表 -->
+        <action name="accountReport" class="com.integral.applications.account.action.AccountManageAction" method="accountReport">
+        	 <result name="success">/jsp/apps/account/account.jsp</result>
+             <result name="input">/index.jsp</result>
+        </action>
+        <!-- 账目备份同步 -->
+        <action name="accountBackup" class="com.integral.applications.account.action.AccountManageAction" method="accountBackup">
+        	 <result name="success">/jsp/apps/account/account.jsp</result>
+             <result name="input">/index.jsp</result>
+        </action>
 	</package>
 </struts>

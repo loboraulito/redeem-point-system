@@ -600,6 +600,26 @@ public class AccountManageAction extends BaseAction {
         return null;
     }
     
+    /**
+     * <p>Discription:[统计报表]</p>
+     * @return
+     * @author:[代超]
+     * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
+     */
+    public String accountReport(){
+        return null;
+    }
+    
+    /**
+     * <p>Discription:[备份同步]</p>
+     * @return
+     * @author:[代超]
+     * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
+     */
+    public String accountBackup(){
+        return null;
+    }
+    
     public IAccountAlertService getAccountAlertService() {
         return accountAlertService;
     }
