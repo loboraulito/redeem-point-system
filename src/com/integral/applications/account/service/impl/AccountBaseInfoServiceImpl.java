@@ -260,9 +260,8 @@ public class AccountBaseInfoServiceImpl implements IAccountBaseInfoService {
         		" and model.username = alert.username ) where model.username=?";
         //List list = this.accountDao.queryAccountBaseInfoBudgetPage(sql, start, limit, paramMap);
         List<Object []> list = this.baseDao.queryListByPageByJDBC(sql, start, limit, paramMap.values().toArray());
-        List<AccountBaseInfo> resutList = null;
+        List<AccountBaseInfo> resutList = new ArrayList<AccountBaseInfo>();;
         if(list != null && !list.isEmpty()){
-            resutList = new ArrayList<AccountBaseInfo>(list.size());
             for(int i=0, j = list.size(); i<j; i++){
                 Object []obj = list.get(i);
                 AccountBaseInfo info = new AccountBaseInfo();
