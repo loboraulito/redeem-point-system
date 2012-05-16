@@ -342,34 +342,45 @@ function authorize(){
         	layout:"border",
         	items:[{
         		region : 'north',
-        		split : true,
+        		split : false,
         		layout:"fit",
         		border:false,
         		height:Ext.get("authorize_right_div").getHeight()/2-50,
         		items:[roleGrid]
         	},{
-        		region : 'center',
-        		split : true,
+        		region : 'west',
+        		width:Ext.get("authorize_right_div").getWidth()/2,
+        		split : false,
         		layout:"fit",
         		border:false,
         		items:[{
-        			xtype:"tabpanel",
+        			xtype:"panel",
         			//title:"系统权限",
         			//layout:"fit",
-        			activeTab:0,
         			border:false,
-        			deferredRender:false,
-        			layoutOnTabChange:true,//当activeTab改变的时候，执行doLayout
         			items:[{
+        				height:Ext.get("authorize_right_div").getHeight()/2 + 23,
         				layout:"fit",
-        				title:"角色用户",
+        				title:"系统用户",
         				border:false,
         				id:"roleUserPanel",
         				items:[userGrid]
-        			},{
-        				title:"角色菜单",
+        			}]
+        		}]
+        	},{
+        		region : "center",
+        		split : false,
+        		layout:"fit",
+        		border:false,
+        		items:[{
+        			xtype:"panel",
+        			border:false,
+        			items:[{
+        				height:Ext.get("authorize_right_div").getHeight()/2 + 23,
         				layout:"fit",
+        				title:"系统菜单",
         				border:false,
+        				items:[treePanel],
         				tbar:[{
 	        				text:"刷新权限树",
 	        				iconCls:"table_refresh",
@@ -395,8 +406,7 @@ function authorize(){
 						        var url = Ext.getCmp("authorize_rught_menu").handlerUrl;
 						        saveAuthorizeRoleMenu(url, roleId, checkedNode);
 	        				}
-	        			}],
-        				items:[treePanel]        				
+	        			}]
         			}]
         		}]
         	}]
@@ -772,7 +782,7 @@ function authorize(){
 		auGroupReader.load({
 			params:{start:0,limit:50}
 		});
-	}
+	};
 	
 	function showWindow(id, title, width, height, items, buttons){
 		var userWindow = new Ext.Window({
@@ -837,7 +847,7 @@ function authorize(){
 				});
 			}
 		});
-	}
+	};
 	
 }
 
