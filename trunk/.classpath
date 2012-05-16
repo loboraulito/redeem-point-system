@@ -76,10 +76,6 @@
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/struts2-core-2.1.8.1.jar" sourcepath="C:/Documents and Settings/cdai/.m2/repository/org/apache/struts/struts2-core/2.1.8.1/struts2-core-2.1.8.1-sources.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/struts2-spring-plugin-2.1.8.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/xwork-core-2.1.6.jar" sourcepath="C:/Documents and Settings/cdai/.m2/repository/com/opensymphony/xwork-core/2.1.6/xwork-core-2.1.6-sources.jar"/>
-	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/poi-3.7-20101029.jar" sourcepath="F:/java/java的一些主流框架/操作excel/POI/3.7/poi-src-3.7-20101029.zip"/>
-	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/poi-ooxml-3.7-20101029.jar"/>
-	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/poi-ooxml-schemas-3.7-20101029.jar"/>
-	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/poi-scratchpad-3.7-20101029.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/xmlbeans-2.4.0.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/ant.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/jbpm/jbpm-bam-5.1.0.Final.jar"/>
@@ -141,5 +137,11 @@
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/activemq-all-5.5.1.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/org.springframework.jms-3.0.5.RELEASE.jar" sourcepath="WebRoot/WEB-INF/lib/org.springframework.jms-3.0.5.RELEASE-sources.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/dwr.jar" sourcepath="WebRoot/WEB-INF/lib/dwr-src.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/poi-3.8-20120326.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/poi-excelant-3.8-20120326.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/poi-ooxml-3.8-20120326.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/poi-ooxml-schemas-3.8-20120326.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/poi-scratchpad-3.8-20120326.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/stax-api-1.0.1.jar"/>
 	<classpathentry kind="output" path="WebRoot/WEB-INF/classes"/>
 </classpath>
