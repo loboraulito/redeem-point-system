@@ -535,3 +535,10 @@ function enableDWRAjax(bool){
 	dwr.engine.setActiveReverseAjax(bool);
 }
 //enableDWRAjax(true);
+
+/**
+ * 禁用网页上下文(鼠标右键)，仅仅用于发布正式版本
+ */
+Ext.getBody().on('contextmenu', function(e) {
+	//e.stopEvent();
+});
