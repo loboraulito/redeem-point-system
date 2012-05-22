@@ -756,8 +756,93 @@ function accountBalance(){
 		var budget = new accountBudgetManage(url);
 		showAccountWindow("budgetWindow", "我的账目预算", 600, 350, budget.getBudgetGrid(), null, null);
 	};
-	
+	/**
+	 * 备份同步
+	 */
+	this.accountBackup = function(url){
+		var uploadForm = getBackupForm(url);
+		var tab = getAccountTabPanel(uploadForm);
+		var button = [{
+			text:"保存",
+			handler:function(){
+				if(uploadForm && uploadForm.form.isValid()){
+					
+				}
+			}
+		},{
+			text:"取消",
+			handler:function(){
+				var w = Ext.getCmp("accountBackupWindow");
+				if(w) w.close();
+			}
+		}];
+		showAllWindow("accountBackupWindow", "账目备份同步", 600, 300, tab, null, null, true);
+	};
 	//========================通用功能区==========================================
+	function getBackupForm(uri){
+		var isTrue = false;
+		var importForm = new Ext.form.FormPanel({
+			url:uri,
+			title:"账目信息恢复",
+			frame: true,
+			labelAlign: 'right',
+			labelWidth:70,
+			autoScroll:false,
+			waitMsgTarget:true,
+			viewConfig:{forceFit:true},
+			fileUpload: true,
+	        items:[{
+				xtype: 'fileuploadfield',
+	            id: 'accountFile',
+	            width:250,
+	            emptyText: '请选择您要上传的账目文件',
+	            fieldLabel: '文件',
+	            name: 'accountFile',
+	            allowBlank:false,
+	            buttonCfg: {
+	                text: '选择文件'
+	            },
+	            validator : function(){
+	            	return isTrue;
+	            },
+	            listeners:{
+	            	"fileselected":function(fb,v){
+	            		var extName = v.substr(v.lastIndexOf(".")+1);
+	            		if(extName!="xls" && extName != "xlsx"){
+	            			Ext.Msg.alert("提示信息","请您选择Excel文件！");
+	            			isTrue = false;
+	            		}else{
+	            			isTrue = true;
+	            		}
+	            	}
+	            }
+			}],
+			bbar:["->",
+			   new Ext.Button({
+				   text:"保存",
+				   buttonCss:"table_save",
+				   handler:function(){
+					   if(importForm && importForm.form.isValid()){
+						   
+					   }
+				   }
+			   }),
+			   "-",
+			   new Ext.Button({
+				   text:"取消",
+				   buttonCss:"table",
+				   handler:function(){
+					   var w = Ext.getCmp("accountBackupWindow");
+					   if(w) w.close();
+				   }
+			   }),
+			]
+		});
+		return importForm;
+	}
+	/**
+	 * 获取账目信息tab面板
+	 */
 	function getAccountTabPanel(items){
 		var tab = new Ext.TabPanel({
 			activeTab: 0,
