@@ -124,4 +124,9 @@
             <ref bean="sessionFactory"/>
         </property>
     </bean>
+    <bean class="com.integral.system.systembackup.dao.impl.SystemBackupDaoImpl" id="SystemBackupDao">
+        <property name="sessionFactory">
+            <ref bean="sessionFactory"/>
+        </property>
+    </bean>
 </beans>
