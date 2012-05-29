@@ -54,6 +54,23 @@ var rightStore;
  * 账户信息
  */
 var bankAccountStore;
+/**
+ * 备份文件信息
+ */
+var backFileStore;
+/**
+ * 备份文件信息解析
+ */
+var backFileReader;
+/**
+ * 备份设置解析
+ */
+var backSettingReader;
+/**
+ * 备份设置数据
+ */
+var backSettingStore;
+
 function accountBalance(){
 	
 	//账目明细数据解析器
@@ -96,6 +113,33 @@ function accountBalance(){
 			{name:"begindate"},//开始日期
 			{name:"enddate"},//结束日期
 			{name:"remark"}//备注
+		]);
+	}
+	
+	if(!backFileReader){
+		backFileReader = new Ext.data.JsonReader({
+			totalProperty:"totalCount",
+			root:"backinfo"
+		},[
+			{name:"backDate"},//备份时间
+			{name:"fileName"},//备份文件
+			{name:"backFileId"},//备份文件id
+			{name:"backType"},//备份类型
+			{name:"username"}//用户名
+		]);
+	}
+	
+	if(!backSettingReader){
+		backSettingReader = new Ext.data.JsonReader({
+			totalProperty:"totalCount",
+			root:"backsetting"
+		},[
+			{name:"id"},//备份时间
+			{name:"backType"},//备份类型
+			{name:"backValue"},
+			{name:"cronValue"},//Cron表达式
+			{name:"userName"},//用户名
+			{name:"backTime"}//备份时间
 		]);
 	}
 	
@@ -170,6 +214,26 @@ function accountBalance(){
     Ext.grid.GroupSummary.Calculations['balanceYear'] = function(v, record, field){
         return (record.data.balanceyear) +" 年度总结";
     };
+    
+    if(!backFileStore){
+    	backFileStore = new Ext.data.Store({
+    		proxy:new Ext.data.HttpProxy({
+				url:path+"/systembackup/backupList.action?method=backupList"
+			}),
+			reader:backFileReader,
+			baseParams:{userName:userName, backType:"accountBanlance"}
+    	});
+    }
+    
+    if(!backSettingStore){
+    	backSettingStore = new Ext.data.Store({
+    		proxy:new Ext.data.HttpProxy({
+				url:path+"/systembackup/backupSettingList.action?method=getBackupSettingList"
+			}),
+			reader:backSettingReader,
+			baseParams:{userName:userName}
+    	});
+    }
     
     //主数据分组显示
     if(!accountGroupStore){
@@ -760,26 +824,76 @@ function accountBalance(){
 	 * 备份同步
 	 */
 	this.accountBackup = function(url){
-		var uploadForm = getBackupForm(url);
-		var tab = getAccountTabPanel(uploadForm);
-		var button = [{
-			text:"保存",
-			handler:function(){
-				if(uploadForm && uploadForm.form.isValid()){
+		var uploadForm = getRestoreForm(url);
+		var restoreForm = getBackupForm(url);
+		var setForm = setBackupForm(url);
+		var form = [uploadForm, restoreForm, setForm];
+		var tab = getAccountTabPanel(form);
+		showAllWindow("accountBackupWindow", "账目备份同步", 600, 250, tab, null, null, true);
+		backSettingStore.load({
+			callback:function(records, opstions, success){
+				if(records && records.length > 0){
+					var backType = records[0].get("backType");
+					var backValue = records[0].get("backValue");
+					var backTime = records[0].get("backTime");
+					setForm.form.findField("id").setValue(records[0].get("id"));
+					setForm.form.findField("backType").setValue(backType);
+					setForm.form.findField("backValue").setValue(backValue);
+					setForm.form.findField("backTime").setValue(backTime);
+					
+					if(backType == "day"){
+						Ext.getCmp("backDay").setValue(backValue);
+						Ext.getCmp("backTime1").setValue(backTime);
+						
+						Ext.getCmp("dataId1").setValue(true);
+						Ext.getCmp("dataId2").setValue(false);
+						Ext.getCmp("dataId3").setValue(false);
+						
+						Ext.getCmp("backDay").setDisabled(false);
+						Ext.getCmp("backWeek").setDisabled(true);
+						Ext.getCmp("backMonth").setDisabled(true);
+						
+						Ext.getCmp("backTime1").setDisabled(false);
+						Ext.getCmp("backTime2").setDisabled(true);
+						Ext.getCmp("backTime3").setDisabled(true);
+					}else if(backType == "week"){
+						Ext.getCmp("backWeek").setValue(backValue);
+						Ext.getCmp("backTime2").setValue(backTime);
+						
+						Ext.getCmp("dataId1").setValue(false);
+						Ext.getCmp("dataId2").setValue(true);
+						Ext.getCmp("dataId3").setValue(false);
+						
+						Ext.getCmp("backDay").setDisabled(true);
+						Ext.getCmp("backWeek").setDisabled(false);
+						Ext.getCmp("backMonth").setDisabled(true);
+						
+						Ext.getCmp("backTime1").setDisabled(true);
+						Ext.getCmp("backTime2").setDisabled(false);
+						Ext.getCmp("backTime3").setDisabled(true);
+					}else if(backType = "month"){
+						Ext.getCmp("backMonth").setValue(backValue);
+						Ext.getCmp("backTime3").setValue(backTime);
+						
+						Ext.getCmp("dataId1").setValue(false);
+						Ext.getCmp("dataId2").setValue(false);
+						Ext.getCmp("dataId3").setValue(true);
+						
+						Ext.getCmp("backDay").setDisabled(true);
+						Ext.getCmp("backWeek").setDisabled(true);
+						Ext.getCmp("backMonth").setDisabled(false);
+						
+						Ext.getCmp("backTime1").setDisabled(true);
+						Ext.getCmp("backTime2").setDisabled(true);
+						Ext.getCmp("backTime3").setDisabled(false);
+					}
 					
 				}
 			}
-		},{
-			text:"取消",
-			handler:function(){
-				var w = Ext.getCmp("accountBackupWindow");
-				if(w) w.close();
-			}
-		}];
-		showAllWindow("accountBackupWindow", "账目备份同步", 600, 300, tab, null, null, true);
+		});
 	};
 	//========================通用功能区==========================================
-	function getBackupForm(uri){
+	function getRestoreForm(uri){
 		var isTrue = false;
 		var importForm = new Ext.form.FormPanel({
 			url:uri,
@@ -791,36 +905,40 @@ function accountBalance(){
 			waitMsgTarget:true,
 			viewConfig:{forceFit:true},
 			fileUpload: true,
-	        items:[{
-				xtype: 'fileuploadfield',
-	            id: 'accountFile',
-	            width:250,
-	            emptyText: '请选择您要上传的账目文件',
-	            fieldLabel: '文件',
-	            name: 'accountFile',
-	            allowBlank:false,
-	            buttonCfg: {
-	                text: '选择文件'
-	            },
-	            validator : function(){
-	            	return isTrue;
-	            },
-	            listeners:{
-	            	"fileselected":function(fb,v){
-	            		var extName = v.substr(v.lastIndexOf(".")+1);
-	            		if(extName!="xls" && extName != "xlsx"){
-	            			Ext.Msg.alert("提示信息","请您选择Excel文件！");
-	            			isTrue = false;
-	            		}else{
-	            			isTrue = true;
-	            		}
-	            	}
-	            }
-			}],
-			bbar:["->",
+			items:[{
+	        	xtype:"fieldset",
+	        	height:145,
+	        	title:"请选择账目文件上传",
+	        	items:[{
+					xtype: 'fileuploadfield',
+		            name: 'accountFile',
+		            width:250,
+		            emptyText: '请选择您要上传的账目文件',
+		            fieldLabel: '文件',
+		            allowBlank:false,
+		            buttonCfg: {
+		                text: '选择文件'
+		            },
+		            validator : function(){
+		            	return isTrue;
+		            },
+		            listeners:{
+		            	"fileselected":function(fb,v){
+		            		var extName = v.substr(v.lastIndexOf(".")+1);
+		            		if(extName!="xls" && extName != "xlsx"){
+		            			Ext.Msg.alert("提示信息","请您选择Excel文件！");
+		            			isTrue = false;
+		            		}else{
+		            			isTrue = true;
+		            		}
+		            	}
+		            }
+				}]
+	        }],
+			bbar:["->","-",
 			   new Ext.Button({
-				   text:"保存",
-				   buttonCss:"table_save",
+				   text:"上传账目文件",
+				   iconCls :"table_save",
 				   handler:function(){
 					   if(importForm && importForm.form.isValid()){
 						   
@@ -830,7 +948,7 @@ function accountBalance(){
 			   "-",
 			   new Ext.Button({
 				   text:"取消",
-				   buttonCss:"table",
+				   iconCls:"table",
 				   handler:function(){
 					   var w = Ext.getCmp("accountBackupWindow");
 					   if(w) w.close();
@@ -840,6 +958,357 @@ function accountBalance(){
 		});
 		return importForm;
 	}
+	/**
+	 * 下载备份文件
+	 * @param uri
+	 * @returns {Ext.form.FormPanel}
+	 */
+	function getBackupForm(uri){
+		var url = path + "/systembackup/backupDownload.action?method=backupDownload";
+		var sysForm = new Ext.form.FormPanel({
+			//url:uri,
+			onSubmit:Ext.emptyFn,
+			submit:function(){
+				this.getEl().dom.action = url;
+				this.getEl().dom.target = "targetFram";
+				this.getEl().dom.submit();
+			},
+			title:"账目信息备份",
+			frame: true,
+			labelAlign: 'right',
+			labelWidth:70,
+			autoScroll:false,
+			waitMsgTarget:true,
+			viewConfig:{forceFit:true},
+			layout:"fit",
+	        items:[new Ext.grid.GridPanel({
+        		collapsible:true,//是否可以展开
+        		animCollapse:true,//展开时是否有动画效果
+        		autoScroll:true,
+        		loadMask:true,//载入遮罩动画（默认）
+        		frame:true,
+        		autoShow:true,		
+        		store:backFileStore,
+        		columns:[{
+        			header:"备份时间", dataIndex:"backDate"
+        		},{
+        			header:"文件名", dataIndex:"fileName"
+        		},{
+        			dataIndex:"backFileId", hidden :true, hideable :false
+        		}],
+        		sm:new Ext.grid.RowSelectionModel({singleSelect:true}),
+        		viewConfig:{forceFit:true},//若父容器的layout为fit，那么强制本grid充满该父容器
+        		split: true,
+        		//columnLines:true,
+        		stripeRows: true,
+        		bbar:new Ext.PagingToolbar({
+        			pageSize:50,//每页显示数
+        			store:backFileStore,
+        			displayInfo:true,
+        			displayMsg:"显示{0}-{1}条记录，共{2}条记录",
+        			nextText:"下一页",
+        			prevText:"上一页",
+        			emptyMsg:"无相关记录"
+        		})
+        	}),{
+	        	xtype:"hidden",
+	        	name:"backFileId"
+	        }],
+			bbar:["->","-",
+			   new Ext.Button({
+				   text:"下载备份文件",
+				   iconCls :"table_save",
+				   handler:function(){
+					   var grid = sysForm.getComponent(0);
+					   var selectModel = grid.getSelectionModel();
+					   var selections = selectModel.getSelections();
+					   if(!selections || selections.length != 1){
+						   showSystemMsg("系统提示", "请选择一个备份文件下载！");
+						   return;
+					   }
+					   //parent.downloadBackFile(selections[0].get("backFileId"));
+					   sysForm.form.findField("backFileId").setValue(selections[0].get("backFileId"));
+					   sysForm.getForm().submit();
+				   }
+			   }),
+			   "-",
+			   new Ext.Button({
+				   text:"取消",
+				   iconCls:"table",
+				   handler:function(){
+					   var w = Ext.getCmp("accountBackupWindow");
+					   if(w) w.close();
+				   }
+			   }),
+			]
+		});
+		backFileStore.load({params:{start:0, limit:50}});
+		return sysForm;
+	}
+	/**
+	 * 账目信息备份恢复设置
+	 * @param uri
+	 * @returns {Ext.form.FormPanel}
+	 */
+	function setBackupForm(uri){
+		var url = path + "/systembackup/backupSetting.action?method=systemBackupSetting";
+		var setForm = new Ext.form.FormPanel({
+			url:url,
+			title:"账目信息备份恢复设置",
+			frame: true,
+			labelAlign: 'right',
+			labelWidth:60,
+			autoScroll:false,
+			waitMsgTarget:true,
+			viewConfig:{forceFit:true},
+	        items:[{
+	        	xtype:"fieldset",
+	        	height:145,
+	        	title:"请设置账目备份时间",
+	        	items:[{
+	        		layout:"column",
+	        		items:[{
+						layout:"form",
+						columnWidth:0.2,
+						items:[{
+							xtype:"radio", fieldLabel: '按天备份', name: 'dataId',id:"dataId1",inputValue :"day", checked:true,
+							listeners :{
+								"check":function(thiz, checked){
+									if(checked){
+										Ext.getCmp("backDay").setDisabled(false);
+										Ext.getCmp("backWeek").setDisabled(true);
+										Ext.getCmp("backMonth").setDisabled(true);
+										
+										Ext.getCmp("backTime1").setDisabled(false);
+										Ext.getCmp("backTime2").setDisabled(true);
+										Ext.getCmp("backTime3").setDisabled(true);
+									}
+								}
+							}
+						}]
+					},{
+						layout:"form",
+						columnWidth:0.5,
+						labelWidth:140,
+						items:[{
+							xtype:"combo", fieldLabel: '请选择每几天备份一次', name: 'backDay', id:"backDay",
+							store:new Ext.data.SimpleStore({
+								fields :["key","value"],
+								data :[["每一天","1"],["每三天","3"],["每五天","5"],["每十天","10"],["每二十天","20"],["每三十天","30"],["每六十天","60"],["每一百天","100"]]
+							}),
+							valueField:"value",//将codeid设置为传递给后台的值
+							displayField:"key",
+							hiddenName:"value",//这个值就是传递给后台获取的值
+							mode: "local",
+							anchor:"90%",
+							triggerAction:"all",
+							allowBlank:false,
+							editable:false,
+							listeners : {
+								"change":function(thiz, newValue, oldValue){
+									setForm.form.findField("backType").setValue("day");
+									setForm.form.findField("backValue").setValue(newValue);
+								}
+							}
+						}]
+					},{
+						layout:"form",
+						columnWidth:0.3,
+						labelWidth:80,
+						items:[{
+							xtype:"timefield",
+							name:"backTime1",
+							id:"backTime1",
+							allowBlank:false,
+							width:60,
+							anchor:"87%",
+							fieldLabel:"备份触发时间",
+							format :"H:i",
+							listeners :{
+								"change":function(thiz, newValue, oldValue){
+									setForm.form.findField("backTime").setValue(newValue);
+								}
+							}
+						}]
+					}]
+	        	},{
+	        		layout:"column",
+	        		items:[{
+						layout:"form",
+						columnWidth:0.2,
+						items:[{
+							xtype:"radio", fieldLabel: '按周备份', name: 'dataId',id:"dataId2",inputValue :"week",
+							listeners :{
+								"check":function(thiz, checked){
+									if(checked){
+										Ext.getCmp("backDay").setDisabled(true);
+										Ext.getCmp("backWeek").setDisabled(false);
+										Ext.getCmp("backMonth").setDisabled(true);
+										
+										Ext.getCmp("backTime1").setDisabled(true);
+										Ext.getCmp("backTime2").setDisabled(false);
+										Ext.getCmp("backTime3").setDisabled(true);
+									}
+								}
+							}
+						}]
+					},{
+						layout:"form",
+						columnWidth:0.5,
+						labelWidth:140,
+						items:[{
+							xtype:"combo", fieldLabel: '请选择每周几备份一次', name: 'backWeek', id:"backWeek",
+							store:new Ext.data.SimpleStore({
+								fields :["key","value"],
+								data :[["周一","MON"],["周二","TUE"],["周三","WED"],["周四","THU"],["周五","FRI"],["周六","SAT"],["周七","SUN"]]
+							}),
+							valueField:"value",//将codeid设置为传递给后台的值
+							displayField:"key",
+							hiddenName:"value",//这个值就是传递给后台获取的值
+							mode: "local",
+							anchor:"90%",
+							disabled:true,
+							allowBlank:false,
+							triggerAction:"all",
+							editable:false,
+							listeners : {
+								"change":function(thiz, newValue, oldValue){
+									setForm.form.findField("backType").setValue("week");
+									setForm.form.findField("backValue").setValue(newValue);
+								}
+							}
+						}]
+					},{
+						layout:"form",
+						columnWidth:0.3,
+						labelWidth:80,
+						items:[{
+							xtype:"timefield",
+							name:"backTime2",
+							id:"backTime2",
+							disabled:true,
+							allowBlank:false,
+							width:60,
+							anchor:"87%",
+							fieldLabel:"备份触发时间",
+							format :"H:i",
+							listeners :{
+								"change":function(thiz, newValue, oldValue){
+									setForm.form.findField("backTime").setValue(newValue);
+								}
+							}
+						}]
+					}]
+	        	},{
+	        		layout:"column",
+					items:[{
+						layout:"form",
+						columnWidth:0.2,
+						items:[{
+							xtype:"radio", fieldLabel: '按月备份', name: 'dataId',id:"dataId3",inputValue :"month",
+							listeners :{
+								"check":function(thiz, checked){
+									if(checked){
+										Ext.getCmp("backDay").setDisabled(true);
+										Ext.getCmp("backWeek").setDisabled(true);
+										Ext.getCmp("backMonth").setDisabled(false);
+										
+										Ext.getCmp("backTime1").setDisabled(true);
+										Ext.getCmp("backTime2").setDisabled(true);
+										Ext.getCmp("backTime3").setDisabled(false);
+									}
+								}
+							}
+						}]
+					},{
+						layout:"form",
+						columnWidth:0.5,
+						labelWidth:140,
+						items:[{
+							xtype:"combo", fieldLabel: '请选择每月几日备份一次', name: 'backMonth', id:"backMonth",
+							store:new Ext.data.SimpleStore({
+								fields :["key","value"],
+								data :[["每月一日","1"],["每月二日","2"],["每月三日","3"],["每月十日","10"],["每月十五日","15"],["每月二十五日","25"],["每月最后一天","end"]]
+							}),
+							valueField:"value",//将codeid设置为传递给后台的值
+							displayField:"key",
+							hiddenName:"value",//这个值就是传递给后台获取的值
+							mode: "local",
+							anchor:"90%",
+							allowBlank:false,
+							disabled:true,
+							triggerAction:"all",
+							editable:false,
+							listeners : {
+								"change":function(thiz, newValue, oldValue){
+									setForm.form.findField("backType").setValue("month");
+									setForm.form.findField("backValue").setValue(newValue);
+								}
+							}
+						}]
+					},{
+						layout:"form",
+						columnWidth:0.3,
+						labelWidth:80,
+						items:[{
+							xtype:"timefield",
+							name:"backTime3",
+							id:"backTime3",
+							anchor:"87%",
+							allowBlank:false,
+							disabled:true,
+							width:60,
+							fieldLabel:"备份触发时间",
+							format :"H:i",
+							listeners :{
+								"change":function(thiz, newValue, oldValue){
+									setForm.form.findField("backTime").setValue(newValue);
+								}
+							}
+						}]
+					}]
+	        	},{
+	        		xtype:"hidden",
+	        		name:"backType"
+	        	},{
+	        		xtype:"hidden",
+	        		name:"backValue"
+	        	},{
+	        		xtype:"hidden",
+	        		name:"userName",
+	        		value:userName
+	        	},{
+	        		xtype:"hidden",
+	        		name:"backTime",
+	        	},{
+	        		xtype:"hidden",
+	        		name:"id"
+	        	}]
+	        }],
+			bbar:["->","-",
+			   new Ext.Button({
+				   text:"保存设置",
+				   iconCls :"table_save",
+				   handler:function(){
+					   if(setForm && setForm.form.isValid()){
+						   saveBackupSetting("accountBackupWindow", setForm);
+					   }
+				   }
+			   }),
+			   "-",
+			   new Ext.Button({
+				   text:"取消",
+				   iconCls:"table",
+				   handler:function(){
+					   var w = Ext.getCmp("accountBackupWindow");
+					   if(w) w.close();
+				   }
+			   }),
+			]
+		});
+		return setForm;
+	}
+	
 	/**
 	 * 获取账目信息tab面板
 	 */
@@ -1229,6 +1698,63 @@ function accountBalance(){
 				});
 			}
 		}
+	}
+	/**
+	 * 保存账目备份信息
+	 * @param windowId
+	 * @param form
+	 */
+	function saveBackupSetting(windowId, form){
+		Ext.MessageBox.show({
+			msg:"正在保存账目备份信息，请稍候...",
+			progressText:"正在保存账目备份信息，请稍候...",
+			width:300,
+			wait:true,
+			waitConfig: {interval:200},
+			icon:Ext.Msg.INFO
+		});
+		form.getForm().submit({
+			timeout:60000,
+			success: function(form, action) {
+				Ext.Msg.hide();
+				try{
+					var result = Ext.decode(action.response.responseText);
+					if(result && result.success){
+						var msg = "账目备份设置信息保存成功！";
+						if(result.msg){
+							msg = result.msg;
+						}
+						showSystemMsg("系统提示信息", msg, function(btn, text) {
+							if (btn == 'ok') {
+								backSettingStore.reload();
+								Ext.getCmp(windowId).close();
+							}
+						});
+					}else if(!result.success){
+						var msg = "账目备份设置信息保存失败，请检查您所填信息是否完整无误！";
+						if(result.msg){
+							msg = result.msg;
+						}
+						Ext.Msg.alert('系统提示信息', msg);
+					}
+				}catch(e){
+					Ext.Msg.alert('系统提示信息', "系统错误，错误代码："+e);
+				}
+			},
+			failure: function(form, action) {//action.result.errorMessage
+				Ext.Msg.hide();
+				var msg = "账目备份信息保存失败，请检查您的网络连接或者联系管理员！";
+				try{
+					var result = Ext.decode(action.response.responseText);
+					if(result.msg){
+						msg = result.msg;
+					}
+				}catch(e){
+					msg = "系统错误，错误代码：" + e;
+				}
+				Ext.Msg.alert('系统提示信息', msg);
+			}
+		});
 	}
 	
 	/**

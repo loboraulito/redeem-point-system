@@ -20,7 +20,7 @@ function indexPage(){
         title: '菜单信息',
         region: 'center',
         border:false,
-        bodyStyle: 'padding-bottom:0px;background:#eee;overflow-x:hidden;overflow-y:hidden;',
+        bodyStyle: 'padding-bottom:0px;background:#eee;overflow-x:hidden;',
 		autoScroll: true,
 		layout:"accordion",
 		tbar:[{
