@@ -22,6 +22,7 @@ import com.integral.applications.account.service.IAccountCardInfoService;
 import com.integral.applications.account.service.IBalanceInfoService;
 import com.integral.applications.account.service.IBalanceRightService;
 import com.integral.common.action.BaseAction;
+import com.integral.system.systembackup.service.ISystemBackupService;
 import com.integral.util.RequestUtil;
 import com.integral.util.Tools;
 
@@ -51,7 +52,10 @@ public class AccountManageAction extends BaseAction {
      */
     private IAccountCardInfoService accountCardService;
     private DataSourceTransactionManager transactionManager;
-    
+    /**
+     * 系统备份
+     */
+    private ISystemBackupService systemBackupService;
     private int start;
     private int limit;
     private String userName;
@@ -619,6 +623,15 @@ public class AccountManageAction extends BaseAction {
     public String accountBackup(){
         return null;
     }
+    /**
+     * <p>Discription:[备份文件列表]</p>
+     * @return
+     * @author:[代超]
+     * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
+     */
+    public String accountBackupFileList(){
+        return null;
+    }
     
     public IAccountAlertService getAccountAlertService() {
         return accountAlertService;
@@ -709,5 +722,11 @@ public class AccountManageAction extends BaseAction {
     }
     public void setBudgetListId(String budgetListId) {
         this.budgetListId = budgetListId;
+    }
+    public ISystemBackupService getSystemBackupService() {
+        return systemBackupService;
+    }
+    public void setSystemBackupService(ISystemBackupService systemBackupService) {
+        this.systemBackupService = systemBackupService;
     }
 }
