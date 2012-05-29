@@ -720,6 +720,7 @@ function codeListDataManage(){
 			onSubmit:Ext.emptyFn,
 			submit:function(){
 				this.getEl().dom.action = url;
+				this.getEl().dom.target = "targetFram";
 				this.getEl().dom.submit();
 			},
 			items:[{
