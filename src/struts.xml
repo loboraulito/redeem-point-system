@@ -54,4 +54,6 @@
 	<include file="com/integral/system/message/config/message.xml"></include>
     <!-- 账目管理 -->
     <include file="com/integral/applications/account/config/account_manage.xml"></include>
+    <!-- 系统备份 -->
+    <include file="com/integral/system/systembackup/config/systembackup.xml"></include>
 </struts>
