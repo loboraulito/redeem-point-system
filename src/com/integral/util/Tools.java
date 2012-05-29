@@ -607,6 +607,51 @@ public class Tools {
         String date = year +"-1-1";
         return addDateToDay(StringToDate(date), days - 1);
     }
+    /**
+     * <p>Discription:[组装Cron表达式，用于自动执行脚本]</p>
+     * @param type
+     * @param value
+     * @param time
+     * @return
+     * @author:[代超]
+     * @throws ParseException 
+     * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
+     */
+    public static String getCronValue(String type, String value, String time) throws ParseException{
+        if(time == null || "".equals(time)){
+            time = "00:00";
+        }
+        String cronTime = "";
+        String daily = "";
+        String weekly = "";
+        String monthly = "";
+        String cron = "";
+        try {
+            cronTime = dateToString(StringToDate(time, "HH:mm"),"ss mm HH");
+            //每几天
+            if("day".equals(type)){
+                daily = "1/"+value;
+                cron = cronTime + " " + daily + " * ? *";
+            //周几
+            }else if("week".equals(type)){
+                weekly = value;
+                cron = cronTime + " ? * " + weekly + " *";
+            //每月几号
+            }else if("month".equals(type)){
+                if("end".equals(value)){
+                    monthly = "L";
+                }else{
+                    monthly = value;
+                }
+                cron = cronTime + " " + monthly + " * ? *";
+            }
+        }
+        catch (ParseException e) {
+            e.printStackTrace();
+            throw e;
+        }
+        return cron;
+    }
     
     public static void iLoveBaby() throws ParseException{
         Date today = StringToDate(dateToString(new Date(),"yyyy-MM-dd"));

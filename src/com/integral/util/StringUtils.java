@@ -31,5 +31,17 @@ public class StringUtils {
         }
         return obj.toString();
     }
-
+    /**
+     * <p>Discription:[把\符号转换成\\符号，避免转义字符]</p>
+     * @param str
+     * @return
+     * @author:[代超]
+     * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
+     */
+    public static String convertChar(String str){
+        if(str == null || "".equals(str.trim())){
+            return "";
+        }
+        return str.replaceAll("\\\\", "\\\\\\\\");
+    }
 }
