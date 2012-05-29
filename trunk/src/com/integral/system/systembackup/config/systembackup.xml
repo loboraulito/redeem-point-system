@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC 
+      "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+      "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<package name="systembackup" namespace="/systembackup" extends="struts-default">
+		<!-- 切记：action name不能是一样的，否则会进不了Action -->
+		<action name="backupManage" class="com.integral.system.systembackup.action.SystemBackupAction" method="begin">
+			 <result name="success">/jsp/apps/account/account.jsp</result>
+			 <result name="input">/index.jsp</result>
+		</action>
+		<action name="backupList" class="com.integral.system.systembackup.action.SystemBackupAction" method="backupList">
+			 <result name="success">/jsp/apps/account/account.jsp</result>
+			 <result name="input">/index.jsp</result>
+		</action>
+		<action name="backupAdd" class="com.integral.system.systembackup.action.SystemBackupAction" method="backupAdd">
+			 <result name="success">/jsp/apps/account/account.jsp</result>
+			 <result name="input">/index.jsp</result>
+		</action>
+		<action name="backupDelete" class="com.integral.system.systembackup.action.SystemBackupAction" method="backupDelete">
+			 <result name="success">/jsp/apps/account/account.jsp</result>
+			 <result name="input">/index.jsp</result>
+		</action>
+		<action name="backupDownload" class="com.integral.system.systembackup.action.SystemBackupAction" method="backupDownload">
+			 <result name="success">/jsp/apps/account/account.jsp</result>
+			 <result name="input">/index.jsp</result>
+		</action>
+		<action name="backupSetting" class="com.integral.system.systembackup.action.SystemBackupAction" method="systemBackupSetting">
+			 <result name="success">/jsp/apps/account/account.jsp</result>
+			 <result name="input">/index.jsp</result>
+		</action>
+		<action name="backupSettingList" class="com.integral.system.systembackup.action.SystemBackupAction" method="getBackupSettingList">
+			 <result name="success">/jsp/apps/account/account.jsp</result>
+			 <result name="input">/index.jsp</result>
+		</action>
+	</package>
+</struts>
