@@ -6,6 +6,8 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <%@include file="/jsp/common/config.jsp" %>
 <title>Insert title here</title>
+<link rel="stylesheet" type="text/css" href="<%=path %>/js/ext-2.2.1/resources/css/fileUploadField.css">
+<script type="text/javascript" src="<%=path %>/js/ext-2.2.1/source/widgets/form/FileUploadField.js"></script>
 <script type="text/javascript" src="<%=path %>/js/ext-2.2.1/source/plugins/GroupSummary.js"></script>
 <script type="text/javascript" src="<%=path %>/js/point/apps/accountBanlance/account.js"></script>
 <script type="text/javascript" src="<%=path %>/js/point/apps/accountBanlance/cardInfo.js"></script>
