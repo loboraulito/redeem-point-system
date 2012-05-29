@@ -74,5 +74,10 @@
         	 <result name="success">/jsp/apps/account/account.jsp</result>
              <result name="input">/index.jsp</result>
         </action>
+        <!-- 账目备份文件列表 -->
+        <action name="accountBackupFileList" class="com.integral.applications.account.action.AccountManageAction" method="accountBackupFileList">
+        	<result name="success">/jsp/apps/account/account.jsp</result>
+            <result name="input">/index.jsp</result>
+        </action>
 	</package>
 </struts>
