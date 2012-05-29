@@ -128,12 +128,13 @@
         <property name="balanceInfoService" ref="balanceInfoService"></property>
         <property name="balanceRightService" ref="balanceRightService"></property>
         <property name="accountCardService" ref="accountCardService"></property>
+        <property name="systemBackupService" ref="systemBackupService"></property>
     </bean>
     <!-- 系统备份 -->
     <bean class="com.integral.system.systembackup.action.SystemBackupAction" scope="prototype"
     	id="systemBackupAction">
     	<property name="transactionManager" ref="transactionManager"></property>
-    	<property name="backService" ref="systemBackupService"></property>
+    	<property name="systemBackupService" ref="systemBackupService"></property>
+    	<property name="systemBackupSettingService" ref="systemBackupSettingService"></property>
     </bean>
-    
 </beans>
