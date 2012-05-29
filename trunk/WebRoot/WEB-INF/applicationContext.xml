@@ -144,6 +144,12 @@
                 <value>
                     com/integral/applications/account/bean/xml/AccountCardInfo.hbm.xml
                 </value>
+                <value>
+                	com/integral/system/systembackup/bean/xml/SystemBackupInfo.hbm.xml
+                </value>
+                <value>
+                	com/integral/system/systembackup/bean/xml/SystemBackupSettingInfo.hbm.xml
+                </value>
 			</list>
 		</property>
 		<property name="hibernateProperties">
