@@ -340,6 +340,7 @@ function showSystemMsg(title, msg, fn){
 	});
 }
 
+
 /**
  * 查看我的邀请信息
  */
