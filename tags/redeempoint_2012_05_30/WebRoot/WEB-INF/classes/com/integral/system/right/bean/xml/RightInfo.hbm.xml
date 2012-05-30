@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2011-6-5 13:25:58 by Hibernate Tools 3.3.0.GA -->
+<hibernate-mapping>
+    <class name="com.integral.system.right.bean.RightInfo" table="right_info" dynamic-insert="true" dynamic-update="true">
+        <id name="rightId" type="java.lang.String">
+            <column name="right_id" />
+            <generator class="uuid.hex" />
+        </id>
+        <property name="menuId" type="java.lang.String">
+            <column name="menu_id" />
+        </property>
+        <property name="rightName" type="java.lang.String">
+            <column name="right_name" />
+        </property>
+        <property name="roleId" type="java.lang.String">
+            <column name="role_id" />
+        </property>
+        <property name="buttonId" type="java.lang.String">
+            <column name="button_id" />
+        </property>
+    </class>
+</hibernate-mapping>

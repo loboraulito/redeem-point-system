@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+<hibernate-mapping>
+	<class name="com.integral.system.role.bean.RoleInfo" table="role_info" dynamic-insert="true" dynamic-update="true">
+		<id name="roleId" type="java.lang.String">
+			<column name="role_id" length="32"></column>
+			<generator class="uuid.hex"></generator>
+		</id>
+		<property name="roleName" type="java.lang.String">
+            <column name="role_name" length="100">
+                <comment>角色名称</comment>
+            </column>
+        </property>
+        <property name="comment" type="java.lang.String">
+            <column name="comment" length="100">
+                <comment>注释</comment>
+            </column>
+        </property>
+	</class>
+</hibernate-mapping>

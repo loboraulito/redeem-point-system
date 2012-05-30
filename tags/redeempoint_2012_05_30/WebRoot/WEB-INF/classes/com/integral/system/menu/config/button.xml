@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC 
+      "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+      "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<package name="button" namespace="/button" extends="struts-default">
+		<!-- 切记：action name不能是一样的，否则会进不了Action -->
+		<!--
+		<action name="childModule" class="com.integral.system.menu.action.MenuAction" method="showChildMenu">
+			 <result name="success">/jsp/system/menu/menu.jsp</result>
+			 <result name="input">/index.jsp</result>
+		</action>
+		-->
+		<action name="buttonManage" class="com.integral.system.menu.action.ButtonAction" method="begin">
+			 <result name="success">/jsp/system/menu/button.jsp</result>
+			 <result name="input">/index.jsp</result>
+		</action>
+		<action name="buttonManageList" class="com.integral.system.menu.action.ButtonAction" method="buttonList">
+			 <result name="success">/jsp/system/menu/button.jsp</result>
+			 <result name="input">/index.jsp</result>
+		</action>
+		<action name="buttonManageAdd" class="com.integral.system.menu.action.ButtonAction" method="addButton">
+			 <result name="success">/jsp/system/menu/button.jsp</result>
+			 <result name="input">/index.jsp</result>
+		</action>
+		<action name="buttonManageEdit" class="com.integral.system.menu.action.ButtonAction" method="editButton">
+			 <result name="success">/jsp/system/menu/button.jsp</result>
+			 <result name="input">/index.jsp</result>
+		</action>
+		<action name="buttonManageDelete" class="com.integral.system.menu.action.ButtonAction" method="deleteButton">
+			 <result name="success">/jsp/system/menu/button.jsp</result>
+			 <result name="input">/index.jsp</result>
+		</action>
+	</package>
+</struts>

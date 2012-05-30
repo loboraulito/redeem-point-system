@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC 
+      "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+      "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<package name="account_manage" namespace="/account_manage" extends="struts-default">
+		<!-- 切记：action name不能是一样的，否则会进不了Action -->
+		<action name="accountManage" class="com.integral.applications.account.action.AccountManageAction" method="begin">
+			 <result name="success">/jsp/apps/account/account.jsp</result>
+			 <result name="input">/index.jsp</result>
+		</action>
+		<!-- 账目管理 -->
+        <action name="accountList" class="com.integral.applications.account.action.AccountManageAction" method="accountList">
+             <result name="success">/jsp/apps/account/account.jsp</result>
+             <result name="input">/index.jsp</result>
+        </action>
+        <action name="addAccountInfo" class="com.integral.applications.account.action.AccountManageAction" method="addAccountInfo">
+             <result name="success">/jsp/apps/account/account.jsp</result>
+             <result name="input">/index.jsp</result>
+        </action>
+        <action name="editAccountInfo" class="com.integral.applications.account.action.AccountManageAction" method="editAccountInfo">
+             <result name="success">/jsp/apps/account/account.jsp</result>
+             <result name="input">/index.jsp</result>
+        </action>
+        <action name="deleteAccountInfo" class="com.integral.applications.account.action.AccountManageAction" method="deleteAccountInfo">
+             <result name="success">/jsp/apps/account/account.jsp</result>
+             <result name="input">/index.jsp</result>
+        </action>
+        <!-- 账户管理 -->
+        <action name="myAccountList" class="com.integral.applications.account.action.AccountManageAction" method="myAccountList">
+             <result name="success">/jsp/apps/account/account.jsp</result>
+             <result name="input">/index.jsp</result>
+        </action>
+        <action name="addAccountCard" class="com.integral.applications.account.action.AccountManageAction" method="addAccountCard">
+             <result name="success">/jsp/apps/account/account.jsp</result>
+             <result name="input">/index.jsp</result>
+        </action>
+        <action name="editAccountCard" class="com.integral.applications.account.action.AccountManageAction" method="editAccountCard">
+             <result name="success">/jsp/apps/account/account.jsp</result>
+             <result name="input">/index.jsp</result>
+        </action>
+        <action name="deleteAccountCard" class="com.integral.applications.account.action.AccountManageAction" method="deleteAccountCard">
+             <result name="success">/jsp/apps/account/account.jsp</result>
+             <result name="input">/index.jsp</result>
+        </action>
+        <action name="transferAccount" class="com.integral.applications.account.action.AccountManageAction" method="transferAccount">
+        	 <result name="success">/jsp/apps/account/account.jsp</result>
+             <result name="input">/index.jsp</result>
+        </action>
+        <!-- 账目预算 -->
+        <action name="accountBudget" class="com.integral.applications.account.action.AccountManageAction" method="accountBudgetList">
+        	 <result name="success">/jsp/apps/account/account.jsp</result>
+             <result name="input">/index.jsp</result>
+        </action>
+        <action name="addBudget" class="com.integral.applications.account.action.AccountManageAction" method="addBudget">
+        	 <result name="success">/jsp/apps/account/account.jsp</result>
+             <result name="input">/index.jsp</result>
+        </action>
+        <action name="editBudget" class="com.integral.applications.account.action.AccountManageAction" method="editBudget">
+        	 <result name="success">/jsp/apps/account/account.jsp</result>
+             <result name="input">/index.jsp</result>
+        </action>
+        <action name="deleteBudget" class="com.integral.applications.account.action.AccountManageAction" method="deleteBudget">
+        	 <result name="success">/jsp/apps/account/account.jsp</result>
+             <result name="input">/index.jsp</result>
+        </action>
+        <!-- 账目统计报表 -->
+        <action name="accountReport" class="com.integral.applications.account.action.AccountManageAction" method="accountReport">
+        	 <result name="success">/jsp/apps/account/account.jsp</result>
+             <result name="input">/index.jsp</result>
+        </action>
+        <!-- 账目备份同步 -->
+        <action name="accountBackup" class="com.integral.applications.account.action.AccountManageAction" method="accountBackup">
+        	 <result name="success">/jsp/apps/account/account.jsp</result>
+             <result name="input">/index.jsp</result>
+        </action>
+        <!-- 账目备份文件列表 -->
+        <action name="accountBackupFileList" class="com.integral.applications.account.action.AccountManageAction" method="accountBackupFileList">
+        	<result name="success">/jsp/apps/account/account.jsp</result>
+            <result name="input">/index.jsp</result>
+        </action>
+	</package>
+</struts>
