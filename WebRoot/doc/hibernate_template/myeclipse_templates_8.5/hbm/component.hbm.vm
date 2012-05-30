@@ -1,5 +1,0 @@
-<component 
-    name="$property.name"
-    class="$property.value.componentClassName">
-#parse("hbm/meta.hbm.vm")
-</component>
