@@ -23,7 +23,7 @@
 		destroy-method="close">
 		<property name="driverClass" value="com.mysql.jdbc.Driver"></property>
 		<property name="jdbcUrl"
-			value="jdbc:mysql://localhost:3306/redeempoint?useUnicode=true&amp;characterEncoding=UTF-8">
+			value="jdbc:mysql://mysql-redeempoint.jelastic.servint.net/redeempoint?useUnicode=true&amp;characterEncoding=UTF-8">
 		</property>
 		<!-- 
 		<property name="user" value=""></property>
@@ -66,8 +66,8 @@
 	<bean id="dataSourceProperties" class="com.integral.util.security.PropertiesEncryptFactoryBean">
 		<property name="properties">
 			<props>
-				<prop key="user">FSpZoipCml0kfuP5dmkK9A==</prop>
-				<prop key="password">NqyeJz0ck2I=</prop><!-- PaHPxH1BC2XlwQ0NGj+V7g== -->
+				<prop key="user">xWHPHJDs/W8=</prop>
+				<prop key="password">2xsQ0+o99+vdefknhJsZWw==</prop><!-- PaHPxH1BC2XlwQ0NGj+V7g== -->
 			</props>
 		</property>
 	</bean>
