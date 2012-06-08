@@ -5,6 +5,9 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
                 http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
                 http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.1.xsd">
+	<!-- 如果可以的话，试试autowire="byName"属性或者是default-autowire="byName" -->
+	<!-- 请参看：http://blog.csdn.net/fengyun111999/article/details/6320486 -->
+	<!-- 以及：http://rubylover.iteye.com/blog/195164 -->
 	<!-- scope="prototype"的作用：会在该类型的对象被请求时创建一个新的action对象。如果没有配置scope=prototype则添加的时候不会新建一个action，他任然会保留上次访问的过记录的信息。 -->
 	<!-- 菜单管理 -->
 	<bean class="com.integral.system.menu.action.MenuAction" id="menuAction" scope="prototype">
