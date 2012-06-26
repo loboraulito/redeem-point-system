@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.nutz.json.Json;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
@@ -22,6 +21,7 @@ import com.integral.system.menu.service.IMenuService;
 import com.integral.system.role.service.IRoleMenuService;
 import com.integral.system.role.service.IRoleService;
 import com.integral.system.role.service.IUserRoleService;
+import com.integral.system.user.service.IUserService;
 
 /** 
  * <p>Description: [登录成功的处理]</p>
@@ -34,7 +34,16 @@ public class LoginSuccessHandler extends BaseAction implements AuthenticationSuc
     private IRoleMenuService roleMenuService;
     private IRoleService roleService;
     private IUserRoleService userRoleService;
+    private IUserService userService;
     
+    public IUserService getUserService() {
+        return userService;
+    }
+
+    public void setUserService(IUserService userService) {
+        this.userService = userService;
+    }
+
     /**
      * <p>Discription:[Spring的IOC注入]</p>
      * @return IUserRoleService userRoleService.
@@ -137,6 +146,12 @@ public class LoginSuccessHandler extends BaseAction implements AuthenticationSuc
         List menus = showRootMenu(userName);
         if(menus == null){
             menus = new ArrayList();
+        }
+        
+        //查询用户信息
+        List users = this.userService.getUserByName(userName);
+        if(users != null && !users.isEmpty()){
+            request.getSession().setAttribute("user", users.get(0));
         }
         request.getSession().setAttribute("userName", userName);
         request.getSession().setAttribute("roleId", roleId);
