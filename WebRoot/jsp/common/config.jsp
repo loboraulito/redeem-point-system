@@ -51,6 +51,7 @@
 <%@page import="org.springframework.security.core.context.SecurityContextImpl"%>
 <%@page import="org.springframework.security.web.authentication.WebAuthenticationDetails"%>
 <%@page import="java.util.Collection"%>
+<%@page import="com.integral.system.user.bean.UserInfo"%>
 <%
 String userName = "";
 String userRole = "";
@@ -71,6 +72,21 @@ Authentication authentication = secCtx.getAuthentication();
 		    userRole = String.valueOf(authentication.getAuthorities().toArray()[0]);
 		}
 	}
+}
+Object obj = session.getAttribute("user");
+UserInfo user = null;
+if(obj != null){
+    user = (UserInfo)obj;
+}
+%>
+
+<%
+if(user != null){
+%>
+<SCRIPT type="text/javascript">
+	var userId = "<%=user.getUserId()%>";
+</SCRIPT>
+<%
 }
 %>
 
