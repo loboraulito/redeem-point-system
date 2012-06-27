@@ -150,7 +150,7 @@ public class DES {
 
     public static void main(String args[]) throws Exception {
         // 加密源数据
-        String encryptorString = "QUbltI4Gmm";
+        String encryptorString = "812877";
 
         DES des = new DES();
 
@@ -161,7 +161,6 @@ public class DES {
         String byteToString = des.byteToString(encryptorByte);
 
         System.out.println("加密前的数据：" + encryptorString);
-        System.out.println("加密后的byte[]");
         des.printByte(encryptorByte);
         System.out.println("加密后的数据：" + byteToString);
 
@@ -171,17 +170,16 @@ public class DES {
 
         // 解密后的字符串
         String decryptorString = null;
-
+        // 解密前字符串
+        String str = "PaHPxH1BC2XlwQ0NGj+V7g==";
         // 将byteToString转换为原来的byte[]
-        byte[] stringToByte = des.stringToByte(byteToString);
+        byte[] stringToByte = des.stringToByte(str);
         // 将stringToByte解密后的byte[]
         byte[] decryptorByte = des.createDecryptor(stringToByte);
-        System.out.println("解密后" + des.byteToString(decryptorByte));
         // 解密后的byte[]转换为原来的字符串
         decryptorString = new String(decryptorByte);
 
-        System.out.println("解密前的数据：" + byteToString);
-        System.out.println("转换来的解密的byte[]");
+        System.out.println("解密前的数据：" + str);
         des.printByte(stringToByte);
         System.out.println("解密后的数据：" + decryptorString);
     }
