@@ -18,30 +18,31 @@ function providetreePanel(mainMenuId, rootName){
 		text:rootName
 	});
 	var tree = new Ext.tree.TreePanel({
+		id:mainMenuId+"_tree",
 		//title:title,
-		//renderTo:renderTo,//填充区域
-		region:'center',
+		//renderTo:"testDiv",//填充区域
+		//region:'center',
 		animate:true,//动画效果
 		autoScroll:true,//是否可自动滚动
-		autoHeight:true,//自动高度
+		//autoHeight:true,//自动高度
 		collapsible:true,
 		enableDD:false,//是否可拖曳
-		containerScroll: true,
+		containerScroll: true,// 随自身或父容器的改变而显示或隐藏scroll
 		rootVisible:false,//隐藏根节点
 		singleExpand:false,//只显示一个树节点中的子节点,默认为显示全部
 		root:root,
-		width:250,
-		//hight:600,
+		//width:193,
+		//height:100,
 		dropConfig: {appendOnly:true},
-		border:false,//没有边框
-		tbar:[{
-			text:"刷新菜单",
-			tooltip:"刷新["+rootName+"]菜单",
-			iconCls:"table_refresh",
-			handler:function(){
-				root.reload();
-			}
-		}]
+		border:false//没有边框
+//		tbar:[{
+//			text:"刷新菜单",
+//			tooltip:"刷新["+rootName+"]菜单",
+//			iconCls:"table_refresh",
+//			handler:function(){
+//				root.reload();
+//			}
+//		}]
 	});
 	tree.on('beforeload',function(node){rloader.url = url+node.id;});//mainMenuId
 	//当用户点击菜单的时候，在中间出现tabPanel

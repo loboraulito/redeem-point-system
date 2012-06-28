@@ -19,9 +19,11 @@ function indexPage(){
     	id: 'menu-panel',
         title: '菜单信息',
         region: 'center',
+        //height:212,
         border:false,
-        bodyStyle: 'padding-bottom:0px;background:#eee;overflow-x:hidden;',
-		autoScroll: true,
+        //autoScroll:true,
+        bodyStyle: 'padding-bottom:0px;background:#eee;overflow-x:hidden;overflow-y:hidden;',
+		//autoScroll: true,
 		layout:"accordion",
 		tbar:[{
 			text:"刷新系统菜单",
@@ -168,6 +170,17 @@ function indexPage(){
         	}
         }
 	});
+	/**
+	 * 设置菜单栏高度
+	 */
+	function setMenuPanelHight(){
+		//alert(document.body.clientHeight);
+		//alert(document.body.scrollHeight);
+		//alert(Ext.getCmp("userInfo_panel").getInnerHeight());
+		menuPanel.setHeight(Ext.getCmp("userInfo_panel").getInnerHeight() - detailsPanel.height - 2);
+	}
+	
+	setMenuPanelHight();
 }
 /**
  * 读取某用户有权限访问的菜单系统
@@ -207,17 +220,42 @@ function loadMenuPanel(user_name){
 function showRootMenu(rootMenu, menuSize){
 	if(rootMenu){
 		var menuPanel = Ext.getCmp("menu-panel");
-		
+		var menuHeight = menuPanel.getInnerHeight();
 		for(var i=0;i<menuSize;i++){
 			var menu = rootMenu[i];
 			//获取某菜单下的所有菜单,树形结构
 			var tree = providetreePanel(menu.menuId,menu.menuName);
+			
+			//174~198~222~246~270
+			var height = menuHeight - 28;
+			
+			if(i != 0){
+				height -= 28;
+			}
 			menuPanel.add({
 				title:menu.menuName,
-				items:[tree]
+				items:[{
+					layout:"fit",
+					//autoScroll:true,
+					bodyStyle: 'overflow-x:hidden;overflow-y:hidden;',
+					height: height - (16.35 * menuSize) - 4 + (30 - 7.5 * menuSize),
+					items:tree,
+					width:212,
+					tbar:[{
+						id:menu.menuId + "_menutbar",
+						text:"刷新菜单",
+						tooltip:"刷新["+menu.menuName+"]菜单",
+						iconCls:"table_refresh",
+						handler:function(e){
+							var rootId = this.getId().split("_")[0];
+							var t = Ext.getCmp(rootId+"_tree");
+							var n = t.getRootNode();
+							n.reload();
+						}
+					}]
+				}]
 			});
 		}
-		
 		menuPanel.doLayout();
 	}
 }
