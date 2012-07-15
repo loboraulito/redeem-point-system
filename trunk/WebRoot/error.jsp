@@ -16,8 +16,8 @@
 <%
 String error = "";
 try{
-	Object obj = request.getAttribute("struts.valueStack");
-	ValueStack vs = (ValueStack) obj;
+	Object strutsStack = request.getAttribute("struts.valueStack");
+	ValueStack vs = (ValueStack) strutsStack;
 	/*
 	ArrayList or1 = (ArrayList)vs.findValue("actionErrors");
 	if(or1!=null && or1.size()>0)
