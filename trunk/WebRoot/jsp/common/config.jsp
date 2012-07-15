@@ -73,10 +73,10 @@ Authentication authentication = secCtx.getAuthentication();
 		}
 	}
 }
-Object obj = session.getAttribute("user");
+Object sessionUser = session.getAttribute("user");
 UserInfo user = null;
-if(obj != null){
-    user = (UserInfo)obj;
+if(sessionUser != null){
+    user = (UserInfo)sessionUser;
 }
 %>
 
