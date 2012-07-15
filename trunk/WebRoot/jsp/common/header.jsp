@@ -42,7 +42,7 @@ var fromMenuId = "";
 				<a href="javascript:systemRegister()">尚未注册？</a>
 			</td>
 			<td align="right" width="10%">
-				<a href="<%=path%>/j_spring_security_logout">退出系统</a>
+				<a href="<%=headerPath%>/j_spring_security_logout">退出系统</a>
 			</td>
 		</tr>
 	</table>
