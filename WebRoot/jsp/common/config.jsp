@@ -121,5 +121,5 @@ Ext.onReady(function(){
 //}
 %>
 <SCRIPT type="text/javascript">
-	document.write('<iframe name="targetFram" id="targetFram" style="display: none" width="0" height="0"></iframe>');
+	//document.write('<iframe name="targetFram" id="targetFram" style="display: none" width="0" height="0"></iframe>');
 </SCRIPT>
