@@ -22,6 +22,7 @@ import org.springframework.orm.hibernate3.HibernateCallback;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 import com.integral.common.dao.IBaseDao;
+import com.integral.common.util.SQLParameter;
 import com.integral.util.HibernateUtils;
 
 public class BaseDao extends HibernateDaoSupport implements IBaseDao {
@@ -266,10 +267,70 @@ public class BaseDao extends HibernateDaoSupport implements IBaseDao {
                 position = params.length;
             }
             if(start > 0){
-                prepareStatement.setObject(position+1, start);
-                prepareStatement.setObject(position+2, limit);
+                prepareStatement.setInt(position+1, start);
+                prepareStatement.setInt(position+2, limit);
             }else if(limit > 0){
-                prepareStatement.setObject(position+1, limit);
+                prepareStatement.setInt(position+1, limit);
+            }
+            //获取数据集
+            rs = prepareStatement.executeQuery();
+            if(rs != null){
+                //获取数据列集
+                ResultSetMetaData rsmd = rs.getMetaData();
+                int columnCount = rsmd.getColumnCount();
+                while(rs.next()){
+                    Object []obj = new Object[columnCount];
+                    for(int i=0; i<columnCount;i++){
+                        //String columnName = rsmd.getColumnName(i+1);
+                        obj[i] = rs.getObject(i+1);
+                    }
+                    result.add(obj);
+                }
+            }
+        }catch(SQLException e){
+            log.error(e);
+            return null;
+        }finally{
+            try{
+                prepareStatement.close();
+                rs.close();
+                con.close();
+                log.info("closing session....");
+                session.close();
+                log.info("closed session....");
+            }catch(Exception e){
+                log.error(e);
+                return null;
+            }
+        }
+        return result;
+    }
+    
+    public List<Object []> queryListByPageByJDBC(String sql, int start, int limit, SQLParameter[] params) {
+        SessionFactory sessionFactory = getSessionFactory();
+        SessionFactoryImpl s = (SessionFactoryImpl) sessionFactory;
+        Session session = getSession();//sessionFactory.getCurrentSession();
+        Connection con = session.connection();
+        sql = HibernateUtils.getHibernateLimitString(s.getDialect(), sql, start, limit);
+        log.info("excute by sql jdbc: " + sql);
+        List<Object []> result = new ArrayList<Object []>();
+        PreparedStatement prepareStatement = null;
+        ResultSet rs = null;
+        try{
+            prepareStatement = con.prepareStatement(sql);
+            int position = 0;
+            if(params != null){
+                for(int i=0;i<params.length;i++){
+                    SQLParameter param = params[i];
+                    prepareStatement.setObject(i+1, param.getObj(), param.getTargetSqlType());
+                }
+                position = params.length;
+            }
+            if(start > 0){
+                prepareStatement.setInt(position+1, start);
+                prepareStatement.setInt(position+2, limit);
+            }else if(limit > 0){
+                prepareStatement.setInt(position+1, limit);
             }
             //获取数据集
             rs = prepareStatement.executeQuery();
