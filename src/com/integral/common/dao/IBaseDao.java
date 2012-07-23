@@ -7,6 +7,8 @@ import java.util.Map;
 import org.hibernate.HibernateException;
 import org.springframework.dao.DataAccessResourceFailureException;
 
+import com.integral.common.util.SQLParameter;
+
 public interface IBaseDao {
     /**
      * <p>Discription:[使用Hql语句查询数据]</p>
@@ -70,6 +72,17 @@ public interface IBaseDao {
      * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
      */
     public List queryListByPageByJDBC(String sql, int start, int limit, Object[] params) throws SQLException;
+    /**
+     * <p>Discription:[使用Hibernate中自带的JDBC查询]</p>
+     * @param sql sql语句
+     * @param start 分页查询起始
+     * @param limit 分页查询终止
+     * @param params 查询参数数组，参考SQLParameter类说明
+     * @return
+     * @author:[代超]
+     * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
+     */
+    public List<Object []> queryListByPageByJDBC(String sql, int start, int limit, SQLParameter[] params);
     
     /**
      * <p>Discription:[JDBC批量执行SQL语句]</p>
