@@ -408,7 +408,7 @@ function accountBalance(){
 	var accountGrid = new Ext.grid.GridPanel({
 		id:"accountGrid",
 		title:"账目详细信息（单位：人民币/元）",
-		collapsible:true,//是否可以展开
+		collapsible:false,//是否可以展开
 		animCollapse:true,//展开时是否有动画效果
 		autoScroll:true,
 		width:Ext.get("account_div").getWidth(),
