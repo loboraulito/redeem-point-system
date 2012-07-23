@@ -106,7 +106,8 @@ function indexPage(){
 			html:"<div id='mainpage' style='height: 100%;width: 100%;overflow:hidden;'></div>", //让中间的tabpanel显示区域
 			deferredRender:false,
 			id:"mainpagepanel",
-			margins:'0 5 0 5',
+			margins:'0 5 0 5'
+				/*
 			autoLoad:{
 				callback:function(scope,success,responses){
 					Ext.getCmp("mainpagepanel").body.update("<div id='mainpage' style='height: 100%;width: 100%;overflow:hidden;'></div>");
@@ -115,6 +116,7 @@ function indexPage(){
 					createMainTabPanel("首&nbsp;&nbsp;&nbsp;&nbsp;页", "mainPagePanel", "/jsp/main.jsp", false);
 				}
 			}
+			*/
 		},{
 			region:"south",
 			height:20,
@@ -180,6 +182,7 @@ function indexPage(){
 		menuPanel.setHeight(Ext.getCmp("userInfo_panel").getInnerHeight() - detailsPanel.height - 2);
 	}
 	
+	createMainTabPanel("首&nbsp;&nbsp;&nbsp;&nbsp;页", "mainPagePanel", "/jsp/main.jsp", false);
 	setMenuPanelHight();
 }
 /**
