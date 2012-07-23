@@ -340,6 +340,29 @@ function showSystemMsg(title, msg, fn){
 	});
 }
 
+/**
+ * 显示警告信息
+ * @param title
+ * @param msg
+ * @param icon
+ * @param width
+ */
+function showAlertMessage(title, msg, icon, width){
+	if(!width){
+		width = 300;
+	}
+	if(!icon){
+		icon = Ext.MessageBox.INFO;
+	}
+	Ext.Msg.show({
+		buttons : Ext.MessageBox.OK,
+		msg:msg,
+		title:title,
+		icon : icon,
+		width:width
+	});
+}
+
 
 /**
  * 查看我的邀请信息
@@ -543,3 +566,27 @@ function enableDWRAjax(bool){
 Ext.getBody().on('contextmenu', function(e) {
 	//e.stopEvent();
 });
+
+/**
+ * 设置只读
+ * @param field 需要设置成只读的控件
+ * @param value 是否只读。true：只读，false：可写
+ */
+function setReadOnly(field,value) {
+	if(field && field.el) {
+		if(value==false) {
+			field.el.dom.readOnly = false;
+		}
+		else {
+			field.el.dom.readOnly = true;
+		}
+	}
+	else if(field) {
+		if(value==false) {
+			field.readOnly = false;
+		}
+		else {
+			field.readOnly = true;
+		}
+	}
+}
