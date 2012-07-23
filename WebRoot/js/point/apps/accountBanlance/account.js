@@ -661,6 +661,21 @@ function accountBalance(){
 			handler:function(){
 				var formId = tab.getActiveTab().getItemId();
 				var form = Ext.getCmp(formId);
+				
+				var d = new Date(accountOutForm.form.findField("account.basedate").getValue());
+				var v = accountOutForm.form.findField("account.accountout").getValue() + "元";
+				var c = accountOutForm.form.findField("account.accountcard");
+				var t = accountOutForm.form.findField("account.maintype");
+				var s = accountOutForm.form.findField("account.setype");
+				accountOutForm.form.findField("account.remark").setValue("消费时间："+d.format("Y-m-d") + "\n消费金额：" + v + "\n消费账户：" + c.el.dom.value + "\n消费主类别：" + t.el.dom.value + "\n消费次类别："+s.el.dom.value);
+				
+				var d1 = new Date(accountInForm.form.findField("account.basedate").getValue());
+				var v1 = accountInForm.form.findField("account.accountenter").getValue() + "元";
+				var c1 = accountInForm.form.findField("account.accountcard");
+				var t1 = accountInForm.form.findField("account.maintype");
+				var s1 = accountInForm.form.findField("account.setype");
+				accountInForm.form.findField("account.remark").setValue("收入时间："+d1.format("Y-m-d") + "\n收入金额：" + v1 + "\n收入账户：" + c1.el.dom.value + "\n收入主类别：" + t1.el.dom.value + "\n收入次类别："+s1.el.dom.value);
+				
 				if(form && form.form.isValid()){
 					saveAccountForm(form, "addAccount");
 				}
@@ -708,6 +723,22 @@ function accountBalance(){
 			handler:function(){
 				var formId = tab.getActiveTab().getItemId();
 				var form = Ext.getCmp(formId);
+				
+				var d = new Date(accountOutForm.form.findField("account.basedate").getValue());
+				var v = accountOutForm.form.findField("account.accountout").getValue() + "元";
+				var c = accountOutForm.form.findField("account.accountcard");
+				var t = accountOutForm.form.findField("account.maintype");
+				var s = accountOutForm.form.findField("account.setype");
+				accountOutForm.form.findField("account.remark").setValue("消费时间："+d.format("Y-m-d") + "\n消费金额：" + v + "\n消费账户：" + c.el.dom.value + "\n消费主类别：" + t.el.dom.value + "\n消费次类别："+s.el.dom.value);
+				
+				var d1 = new Date(accountInForm.form.findField("account.basedate").getValue());
+				var v1 = accountInForm.form.findField("account.accountenter").getValue() + "元";
+				var c1 = accountInForm.form.findField("account.accountcard");
+				var t1 = accountInForm.form.findField("account.maintype");
+				var s1 = accountInForm.form.findField("account.setype");
+				accountInForm.form.findField("account.remark").setValue("收入时间："+d1.format("Y-m-d") + "\n收入金额：" + v1 + "\n收入账户：" + c1.el.dom.value + "\n收入主类别：" + t1.el.dom.value + "\n收入次类别："+s1.el.dom.value);
+				
+				
 				if(form && form.form.isValid()){
 					saveAccountForm(form, "editAccount");
 				}
@@ -720,6 +751,7 @@ function accountBalance(){
 			}
 		}];
 		showAccountWindow("editAccount","修改家庭账目信息", 500, 350, tab, null, buttons);
+		
 		//根据主类别加载子类别
 		accountEnSecondTypeStore.load({params:{codeId:"4028098136ce7b900136ceb23e860001",parentCodeId:gridSelection[0].get("maintype")}, callback:function(){
 			if(mask == "out"){
@@ -1392,7 +1424,7 @@ function accountBalance(){
 						listeners:{
 							"blur":function(thiz){
 								var d = new Date(accountOutForm.form.findField("account.basedate").getValue());
-								accountOutForm.form.findField("account.remark").setValue("消费时间："+d.format("Y-m-d") + "\n消费金额：" + thiz.value);
+								accountOutForm.form.findField("account.remark").setValue("消费时间："+d.format("Y-m-d") + "\n消费金额：" + thiz.value + "元");
 							}
 						}
 					}]
