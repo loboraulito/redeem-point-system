@@ -25,7 +25,7 @@ try{
 	*/
 	Map o = (Map)vs.findValue("fieldErrors");
 	if(o != null && o.size() > 0){
-		ArrayList or = (ArrayList)o.get("giftImage");
+		ArrayList or = (ArrayList)o.get("files");
 		if(or != null && or.size() > 0){
 			error = String.valueOf(or.get(0));
 		}
