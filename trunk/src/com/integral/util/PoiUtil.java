@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -155,6 +156,14 @@ public class PoiUtil<T> {
 	public Workbook createWorkBook(int defaultLines){
 		return new SXSSFWorkbook(defaultLines);
 	}
+	
+	/**
+     * 创建excel表格
+     * @return
+     */
+    public Workbook createWorkBook(){
+        return new SXSSFWorkbook();
+    }
 	
 	/**
 	 * 创建excel页
@@ -313,6 +322,56 @@ public class PoiUtil<T> {
 			throw e;
 		}
 	}
+	
+	/**
+     * 写数据到单元格(仅仅适用于Excel2007版本)
+     * 
+     * @param sheet
+     *            excel的sheet页
+     * @param rowNumber
+     *            当前写入的是sheet的第rowNumber行
+     * @param data
+     *            写入数据(Object数组)
+     * @param cellStyle
+     *            单元格样式
+     * @throws Exception
+     */
+    public static void exportExcel2007(Sheet sheet, int rowNumber,
+            Object[] data, CellStyle cellStyle) throws Exception {
+        try {
+            if (data != null) {
+                Row row = sheet.createRow(rowNumber);
+                for (int i = 0; i < data.length; i++) {
+                    Cell cell = row.createCell(i);
+                    cell.setCellStyle(cellStyle);
+                    if (data[i] == null) {
+                        cell.setCellValue("");
+                    } else if (data[i] instanceof Integer) {
+                        cell.setCellValue((Integer) data[i]);
+                    } else if (data[i] instanceof String) {
+                        cell.setCellValue((String) data[i]);
+                    } else if (data[i] instanceof Double) {
+                        cell.setCellValue((Double) data[i]);
+                    } else if (data[i] instanceof Float) {
+                        cell.setCellValue((Float) data[i]);
+                    } else if (data[i] instanceof Long) {
+                        cell.setCellValue((Long) data[i]);
+                    } else if (data[i] instanceof Boolean) {
+                        cell.setCellValue((Boolean) data[i]);
+                    } else if (data[i] instanceof Date) {
+                        cell.setCellValue((Date) data[i]);
+                    } else if (data[i] instanceof BigDecimal) {
+                        cell.setCellValue(((BigDecimal) data[i]).doubleValue());
+                    } else {
+                        cell.setCellValue(String.valueOf(data[i]));
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        }
+    }
 }
 /**
  * <p>Description: [用于测试]</p>
