@@ -214,7 +214,22 @@ public class PoiUtil<T> {
         exportExcel2007(wb, sheetName, map, null, dataSet);
         return wb;
     }
-	
+    /**
+     * <p>Discription:[导出数据到Excel文档]</p>
+     * @param sheetName 导出excel页的名称
+     * @param map 导出的字段及其字段名称
+     * @param dateParten 日期格式
+     * @param dataSet 导出的数据
+     * @return
+     * @throws Exception
+     * @author:[代超]
+     * @update:[日期YYYY-MM-DD] [更改人姓名][变更描述]
+     */
+    public Workbook exportExcel2007(String sheetName, Map<String, String> map, String dateParten, Collection<T> dataSet) throws Exception{
+        Workbook wb = createWorkBook(100);
+        exportExcel2007(wb, sheetName, map, dateParten, dataSet);
+        return wb;
+    }
 	/**
 	 * <p>Discription:[将数据写入到Excel2007中]</p>
 	 * @param wb Excel2007
