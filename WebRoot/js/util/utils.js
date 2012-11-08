@@ -590,3 +590,116 @@ function setReadOnly(field,value) {
 		}
 	}
 }
+
+/**
+ * 文本域
+ * @param name 文本域名称
+ * @param label 文本域标题
+ * @param isNull 是否允许空
+ * @param readOnly 是否只读
+ * @returns {Ext.form.TextField}
+ */
+function getTextField(name, label, isNull, readOnly){
+	var textField = new Ext.form.TextField({
+		name:name,
+		anchor:"90%",
+		fieldLabel:label,
+		readOnly:readOnly,
+		allowBlank:isNull
+	});
+	return textField;
+}
+/**
+ * 隐藏域
+ * @param name 域名称
+ * @param value 域值
+ * @returns {Ext.form.Hidden}
+ */
+function getHiddenField(name, value){
+	var hiddenField = new Ext.form.Hidden({
+		name:name,
+		value:value
+	});
+	return hiddenField;
+}
+/**
+ * 数字域
+ * @param name 域名称
+ * @param label 域标题
+ * @param isNull 是否允许空
+ * @param readOnly 是否只读
+ * @returns {Ext.form.NumberField}
+ */
+function getNumberField(name, label, isNull, readOnly){
+	var numberField = new Ext.form.NumberField({
+		name:name,
+		anchor:"90%",
+		fieldLabel:label,
+		readOnly:readOnly,
+		allowBlank:isNull
+	});
+	return numberField;
+}
+/**
+ * 日期域
+ * @param name 域名称
+ * @param label 域标题
+ * @param isNull 是否允许空
+ * @param readOnly 是否只读
+ * @returns {Ext.form.DateField}
+ */
+function getDateField(name, label, isNull, readOnly){
+	var dateField = new Ext.form.DateField({
+		name:name,
+		anchor:"90%",
+		format:"Y-m-d",
+		fieldLabel:label,
+		readOnly:readOnly,
+		allowBlank:isNull
+	});
+	return dateField;
+}
+/**
+ * 多行文本域
+ * @param name 域名称
+ * @param label 域标题
+ * @param isNull 是否允许空
+ * @param readOnly 是否只读
+ * @returns {Ext.form.DateField}
+ */
+function getTextAreaField(name, label, isNull, readOnly){
+	var textAreaField = new Ext.form.TextArea({
+		name:name,
+		anchor:"90%",
+		fieldLabel:label,
+		readOnly:readOnly,
+		allowBlank:isNull
+	});
+	return textAreaField;
+}
+
+/**
+ * 下拉框域
+ * @param name 域名称
+ * @param label 域标题
+ * @param isNull 是否允许空
+ * @param readOnly 是否只读
+ * @returns {Ext.form.DateField}
+ */
+function getComboBoxField(name, store, label, valueField, textField, isNull, readOnly){
+	var comboBoxField = new Ext.form.ComboBox({
+		name:name,
+		anchor:"90%",
+		store:store,
+		editable:false,//false：不可编辑
+		triggerAction:"all",//避免选定了一个值之后，再选的时候只显示刚刚选择的那个值
+		valueField:valueField,//将codeid设置为传递给后台的值
+		displayField:textField,
+		hiddenName:name,
+		mode: "local",
+		fieldLabel:label,
+		readOnly:readOnly,
+		allowBlank:isNull
+	});
+	return comboBoxField;
+}
